@@ -1,15 +1,15 @@
 using System;
 
-namespace DasContract.DataModelClasses
+namespace DasContract
 {
     public class EntityType
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public bool IsExternal;
+        public bool IsExternal { get; set; }
 
-        public ProductKind _ProductKind;
+        public ProductKind ProductKind { get; set; }
     }
 }

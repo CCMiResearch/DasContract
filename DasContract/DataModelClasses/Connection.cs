@@ -1,22 +1,21 @@
-using DasContract.Enum;
 using System;
 
-namespace DasContract.DataModelClasses
+namespace DasContract
 {
     public class Connection
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public ConnectionCardinality FromCardinality;
+        public ConnectionCardinality FromCardinality { get; set; }
 
-        public ConnectionCardinality ToCrdinality;
+        public ConnectionCardinality ToCardinality { get; set; }
 
-        public Guid From;
+        public Guid From { get; set; }
 
-        public Guid To;
+        public Guid To { get; set; }
 
-        public ConnectionType Type;
+        public ConnectionType Type { get; set; }
     }
 }

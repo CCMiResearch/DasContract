@@ -1,11 +1,9 @@
-using DasContract.Enum;
-
-namespace DasContract.DataModelClasses
+namespace DasContract
 {
     public class ConnectionCardinality
     {
-        public CardinalityOption MinCard;
+        public CardinalityOption MinimumCardinality { get; set; }
 
-        public CardinalityOption MaxCard;
+        public CardinalityOption MaximumCardinality { get; set; }
     }
 }

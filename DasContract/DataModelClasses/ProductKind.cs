@@ -1,13 +1,13 @@
 using System;
 
-namespace DasContract.DataModelClasses
+namespace DasContract
 {
     public class ProductKind
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Formulation;
+        public string Formulation { get; set; }
 
-        public string IdentificationNumber;
+        public string IdentificationNumber { get; set; }
     }
 }

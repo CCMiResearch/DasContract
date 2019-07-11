@@ -1,11 +1,11 @@
 using System;
 
-namespace DasContract.ProcessClasses
+namespace DasContract
 {
     public class InspectionLink
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public Guid InspectionTargetTransactor;
+        public Guid InspectionTargetTransactor { get; set; }
     }
 }

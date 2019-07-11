@@ -1,9 +1,9 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum CardinalityOption
     {
-        zero,
-        one,
-        more
+        Zero,
+        One,
+        More
     }
 }

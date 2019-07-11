@@ -1,16 +1,16 @@
-using DasContract.ProcessClasses;
+using System.Collections.Generic;
 using System;
 
 namespace DasContract
 {
     public class Process
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public Transactor Root;
+        public Transactor Root { get; set; }
 
-        public string[] Implementation;
+        public IList<string> Implementation { get; set; } = new List<string>();
     }
 }

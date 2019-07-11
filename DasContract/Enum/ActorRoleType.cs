@@ -1,8 +1,8 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum ActorRoleType
     {
-        elementary,
-        composite
+        Elementary,
+        Composite
     }
 }

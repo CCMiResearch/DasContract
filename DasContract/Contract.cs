@@ -1,23 +1,24 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 namespace DasContract
 {
     public class Contract
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public string Description;
+        public string Description { get; set; }
 
-        public ActorRole[] ActorRoles;
+        public IList<ActorRole> ActorRoles { get; set; } = new List<ActorRole>();
 
-        public DataModel[] DataModel;
+        public IList<DataModel> DataModels { get; set; } = new List<DataModel>();
 
-        public Process[] Processes;
+        public IList<Process> Processes { get; set; } = new List<Process>();
 
-        public ActionRule[] Rules;
+        public IList<ActionRule> Rules { get; set; } = new List<ActionRule>();
 
-        public TransactionKind[] TransactionKinds;
+        public IList<TransactionKind> TransactionKinds { get; set; } = new List<TransactionKind>();
     }
 }

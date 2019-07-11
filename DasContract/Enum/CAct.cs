@@ -1,19 +1,19 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum CAct
     {
-        request,
-        promise,
-        decline,
-        quit,
-        execute,
-        state,
-        accept,
-        reject,
-        stop,
-        revoke_request,
-        revoke_promise,
-        revoke_state,
-        revoke_accept
+        Request,
+        Promise,
+        Decline,
+        Quit,
+        Execute,
+        State,
+        Accept,
+        Reject,
+        Stop,
+        RevokeRequest,
+        RevokePromise,
+        RevokeState,
+        RevokeAccept
     }
 }

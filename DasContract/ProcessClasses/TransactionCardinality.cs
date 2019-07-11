@@ -1,9 +1,9 @@
-namespace DasContract.ProcessClasses
+namespace DasContract
 {
     public class TransactionCardinality
     {
-        public string MinCard;
+        public CardinalityOption MinimumCardinality { get; set; }
 
-        public string MaxCard;
+        public CardinalityOption MaximumCardinality { get; set; }
     }
 }

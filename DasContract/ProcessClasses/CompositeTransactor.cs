@@ -1,7 +1,9 @@
-namespace DasContract.ProcessClasses
+using System.Collections.Generic;
+
+namespace DasContract
 {
     public class CompositeTransactor : Transactor
     {
-        public ElementaryTransactor[] Children;
+        public IList<ElementaryTransactor> Children { get; set; } = new List<ElementaryTransactor>();
     }
 }

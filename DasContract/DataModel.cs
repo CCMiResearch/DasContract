@@ -1,18 +1,18 @@
-using DasContract.DataModelClasses;
+using System.Collections.Generic;
 using System;
 
 namespace DasContract
 {
     public class DataModel
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public EntityType[] EntityTypes;
+        public IList<EntityType> EntityTypes { get; set; } = new List<EntityType>();
 
-        public AttributeType[] AttributeTypes;
+        public IList<AttributeType> AttributeTypes { get; set; } = new List<AttributeType>();
 
-        public Connection[] Connections;
+        public IList<Connection> Connections { get; set; } = new List<Connection>();
     }
 }

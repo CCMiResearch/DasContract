@@ -1,16 +1,16 @@
-using DasContract.Enum;
+using System.Collections.Generic;
 using System;
 
-namespace DasContract.ProcessClasses
+namespace DasContract
 {
     public class ElementaryTransactor : Transactor
     {
-        public Guid TransactionKind;
+        public Guid TransactionKind { get; set; }
 
-        public TransactionCardinality Cardinality;
+        public TransactionCardinality Cardinality { get; set; }
 
-        public CAct SourceCAct;
+        public CAct SourceCAct { get; set; }
 
-        public ElementaryTransactor[] Children;
+        public IList<ElementaryTransactor> Children { get; set; } = new List<ElementaryTransactor>();
     }
 }

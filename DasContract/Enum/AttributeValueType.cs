@@ -1,10 +1,10 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum AttributeValueType
     {
-        _string,
-        _int,
-        _uint,
-        _address
+        String,
+        Int,
+        UInt,
+        Address
     }
 }

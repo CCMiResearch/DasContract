@@ -1,9 +1,9 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum TransactionSort {
-        original,
-        physical,
-        informational,
-        documental
+        Original,
+        Physical,
+        Informational,
+        Documental
     }
 }

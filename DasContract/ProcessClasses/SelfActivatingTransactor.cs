@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using System;
 
-namespace DasContract.ProcessClasses
+namespace DasContract
 {
     public class SelfActivatingTransactor : Transactor
     {
-        public Guid TransactionKind;
+        public Guid TransactionKind { get; set; }
 
-        public ElementaryTransactor[] Children;
+        public IList<ElementaryTransactor> Children { get; set; } = new List<ElementaryTransactor>();
     }
 }

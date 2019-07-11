@@ -4,10 +4,10 @@ namespace DasContract
 {
     public class ActionRule
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public string RuleFormulation;
+        public string RuleFormulation { get; set; }
     }
 }

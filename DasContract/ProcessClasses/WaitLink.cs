@@ -1,11 +1,11 @@
 using System;
 
-namespace DasContract.ProcessClasses
+namespace DasContract
 {
     public class WaitLink
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public Guid WaitingForTransactor;
+        public Guid WaitingForTransactor { get; set; }
     }
 }

@@ -1,14 +1,14 @@
-namespace DasContract.Enum
+namespace DasContract
 {
     public enum ConnectionType
     {
-        generalisation,
-        specialisation,
-        aggregation,
-        reference,
-        concerns,
-        excludes,
-        precedes,
-        preludes
+        Generalisation,
+        Specialisation,
+        Aggregation,
+        Reference,
+        Concerns,
+        Excludes,
+        Precedes,
+        Preludes
     }
 }

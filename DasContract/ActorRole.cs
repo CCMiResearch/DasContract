@@ -1,16 +1,15 @@
-using DasContract.Enum;
 using System;
 
 namespace DasContract
 {
     public class ActorRole
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public string IdentificationNumber;
+        public string IdentificationNumber { get; set; }
 
-        public ActorRoleType Type;
+        public ActorRoleType Type { get; set; }
     }
 }

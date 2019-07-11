@@ -1,16 +1,15 @@
-using DasContract.Enum;
 using System;
 
-namespace DasContract.DataModelClasses
+namespace DasContract
 {
     public class AttributeType
     {
-        public Guid Id;
+        public Guid Id { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public AttributeValueType ValueType;
+        public AttributeValueType ValueType { get; set; }
 
-        public Guid EntityType;
+        public Guid EntityType { get; set; }
     }
 }
