@@ -1,47 +1,48 @@
-﻿using System.Linq;
+﻿using DasContract.Blockchain.Plutus.Functions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DasContract.Blockchain.Plutus
 {
-    /// <summary>
-    /// The object from which the fluid template is created.
-    /// </summary>
     public class TemplateModel
-    {   
-        /// <summary>
-        /// The smart contract name
-        /// </summary>
-        public string Name;
-        /// <summary>
-        /// Imported libraries and modules in the smart contract.
-        /// Two initial libraries for basic compilation in the Plutus Playground. 
-        /// </summary>
-        public IList<string> Libraries { get; set; } = new List<string>(new string[] { "Language.PlutusTx.Prelude", "Playground.Contract" });
-        /// <summary>
-        /// Functions of the smart contract.
-        /// </summary>
-        public IList<Function> Functions { get; set; } = new List<Function>();
-        /// <summary>
-        /// Functions in the smart contract availible to the blockchain wallet.
-        /// </summary>
-        public IList<Function> WalletFunctions { get; set; } = new List<Function>();
-        /// <summary>
-        /// Adds a wallet function that logs a custom message on the blockchain.
-        /// </summary>
-        /// <param name="name">Name of the function that must be unique both in the functions and the wallet functions.</param>
-        /// <param name="message">Message shown in the log.</param>
-        public void AddLogAMessageFunction ( string name, string message )
+    {
+        public TemplateModel ( string name )
         {
-            if (FunctionNameAlreadyExists(name))
+            Name = name;
+        }
+
+        public string Name { get; set; }
+
+        public IList<string> Libraries { get; set; } = new List<string>(new string[] { "Language.PlutusTx.Prelude", "Playground.Contract" });
+
+        public IList<Function> Functions { get; set; } = new List<Function>();
+
+        public IList<Function> WalletFunctions { get; set; } = new List<Function>();
+
+        public void AddLibrary ( string library )
+        {
+            if (LibraryAlreadyIncluded(library))
             {
                 return;
             }
 
-            Function newFunction = new Function();
+            Libraries.Add(library);
+        }
+        private bool LibraryAlreadyIncluded ( string name )
+        {
+            if (Libraries.Any(l => name.Contains(l)))
+            {
+                return true;
+            }
+            return false;
+        }
 
-            newFunction.Name = name;
-            newFunction.Head = "MonadWallet m => m()";
-            newFunction.Body = "logMsg " + '"' + message + '"' + '\n';
+        public void AddWalletFunction ( Function newFunction )
+        {
+            if (FunctionNameAlreadyExists(newFunction.Name))
+            {
+                return;
+            }
 
             WalletFunctions.Add(newFunction);
         }

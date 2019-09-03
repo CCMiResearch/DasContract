@@ -3,6 +3,13 @@ using System;
 
 namespace DasContract
 {
+    public enum CardinalityOption
+    {
+        Zero,
+        One,
+        More
+    }
+
     public class Contract
     {
         public Guid Id { get; set; }

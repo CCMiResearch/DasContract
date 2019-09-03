@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DasContract.Blockchain.Plutus
+﻿namespace DasContract.Blockchain.Plutus.Functions
 {
     public class Function
     {
