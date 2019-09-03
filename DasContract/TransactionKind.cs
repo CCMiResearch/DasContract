@@ -2,6 +2,14 @@ using System;
 
 namespace DasContract
 {
+    public enum TransactionSort
+    {
+        Original,
+        Physical,
+        Informational,
+        Documental
+    }
+
     public class TransactionKind
     {
         public Guid Id { get; set; }

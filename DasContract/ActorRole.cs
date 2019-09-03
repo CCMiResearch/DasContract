@@ -2,6 +2,12 @@ using System;
 
 namespace DasContract
 {
+    public enum ActorRoleType
+    {
+        Elementary,
+        Composite
+    }
+
     public class ActorRole
     {
         public Guid Id { get; set; }

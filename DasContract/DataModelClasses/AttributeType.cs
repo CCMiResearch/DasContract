@@ -2,6 +2,14 @@ using System;
 
 namespace DasContract
 {
+    public enum AttributeValueType
+    {
+        String,
+        Int,
+        UInt,
+        Address
+    }
+
     public class AttributeType
     {
         public Guid Id { get; set; }
