@@ -1,0 +1,15 @@
+﻿module {{ p.Name }} where
+
+{% for library in p.Libraries %}
+import {{library}}
+{% endfor %}
+--
+--
+{% for function in p.WalletFunctions %}
+{{ function.Name }} :: {{ function.Head }}
+{{ function.Name }} = {{ function.Body }}
+{% endfor %}
+
+{% if p.WalletFunctions.size != 0 %}
+$(mkFunctions['{% assign functionNames = p.WalletFunctions | map: 'Name' %}{{ functionNames | join: ", '" }}])
+{% endif %}

@@ -2,6 +2,18 @@ using System;
 
 namespace DasContract
 {
+    public enum ConnectionType
+    {
+        Generalisation,
+        Specialisation,
+        Aggregation,
+        Reference,
+        Concerns,
+        Excludes,
+        Precedes,
+        Preludes
+    }
+
     public class Connection
     {
         public Guid Id { get; set; }
