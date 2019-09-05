@@ -6,8 +6,8 @@ import {{library}}
 --
 --
 {% for function in p.WalletFunctions %}
-{{ function.Name }} :: {{ function.Head }}
-{{ function.Name }} = {{ function.Body }}
+{{ function.GeneratedFunction }}
+
 {% endfor %}
 
 {% if p.WalletFunctions.size != 0 %}
