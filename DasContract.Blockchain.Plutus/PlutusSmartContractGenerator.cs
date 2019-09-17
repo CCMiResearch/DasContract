@@ -11,34 +11,31 @@ namespace DasContract.Blockchain.Plutus
 
         public string TemplateSourceCode { get; set; }
 
-        public void Generate ( TemplateModel templateModel, string pathString )
+        public void Generate ( SmartContractModel smartContractModel, string pathString )
         {
-            //Loads external template
-            TemplateSourceCode = Resources.FluidSmartContractTemplate;
+            TemplateSourceCode = Resources.FluidSmartContractStructure;
 
-            //Registers data type not known in fluid.
             TemplateContext.GlobalMemberAccessStrategy.Register<Function>();
 
-            //Template generation
-            if (FluidTemplate.TryParse(TemplateSourceCode, out var template))
-            {
-                var context = new TemplateContext();
-                context.MemberAccessStrategy.Register(templateModel.GetType());
-                context.SetValue("p", templateModel);
+            GeneratedSmartContract = TemplateRenderer.Assemble(TemplateSourceCode, smartContractModel);
 
-                GeneratedSmartContract += template.Render(context);
-            }
+            string filePath = ConstructFilePath(smartContractModel.Name, pathString);
+            File.WriteAllText(filePath, GeneratedSmartContract);
+        }
 
-            string finalPath = Path.Combine(pathString, templateModel.Name) + ".hs";
+        string ConstructFilePath ( string smartContractName, string pathString )
+        {
+            string finalPath = $"{pathString}{smartContractName}.hs";
 
             //Adding numeric suffix if file already exists.
             uint pathSuffix = 1;
             while (File.Exists(finalPath))
             {
-                finalPath = Path.Combine(pathString, templateModel.Name) + pathSuffix++.ToString() + ".hs";
+                finalPath = $"{pathString}{smartContractName}{pathSuffix.ToString()}.hs";
+                pathSuffix++;
             }
 
-            File.WriteAllText(finalPath, GeneratedSmartContract);
+            return finalPath;
         }
     }
 }

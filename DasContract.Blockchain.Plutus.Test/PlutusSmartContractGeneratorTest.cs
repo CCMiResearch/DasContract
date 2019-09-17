@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DasContract.Blockchain.Plutus.Properties;
 using DasContract.Blockchain.Plutus.Functions;
 
 namespace DasContract.Blockchain.Plutus.Test
@@ -11,16 +12,14 @@ namespace DasContract.Blockchain.Plutus.Test
         {
             PlutusSmartContractGenerator generator = new PlutusSmartContractGenerator();
 
-            //Choose smart contract name.
-            TemplateModel template = new TemplateModel("...");
+            //Choose a smart contract name.
+            SmartContractModel model = new SmartContractModel() { Name = "..." };
 
-            template.AddLibrary("Wallet");
+            //Choose a name of the function and a message used in the log.
+            model.AddWalletFunction(new LogAMessage() { Name = "...", Message = "...", TemplateSourceCode = Resources.LogAMessage });
 
-            //Choose message used in the log.
-            template.AddWalletFunction(new LogAMessage("logAMessage", @"..."));
-
-            //Choose path to store the smart contract.
-            generator.Generate(template, @"...");
+            //Choose a path to store the smart contract.
+            generator.Generate(model, @"...");
         }
     }
 }

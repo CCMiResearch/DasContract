@@ -4,13 +4,8 @@ using System.Linq;
 
 namespace DasContract.Blockchain.Plutus
 {
-    public class TemplateModel
+    public class SmartContractModel
     {
-        public TemplateModel ( string name )
-        {
-            Name = name;
-        }
-
         public string Name { get; set; }
 
         public IList<string> Libraries { get; set; } = new List<string>(new string[] { "Language.PlutusTx.Prelude", "Playground.Contract" });
@@ -19,14 +14,15 @@ namespace DasContract.Blockchain.Plutus
 
         public IList<Function> WalletFunctions { get; set; } = new List<Function>();
 
-        public void AddLibrary ( string library )
+        public void AddLibraries ( IList<string> libraries )
         {
-            if (LibraryAlreadyIncluded(library))
+            foreach ( string library in libraries)
             {
-                return;
+                if (!LibraryAlreadyIncluded(library))
+                {
+                    Libraries.Add(library);
+                }
             }
-
-            Libraries.Add(library);
         }
         private bool LibraryAlreadyIncluded ( string name )
         {
@@ -43,7 +39,8 @@ namespace DasContract.Blockchain.Plutus
             {
                 return;
             }
-
+            AddLibraries(newFunction.Libraries);
+            newFunction.RenderTemplate();
             WalletFunctions.Add(newFunction);
         }
 
