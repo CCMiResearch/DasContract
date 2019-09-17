@@ -8,6 +8,8 @@ namespace DasContract.Blockchain.Plutus
     {
         public string Name { get; set; }
 
+        public Contract Contract { get; set; }
+
         public IList<string> Libraries { get; set; } = new List<string>(new string[] { "Language.PlutusTx.Prelude", "Playground.Contract" });
 
         public IList<Function> Functions { get; set; } = new List<Function>();

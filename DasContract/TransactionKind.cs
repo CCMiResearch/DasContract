@@ -16,7 +16,7 @@ namespace DasContract
 
         public string Name { get; set; }
 
-        public TransactionSort TrasactionSort { get; set; }
+        public TransactionSort TransactionSort { get; set; }
 
         public Guid Executor { get; set; }
 
