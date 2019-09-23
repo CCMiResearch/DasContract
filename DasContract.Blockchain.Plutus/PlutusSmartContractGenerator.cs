@@ -13,11 +13,12 @@ namespace DasContract.Blockchain.Plutus
 
         public void Generate ( SmartContractModel smartContractModel, string pathString )
         {
+            var renderer = new TemplateRenderer();
             TemplateSourceCode = Resources.FluidSmartContractStructure;
 
             TemplateContext.GlobalMemberAccessStrategy.Register<Function>();
 
-            GeneratedSmartContract = TemplateRenderer.Assemble(TemplateSourceCode, smartContractModel);
+            GeneratedSmartContract = renderer.Assemble(TemplateSourceCode, smartContractModel);
 
             string filePath = ConstructFilePath(smartContractModel.Name, pathString);
             File.WriteAllText(filePath, GeneratedSmartContract);

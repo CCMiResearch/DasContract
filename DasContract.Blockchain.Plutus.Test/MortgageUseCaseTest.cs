@@ -10,29 +10,30 @@ namespace DasContract.Blockchain.Plutus.Test
         [TestMethod]
         public void MortgageSmartContractGeneration ()
         {
-            Contract contract = new Contract() { Id = Guid.NewGuid(), Name = "DasContract Mortgage", Description = "Mortgage model" };
-            AddCompositeActorRoles(ref contract);
-            AddElementaryActorRoles(ref contract);
+            var contract = new Contract() { Id = Guid.NewGuid(), Name = "DasContract Mortgage", Description = "Mortgage model" };
+            AddCompositeActorRoles(contract);
+            AddElementaryActorRoles(contract);
+            AddTransactionKinds(contract);
 
-            DataModel dataModel = new DataModel() { Id = Guid.NewGuid(), Name = "Mortgage OFD" };
-            AddEntityTypes(ref dataModel);
-            AddAttributeTypes(ref dataModel);
-            AddConnections(ref dataModel);
+            var dataModel = new DataModel() { Id = Guid.NewGuid(), Name = "Mortgage OFD" };
+            AddEntityTypes(dataModel);
+            AddAttributeTypes(dataModel);
+            AddConnections(dataModel);
             contract.DataModels.Add(dataModel);
 
-            AddActionRules(ref contract);
-            AddProcesses(ref contract);
+            AddActionRules(contract);
+            AddProcesses(contract);
 
-            PlutusSmartContractGenerator generator = new PlutusSmartContractGenerator();
+            var generator = new PlutusSmartContractGenerator();
 
             //Choose a smart contract name.
-            SmartContractModel model = new SmartContractModel() { Name = "..." };
+            var model = new SmartContractModel() { Name = "..." };
 
             //Choose a path to store the smart contract.
             generator.Generate(model, @"...");
         }
 
-        public void AddCompositeActorRoles ( ref Contract contract )
+        public Contract AddCompositeActorRoles ( Contract contract )
         {
             contract.ActorRoles.Add(new ActorRole()
             {
@@ -69,9 +70,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 IdentificationNumber = "CA-4",
                 Type = ActorRoleType.Composite
             });
+            return contract;
         }
 
-        public void AddElementaryActorRoles ( ref Contract contract )
+        public Contract AddElementaryActorRoles ( Contract contract )
         {
             contract.ActorRoles.Add(new ActorRole()
             {
@@ -94,9 +96,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 IdentificationNumber = "A-3",
                 Type = ActorRoleType.Elementary
             });
+            return contract;
         }
 
-        public void AddTransactionKinds ( ref Contract contract )
+        public Contract AddTransactionKinds ( Contract contract )
         {
             contract.TransactionKinds.Add(new TransactionKind()
             {
@@ -154,9 +157,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 Executor = contract.ActorRoles.First(s => s.IdentificationNumber.Contains("A-1")).Id,
                 IdentificationNumber = "T-7"
             });
+            return contract;
         }
 
-        public void AddEntityTypes ( ref DataModel dataModel )
+        public DataModel AddEntityTypes ( DataModel dataModel )
         {
             dataModel.EntityTypes.Add(new EntityType()
             {
@@ -274,9 +278,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 Name = "Property releaser",
                 IsExternal = true,
             });
+            return dataModel;
         }
 
-        public void AddAttributeTypes ( ref DataModel dataModel )
+        public DataModel AddAttributeTypes ( DataModel dataModel )
         {
             dataModel.AttributeTypes.Add(new AttributeType()
             {
@@ -439,9 +444,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 ValueType = AttributeValueType.String,
                 EntityType = dataModel.EntityTypes.First(s => s.Name.Contains("Client")).Id
             });
+            return dataModel;
         }
 
-        public void AddConnections ( ref DataModel dataModel )
+        public DataModel AddConnections ( DataModel dataModel )
         {
             dataModel.Connections.Add(new Connection()
             {
@@ -483,9 +489,10 @@ namespace DasContract.Blockchain.Plutus.Test
                 To = dataModel.EntityTypes.First(s => s.Name.Contains("Property releaser")).Id,
                 Type = ConnectionType.Generalisation
             });
+            return dataModel;
         }
 
-        public void AddActionRules ( ref Contract contract )
+        public Contract AddActionRules ( Contract contract )
         {
             contract.Rules.Add(new ActionRule()
             {
@@ -547,14 +554,16 @@ namespace DasContract.Blockchain.Plutus.Test
                 Id = Guid.NewGuid(),
                 Name = "Action Rule 12"
             });
+            return contract;
         }
 
-        public void AddProcesses ( ref Contract contract)
+        public Contract AddProcesses ( Contract contract)
         {
             contract.Processes.Add(new Process()
             {
 
             });
+            return contract;
         }
     }
 }

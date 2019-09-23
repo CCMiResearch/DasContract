@@ -18,14 +18,9 @@ namespace DasContract.Blockchain.Plutus
 
         public void AddLibraries ( IList<string> libraries )
         {
-            foreach ( string library in libraries)
-            {
-                if (!LibraryAlreadyIncluded(library))
-                {
-                    Libraries.Add(library);
-                }
-            }
+            ((List<string>)Libraries).AddRange(libraries.Where(l => !LibraryAlreadyIncluded(l)));
         }
+
         private bool LibraryAlreadyIncluded ( string name )
         {
             if (Libraries.Any(l => name.Contains(l)))

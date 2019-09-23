@@ -1,10 +1,11 @@
 ﻿using Fluid;
+using System;
 
 namespace DasContract.Blockchain.Plutus
 {
-    public static class TemplateRenderer
+    public class TemplateRenderer
     {
-        public static string Assemble ( string templateSourceCode, object templateModel )
+        public string Assemble ( string templateSourceCode, object templateModel )
         {
             if (FluidTemplate.TryParse(templateSourceCode, out var template))
             {
@@ -14,7 +15,7 @@ namespace DasContract.Blockchain.Plutus
 
                 return template.Render(context);
             }
-            return null;
+            throw new Exception("Template parsing failed.");
         }
     }
 }
