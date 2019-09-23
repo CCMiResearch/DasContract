@@ -1,11 +1,22 @@
-﻿namespace DasContract.Blockchain.Plutus.Functions
+﻿using System.Collections.Generic;
+
+namespace DasContract.Blockchain.Plutus.Functions
 {
-    public class Function
+    public abstract class Function
     {
         public string Name { get; set; }
 
-        public string Head { get; set; }
+        public string GeneratedFunction { get; set; }
 
-        public string Body { get; set; }
+        public string TemplateSourceCode { get; set; }
+
+        public IList<string> Libraries { get; set; } = new List<string>();
+
+        public void RenderTemplate ()
+        {
+            var renderer = new TemplateRenderer();
+
+            GeneratedFunction = renderer.Assemble(TemplateSourceCode, this);
+        }
     }
 }

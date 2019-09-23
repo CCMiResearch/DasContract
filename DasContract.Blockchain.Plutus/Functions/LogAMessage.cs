@@ -2,11 +2,12 @@
 {
     public class LogAMessage : Function
     {
-        public LogAMessage ( string name, string message )
+        public LogAMessage ()
         {
-            Name = name;
-            Head = "MonadWallet m => m()";
-            Body = "logMsg " + '"' + message + '"' + '\n';
+            Libraries.Add("Wallet");
         }
+
+        public string Message { get; set; }
+       
     }
 }
