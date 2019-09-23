@@ -9,6 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasContract.Blockchain\DasContract.Blockchain.csproj" />
+    <ProjectReference Include="..\DasContract\DasContract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

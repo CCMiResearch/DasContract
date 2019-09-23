@@ -8,6 +8,8 @@ namespace DasContract.Blockchain.Plutus
     {
         public string Name { get; set; }
 
+        public Contract Contract { get; set; }
+
         public IList<string> Libraries { get; set; } = new List<string>(new string[] { "Language.PlutusTx.Prelude", "Playground.Contract" });
 
         public IList<Function> Functions { get; set; } = new List<Function>();
@@ -16,14 +18,9 @@ namespace DasContract.Blockchain.Plutus
 
         public void AddLibraries ( IList<string> libraries )
         {
-            foreach ( string library in libraries)
-            {
-                if (!LibraryAlreadyIncluded(library))
-                {
-                    Libraries.Add(library);
-                }
-            }
+            ((List<string>)Libraries).AddRange(libraries.Where(l => !LibraryAlreadyIncluded(l)));
         }
+
         private bool LibraryAlreadyIncluded ( string name )
         {
             if (Libraries.Any(l => name.Contains(l)))
