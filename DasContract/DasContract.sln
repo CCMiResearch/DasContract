@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Plutus", "..\DasContract.Blockchain.Plutus\DasContract.Blockchain.Plutus.csproj", "{9CCE4ED8-6357-41C5-9C2E-7AC0C7BA1C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Blockchain.Plutus.Test", "..\DasContract.Blockchain.Plutus.Test\DasContract.Blockchain.Plutus.Test.csproj", "{B53B0D90-89A7-40E4-B4E5-359D29FD415D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Plutus.Test", "..\DasContract.Blockchain.Plutus.Test\DasContract.Blockchain.Plutus.Test.csproj", "{B53B0D90-89A7-40E4-B4E5-359D29FD415D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Abstraction", "..\DasContract.Abstraction\DasContract.Abstraction.csproj", "{3D11A883-78BC-45F7-B891-02F63BADAC24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B53B0D90-89A7-40E4-B4E5-359D29FD415D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B53B0D90-89A7-40E4-B4E5-359D29FD415D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B53B0D90-89A7-40E4-B4E5-359D29FD415D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D11A883-78BC-45F7-B891-02F63BADAC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D11A883-78BC-45F7-B891-02F63BADAC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D11A883-78BC-45F7-B891-02F63BADAC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D11A883-78BC-45F7-B891-02F63BADAC24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
