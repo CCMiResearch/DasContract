@@ -11,11 +11,11 @@ namespace DasContract.Abstraction.Solidity
     {
         string name;
 
-        List<SolidityFunction> functions;
+        List<SolidityComponent> components;
 
         LiquidTemplate template = LiquidTemplate.Create(
             "contract {{name}} { \n" +
-            "{{functions}} " +
+            "{{components}} " +
             "}").LiquidTemplate;
 
         SolidityContract(string name)
@@ -24,15 +24,20 @@ namespace DasContract.Abstraction.Solidity
 
         }
 
-        public void AddFunction(SolidityFunction function)
+        public void AddComponent(SolidityComponent component)
         {
-            functions.Add(function);
+            components.Add(component);
+        }
+
+        public void AddComponents(IList<SolidityComponent> components)
+        {
+            this.components.AddRange(components);
         }
 
         public override LiquidString ToLiquidString()
         {
             var ctx = new TemplateContext();
-            ctx.DefineLocalVariable("functions", functionsToLiquid());
+            ctx.DefineLocalVariable("components", functionsToLiquid());
 
             return LiquidString.Create(template.Render(ctx).Result);
         }
@@ -40,7 +45,7 @@ namespace DasContract.Abstraction.Solidity
         LiquidCollection functionsToLiquid()
         {
             var col = new LiquidCollection();
-            foreach (var f in functions)
+            foreach (var f in components)
                 col.Add(f.ToLiquidString());
             return col;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    class SolidityStatement : SolidityComponent
+    public class SolidityStatement : SolidityComponent
     {
         string statement;
         public SolidityStatement(string statement)

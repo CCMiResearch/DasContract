@@ -6,14 +6,14 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    class SolidityFunction : SolidityComponent
+    public class SolidityFunction : SolidityComponent
     {
         LiquidString visibility;
         LiquidString functionName;
         LiquidString returns;
         bool view;
-        List<SolidityParameter> parameters;
-        List<SolidityComponent> body;
+        IList<SolidityParameter> parameters;
+        IList<SolidityComponent> body;
 
         LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
             " {{ parameters | join: ', '}}) " +

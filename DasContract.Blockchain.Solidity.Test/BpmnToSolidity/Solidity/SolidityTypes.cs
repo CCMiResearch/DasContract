@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    enum SolidityDataType { String, Int, Bool, Uint, Null};
+    public enum SolidityDataType { String, Int, Bool, Uint, Null};
 
-    enum SolidityVisibility { Public, Private};
+    public enum SolidityVisibility { Public, Private};
 }

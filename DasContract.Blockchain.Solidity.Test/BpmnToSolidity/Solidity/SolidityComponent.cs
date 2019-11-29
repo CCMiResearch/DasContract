@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    abstract class SolidityComponent
+    public abstract class SolidityComponent
     {
         protected int indent;
         protected SolidityComponent ()

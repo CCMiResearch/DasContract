@@ -16,7 +16,8 @@ namespace BpmnToSolidity.SolidityConverter
     {
         List<SolidityContract> contracts;
 
-        const string SOLIDITY_VERSION = "0.5.1";
+        static readonly string SOLIDITY_VERSION = "0.5.1";
+        public static readonly string STATE_NAME = "currentState";
 
             
         //SolidityConstructor constructor;
@@ -40,31 +41,30 @@ namespace BpmnToSolidity.SolidityConverter
             while(toVisit.Count > 0)
             {
                 var current = toVisit.Dequeue();
-                var solFunction = new SolidityFunction(current.Id, SolidityVisibility.Public);
+                var nextElements = new List<ProcessElement>();
 
                 foreach(var outSequenceFlowId in current.Outgoing)
                 {
                     var nextElement = GetSequenceFlowTarget(outSequenceFlowId, process);
+                    nextElements.Add(nextElement);
                     if (flagged.Contains(nextElement.Id))
                         continue;
 
-                    processElementPair(current, nextElement, solFunction);
                     toVisit.Enqueue(nextElement);
                     flagged.Add(nextElement.Id);
                 }
             }
         }
 
-        void processElementPair(ProcessElement source, ProcessElement target, SolidityFunction solFunction)
+        IList<SolidityComponent> CreateElementCode(ProcessElement element, IList<ProcessElement> nextElements)
         {
-            if (source.GetType() == typeof(Task))
-                createTaskFunction(source, target, solFunction);
-
+            return null;
         }
 
-        void createTaskFunction(ProcessElement source, ProcessElement target, SolidityFunction solFunction)
+        SolidityFunction CreateFunctionForPrev(ProcessElement element)
         {
 
+            return null;
         }
 
         ProcessElement GetSequenceFlowTarget(string seqFlowId, Process process)

@@ -6,7 +6,7 @@ using System.Text;
 namespace BpmnToSolidity.SolidityConverter
 {
 
-    class SolidityParameter
+    public class SolidityParameter
     {
         string dataType;
         string name;
