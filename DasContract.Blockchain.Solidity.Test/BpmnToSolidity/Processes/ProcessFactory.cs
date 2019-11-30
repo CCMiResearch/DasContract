@@ -170,6 +170,9 @@ namespace DasContract.Abstraction.Processes
         {
             var task = new UserTask();
             task.Id = GetProcessId(xElement);
+            var nameAttribute = xElement.Attribute("name");
+            if (nameAttribute != null)
+                task.Name = nameAttribute.Value;
             //TODO: Set Task attributes
             return task;
         }

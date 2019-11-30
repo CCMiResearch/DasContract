@@ -26,9 +26,9 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
 
         SolidityModifier CreateStateGuard()
         {
-            SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName());
+            SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
             SolidityStatement requireStatement = new SolidityStatement(
-                "require(" + ProcessConverter.STATE_NAME + "==" + GetTaskName() + ")");
+                "require(keccak256(bytes(" + ProcessConverter.STATE_NAME + "))==keccak256(bytes(\"" + GetTaskName() + "\")))");
 
             stateGuard.AddToBody(requireStatement);
             return stateGuard;
@@ -38,7 +38,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Public);
             //TODO: Add address guard modifier
-            function.AddModifier("is" + GetTaskName());
+            function.AddModifier("is" + GetTaskName() + "State");
             function.addToBody(nextElement.GetStatementForPrevious());
             return function;
         }
@@ -48,7 +48,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             string enumName = GetTaskName();
 
             SolidityFunction solFunction = new SolidityFunction("setState" + enumName, SolidityVisibility.Internal);
-            SolidityStatement statement = new SolidityStatement(ProcessConverter.STATE_NAME + "=" + enumName);
+            SolidityStatement statement = new SolidityStatement(ProcessConverter.STATE_NAME + "=\"" + enumName + "\"");
             solFunction.addToBody(statement);
             return solFunction;
         }

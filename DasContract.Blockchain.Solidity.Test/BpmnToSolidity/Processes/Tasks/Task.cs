@@ -2,6 +2,5 @@
 {
     public abstract class Task : ProcessElement
     {
-        public string Name { get; set; }
     }
 }

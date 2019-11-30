@@ -52,7 +52,7 @@ namespace DasContract.Abstraction.Solidity
         {
             var col = new LiquidCollection();
             foreach (var f in components)
-                col.Add(f.ToLiquidString(indent + 1));
+                col.Add(LiquidString.Create(f.ToString(indent + 1) + "\n"));
             return col;
         }
     }

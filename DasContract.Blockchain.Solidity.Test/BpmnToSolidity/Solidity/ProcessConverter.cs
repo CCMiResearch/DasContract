@@ -15,7 +15,7 @@ namespace BpmnToSolidity.SolidityConverter
 {
     class ProcessConverter
     {
-        SolidityContract contract;
+        SolidityContract solidityContract;
 
         static readonly string SOLIDITY_VERSION = "0.5.1";
         public static readonly string STATE_NAME = "currentState";
@@ -27,7 +27,12 @@ namespace BpmnToSolidity.SolidityConverter
 
         public ProcessConverter(Contract contract)
         {
-            this.contract = new SolidityContract("GeneratedContract");
+            solidityContract = new SolidityContract("GeneratedContract");
+
+            solidityContract.AddComponent(new SolidityStatement("string " + STATE_NAME));
+            var getStateFunction = new SolidityFunction("getCurrentState", SolidityVisibility.Public, "string");
+            getStateFunction.addToBody(new SolidityStatement("return " + STATE_NAME));
+            solidityContract.AddComponent(getStateFunction);
             IterateProcess(contract.Process);
         }
 
@@ -60,7 +65,7 @@ namespace BpmnToSolidity.SolidityConverter
                 if (elementConverter != null)
                 {
                     var elementCode = elementConverter.GetElementCode(nextElements, SeqFlowIdToObject(current.Outgoing,process));
-                    contract.AddComponents(elementCode);
+                    solidityContract.AddComponents(elementCode);
                 }
             }
         }
@@ -95,7 +100,7 @@ namespace BpmnToSolidity.SolidityConverter
         public string generateSolidity()
         {
             ITemplateContext ctx = new TemplateContext();
-            ctx.DefineLocalVariable("contract", contract.ToLiquidString(0));
+            ctx.DefineLocalVariable("contract", solidityContract.ToLiquidString(0));
 
             return template.Render(ctx).Result;
         }

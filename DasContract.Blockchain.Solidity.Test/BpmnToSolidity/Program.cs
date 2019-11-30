@@ -16,7 +16,11 @@ namespace BpmnToSolidity
             string xmlString = File.ReadAllText(@"F:\\Users\\Johny\\Desktop\\diagram_1.bpmn");
             var contract = ContractFactory.FromBpmn(xmlString);
             var generator = new ProcessConverter(contract);
-            Console.WriteLine(generator.generateSolidity());
+
+            var code = generator.generateSolidity();
+            Console.WriteLine(code);
+
+            File.WriteAllText(@"F:\\Users\\Johny\\Desktop\\code.txt", code);
 
 
 

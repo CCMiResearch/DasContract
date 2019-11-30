@@ -27,7 +27,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
 
         public override SolidityStatement GetStatementForPrevious()
         {
-            return new SolidityStatement(ProcessConverter.STATE_NAME + "=" + GetEventName());
+            return new SolidityStatement(ProcessConverter.STATE_NAME + "=\"" + GetEventName() + "\"");
         }
 
         string GetEventName()

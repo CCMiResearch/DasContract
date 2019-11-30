@@ -16,11 +16,11 @@ namespace BpmnToSolidity.SolidityConverter
         IList<SolidityComponent> body;
         IList<string> modifiers;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}" +
+        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}()" +
             //" {{ parameters | join: ', '}}) " +
             " {{modifiers}}" +
             "{{visibility}} " +
-            "{% unless returns == ''%}returns {{returns}}{% endunless %}" +
+            "{% unless returns == ''%}returns({{returns}} memory){% endunless %}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;
