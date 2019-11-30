@@ -11,7 +11,6 @@ namespace BpmnToSolidity.SolidityConverter
         LiquidString visibility;
         LiquidString functionName;
         LiquidString returns;
-        bool view;
         IList<SolidityParameter> parameters;
         IList<SolidityComponent> body;
         IList<string> modifiers;
@@ -36,7 +35,7 @@ namespace BpmnToSolidity.SolidityConverter
             modifiers = new List<string>();
         }
 
-        public SolidityFunction addParameter(SolidityParameter parameter)
+        public SolidityFunction AddParameter(SolidityParameter parameter)
         {
             parameters.Add(parameter);
             return this;
@@ -48,7 +47,7 @@ namespace BpmnToSolidity.SolidityConverter
             return this;
         }
 
-        public SolidityFunction addToBody(SolidityComponent component)
+        public SolidityFunction AddToBody(SolidityComponent component)
         {
             body.Add(component);
             return this;
@@ -64,15 +63,15 @@ namespace BpmnToSolidity.SolidityConverter
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
                 DefineLocalVariable("name", functionName).
-                DefineLocalVariable("parameters", parametersToLiquid()).
+                DefineLocalVariable("parameters", ParametersToLiquid()).
                 DefineLocalVariable("visibility", visibility).
-                DefineLocalVariable("body", bodyToLiquid(indent)).
-                DefineLocalVariable("modifiers", modifiersToLiquid()).
+                DefineLocalVariable("body", BodyToLiquid(indent)).
+                DefineLocalVariable("modifiers", ModifiersToLiquid()).
                 DefineLocalVariable("returns", returns);
             return template.Render(ctx).Result;
         }
 
-        LiquidCollection modifiersToLiquid()
+        LiquidCollection ModifiersToLiquid()
         {
             var col = new LiquidCollection();
             foreach (var mod in modifiers)
@@ -80,7 +79,7 @@ namespace BpmnToSolidity.SolidityConverter
             return col;
         }
 
-        LiquidCollection parametersToLiquid()
+        LiquidCollection ParametersToLiquid()
         {
             var col = new LiquidCollection();
             foreach (var par in parameters)
@@ -88,7 +87,7 @@ namespace BpmnToSolidity.SolidityConverter
             return col;
         }
 
-        LiquidCollection bodyToLiquid(int indent)
+        LiquidCollection BodyToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var b in body)

@@ -19,8 +19,8 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Internal);
-            function.addToBody(new SolidityStatement(scriptTask.Script));
-            function.addToBody(nextElements[0].GetStatementForPrevious());
+            function.AddToBody(new SolidityStatement(scriptTask.Script));
+            function.AddToBody(nextElements[0].GetStatementForPrevious());
             return new List<SolidityComponent> { function };
         }
         public override string GetElementId()

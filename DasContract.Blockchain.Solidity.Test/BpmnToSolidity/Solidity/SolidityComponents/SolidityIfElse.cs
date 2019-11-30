@@ -29,11 +29,11 @@ namespace BpmnToSolidity.SolidityConverter
         public override string ToString(int indent = 0)
         {
             ITemplateContext ctx = new TemplateContext();
-            ctx.DefineLocalVariable("conditionBlocks", conditionBlocksToLiquid(indent));
+            ctx.DefineLocalVariable("conditionBlocks", ConditionBlocksToLiquid(indent));
             return template.Render(ctx).Result;
         }
 
-        LiquidCollection conditionBlocksToLiquid(int indent)
+        LiquidCollection ConditionBlocksToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var c in conditionBlocks)

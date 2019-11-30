@@ -42,13 +42,13 @@ namespace DasContract.Abstraction.Solidity
         public override string ToString(int indent = 0)
         {
             var ctx = new TemplateContext();
-            ctx.DefineLocalVariable("components", functionsToLiquid(indent)).
+            ctx.DefineLocalVariable("components", FunctionsToLiquid(indent)).
                 DefineLocalVariable("name",LiquidString.Create(name));
 
             return template.Render(ctx).Result;
         }
 
-        LiquidCollection functionsToLiquid(int indent)
+        LiquidCollection FunctionsToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var f in components)

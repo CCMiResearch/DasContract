@@ -39,7 +39,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Public);
             //TODO: Add address guard modifier
             function.AddModifier("is" + GetTaskName() + "State");
-            function.addToBody(nextElement.GetStatementForPrevious());
+            function.AddToBody(nextElement.GetStatementForPrevious());
             return function;
         }
 
@@ -49,7 +49,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
 
             SolidityFunction solFunction = new SolidityFunction("setState" + enumName, SolidityVisibility.Internal);
             SolidityStatement statement = new SolidityStatement(ProcessConverter.STATE_NAME + "=\"" + enumName + "\"");
-            solFunction.addToBody(statement);
+            solFunction.AddToBody(statement);
             return solFunction;
         }
 

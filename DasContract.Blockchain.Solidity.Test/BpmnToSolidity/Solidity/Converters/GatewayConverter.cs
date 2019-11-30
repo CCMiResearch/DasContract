@@ -20,9 +20,9 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         {
             var logicFunction = new SolidityFunction(gateway.Id + "Logic", SolidityVisibility.Internal);
             if (nextElements.Count == 1)
-                logicFunction.addToBody(nextElements[0].GetStatementForPrevious());
+                logicFunction.AddToBody(nextElements[0].GetStatementForPrevious());
             else
-                logicFunction.addToBody(CreateIfElseBlock(nextElements, outgoingSeqFlows));
+                logicFunction.AddToBody(CreateIfElseBlock(nextElements, outgoingSeqFlows));
             return new List<SolidityComponent> { logicFunction };
         }
 
