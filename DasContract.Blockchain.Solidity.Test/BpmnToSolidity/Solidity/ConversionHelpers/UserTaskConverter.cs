@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BpmnToSolidity.SolidityConverter;
+using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Tasks;
 
 namespace BpmnToSolidity.Solidity.ConversionHelpers
@@ -9,11 +10,11 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
     class UserTaskConverter : ElementConverter
     {
         UserTask userTask;
-        UserTaskConverter(UserTask userTask)
+        public UserTaskConverter(UserTask userTask)
         {
             this.userTask = userTask;
         }
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements)
+        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
         {
             //TODO: Check address
             List<SolidityComponent> components = new List<SolidityComponent>();
@@ -36,7 +37,8 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         SolidityFunction CreateElementMainFunction(ElementConverter nextElement)
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Public);
-            //TODO: Add modifier
+            //TODO: Add address guard modifier
+            function.AddModifier("is" + GetTaskName());
             function.addToBody(nextElement.GetStatementForPrevious());
             return function;
         }
@@ -45,7 +47,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         {
             string enumName = GetTaskName();
 
-            SolidityFunction solFunction = new SolidityFunction("setTaskEnum" + enumName, SolidityVisibility.Private);
+            SolidityFunction solFunction = new SolidityFunction("setState" + enumName, SolidityVisibility.Internal);
             SolidityStatement statement = new SolidityStatement(ProcessConverter.STATE_NAME + "=" + enumName);
             solFunction.addToBody(statement);
             return solFunction;
@@ -55,7 +57,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
 
         public override SolidityStatement GetStatementForPrevious()
         {
-            return new SolidityStatement(GetTaskName() + "()");
+            return new SolidityStatement("setState" + GetTaskName() + "()");
         }
 
         string GetTaskName()
@@ -65,6 +67,9 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             return userTask.Id;
         }
 
-
+        public override string GetElementId()
+        {
+            return userTask.Id;
+        }
     }
 }

@@ -18,10 +18,10 @@ namespace DasContract.Abstraction.Solidity
             "{{components}} " +
             "}").LiquidTemplate;
 
-        SolidityContract(string name)
+        public SolidityContract(string name)
         {
             this.name = name;
-
+            components = new List<SolidityComponent>();
         }
 
         public void AddComponent(SolidityComponent component)
@@ -34,19 +34,25 @@ namespace DasContract.Abstraction.Solidity
             this.components.AddRange(components);
         }
 
-        public override LiquidString ToLiquidString()
+        public override LiquidString ToLiquidString(int indent)
         {
-            var ctx = new TemplateContext();
-            ctx.DefineLocalVariable("components", functionsToLiquid());
-
-            return LiquidString.Create(template.Render(ctx).Result);
+            return LiquidString.Create(ToString(indent));
         }
 
-        LiquidCollection functionsToLiquid()
+        public override string ToString(int indent = 0)
+        {
+            var ctx = new TemplateContext();
+            ctx.DefineLocalVariable("components", functionsToLiquid(indent)).
+                DefineLocalVariable("name",LiquidString.Create(name));
+
+            return template.Render(ctx).Result;
+        }
+
+        LiquidCollection functionsToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var f in components)
-                col.Add(f.ToLiquidString());
+                col.Add(f.ToLiquidString(indent + 1));
             return col;
         }
     }

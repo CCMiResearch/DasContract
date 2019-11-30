@@ -14,9 +14,11 @@ namespace BpmnToSolidity.SolidityConverter
         bool view;
         IList<SolidityParameter> parameters;
         IList<SolidityComponent> body;
+        IList<string> modifiers;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
-            " {{ parameters | join: ', '}}) " +
+        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}" +
+            //" {{ parameters | join: ', '}}) " +
+            " {{modifiers}}" +
             "{{visibility}} " +
             "{% unless returns == ''%}returns {{returns}}{% endunless %}" +
             "{\n" +
@@ -31,6 +33,7 @@ namespace BpmnToSolidity.SolidityConverter
 
             parameters = new List<SolidityParameter>();
             body = new List<SolidityComponent>();
+            modifiers = new List<string>();
         }
 
         public SolidityFunction addParameter(SolidityParameter parameter)
@@ -39,23 +42,42 @@ namespace BpmnToSolidity.SolidityConverter
             return this;
         }
 
+        public SolidityFunction AddModifier(string modifier)
+        {
+            modifiers.Add(modifier);
+            return this;
+        }
+
         public SolidityFunction addToBody(SolidityComponent component)
         {
-            component.setIndent(indent + 1);
             body.Add(component);
             return this;
         }
 
-        public override LiquidString ToLiquidString()
+        public override LiquidString ToLiquidString(int indent)
+        {
+            return LiquidString.Create(ToString(indent));
+        }
+
+        public override string ToString(int indent = 0)
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
                 DefineLocalVariable("name", functionName).
                 DefineLocalVariable("parameters", parametersToLiquid()).
                 DefineLocalVariable("visibility", visibility).
-                DefineLocalVariable("body", bodyToLiquid()).
+                DefineLocalVariable("body", bodyToLiquid(indent)).
+                DefineLocalVariable("modifiers", modifiersToLiquid()).
                 DefineLocalVariable("returns", returns);
-            return LiquidString.Create(template.Render(ctx).Result);
+            return template.Render(ctx).Result;
+        }
+
+        LiquidCollection modifiersToLiquid()
+        {
+            var col = new LiquidCollection();
+            foreach (var mod in modifiers)
+                col.Add(LiquidString.Create(mod + " "));
+            return col;
         }
 
         LiquidCollection parametersToLiquid()
@@ -66,11 +88,11 @@ namespace BpmnToSolidity.SolidityConverter
             return col;
         }
 
-        LiquidCollection bodyToLiquid()
+        LiquidCollection bodyToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var b in body)
-                col.Add(b.ToLiquidString());
+                col.Add(b.ToLiquidString(indent + 1));
             return col;
         }
     }

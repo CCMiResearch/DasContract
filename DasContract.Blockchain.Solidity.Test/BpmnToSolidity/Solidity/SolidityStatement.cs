@@ -12,9 +12,14 @@ namespace BpmnToSolidity.SolidityConverter
         {
             this.statement = statement;
         }
-        public override LiquidString ToLiquidString()
+        public override LiquidString ToLiquidString(int indent)
         {
-            return LiquidString.Create(CreateIndent(indent) + statement + ";" + "\n");
+            return LiquidString.Create(ToString(indent));
+        }
+
+        public override string ToString(int indent = 0)
+        {
+            return CreateIndent(indent) + statement + ";" + "\n";
         }
     }
 }
