@@ -5,6 +5,10 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
+    /// <summary>
+    /// All of the needed Solidity constructs inherit from this class, which provides
+    /// the necessary interface for converting those constructs into Solidity.
+    /// </summary>
     public abstract class SolidityComponent
     {
         protected SolidityComponent ()

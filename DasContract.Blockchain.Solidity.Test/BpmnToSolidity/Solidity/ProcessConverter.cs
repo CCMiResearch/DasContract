@@ -52,7 +52,7 @@ namespace BpmnToSolidity.SolidityConverter
             var flagged = new HashSet<string>();
             var toVisit = new Queue<ProcessElement>();
             //Find the startEvent
-            var startEvent = FindStartEvent(process.Events);
+            var startEvent = FindStartEvent();
             toVisit.Enqueue(startEvent);
             flagged.Add(startEvent.Id);
             //BFS - go through every element
@@ -84,7 +84,7 @@ namespace BpmnToSolidity.SolidityConverter
         /// Converts List of sequence flow IDs to a list of Sequence flows with the corresponding ID
         /// </summary>
         /// <param name="sequenceFlowIds">List of sequence flow IDs</param>
-        /// <returns></returns>
+        /// <returns>List of sequence flow objects</returns>
         IList<SequenceFlow> SeqFlowIdToObject(IList<string> sequenceFlowIds)
         {
             var seqFlows = new List<SequenceFlow>();
@@ -101,10 +101,13 @@ namespace BpmnToSolidity.SolidityConverter
             var sequenceFlow = process.SequenceFlows[seqFlowId];
             return process.ProcessElements[sequenceFlow.TargetId];
         }
-
-        StartEvent FindStartEvent(IEnumerable<Event> events)
+        /// <summary>
+        /// Finds the start event inside of the process
+        /// </summary>
+        /// <returns>Start Event</returns>
+        StartEvent FindStartEvent()
         {
-            foreach (var e in events)
+            foreach (var e in process.Events)
             {
                 if (e.GetType() == typeof(StartEvent)) 
                     return (StartEvent) e;
@@ -112,6 +115,10 @@ namespace BpmnToSolidity.SolidityConverter
             throw new NoStartEventException("The process must contain a startEvent");
         }
     
+        /// <summary>
+        /// Generates the solidity code
+        /// </summary>
+        /// <returns>Solidity code in string</returns>
         public string GenerateSolidity()
         {
             ITemplateContext ctx = new TemplateContext();
