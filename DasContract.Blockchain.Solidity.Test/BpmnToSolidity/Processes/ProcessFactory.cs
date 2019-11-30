@@ -140,6 +140,7 @@ namespace DasContract.Abstraction.Processes
         {
             var task = new ScriptTask();
             task.Id = GetProcessId(xElement);
+            task.Name = GetProcessName(xElement);
 
             var scriptList = xElement.Descendants(BPMNNS + "script").ToList();
             if (scriptList.Count == 1)
@@ -170,9 +171,7 @@ namespace DasContract.Abstraction.Processes
         {
             var task = new UserTask();
             task.Id = GetProcessId(xElement);
-            var nameAttribute = xElement.Attribute("name");
-            if (nameAttribute != null)
-                task.Name = nameAttribute.Value;
+            task.Name = GetProcessName(xElement);
             //TODO: Set Task attributes
             return task;
         }
@@ -181,7 +180,7 @@ namespace DasContract.Abstraction.Processes
         {
             var gateway = new ExclusiveGateway();
             gateway.Id = GetProcessId(xElement);
-
+            gateway.Name = GetProcessName(xElement);
             return gateway;
         }
 
@@ -214,6 +213,14 @@ namespace DasContract.Abstraction.Processes
                 throw new InvalidElementException("ID must be set on every element");
 
             return xElement.Attribute("id").Value;
+        }
+
+        static string GetProcessName(XElement xElement)
+        {
+            var nameAttribute = xElement.Attribute("name");
+            if (nameAttribute != null)
+                return nameAttribute.Value;
+            return null;
         }
 
     }

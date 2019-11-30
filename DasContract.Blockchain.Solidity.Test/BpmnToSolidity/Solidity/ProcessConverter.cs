@@ -28,6 +28,9 @@ namespace BpmnToSolidity.SolidityConverter
         {
             process = contract.Process;
             solidityContract = new SolidityContract("GeneratedContract");
+
+            solidityContract.AddComponent(new SolidityStatement("int a")); //TODO TEMPORARY FÖR TESTING
+
             //Current state declaration
             solidityContract.AddComponent(new SolidityStatement("string " + STATE_NAME));
             //Method for retrieving current state
