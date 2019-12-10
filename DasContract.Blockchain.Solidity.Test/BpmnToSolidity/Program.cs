@@ -21,20 +21,6 @@ namespace BpmnToSolidity
             Console.WriteLine(code);
 
             File.WriteAllText(@"./code.txt", code);
-
-
-
-            /*
-            foreach(var o in contract.Process.Tasks)
-            {
-                Console.WriteLine(o.Id);
-                foreach(var outg in o.Outgoing)
-                {
-                    Console.WriteLine(outg);
-                }
-            }
-            */
-
         }
     }
 }
