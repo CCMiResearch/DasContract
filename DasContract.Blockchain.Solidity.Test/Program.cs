@@ -13,7 +13,7 @@ namespace BpmnToSolidity
         static void Main(string[] args)
         {
 
-            string xmlString = File.ReadAllText(@"../../../testDiagram.bpmn");
+            string xmlString = File.ReadAllText(@"../../../DasContract.Blockchain.Solidity.Test/testDiagram.bpmn");
             var contract = ContractFactory.FromBpmn(xmlString);
             var generator = new ProcessConverter(contract);
 
