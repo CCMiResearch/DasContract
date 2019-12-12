@@ -5,19 +5,19 @@ using System.Text;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    abstract class SolidityComponent
+    /// <summary>
+    /// All of the needed Solidity constructs inherit from this class, which provides
+    /// the necessary interface for converting those constructs into Solidity.
+    /// </summary>
+    public abstract class SolidityComponent
     {
-        protected int indent;
         protected SolidityComponent ()
         {
         }
 
-        public abstract LiquidString ToLiquidString();
+        public abstract LiquidString ToLiquidString(int indent);
 
-        public void setIndent(int indent)
-        {
-            if (indent >= 0) this.indent = indent;
-        }
+        public abstract string ToString(int indent = 0);
 
         protected static LiquidString CreateIndent(int indent)
         {
