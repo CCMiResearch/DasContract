@@ -5,7 +5,7 @@ using Fluid;
 
 namespace DasContract.Blockchain.Plutus
 {
-    public class PlutusSmartContractGenerator
+    public class PlutusSmartContractFileGenerator
     {
         public string GeneratedSmartContract { get; set; }
 
@@ -13,14 +13,18 @@ namespace DasContract.Blockchain.Plutus
 
         public void Generate ( SmartContractModel smartContractModel, string pathString )
         {
-            var renderer = new TemplateRenderer();
+            var renderer = new FluidTemplateRenderer();
             TemplateSourceCode = Resources.FluidSmartContractStructure;
 
             TemplateContext.GlobalMemberAccessStrategy.Register<Function>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<SCStateMachine>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<SCFact>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<SCTransactionKind>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<TransactionStateMachine>();
 
             GeneratedSmartContract = renderer.Assemble(TemplateSourceCode, smartContractModel);
 
-            string filePath = ConstructFilePath(smartContractModel.Name, pathString);
+            string filePath = ConstructFilePath(smartContractModel.ProcessName, pathString);
             File.WriteAllText(filePath, GeneratedSmartContract);
         }
 

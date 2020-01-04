@@ -1,0 +1,8 @@
+﻿script{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> ScriptInstance (StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+script{{ p.TransactionKindName }} pn = 
+    let val = $$(compile [|| validator{{ p.TransactionKindName }} ||])
+            `applyCode`
+                liftCode pn
+        wrap = wrapValidator @TransactionKind{{ p.Fact }}State @TransactionKind{{ p.Fact }}Action
+    in validator @(StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+        val $$(compile [|| wrap ||])

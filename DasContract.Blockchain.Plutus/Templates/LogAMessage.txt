@@ -1,2 +1,0 @@
-﻿{{ p.Name }} :: MonadWallet m => m()
-{{ p.Name }} = logMsg "{{ p.Message }}"

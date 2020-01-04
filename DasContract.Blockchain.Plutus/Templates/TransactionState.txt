@@ -1,0 +1,26 @@
+﻿data TransactionKind{{ p.Fact }}State =
+      Initial{{ p.Fact }}   Roles
+    | Requested{{ p.Fact }} Roles Fact{{ p.Fact }}
+    | Promised{{ p.Fact }}  Roles Fact{{ p.Fact }}
+    | Stated{{ p.Fact }}    Roles Fact{{ p.Fact }}
+    | Accepted{{ p.Fact }}  Roles Fact{{ p.Fact }}
+    | Declined{{ p.Fact }}  Roles Fact{{ p.Fact }}
+    | Quitted{{ p.Fact }}   Roles Fact{{ p.Fact }}
+    | Rejected{{ p.Fact }}  Roles Fact{{ p.Fact }}
+    | Stopped{{ p.Fact }}   Roles Fact{{ p.Fact }}
+    deriving (Prelude.Eq, Prelude.Ord, Prelude.Show, Generic, IotsType)
+
+makeLift ''TransactionKind{{ p.Fact }}State
+makeIsData ''TransactionKind{{ p.Fact }}State
+
+instance E.Eq TransactionKind{{ p.Fact }}State where
+    (Initial{{ p.Fact }} _)          ==  (Initial{{ p.Fact }} _)       =   True
+    (Requested{{ p.Fact }} _ _)   ==  (Requested{{ p.Fact }} _ _)   =   True
+    (Promised{{ p.Fact }} _ _)    ==  (Promised{{ p.Fact }} _ _)    =   True
+    (Stated{{ p.Fact }} _ _)      ==  (Stated{{ p.Fact }} _ _)      =   True
+    (Accepted{{ p.Fact }} _ _)    ==  (Accepted{{ p.Fact }} _ _)    =   True
+    (Declined{{ p.Fact }} _ _)    ==  (Declined{{ p.Fact }} _ _)    =   True
+    (Quitted{{ p.Fact }} _ _)     ==  (Quitted{{ p.Fact }} _ _)     =   True
+    (Rejected{{ p.Fact }} _ _)    ==  (Rejected{{ p.Fact }} _ _)    =   True
+    (Stopped{{ p.Fact }} _ _)     ==  (Stopped{{ p.Fact }} _ _)     =   True
+    _                             ==  _                                =   False

@@ -1,0 +1,2 @@
+﻿validator{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> ValidatorType (StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+validator{{ p.TransactionKindName }} pn = mkValidator (machine{{ p.TransactionKindName }} pn)

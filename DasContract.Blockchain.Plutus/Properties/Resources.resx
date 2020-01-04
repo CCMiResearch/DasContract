@@ -118,10 +118,61 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DataType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\DataType.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EndpointFunction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\EndpointFunction.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="FluidSmartContractStructure" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Templates\FluidSmartContractStructure.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="LogAMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Templates\LogAMessage.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="OffChainCoordinationAct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\OffChainCoordinationAct.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="OffChainTransactionInitialization" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\OffChainTransactionInitialization.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="OffChainTransactionResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\OffChainTransactionResponse.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SimpleTransactionRole" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\SimpleTransactionRole.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionAllocation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionAllocation.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionCheck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionCheck.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionFinal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionFinal.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionInput" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionInput.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionScriptInstance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionScriptInstance.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionState" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionState.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionStateMachine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionStateMachine.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionStateMachineClient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionStateMachineClient.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionStateMachineError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionStateMachineError.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionStateMachineInstance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionStateMachineInstance.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionTransition" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionTransition.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransactionValidator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Templates\TransactionValidator.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

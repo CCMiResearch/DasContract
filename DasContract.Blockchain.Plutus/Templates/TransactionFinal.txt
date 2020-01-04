@@ -1,0 +1,5 @@
+﻿isFinal{{ p.TransactionKindName }} :: TransactionKind{{ p.Fact }}State -> Bool
+isFinal{{ p.TransactionKindName }} (Quitted{{ p.Fact }} _ _)    =   True
+isFinal{{ p.TransactionKindName }} (Stopped{{ p.Fact }} _ _)    =   True
+isFinal{{ p.TransactionKindName }} (Accepted{{ p.Fact }} _ _)   =   True
+isFinal{{ p.TransactionKindName }} _                            =   False

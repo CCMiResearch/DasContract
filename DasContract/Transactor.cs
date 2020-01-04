@@ -3,7 +3,7 @@ using System;
 
 namespace DasContract
 {
-    public class Transactor
+    public abstract class Transactor
     {
         public Guid Id { get; set; }
 

@@ -1,0 +1,11 @@
+﻿data {{ p.Name }} = {{ p.Name }}
+    { {% assign members = p.Members %}{{ members | join: "\n    , " }}
+    }
+    deriving ({% assign types = p.DerivingTypes %}{{ types | join: ", " }})
+
+{% if p.MakeLift == true %}
+makeLift ''{{ p.Name }}
+{% endif %}
+{% if p.MakeIsData == true %}
+makeIsData ''{{ p.Name }}
+{% endif %}

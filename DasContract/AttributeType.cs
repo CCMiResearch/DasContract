@@ -4,9 +4,13 @@ namespace DasContract
 {
     public enum AttributeValueType
     {
+        ByteString,
         String,
-        Int,
+        Integer,
         UInt,
+        PubKey,
+        Token,
+        Value,
         Address
     }
 

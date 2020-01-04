@@ -1,0 +1,5 @@
+﻿instance{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> StateMachineInstance TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+instance{{ p.TransactionKindName }} pn = StateMachineInstance
+    { stateMachine = machine{{ p.TransactionKindName }} pn
+    , validatorInstance = script{{ p.TransactionKindName }} pn
+    }
