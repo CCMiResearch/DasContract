@@ -1,0 +1,12 @@
+﻿check{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> TransactionKind{{ p.Fact }}State -> TransactionKind{{ p.Fact }}Action -> PendingTx -> Bool
+check{{ p.TransactionKindName }} _ _ _ _ = True
+check{{ p.TransactionKindName }} _ (Initial{{ p.Fact }} roles) (Request{{ p.Fact }} _) penTx = txSignedBy penTx (initiator roles)
+check{{ p.TransactionKindName }} _ (Declined{{ p.Fact }} roles _) (Request{{ p.Fact }} _) penTx = txSignedBy penTx (initiator roles)
+check{{ p.TransactionKindName }} _ (Declined{{ p.Fact }} roles _) Quit{{ p.Fact }} penTx = txSignedBy penTx (initiator roles)
+check{{ p.TransactionKindName }} _ (Stated{{ p.Fact }} roles _) Accept{{ p.Fact }} penTx = txSignedBy penTx (initiator roles)
+check{{ p.TransactionKindName }} _ (Stated{{ p.Fact }} roles _) Reject{{ p.Fact }} penTx = txSignedBy penTx (initiator roles)
+check{{ p.TransactionKindName }} _ (Requested{{ p.Fact }} roles _) Promise{{ p.Fact }} penTx = txSignedBy penTx (executor roles)
+check{{ p.TransactionKindName }} _ (Requested{{ p.Fact }} roles _) Decline{{ p.Fact }} penTx = txSignedBy penTx (executor roles)
+check{{ p.TransactionKindName }} _ (Promised{{ p.Fact }} roles _) State{{ p.Fact }} penTx = txSignedBy penTx (executor roles)
+check{{ p.TransactionKindName }} _ (Rejected{{ p.Fact }} roles _) State{{ p.Fact }} penTx = txSignedBy penTx (executor roles)
+check{{ p.TransactionKindName }} _ (Rejected{{ p.Fact }} roles _) Stop{{ p.Fact }} penTx = txSignedBy penTx (executor roles)

@@ -1,0 +1,12 @@
+﻿data ErrorTransactionKind{{ p.Fact }} = 
+    ContractErrorTransactionKind{{ p.Fact }} ContractError 
+    | SMErrorTransactionKind{{ p.Fact }} (SMContractError TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+    deriving (Show)
+
+makeClassyPrisms ''ErrorTransactionKind{{ p.Fact }}
+
+instance AsContractError ErrorTransactionKind{{ p.Fact }} where
+    _ContractError = _ContractErrorTransactionKind{{ p.Fact }}
+
+instance AsSMContractError ErrorTransactionKind{{ p.Fact }} TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action where
+    _SMContractError = _SMErrorTransactionKind{{ p.Fact }}

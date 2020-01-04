@@ -1,0 +1,8 @@
+﻿response{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
+    , AsSMContractError e TransactionKindState TransactionKindAction
+{% for stateMachine in p.StateMachines %}
+    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+{% endfor %}
+    ) => {{ p.ProcessName }} -> Contract Schema e ()
+response{{ p.TransactionKindName }}{{ p.CoordinationAct }} pn = do
+    void(runStep (client{{ p.TransactionKindName }} pn) {{ p.CoordinationAct }})

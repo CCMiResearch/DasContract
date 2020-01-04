@@ -1,0 +1,14 @@
+﻿init{{ p.TransactionKindName }} :: (AsContractError e
+    , AsSMContractError e TransactionKindState TransactionKindAction
+{% for stateMachine in p.StateMachines %}
+    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+{% endfor %}
+    ) => {{ p.ProcessName }} -> Wallet -> Wallet -> Contract Schema e ()
+init{{ p.TransactionKindName }} pn init exec = do
+    let inKey = walletPubKey init
+    let exKey = walletPubKey exec
+    let roles = Roles 
+            { initiator = inKey
+            , executor    = exKey
+            }
+    void(runInitialise (client{{ p.TransactionKindName }} pn) (Initial roles) (ADA.toValue 0))

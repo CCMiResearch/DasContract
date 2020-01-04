@@ -1,0 +1,35 @@
+﻿do{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
+    , AsSMContractError e TransactionKindState TransactionKindAction
+{% for stateMachine in p.StateMachines %}
+    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+{% endfor %}
+    ) => Contract Schema e ()
+do{{ p.TransactionKindName }}{{ p.CoordinationAct }} = do
+    params <- endpoint @"do{{ p.TransactionKindName }}{{ p.CoordinationAct }}" @Parameters{{ p.TransactionKindName }}{{ p.CoordinationAct }}
+    let pn = {{ p.ProcessName }} (paramId{{ p.ProcessName }} params)
+{% if p.Initializations.size != 0  %}
+{% for transactionKindInitialization in p.Initializations %}
+    let initInWallet = paramInitInWallet params
+    let initExWallet = paramInitExWallet params
+    {{ transactionKindInitialization }} pn initInWallet initExWallet
+{% endfor %}
+{% endif %}
+if {{ p.Conditions | join: " && " }}
+        then
+{% if p.FactEdits.size != 0  %}
+{% for factEdit in p.FactEdits %}
+            {{ factEdit }} pn
+{% endfor %}
+{% endif %}
+{% if p.Responses.size != 0  %}
+{% for transactionKindResponse in p.Responses %}
+            {{ transactionKindResponse }} pn
+{% endfor %}
+{% endif %}
+{% if p.ValueActions.size != 0  %}
+{% for valueAction in p.ValueActions %}
+            {{ valueAction }} pn
+{% endfor %}
+{% endif %}
+        else
+            pure ()

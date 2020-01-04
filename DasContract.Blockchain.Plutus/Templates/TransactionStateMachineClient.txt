@@ -1,0 +1,2 @@
+﻿client{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> StateMachineClient TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+client{{ p.TransactionKindName }} pn = mkStateMachineClient (instance{{ p.TransactionKindName }} pn) allocate{{ p.TransactionKindName }}

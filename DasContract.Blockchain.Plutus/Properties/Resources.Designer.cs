@@ -61,21 +61,66 @@ namespace DasContract.Blockchain.Plutus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to module {{ p.Name }} where
+        ///   Looks up a localized string similar to data {{ p.Name }} = {{ p.Name }}
+        ///    { {% assign members = p.Members %}{{ members | join: &quot;\n    , &quot; }}
+        ///    }
+        ///    deriving ({% assign types = p.DerivingTypes %}{{ types | join: &quot;, &quot; }})
+        ///
+        ///{% if p.MakeLift == true %}
+        ///makeLift &apos;&apos;{{ p.Name }}
+        ///{% endif %}
+        ///{% if p.MakeIsData == true %}
+        ///makeIsData &apos;&apos;{{ p.Name }}
+        ///{% endif %}.
+        /// </summary>
+        public static string DataType {
+            get {
+                return ResourceManager.GetString("DataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to do{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
+        ///{% for stateMachine in p.StateMachines %}
+        ///    , AsSMContractError e TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+        ///{% endfor %}
+        ///    ) =&gt; Contract Schema e ()
+        ///do{{ p.TransactionKindName }}{{ p.CoordinationAct }} = do
+        ///    params &lt;- endpoint @&quot;do{{ p.TransactionKindName }}{{ p.CoordinationAct }}&quot; @Parameters{{ p.TransactionKindName }}{{ p.CoordinationAct }}
+        ///    let pn = {{ p.ProcessName }} (param{{ p.Transacti [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string EndpointFunction {
+            get {
+                return ResourceManager.GetString("EndpointFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {-# LANGUAGE MultiParamTypeClasses #-}
+        ///
+        ///module {{ p.ProcessName }} where
         ///
         ///{% for library in p.Libraries %}
         ///import {{library}}
         ///{% endfor %}
         ///--
         ///--
-        ///{% for function in p.WalletFunctions %}
+        ///{% for function in p.Functions %}
         ///{{ function.GeneratedFunction }}
         ///
         ///{% endfor %}
         ///
-        ///{% if p.WalletFunctions.size != 0 %}
-        ///$(mkFunctions[&apos;{% assign functionNames = p.WalletFunctions | map: &apos;Name&apos; %}{{ functionNames | join: &quot;, &apos;&quot; }}])
-        ///{% endif %}.
+        ///type Schema = BlockchainActions
+        ///{% for function in p.Endpoints %}
+        ///    .\/ Endpoint &quot;{{ function.Name }}&quot; {{ function.Parameters }}
+        ///{% endfor %}
+        ///
+        ///mkSchemaDefinitions &apos;&apos;Schema
+        ///
+        ///{% for function in p.WalletFunctions %}
+        ///{{ function.GeneratedFunction }}
+        ///
+        ///{% endfor %} [rest of string was truncated]&quot;;.
         /// </summary>
         public static string FluidSmartContractStructure {
             get {
@@ -84,12 +129,248 @@ namespace DasContract.Blockchain.Plutus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {{ p.Name }} :: MonadWallet m =&gt; m()
-        ///{{ p.Name }} = logMsg &quot;{{ p.Message }}&quot;.
+        ///   Looks up a localized string similar to do{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
+        ///    , AsSMContractError e TransactionKindState TransactionKindAction
+        ///{% for stateMachine in p.StateMachines %}
+        ///    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+        ///{% endfor %}
+        ///    ) =&gt; Contract Schema e ()
+        ///do{{ p.TransactionKindName }}{{ p.CoordinationAct }} = do
+        ///    params &lt;- endpoint @&quot;do{{ p.TransactionKindName }}{{ p.CoordinationAct }}&quot; @Parameters{{ p.TransactionKindName }}{{ p.CoordinationAct }}        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string LogAMessage {
+        public static string OffChainCoordinationAct {
             get {
-                return ResourceManager.GetString("LogAMessage", resourceCulture);
+                return ResourceManager.GetString("OffChainCoordinationAct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to init{{ p.TransactionKindName }} :: (AsContractError e
+        ///    , AsSMContractError e TransactionKindState TransactionKindAction
+        ///{% for stateMachine in p.StateMachines %}
+        ///    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+        ///{% endfor %}
+        ///    ) =&gt; {{ p.ProcessName }} -&gt; Wallet -&gt; Wallet -&gt; Contract Schema e ()
+        ///init{{ p.TransactionKindName }} pn init exec = do
+        ///    let inKey = walletPubKey init
+        ///    let exKey = walletPubKey exec
+        ///    let roles = Roles 
+        ///            { initiator = inKey
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string OffChainTransactionInitialization {
+            get {
+                return ResourceManager.GetString("OffChainTransactionInitialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to response{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
+        ///    , AsSMContractError e TransactionKindState TransactionKindAction
+        ///{% for stateMachine in p.StateMachines %}
+        ///    , AsSMContractError e {{ stateMachine.State }} {{ stateMachine.Action }}
+        ///{% endfor %}
+        ///    ) =&gt; {{ p.ProcessName }} -&gt; Contract Schema e ()
+        ///response{{ p.TransactionKindName }}{{ p.CoordinationAct }} pn = do
+        ///    void(runStep (client{{ p.TransactionKindName }} pn) {{ p.CoordinationAct }})
+        ///.
+        /// </summary>
+        public static string OffChainTransactionResponse {
+            get {
+                return ResourceManager.GetString("OffChainTransactionResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data Roles = Roles
+        ///    { initiator :: PubKey
+        ///    , executor :: PubKey
+        ///    }
+        ///    deriving (Prelude.Eq, Prelude.Show, Prelude.Ord, Generic, IotsType, ToSchema)
+        ///
+        ///makeLift &apos;&apos;Roles
+        ///makeIsData &apos;&apos;Roles.
+        /// </summary>
+        public static string SimpleTransactionRole {
+            get {
+                return ResourceManager.GetString("SimpleTransactionRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to allocate{{ p.TransactionKindName }} :: TransactionKind{{ p.Fact }}State -&gt; TransactionKind{{ p.Fact }}Action -&gt; Value -&gt; ValueAllocation
+        ///allocate{{ p.TransactionKindName }} _ _ currentValue =
+        ///    ValueAllocation
+        ///        { vaOwnAddress = currentValue
+        ///        , vaOtherPayments = mempty
+        ///        }.
+        /// </summary>
+        public static string TransactionAllocation {
+            get {
+                return ResourceManager.GetString("TransactionAllocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to check{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; TransactionKind{{ p.Fact }}State -&gt; TransactionKind{{ p.Fact }}Action -&gt; PendingTx -&gt; Bool
+        ///check{{ p.TransactionKindName }} _ _ _ _ = True
+        ///check{{ p.TransactionKindName }} _ (Initial{{ p.Fact }} roles) (Request{{ p.Fact }} _) penTx = txSignedBy penTx (initiator roles)
+        ///check{{ p.TransactionKindName }} _ (Declined{{ p.Fact }} roles _) (Request{{ p.Fact }} _) penTx = txSignedBy penTx (initiator roles)
+        ///check{{ p.TransactionKindName }} _ (Declined{{ p.Fa [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TransactionCheck {
+            get {
+                return ResourceManager.GetString("TransactionCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to isFinal{{ p.TransactionKindName }} :: TransactionKind{{ p.Fact }}State -&gt; Bool
+        ///isFinal{{ p.TransactionKindName }} (Quitted{{ p.Fact }} _ _)    =   True
+        ///isFinal{{ p.TransactionKindName }} (Stopped{{ p.Fact }} _ _)    =   True
+        ///isFinal{{ p.TransactionKindName }} (Accepted{{ p.Fact }} _ _)   =   True
+        ///isFinal{{ p.TransactionKindName }} _                            =   False
+        ///.
+        /// </summary>
+        public static string TransactionFinal {
+            get {
+                return ResourceManager.GetString("TransactionFinal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data TransactionKind{{ p.Fact }}Action =
+        ///      Initiate{{ p.Fact }} Roles
+        ///    | Request{{ p.Fact }} Fact{{ p.Fact }}
+        ///    | Promise{{ p.Fact }}
+        ///    | State{{ p.Fact }}
+        ///    | Accept{{ p.Fact }}
+        ///    | Decline{{ p.Fact }}
+        ///    | Quit{{ p.Fact }}
+        ///    | Reject{{ p.Fact }}
+        ///    | Stop{{ p.Fact }}
+        ///    deriving (Prelude.Eq, Prelude.Ord, Prelude.Show, Generic, IotsType)
+        ///
+        ///makeLift &apos;&apos;TransactionKind{{ p.Fact }}Action
+        ///makeIsData &apos;&apos;TransactionKind{{ p.Fact }}Action.
+        /// </summary>
+        public static string TransactionInput {
+            get {
+                return ResourceManager.GetString("TransactionInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to script{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; ScriptInstance (StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+        ///script{{ p.TransactionKindName }} pn = 
+        ///    let val = $$(compile [|| validator{{ p.TransactionKindName }} ||])
+        ///            `applyCode`
+        ///                liftCode pn
+        ///        wrap = wrapValidator @TransactionKind{{ p.Fact }}State @TransactionKind{{ p.Fact }}Action
+        ///    in validator @(StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Ac [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TransactionScriptInstance {
+            get {
+                return ResourceManager.GetString("TransactionScriptInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data TransactionKind{{ p.Fact }}State =
+        ///      Initial{{ p.Fact }}   Roles
+        ///    | Requested{{ p.Fact }} Roles Fact{{ p.Fact }}
+        ///    | Promised{{ p.Fact }}  Roles Fact{{ p.Fact }}
+        ///    | Stated{{ p.Fact }}    Roles Fact{{ p.Fact }}
+        ///    | Accepted{{ p.Fact }}  Roles Fact{{ p.Fact }}
+        ///    | Declined{{ p.Fact }}  Roles Fact{{ p.Fact }}
+        ///    | Quitted{{ p.Fact }}   Roles Fact{{ p.Fact }}
+        ///    | Rejected{{ p.Fact }}  Roles Fact{{ p.Fact }}
+        ///    | Stopped{{ p.Fact }}   Roles Fact{{ p.Fact }}
+        ///    deriving (Prelude.Eq, Prel [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TransactionState {
+            get {
+                return ResourceManager.GetString("TransactionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to machine{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+        ///machine{{ p.TransactionKindName }} pn = StateMachine
+        ///    { smTransition  =   transition{{ p.TransactionKindName }} pn
+        ///    , smCheck       =   check{{ p.TransactionKindName }} pn
+        ///    , smFinal       =   isFinal{{ p.TransactionKindName }}
+        ///    }.
+        /// </summary>
+        public static string TransactionStateMachine {
+            get {
+                return ResourceManager.GetString("TransactionStateMachine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to client{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; StateMachineClient TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+        ///client{{ p.TransactionKindName }} pn = mkStateMachineClient (instance{{ p.TransactionKindName }} pn) allocate{{ p.TransactionKindName }}.
+        /// </summary>
+        public static string TransactionStateMachineClient {
+            get {
+                return ResourceManager.GetString("TransactionStateMachineClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data ErrorTransactionKind{{ p.Fact }} = 
+        ///    ContractErrorTransactionKind{{ p.Fact }} ContractError 
+        ///    | SMErrorTransactionKind{{ p.Fact }} (SMContractError TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+        ///    deriving (Show)
+        ///
+        ///makeClassyPrisms &apos;&apos;ErrorTransactionKind{{ p.Fact }}
+        ///
+        ///instance AsContractError ErrorTransactionKind{{ p.Fact }} where
+        ///    _ContractError = _ContractErrorTransactionKind{{ p.Fact }}
+        ///
+        ///instance AsSMContractError ErrorTransactionKind{{ p.Fact }} TransactionKind{{ p.Fac [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TransactionStateMachineError {
+            get {
+                return ResourceManager.GetString("TransactionStateMachineError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to instance{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; StateMachineInstance TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
+        ///instance{{ p.TransactionKindName }} pn = StateMachineInstance
+        ///    { stateMachine = machine{{ p.TransactionKindName }} pn
+        ///    , validatorInstance = script{{ p.TransactionKindName }} pn
+        ///    }.
+        /// </summary>
+        public static string TransactionStateMachineInstance {
+            get {
+                return ResourceManager.GetString("TransactionStateMachineInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to transition{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; TransactionKind{{ p.Fact }}State -&gt; TransactionKind{{ p.Fact }}Action -&gt; Maybe TransactionKind{{ p.Fact }}State
+        ///transition{{ p.TransactionKindName }} _ (Initial{{ p.Fact }} ie) (Request{{ p.Fact }} fct)
+        ///    = Just (Requested{{ p.Fact }} ie fct)
+        ///transition{{ p.TransactionKindName }} _ (Requested{{ p.Fact }} ie fct) Decline{{ p.Fact }}
+        ///    = Just (Declined{{ p.Fact }} ie fct)
+        ///transition{{ p.TransactionKindName }} _ (Requested{{ p.Fact }} ie fct)  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TransactionTransition {
+            get {
+                return ResourceManager.GetString("TransactionTransition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to validator{{ p.TransactionKindName }} :: {{ p.ProcessName }} -&gt; ValidatorType (StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action)
+        ///validator{{ p.TransactionKindName }} pn = mkValidator (machine{{ p.TransactionKindName }} pn).
+        /// </summary>
+        public static string TransactionValidator {
+            get {
+                return ResourceManager.GetString("TransactionValidator", resourceCulture);
             }
         }
     }

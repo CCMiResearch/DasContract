@@ -1,15 +1,36 @@
-﻿module {{ p.Name }} where
+﻿{-# LANGUAGE MultiParamTypeClasses #-}
+
+module {{ p.ProcessName }} where
 
 {% for library in p.Libraries %}
 import {{library}}
 {% endfor %}
 --
 --
+{% for function in p.Functions %}
+{{ function.GeneratedFunction }}
+
+{% endfor %}
+
+type Schema = BlockchainActions
+{% for function in p.Endpoints %}
+    .\/ Endpoint "{{ function.Name }}" {{ function.Parameters }}
+{% endfor %}
+
+mkSchemaDefinitions ''Schema
+
 {% for function in p.WalletFunctions %}
 {{ function.GeneratedFunction }}
 
 {% endfor %}
 
-{% if p.WalletFunctions.size != 0 %}
-$(mkFunctions['{% assign functionNames = p.WalletFunctions | map: 'Name' %}{{ functionNames | join: ", '" }}])
+endpoints :: (AsContractError e
+{% for fact in p.Facts %}
+    , AsSMContractError e TransactionKind{{ fact.Name }}State TransactionKind{{ fact.Name }}Action
+{% endfor %}
+    ) => Contract Schema e ()
+{% if p.Endpoints.size != 0 %}
+endpoints = {% assign functionNames = p.Endpoints | map: 'Name' %}{{ functionNames | join: " <|> " }}
+{% else %}
+endpoints = pure ()
 {% endif %}

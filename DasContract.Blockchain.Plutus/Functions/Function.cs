@@ -2,7 +2,7 @@
 
 namespace DasContract.Blockchain.Plutus.Functions
 {
-    public abstract class Function
+    public class Function
     {
         public string Name { get; set; }
 
@@ -14,7 +14,7 @@ namespace DasContract.Blockchain.Plutus.Functions
 
         public void RenderTemplate ()
         {
-            var renderer = new TemplateRenderer();
+            var renderer = new FluidTemplateRenderer();
 
             GeneratedFunction = renderer.Assemble(TemplateSourceCode, this);
         }

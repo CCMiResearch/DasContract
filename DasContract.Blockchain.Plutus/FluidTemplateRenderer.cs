@@ -3,7 +3,7 @@ using System;
 
 namespace DasContract.Blockchain.Plutus
 {
-    public class TemplateRenderer
+    public class FluidTemplateRenderer
     {
         public string Assemble ( string templateSourceCode, object templateModel )
         {
