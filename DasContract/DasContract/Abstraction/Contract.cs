@@ -5,19 +5,16 @@ using System.Collections.Generic;
 
 namespace DasContract.Abstraction.Entity
 {
-    public class Contract: IIdentifiable
+    public class Contract: IIdentifiable, INamable
     {
         public string Id { get; set; }
 
-        /// <summary>
-        /// BPMN 2.0 XML with process description and a visual process information. 
-        /// </summary>
-        public string ProcessDiagram { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Contract main process. Currently only one process is allowed. 
+        /// Contract processes
         /// </summary>
-        public Process Process { get; set; }
+        public ContractProcesses Processes { get; set; }
 
         /// <summary>
         /// Contract data model
@@ -26,5 +23,6 @@ namespace DasContract.Abstraction.Entity
 
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
+       
     }
 }

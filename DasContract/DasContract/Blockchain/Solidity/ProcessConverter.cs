@@ -23,7 +23,7 @@ namespace BpmnToSolidity.SolidityConverter
 
         public ProcessConverter(Contract contract)
         {
-            process = contract.Process;
+            process = contract.Processes.Main;
             solidityContract = new SolidityContract("GeneratedContract");
 
             solidityContract.AddComponent(new SolidityStatement("int a")); //TODO TEMPORARY FOR TESTING

@@ -12,7 +12,7 @@ namespace DasContract.Abstraction.BPMN.Factory
         /// <summary>
         /// Namespace of the PMN XML document
         /// </summary>
-        public readonly static XNamespace BPMNNS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
+        public static readonly XNamespace BPMNNS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
 
         public static Contract FromBPMN(string bpmnXml)
         {
@@ -21,7 +21,7 @@ namespace DasContract.Abstraction.BPMN.Factory
             var processes = xDoc.Descendants(BPMNNS + "process").ToList();
             if (processes.Count != 1)
                 throw new InvalidProcessCountException("The number of proccesses defined in the model must be 1, not " + processes.Count);
-            contract.Process = ProcessFactory.FromBPMN(processes.First());
+            contract.Processes.Main = ProcessFactory.FromBPMN(processes.First());
 
             return contract; 
         }
