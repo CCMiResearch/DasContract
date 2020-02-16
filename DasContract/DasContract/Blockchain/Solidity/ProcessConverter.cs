@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace BpmnToSolidity.SolidityConverter
 {
-    class ProcessConverter
+    public class ProcessConverter
     {
         SolidityContract solidityContract;
         Process process;

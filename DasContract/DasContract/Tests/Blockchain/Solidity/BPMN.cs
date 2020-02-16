@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BpmnToSolidity.SolidityConverter;
 using DasContract.Abstraction.BPMN.Factory;
 using NUnit.Framework;
 
@@ -12,9 +13,11 @@ namespace DasContract.Tests.Blockchain.Solidity
         {
         }
 
-        [Test]
+        //[Test]
         public void BPMNCompilation()
         {
+            throw new NotImplementedException();
+
             string xmlString = File.ReadAllText(@"../../../DasContract.Blockchain.Solidity.Test/testDiagram.bpmn");
             var contract = ContractFactory.FromBPMN(xmlString);
             var generator = new ProcessConverter(contract);
@@ -22,8 +25,6 @@ namespace DasContract.Tests.Blockchain.Solidity
             var code = generator.GenerateSolidity();
 
             File.WriteAllText(@"./code.txt", code);
-
-            throw new NotImplementedException();
         }
     }
 }
