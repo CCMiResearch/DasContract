@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DasContract.Abstraction.BPMN.Exceptions
 {
-    class NoStartEventException: ContractException
+    public class NoStartEventException: ContractException
     {
         public NoStartEventException(string message) : base(message) { }
     }

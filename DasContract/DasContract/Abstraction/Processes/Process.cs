@@ -17,16 +17,5 @@ namespace DasContract.Abstraction.Processes
         public IEnumerable<Task> Tasks { get { return ProcessElements.Values.OfType<Task>(); } }
         public IEnumerable<Event> Events { get { return ProcessElements.Values.OfType<Event>(); } }
         public IEnumerable<Gateway> Gateways { get { return ProcessElements.Values.OfType<Gateway>(); } }
-
-        public Process() { }
-        public Process(string bpmnXml)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ToBpmnXml()
-        {
-            throw new NotImplementedException(); 
-        }
     }
 }

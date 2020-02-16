@@ -1,6 +1,7 @@
-﻿using BpmnToSolidity.Exceptions;
-using BpmnToSolidity.Solidity.ConversionHelpers;
+﻿using BpmnToSolidity.Solidity.ConversionHelpers;
 using DasContract.Abstraction;
+using DasContract.Abstraction.BPMN.Exceptions;
+using DasContract.Abstraction.Entity;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Solidity;

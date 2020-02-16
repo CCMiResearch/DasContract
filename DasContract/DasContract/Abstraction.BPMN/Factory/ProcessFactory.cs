@@ -1,4 +1,6 @@
 ﻿using DasContract.Abstraction.Exceptions;
+using DasContract.Abstraction.Exceptions.Specific;
+using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
@@ -8,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace DasContract.Abstraction.Processes
+namespace DasContract.Abstraction.BPMN.Factory
 {
     public class ProcessFactory
     {
