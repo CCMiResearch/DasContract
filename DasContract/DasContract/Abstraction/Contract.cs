@@ -1,12 +1,14 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
+using DasContract.DasContract.Abstraction.Interface;
 using System.Collections.Generic;
 
 namespace DasContract.Abstraction
 {
-    public class Contract
+    public class Contract: IIdentifiable
     {
         public string Id { get; set; }
+
         /// <summary>
         /// BPMN 2.0 XML with process description and a visual process information. 
         /// </summary>
@@ -20,7 +22,9 @@ namespace DasContract.Abstraction
         /// <summary>
         /// Data Model
         /// </summary>
-        public IList<Entity> Entities { get; set; } = new List<Entity>(); 
+        public IList<ContractEntity> Entities { get; set; } = new List<ContractEntity>(); 
+
+
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
     }
 }
