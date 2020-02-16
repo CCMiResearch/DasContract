@@ -1,6 +1,6 @@
-﻿namespace DasContract.Abstraction.Data
+﻿namespace DasContract.Abstraction.DataModel.Property.Primitive
 {
-    public enum PropertyType
+    public enum PrimitiveContractPropertyType
     {
         Int, 
         IntCollection,
@@ -17,8 +17,6 @@
         AddressPayable,
         AddressPayableCollection,
         Data, //Byte array (for example for files)
-        DataCollection,
-        Entity,
-        EntityCollection
+        DataCollection, //Array of byte arrays (multiple files)
     }
 }
