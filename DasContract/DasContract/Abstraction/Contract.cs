@@ -1,9 +1,9 @@
-﻿using DasContract.Abstraction.Data;
+﻿using DasContract.Abstraction.DataModel;
 using DasContract.Abstraction.Processes;
 using DasContract.DasContract.Abstraction.Interface;
 using System.Collections.Generic;
 
-namespace DasContract.Abstraction
+namespace DasContract.Abstraction.Entity
 {
     public class Contract: IIdentifiable
     {
@@ -20,9 +20,9 @@ namespace DasContract.Abstraction
         public Process Process { get; set; }
 
         /// <summary>
-        /// Data Model
+        /// Contract data model
         /// </summary>
-        public IList<ContractEntity> Entities { get; set; } = new List<ContractEntity>(); 
+        public ContractDataModel DataModel { get; set; }
 
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();

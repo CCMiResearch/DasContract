@@ -3,7 +3,7 @@ using DasContract.Abstraction.DataModel.Property.Reference;
 using DasContract.DasContract.Abstraction.Interface;
 using System.Collections.Generic;
 
-namespace DasContract.Abstraction.DataModel
+namespace DasContract.Abstraction.DataModel.Entity
 {
     public class ContractEntity: IIdentifiable
     {

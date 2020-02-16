@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Abstraction.Exceptions
+namespace DasContract.Abstraction.Exceptions.Specific
 {
-    class InvalidElementException: Exception
+    public class InvalidElementException: ContractException
     {
         public InvalidElementException(string message): base(message) { }
     }

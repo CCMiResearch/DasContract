@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Abstraction.Exceptions
+namespace DasContract.Abstraction.Exceptions.Specific
 {
-    class InvalidProcessCountException : Exception
+    public class InvalidProcessCountException : ContractException
     {
         public InvalidProcessCountException(string message): base(message) { }
     }

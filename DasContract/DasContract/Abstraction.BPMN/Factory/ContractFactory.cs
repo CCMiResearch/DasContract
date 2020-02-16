@@ -1,14 +1,19 @@
-﻿using DasContract.Abstraction.Exceptions;
+﻿using DasContract.Abstraction.Entity;
+using DasContract.Abstraction.Exceptions.Specific;
 using DasContract.Abstraction.Processes;
 using System;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace DasContract.Abstraction
+namespace DasContract.Abstraction.BPMN.Factory
 {
-    public class ContractFactory
+    public static class ContractFactory
     {
-        public static XNamespace BPMNNS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
+        /// <summary>
+        /// Namespace of the PMN XML document
+        /// </summary>
+        public readonly static XNamespace BPMNNS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
+
         public static Contract FromBpmn(string bpmnXml)
         {
             var xDoc = XDocument.Parse(bpmnXml);
