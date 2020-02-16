@@ -19,6 +19,11 @@ namespace DasContract.Abstraction.UserInterface
         public string Label { get; set; }
 
         /// <summary>
+        /// Description of this input for better user understanding
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// If true, the field cannot be changed
         /// </summary>
         public bool ReadOnly { get; set; } = true; 
