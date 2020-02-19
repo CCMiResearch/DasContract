@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Abstraction.Interface\DasContract.Abstraction.Interface.csproj" />
+    <ProjectReference Include="..\Migrator.Interface\DasContract.Migrator.Interface.csproj" />
+    <ProjectReference Include="..\Migrator\DasContract.Migrator.csproj" />
   </ItemGroup>
 
 </Project>

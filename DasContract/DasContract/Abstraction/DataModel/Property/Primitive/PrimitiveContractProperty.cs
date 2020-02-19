@@ -4,8 +4,18 @@ using System.Text;
 
 namespace DasContract.Abstraction.DataModel.Property.Primitive
 {
-    public class PrimitiveContractProperty: ContractProperty<PrimitiveContractPropertyType>
+    public class PrimitiveContractProperty: ContractProperty
     {
-        public override PrimitiveContractPropertyType Type { get; set; }
+        public PrimitiveContractPropertyType Type
+        {
+            get => type;
+            set
+            {
+                if (value != type)
+                    migrator.Notify(() => type, b => type = b);
+                type = value;
+            }
+        }
+        PrimitiveContractPropertyType type;
     }
 }

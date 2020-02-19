@@ -90,7 +90,7 @@ namespace BpmnToSolidity.SolidityConverter
             var seqFlows = new List<SequenceFlow>();
             foreach(var id in sequenceFlowIds)
             {
-                seqFlows.Add(process.SequenceFlows[id]);
+                seqFlows.Add(process.SequenceFlows.Find(e => e.Id == id));
             }
 
             return seqFlows;
@@ -98,8 +98,8 @@ namespace BpmnToSolidity.SolidityConverter
 
         ProcessElement GetSequenceFlowTarget(string seqFlowId)
         {
-            var sequenceFlow = process.SequenceFlows[seqFlowId];
-            return process.ProcessElements[sequenceFlow.TargetId];
+            var sequenceFlow = process.SequenceFlows.Find(e => e.Id == seqFlowId);
+            return process.ProcessElements.Find(e => e.Id == sequenceFlow.TargetId);
         }
         /// <summary>
         /// Finds the start event inside of the process

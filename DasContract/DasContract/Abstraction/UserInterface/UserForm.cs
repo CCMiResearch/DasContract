@@ -12,6 +12,6 @@ namespace DasContract.Abstraction.UserInterface
         /// <summary>
         /// Field of this user form
         /// </summary>
-        public IList<FormField> Fields { get; set; } = new List<FormField>();
+        public List<FormField> Fields { get; set; } = new List<FormField>();
     }
 }

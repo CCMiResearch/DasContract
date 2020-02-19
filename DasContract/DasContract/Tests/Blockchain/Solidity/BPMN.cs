@@ -18,13 +18,13 @@ namespace DasContract.Tests.Blockchain.Solidity
         {
             throw new NotImplementedException();
 
-            string xmlString = File.ReadAllText(@"../../../DasContract.Blockchain.Solidity.Test/testDiagram.bpmn");
+            /*string xmlString = File.ReadAllText(@"../../../DasContract.Blockchain.Solidity.Test/testDiagram.bpmn");
             var contract = ContractFactory.FromBPMN(xmlString);
             var generator = new ProcessConverter(contract);
 
             var code = generator.GenerateSolidity();
 
-            File.WriteAllText(@"./code.txt", code);
+            File.WriteAllText(@"./code.txt", code);*/
         }
     }
 }

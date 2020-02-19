@@ -29,8 +29,8 @@ namespace DasContract.Abstraction.UserInterface
         public bool ReadOnly { get; set; } = true; 
 
         /// <summary>
-        /// An expression binding
+        /// An expression binding (f.e. Entity.Property)
         /// </summary>
-        public Expression<Func<object, object>> PropertyExpression { get; set; }
+        public string PropertyExpression { get; set; }
     }
 }

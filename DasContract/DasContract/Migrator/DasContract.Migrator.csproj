@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bonsai\Utils\Property\Bonsai.Utils.Property.csproj" />
+    <ProjectReference Include="..\Migrator.Interface\DasContract.Migrator.Interface.csproj" />
+  </ItemGroup>
+
+</Project>
