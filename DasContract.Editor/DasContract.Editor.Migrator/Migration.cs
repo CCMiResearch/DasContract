@@ -1,17 +1,17 @@
-﻿using System;
+﻿using DasContract.Editor.Migrator.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
-using DasContract.Migrator.Interface;
 
-namespace DasContract.Migrator
+namespace DasContract.Editor.Migrator
 {
-    public class Migration<TProperty>: IMigration
+    public class Migration<TProperty> : IMigration
     {
         public Expression PropertyExpression { get; set; }
 
         public Func<TProperty> PropertyGetter { get; set; }
-            
+
         public Action<TProperty> PropertySetter { get; set; }
 
         public TProperty LastKnownValue { get; set; }
@@ -30,7 +30,7 @@ namespace DasContract.Migrator
         /// <returns></returns>
         public bool HasValueChanged()
         {
-            if (object.Equals(GetCurrentValue(), LastKnownValue))
+            if (Equals(GetCurrentValue(), LastKnownValue))
                 return false;
             return true;
         }

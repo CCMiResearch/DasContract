@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Editor.Migrator.Interface
+namespace DasContract.Editor.Migrator.Interfaces
 {
     public interface IMigratableComponent<TClass, TMigrator>
         where TMigrator : IMigrator

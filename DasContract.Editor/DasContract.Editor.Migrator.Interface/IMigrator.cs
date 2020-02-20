@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DasContract.Editor.Migrator.Interface
+namespace DasContract.Editor.Migrator.Interfaces
 {
     public interface IMigrator
     {

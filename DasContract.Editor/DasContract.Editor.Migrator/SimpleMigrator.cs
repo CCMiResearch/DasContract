@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Bonsai.Utils.Property;
+using DasContract.Editor.Migrator.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Bonsai.Utils.Property;
-using DasContract.Migrator.Interface;
 
-namespace DasContract.Migrator
+namespace DasContract.Editor.Migrator
 {
     public class SimpleMigrator : IMigrator
     {
@@ -59,12 +59,15 @@ namespace DasContract.Migrator
             if (!Recording)
                 return;
 
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             //Remove all "future" steps
             for (; stepsBack > 0; stepsBack--)
                 migrations.RemoveAt(0);
 
             //Check if the previous migrations edits the same property
-            if (migrations.Count > 0 
+            if (migrations.Count > 0
                 && PropertyAttributeGetter.GetMemberInfo(propertyExpression.Body).HasSameMetadataDefinitionAs(
                     PropertyAttributeGetter.GetMemberInfo(migrations.First().PropertyExpression))
                 )
@@ -82,6 +85,9 @@ namespace DasContract.Migrator
 
         public void Notify<TType>(Expression<Func<TType>> propertyExpression, Action<TType> propertySetter)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             Notify(propertyExpression, propertyExpression.Compile(), propertySetter);
         }
 
@@ -95,6 +101,6 @@ namespace DasContract.Migrator
             Recording = false;
         }
 
-       
+
     }
 }
