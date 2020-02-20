@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Entities", "DasContract.Editor.Entities\DasContract.Editor.Entities.csproj", "{3364BF63-A56C-42BC-8FD6-F15FA8240B95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DasContract", "DasContract", "{BB57D19E-E1D9-418D-86FB-A7083E2B9DFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{F1FDE5DB-3C80-4BBE-9F15-741426EEC3F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrator", "Migrator", "{1899A025-285F-465E-8192-20F3532ED825}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Migrator.Interface", "DasContract.Editor.Migrator.Interface\DasContract.Editor.Migrator.Interface.csproj", "{34DE1F78-0031-41C9-9681-935A3F3539E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3364BF63-A56C-42BC-8FD6-F15FA8240B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3364BF63-A56C-42BC-8FD6-F15FA8240B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3364BF63-A56C-42BC-8FD6-F15FA8240B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3364BF63-A56C-42BC-8FD6-F15FA8240B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34DE1F78-0031-41C9-9681-935A3F3539E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34DE1F78-0031-41C9-9681-935A3F3539E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34DE1F78-0031-41C9-9681-935A3F3539E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34DE1F78-0031-41C9-9681-935A3F3539E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3364BF63-A56C-42BC-8FD6-F15FA8240B95} = {F1FDE5DB-3C80-4BBE-9F15-741426EEC3F6}
+		{F1FDE5DB-3C80-4BBE-9F15-741426EEC3F6} = {BB57D19E-E1D9-418D-86FB-A7083E2B9DFC}
+		{1899A025-285F-465E-8192-20F3532ED825} = {F1FDE5DB-3C80-4BBE-9F15-741426EEC3F6}
+		{34DE1F78-0031-41C9-9681-935A3F3539E8} = {1899A025-285F-465E-8192-20F3532ED825}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22B05CF7-6BDF-43DF-B350-6D3ACB9C7439}
+	EndGlobalSection
+EndGlobal
