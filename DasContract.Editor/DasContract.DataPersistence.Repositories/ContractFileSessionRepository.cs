@@ -19,13 +19,25 @@ namespace DasContract.Editor.DataPersistence.Repositories
             this.context = context;
         }
 
+        public async Task RemoveExpiredSessionsAsync(IEnumerable<ContractFileSession> sessions)
+        {
+            if (sessions == null)
+                throw new ArgumentNullException(nameof(sessions));
+
+            foreach (var item in sessions)
+                if (item.IsExpired())
+                    context.Entry(item).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveIfExpired(ContractFileSession session)
+        {
+            await RemoveExpiredSessionsAsync(new ContractFileSession[] { session });
+        }
+
         public async Task RemoveExpiredSessionsAsync()
         {
-            var items = await context.ContractFileSessions.ToListAsync();
-            foreach (var item in items)
-                if (item.IsExpired())
-                    context.ContractFileSessions.Remove(item);
-            await context.SaveChangesAsync();
+            await RemoveExpiredSessionsAsync(await context.ContractFileSessions.ToListAsync());
         }
 
         public async Task<List<ContractFileSession>> GetAsync()
@@ -36,20 +48,28 @@ namespace DasContract.Editor.DataPersistence.Repositories
 
         public async Task<ContractFileSession> GetAsync(string id)
         {
-            await RemoveExpiredSessionsAsync();
+            var toCheck = await context.ContractFileSessions.FindAsync(id);
+            if (toCheck == null)
+                throw new NotFoundException(nameof(ContractFileSession) + " " + id);
+            else
+                await RemoveIfExpired(toCheck);
+
             var res = await context.ContractFileSessions.FindAsync(id);
             if (res == null)
                 throw new NotFoundException(nameof(ContractFileSession) + " " + id);
+
             return res;
         }
 
-        public async Task AddAsync(ContractFileSession item)
+        public async Task InsertAsync(ContractFileSession item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            await RemoveExpiredSessionsAsync();
-
+            var toCheck = await context.ContractFileSessions.FindAsync(item.Id);
+            if (toCheck != null)
+                await RemoveIfExpired(toCheck);
+            
             var res = await context.ContractFileSessions.FindAsync(item.Id);
             if (res != null)
                 throw new AlreadyExistsException(nameof(ContractFileSession) + " " + item.Id);
@@ -61,7 +81,9 @@ namespace DasContract.Editor.DataPersistence.Repositories
 
         public async Task DeleteAsync(string id)
         {
-            await RemoveExpiredSessionsAsync();
+            var toCheck = await context.ContractFileSessions.FindAsync(id);
+            if (toCheck != null)
+                await RemoveIfExpired(toCheck);
 
             var res = await context.ContractFileSessions.FindAsync(id);
             if (res == null)
@@ -80,13 +102,24 @@ namespace DasContract.Editor.DataPersistence.Repositories
             if (id != item.Id)
                 throw new BadRequestException("Ids do not match");
 
-            await RemoveExpiredSessionsAsync();
-
-            var res = await context.ContractFileSessions.FindAsync(id);
-            if (res == null)
+            var toCheck = await context.ContractFileSessions
+                .AsNoTracking()
+                .Where(e => e.Id == id)
+                .SingleOrDefaultAsync();
+            if (toCheck == null)
                 throw new NotFoundException(nameof(ContractFileSession) + " " + id);
 
-            context.ContractFileSessions.Update(item);
+            if (toCheck.IsExpired())
+            {
+                await RemoveIfExpired(item);
+                throw new NotFoundException(nameof(ContractFileSession) + " " + id);
+            }
+
+            if (toCheck.ExpirationDate != item.ExpirationDate)
+                throw new BadRequestException("Expiration dates do not match");
+
+
+            context.Entry(item).State = EntityState.Modified;
 
             await context.SaveChangesAsync();
         }

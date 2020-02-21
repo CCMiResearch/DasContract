@@ -31,7 +31,7 @@ namespace DasContract.Editor.DataPersistence.Repositories.Interfaces
         /// Creates new instance
         /// </summary>
         /// <param name="item">New item</param>
-        Task AddAsync(TEntity item);
+        Task InsertAsync(TEntity item);
 
         /// <summary>
         /// Deletes an instance

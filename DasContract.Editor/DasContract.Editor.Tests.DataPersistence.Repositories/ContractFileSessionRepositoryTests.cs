@@ -3,6 +3,8 @@ using DasContract.Editor.DataPersistence.Repositories;
 using DasContract.Editor.Tests.DataPersistence.Repositories.ContextFactory;
 using NUnit.Framework;
 using System.Linq;
+using DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions;
+using DasContract.Editor.DataPersistence.Entities;
 
 namespace DasContract.Editor.Tests.DataPersistence.Repositories
 {
@@ -39,184 +41,227 @@ namespace DasContract.Editor.Tests.DataPersistence.Repositories
             Assert.IsTrue(entities.Where(e => e.IsExpired()).Count() == 0);
         }
 
-        /*
+        
         [Test]
         public async Task GetOne()
         {
-            using var provider = new TestControllerProvider();
-            var entity = await provider.OfficeController.Get(1);
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
-            Assert.AreEqual(1, entity.Id);
-            Assert.AreEqual("Test1", entity.Name);
+            var entity = await Facade(contextBuilder).GetAsync("contract-1");
+
+            Assert.NotNull(entity);
+            Assert.AreEqual("contract-1", entity.Id);
+            Assert.AreEqual("serialized-contract-1", entity.SerializedContract);
         }
 
         [Test]
         public async Task GetNotFound()
         {
-            using var provider = new TestControllerProvider();
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
             try
             {
-                var entity = await provider.OfficeController.Get(NotExistingEntityId);
+                var entity = await Facade(contextBuilder).GetAsync("sajdhaslbsdlghasbef");
                 Assert.Fail();
             }
-            catch (NotFound)
+            catch(NotFoundException)
             {
 
             }
+
         }
 
         [Test]
-        public async Task GetEmptyFilter()
+        public async Task GetOne_CheckExpired()
         {
-            using var provider = new TestControllerProvider();
-            var filterEntities = await provider.OfficeController.Get(new OfficeFilter() { });
-            var allEntities = await provider.OfficeController.Get();
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
-            Assert.AreEqual(allEntities.Count(), filterEntities.Entities.Count());
-        }
-
-        [Test]
-        public async Task GetFilter()
-        {
-            using var provider = new TestControllerProvider();
-            var entities = (await provider.OfficeController.Get(new OfficeFilter()
+            try
             {
-                Filters = new List<Expression<Func<Office, bool>>>()
-                {
-                    e => e.Name.StartsWith("Test")
-                },
-                SortProperty = e => e.Name,
-                SortOrder = SortOrder.Descending,
-                From = 1,
-                Count = 2
-            })).Entities;
+                var entity = await Facade(contextBuilder).GetAsync("expired");
+                Assert.Fail();
+            }
+            catch (NotFoundException)
+            {
 
-            Assert.AreEqual(2, entities.Count());
+            }
 
-            Assert.AreEqual("Test2", entities.ElementAt(0).Name);
-            Assert.AreEqual(2, entities.ElementAt(0).Id);
-            Assert.AreEqual("Test1", entities.ElementAt(1).Name);
-            Assert.AreEqual(1, entities.ElementAt(1).Id);
         }
 
         [Test]
         public async Task Insert()
         {
-            using var provider = new TestControllerProvider();
-            var newEntity = new Office()
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            await Facade(contextBuilder).InsertAsync(new ContractFileSession()
             {
-                Name = "NewEntity"
-            };
+                Id = "some-id",
+                SerializedContract = "xyz"
+            });
 
-            await provider.OfficeController.Insert(newEntity);
+            var entity = await Facade(contextBuilder).GetAsync("some-id");
 
-            var entity = await provider.OfficeController.Get(newEntity.Id);
-
-            Assert.AreEqual("NewEntity", entity.Name);
-            Assert.AreEqual(entity.Id, newEntity.Id);
+            Assert.NotNull(entity);
+            Assert.AreEqual("some-id", entity.Id);
+            Assert.AreEqual("xyz", entity.SerializedContract);
         }
 
         [Test]
-        public async Task InsertWithNonDefaultId()
+        public async Task Insert_CheckExpired()
         {
-            using var provider = new TestControllerProvider();
-            var newEntity = new Office()
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            await Facade(contextBuilder).InsertAsync(new ContractFileSession()
             {
-                Id = 1,
-                Name = "NewEntity"
-            };
+                Id = "expired",
+                SerializedContract = "xyz"
+            });
+
+            var entity = await Facade(contextBuilder).GetAsync("expired");
+
+            Assert.NotNull(entity);
+            Assert.AreEqual("expired", entity.Id);
+            Assert.AreEqual("xyz", entity.SerializedContract);
+        }
+
+        [Test]
+        public async Task InsertButExists()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
             try
             {
-                await provider.OfficeController.Insert(newEntity);
+
+                await Facade(contextBuilder).InsertAsync(new ContractFileSession()
+                {
+                    Id = "contract-1",
+                    SerializedContract = "xyz"
+                });
                 Assert.Fail();
             }
-            catch (BadRequest)
-            {
+            catch (AlreadyExistsException) { }
 
-            }
         }
 
         [Test]
         public async Task Delete()
         {
-            using var provider = new TestControllerProvider();
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
-            var entityToDelete = new Office()
-            {
-                Id = 2,
-                Name = "Test2"
-            };
-
-            //Temp
-            try
-            {
-                await provider.OfficeController.Delete(1);
-                await provider.OfficeController.Delete(entityToDelete);
-            }
-            catch (NotImplementedException) { Assert.Pass(); }
-
+            await Facade(contextBuilder).DeleteAsync("contract-1");
 
             try
             {
-                var foo = await provider.OfficeController.Get(1);
-                Assert.Fail();
+                await Facade(contextBuilder).GetAsync("contract-1");
             }
-            catch (NotFound)
-            {
-
-            }
-
-            try
-            {
-                await provider.OfficeController.Get(entityToDelete.Id);
-                Assert.Fail();
-            }
-            catch (NotFound)
-            {
-
-            }
+            catch(NotFoundException) { }
         }
 
         [Test]
         public async Task DeleteNotFound()
         {
-            using var provider = new TestControllerProvider();
-
-            var entityToDelete = new Office()
-            {
-                Id = NotExistingEntityId,
-                Name = "Test2"
-            };
-
-            //Temp
-            try
-            {
-                await provider.OfficeController.Delete(NotExistingEntityId);
-            }
-            catch (NotImplementedException) { Assert.Pass(); }
+            using var contextBuilder = new ContractEditorDbTestBuilder();
 
             try
             {
-                await provider.OfficeController.Delete(NotExistingEntityId);
-                Assert.Fail();
+                await Facade(contextBuilder).DeleteAsync("asasdasdasdasd");
             }
-            catch (NotFound)
-            {
-
-            }
-
-            try
-            {
-                await provider.OfficeController.Delete(entityToDelete);
-                Assert.Fail();
-            }
-            catch (NotFound)
-            {
-
-            }
+            catch (NotFoundException) { }
         }
+
+        [Test]
+        public async Task Delete_CheckExpired()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            try
+            {
+                await Facade(contextBuilder).DeleteAsync("expired");
+            }
+            catch (NotFoundException) { }
+        }
+
+        [Test]
+        public async Task Update()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+            
+            var contract = await Facade(contextBuilder).GetAsync("contract-1");
+
+            contract.SerializedContract = "new-content";
+            await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+
+            contract = await Facade(contextBuilder).GetAsync("contract-1");
+
+            Assert.AreEqual("contract-1", contract.Id);
+            Assert.AreEqual("new-content", contract.SerializedContract);
+        }
+
+
+        [Test]
+        public async Task UpdateNotFound()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            var contract = await Facade(contextBuilder).GetAsync("contract-1");
+            contract.SerializedContract = "new-content";
+            await Facade(contextBuilder).DeleteAsync("contract-1");
+
+            try
+            {
+                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                Assert.Fail();
+            } catch(NotFoundException) { }
+        }
+
+        [Test]
+        public async Task UpdateDifferentIds()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            var contract = await Facade(contextBuilder).GetAsync("contract-1");
+            contract.SerializedContract = "new-content";
+
+            try
+            {
+                await Facade(contextBuilder).UpdateAsync(contract.Id + 1, contract);
+                Assert.Fail();
+            }
+            catch (BadRequestException) { }
+        }
+
+        [Test]
+        public async Task UpdateDifferentExpireDates()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            var contract = await Facade(contextBuilder).GetAsync("contract-1");
+            contract.SerializedContract = "new-content";
+            contract.ExpirationDate = contract.ExpirationDate.AddSeconds(1);
+
+            try
+            {
+                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                Assert.Fail();
+            }
+            catch (BadRequestException) { }
+        }
+
+        [Test]
+        public async Task Update_CheckExpired()
+        {
+            using var contextBuilder = new ContractEditorDbTestBuilder();
+
+            try
+            {
+                var contract = new ContractFileSession() { Id = "expired" };
+                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                Assert.Fail();
+            }
+            catch (NotFoundException) { }
+        }
+
+        /*
 
         [Test]
         public async Task Update()
