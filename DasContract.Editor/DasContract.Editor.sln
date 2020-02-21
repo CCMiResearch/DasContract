@@ -26,9 +26,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bonsai.Tests.Utils.Property", "Bonsai.Tests.Utils.Property\Bonsai.Tests.Utils.Property.csproj", "{D05E16B4-939C-4E45-920F-F8450EAD1134}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E74D3CA3-6B08-43DC-B9F4-57C3083957F8}"
-	ProjectSection(SolutionItems) = preProject
-		tmp.xml = tmp.xml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrator", "Migrator", "{C22987C4-3EB9-45CC-9C62-33B27EB26AF0}"
 EndProject
@@ -39,6 +36,24 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Entities.Serialization.XML", "DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj", "{99F2FD66-B3B2-4C65-BB25-A9157A91E79B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.Entities.Serialization.XML", "DasContract.Editor.Tests.Entities.Serialization.XML\DasContract.Editor.Tests.Entities.Serialization.XML.csproj", "{BAF2B1BF-6F35-4696-91DE-1A1E54D16670}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPersistence", "DataPersistence", "{C917AF3E-4935-4E67-B0B8-948ABD2FEAA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.DataPersistence.Entities", "DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj", "{DAD1764D-5783-40B2-AA73-59866B0F6458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.DataPersistence.Repositories", "DasContract.DataPersistence.Repositories\DasContract.Editor.DataPersistence.Repositories.csproj", "{37C25826-44B4-41EE-8FBA-34178382413A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.DataPersistence.Repositories.Interfaces", "DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj", "{60D5C190-C55F-4F36-8ADE-29B842C62633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.DataPersistence.DbContexts", "DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj", "{8B7E5E02-E6AB-493A-B064-C7E89F93B83A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPersistence", "DataPersistence", "{5211F62C-0D50-4952-936A-689B348D9DA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.DataPersistence.Repositories", "DasContract.Editor.Tests.DataPersistence.Repositories\DasContract.Editor.Tests.DataPersistence.Repositories.csproj", "{79AA5539-547D-419B-8C06-005CF5AED297}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{BEBD47BF-980B-4E08-80C1-0F57FD1BD060}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{7653BAA9-2646-4AC7-B466-763383BDB98F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +97,26 @@ Global
 		{BAF2B1BF-6F35-4696-91DE-1A1E54D16670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF2B1BF-6F35-4696-91DE-1A1E54D16670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAF2B1BF-6F35-4696-91DE-1A1E54D16670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD1764D-5783-40B2-AA73-59866B0F6458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD1764D-5783-40B2-AA73-59866B0F6458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD1764D-5783-40B2-AA73-59866B0F6458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD1764D-5783-40B2-AA73-59866B0F6458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C25826-44B4-41EE-8FBA-34178382413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C25826-44B4-41EE-8FBA-34178382413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C25826-44B4-41EE-8FBA-34178382413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C25826-44B4-41EE-8FBA-34178382413A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60D5C190-C55F-4F36-8ADE-29B842C62633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60D5C190-C55F-4F36-8ADE-29B842C62633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60D5C190-C55F-4F36-8ADE-29B842C62633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60D5C190-C55F-4F36-8ADE-29B842C62633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7E5E02-E6AB-493A-B064-C7E89F93B83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7E5E02-E6AB-493A-B064-C7E89F93B83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7E5E02-E6AB-493A-B064-C7E89F93B83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7E5E02-E6AB-493A-B064-C7E89F93B83A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79AA5539-547D-419B-8C06-005CF5AED297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79AA5539-547D-419B-8C06-005CF5AED297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79AA5539-547D-419B-8C06-005CF5AED297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79AA5539-547D-419B-8C06-005CF5AED297}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +137,15 @@ Global
 		{122D051F-E698-4869-AE27-1B026FAB0B5B} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
 		{99F2FD66-B3B2-4C65-BB25-A9157A91E79B} = {BB57D19E-E1D9-418D-86FB-A7083E2B9DFC}
 		{BAF2B1BF-6F35-4696-91DE-1A1E54D16670} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
+		{C917AF3E-4935-4E67-B0B8-948ABD2FEAA0} = {BB57D19E-E1D9-418D-86FB-A7083E2B9DFC}
+		{DAD1764D-5783-40B2-AA73-59866B0F6458} = {C917AF3E-4935-4E67-B0B8-948ABD2FEAA0}
+		{37C25826-44B4-41EE-8FBA-34178382413A} = {7653BAA9-2646-4AC7-B466-763383BDB98F}
+		{60D5C190-C55F-4F36-8ADE-29B842C62633} = {7653BAA9-2646-4AC7-B466-763383BDB98F}
+		{8B7E5E02-E6AB-493A-B064-C7E89F93B83A} = {C917AF3E-4935-4E67-B0B8-948ABD2FEAA0}
+		{5211F62C-0D50-4952-936A-689B348D9DA7} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
+		{79AA5539-547D-419B-8C06-005CF5AED297} = {BEBD47BF-980B-4E08-80C1-0F57FD1BD060}
+		{BEBD47BF-980B-4E08-80C1-0F57FD1BD060} = {5211F62C-0D50-4952-936A-689B348D9DA7}
+		{7653BAA9-2646-4AC7-B466-763383BDB98F} = {C917AF3E-4935-4E67-B0B8-948ABD2FEAA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22B05CF7-6BDF-43DF-B350-6D3ACB9C7439}
