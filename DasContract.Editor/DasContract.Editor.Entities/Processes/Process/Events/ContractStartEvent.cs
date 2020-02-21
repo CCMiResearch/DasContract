@@ -11,7 +11,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Events
     {
         public ContractForm StartForm
         {
-            get => startForm.WithMigrator(Migrator);
+            get => startForm?.WithMigrator(Migrator);
             set
             {
                 if (value != startForm)
@@ -19,7 +19,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Events
                 startForm = value;
             }
         }
-        ContractForm startForm;
+        ContractForm startForm = new ContractForm();
 
         public void CopyDataFrom(ContractStartEvent source)
         {

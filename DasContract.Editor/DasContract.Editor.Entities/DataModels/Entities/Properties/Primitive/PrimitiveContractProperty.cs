@@ -1,5 +1,4 @@
-﻿using DasContract.Abstraction.DataModel.Properties.Primitive;
-using DasContract.Editor.Entities.DataModels.Entities.Properties;
+﻿using DasContract.Editor.Entities.DataModels.Entities.Properties;
 using System;
 using System.Collections.Generic;
 using System.Text;

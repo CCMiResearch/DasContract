@@ -30,7 +30,7 @@ namespace DasContract.Editor.Entities
         /// </summary>
         public ContractProcesses Processes
         {
-            get => processes.WithMigrator(migrator);
+            get => processes?.WithMigrator(migrator);
             set
             {
                 if (value != processes)
@@ -45,7 +45,7 @@ namespace DasContract.Editor.Entities
         /// </summary>
         public ContractDataModel DataModel
         {
-            get => dataModel.WithMigrator(migrator);
+            get => dataModel?.WithMigrator(migrator);
             set
             {
                 if (value != dataModel)

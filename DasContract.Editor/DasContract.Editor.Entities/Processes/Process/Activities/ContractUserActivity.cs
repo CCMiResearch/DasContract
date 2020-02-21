@@ -11,7 +11,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
     {
         public ContractForm Form
         {
-            get => form.WithMigrator(Migrator);
+            get => form?.WithMigrator(Migrator);
             set
             {
                 if (value != form)

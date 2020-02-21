@@ -13,7 +13,7 @@ namespace DasContract.Editor.Entities.Forms
         [XmlIgnore]
         public ContractProperty Property
         {
-            get => property.WithMigrator(migrator);
+            get => property?.WithMigrator(migrator);
             set
             {
                 property = value;

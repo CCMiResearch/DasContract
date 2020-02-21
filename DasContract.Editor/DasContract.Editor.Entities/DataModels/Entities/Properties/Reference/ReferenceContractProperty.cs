@@ -15,7 +15,7 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
         [XmlIgnore]
         public ContractEntity Entity
         {
-            get => entity.WithMigrator(migrator);
+            get => entity?.WithMigrator(migrator);
             set
             {
                 if (value != entity)
@@ -24,6 +24,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
 
                 if (value != null)
                     EntityId = value.Id;
+                else
+                    EntityId = null;
             }
         }
         ContractEntity entity;

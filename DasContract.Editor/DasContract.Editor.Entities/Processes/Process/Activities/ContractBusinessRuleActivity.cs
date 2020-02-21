@@ -12,7 +12,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
         /// </summary>
         public DMNProcessDiagram Diagram
         {
-            get => diagram.WithMigrator(Migrator);
+            get => diagram?.WithMigrator(Migrator);
             set
             {
                 if (value != diagram)

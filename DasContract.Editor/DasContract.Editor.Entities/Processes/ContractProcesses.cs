@@ -21,7 +21,7 @@ namespace DasContract.Editor.Entities.Processes
         /// </summary>
         public BPMNProcessDiagram Diagram
         {
-            get => diagram.WithMigrator(migrator);
+            get => diagram?.WithMigrator(migrator);
             set
             {
                 if (value != diagram)

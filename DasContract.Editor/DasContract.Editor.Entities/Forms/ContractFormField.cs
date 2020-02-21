@@ -72,7 +72,7 @@ namespace DasContract.Editor.Entities.Forms
         /// </summary>
         public ContractPropertyBinding PropertyBinding
         {
-            get => propertyBinding.WithMigrator(migrator);
+            get => propertyBinding?.WithMigrator(migrator);
             set
             {
                 if (propertyBinding != value)

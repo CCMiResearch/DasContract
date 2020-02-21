@@ -1,18 +1,18 @@
-﻿namespace DasContract.Abstraction.DataModel.Properties.Primitive
+﻿namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive
 {
     public enum PrimitiveContractPropertyType
     {
-        Number, 
+        Number,
         NumberCollection,
-        UnsignedNumber, 
+        UnsignedNumber,
         UnsignedCollection,
-        Bool, 
+        Bool,
         BoolCollection,
-        Text, 
+        Text,
         TextCollection,
-        DateTime, 
+        DateTime,
         DateTimeCollection,
-        Address, 
+        Address,
         AddressCollection,
         AddressPayable,
         AddressPayableCollection,
