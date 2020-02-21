@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using DasContract.Editor.Entities.Exceptions;
+using DasContract.Editor.Entities.Interfaces;
 using DasContract.Editor.Entities.Processes.Diagrams;
+using DasContract.Editor.Entities.Processes.Factories;
 using DasContract.Editor.Entities.Processes.Process;
+using DasContract.Editor.Entities.Processes.Process.Activities;
 using DasContract.Editor.Migrator;
 using DasContract.Editor.Migrator.Interfaces;
 
@@ -24,59 +28,55 @@ namespace DasContract.Editor.Entities.Processes
                     migrator.Notify(() => diagram, d => diagram = d);
                 diagram = value;
 
-                throw new NotImplementedException();
-                /*var processes = ProcessFactory.FromBPMN(value);
+                if (value == null)
+                    return;
+
+                var processes = ProcessFactory.FromXML(value.DiagramXML);
                 if (processes.Count() != 1)
                     throw new InvalidProcessCountException("The diagram must contain exactly one process");
 
-                UpdateMainProcess(processes.First());*/
+                UpdateMainProcess(processes.First());
             }
         }
         BPMNProcessDiagram diagram;
 
+        /// <summary>
+        /// Updates the main process and copies custom data from the old one
+        /// </summary>
+        /// <param name="value">The new main process</param>
         public void UpdateMainProcess(ContractProcess value)
         {
-            throw new NotImplementedException();
-            /*if (value == null)
-            {
-                Main = null;
-                return;
-            }
-
-            if (Main == null)
-            {
-                Main = value;
-                return;
-            }
-
-            if (value == Main)
-                return;
-
             var oldProcess = Main;
             var newProcess = value;
+            Main = newProcess;
 
-            foreach (var item in oldProcess.ScriptActivities)
+            if (newProcess == null || oldProcess == null)
+                return;
+
+            //Update activities
+            UpdateMainProcessActivities(oldProcess.ScriptActivities, newProcess.ScriptActivities);
+            UpdateMainProcessActivities(oldProcess.BusinessActivities, newProcess.BusinessActivities);
+            UpdateMainProcessActivities(oldProcess.UserActivities, newProcess.UserActivities);
+
+            //Update start event
+            newProcess.StartEvent.CopyDataFrom(oldProcess.StartEvent);
+        }
+
+        /// <summary>
+        /// Updates ienumerable of new activities with custom data from the old activities
+        /// </summary>
+        /// <typeparam name="TActivity"></typeparam>
+        /// <param name="oldActivities"></param>
+        /// <param name="newActivities"></param>
+        void UpdateMainProcessActivities<TActivity>(IEnumerable<TActivity> oldActivities, IEnumerable<TActivity> newActivities)
+            where TActivity : ContractActivity, IDataCopyable<TActivity>
+        {
+            foreach (var item in oldActivities)
             {
-                var res = newProcess.ScriptActivities.Where(e => e.Id == item.Id).SingleOrDefault();
+                var res = newActivities.Where(e => e.Id == item.Id).SingleOrDefault();
                 if (res != null)
-                    res.CopyCustomDataFrom(item);
+                    res.CopyDataFrom(item);
             }
-
-            foreach (var item in oldProcess.BusinessActivities)
-            {
-                var res = newProcess.BusinessActivities.Where(e => e.Id == item.Id).SingleOrDefault();
-                if (res != null)
-                    res.CopyCustomDataFrom(item);
-            }
-
-            foreach (var item in oldProcess.UserActivities)
-            {
-                var res = newProcess.UserActivities.Where(e => e.Id == item.Id).SingleOrDefault();
-                if (res != null)
-                    res.CopyCustomDataFrom(item);
-            }
-
-            Main = newProcess;*/
         }
 
         /// <summary>

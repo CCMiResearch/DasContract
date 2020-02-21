@@ -23,6 +23,15 @@ namespace DasContract.Editor.Entities.Processes.Diagrams
         }
         string diagramXML;
 
+
+        public static BPMNProcessDiagram FromXml(string diagramXml)
+        {
+            return new BPMNProcessDiagram()
+            {
+                DiagramXML = diagramXml
+            };
+        }
+
         //--------------------------------------------------
         //                  MIGRATOR
         //--------------------------------------------------
