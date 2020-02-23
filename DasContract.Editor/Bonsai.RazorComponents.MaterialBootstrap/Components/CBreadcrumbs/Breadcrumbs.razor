@@ -1,0 +1,30 @@
+﻿@inherits RootComponent
+
+<nav class="my-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+
+        @{ 
+            int i = 0;
+        }
+        @foreach (var crumb in Trail)
+        {
+            //The last one
+            if (i == Trail.Count() - 1)
+            {
+                <li class="breadcrumb-item active">@crumb.Name</li>
+            }
+
+            //Regular one
+            else
+            {
+                <li class="breadcrumb-item"><NavLink href="@crumb.Url">@crumb.Name</NavLink></li>
+            }
+
+            i++;
+        }
+    </ol>
+</nav>
+
+<CascadingValue Value="@BreadcrumbsRender" Name="@CascadingParameterName">
+    @ChildContent
+</CascadingValue>

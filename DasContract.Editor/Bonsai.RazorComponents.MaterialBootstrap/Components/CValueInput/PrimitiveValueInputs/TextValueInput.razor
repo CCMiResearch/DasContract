@@ -1,0 +1,28 @@
+﻿@inherits ValueInput<string>
+
+<div class="form-group">
+
+    <!--LOADING-->
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <!--LABEL-->
+    <ValueInputLabel For="@Id" Required="@Required" Class="@(ReadOnly ? "bmd-label-static" : "bmd-label-floating")">@Label</ValueInputLabel>
+
+    <!--INPUT-->
+    @if (ReadOnly)
+    {
+        <input type="text" class="form-control" id="@Id" value="@Value" readonly />
+    }
+    else
+    {
+        <input type="text" class="form-control @InputStateClass" 
+               name="@Name" id="@Id" 
+               value="@Value" @oninput="@ChangeValueAsync" />
+    }
+
+    <!--DESCRIPTION-->
+    <ValueInputDescription>@Description</ValueInputDescription>
+
+    <!--VALIDATION-->
+    <ValueInputValidationMessage For="@PropertyExpression" />
+</div>

@@ -1,0 +1,54 @@
+﻿@page "/breadcrumbs"
+
+@code { 
+
+    Breadcrumbs breadcrumbs1 { get; set; }
+    Breadcrumbs breadcrumbs2 { get; set; }
+    Breadcrumbs breadcrumbs3 { get; set; }
+    Breadcrumbs breadcrumbs4 { get; set; }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            breadcrumbs1.BreadcrumbsRender
+                .AddHome()
+                .Finish();
+
+            breadcrumbs2.BreadcrumbsRender
+                .AddHome()
+                .AddLastCrumb("Crumb 1");
+
+            breadcrumbs3.BreadcrumbsRender
+                .AddHome()
+                .AddCrumb("Crumb 1", "#")
+                .AddLastCrumb("Crumb 2");
+
+            breadcrumbs4.BreadcrumbsRender
+                .AddHome()
+                .AddCrumb("Crumb 1", "#")
+                .AddCrumb("Crumb 2", "#")
+                .AddLastCrumb("Crumb 3");
+        }
+    }
+
+
+}
+
+<Breadcrumbs @ref="breadcrumbs1">
+    <p>This is content</p>
+</Breadcrumbs>
+
+<Breadcrumbs @ref="breadcrumbs2">
+    <p>This is content</p>
+</Breadcrumbs>
+
+<Breadcrumbs @ref="breadcrumbs3">
+    <p>This is content</p>
+</Breadcrumbs>
+
+<Breadcrumbs @ref="breadcrumbs4">
+    <p>This is content</p>
+</Breadcrumbs>

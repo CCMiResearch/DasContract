@@ -1,0 +1,259 @@
+﻿@page "/table"
+
+@code {
+    public bool Loading { get; set; } = false;
+}
+
+<h1>Table Test</h1>
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<h2>Basic table</h2>
+
+<div class="my-3">
+    <Table Loading="@Loading">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">2</TableHeadCell>
+                <TableCell>Rebecca</TableCell>
+                <TableCell>20</TableCell>
+                <TableCell>2 big books</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">3</TableHeadCell>
+                <TableCell>Jessica</TableCell>
+                <TableCell>60</TableCell>
+                <TableCell>Average times two</TableCell>
+            </TableRow>
+        </TableBody>
+        <TableFoot>
+            Footer here!
+        </TableFoot>
+        <TableCaption>List of people with strange heights</TableCaption>
+    </Table>
+</div>
+
+<h2>Schemes</h2>
+
+<div class="my-3">
+    <Table Scheme="TableScheme.Dark" Loading="@Loading">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">2</TableHeadCell>
+                <TableCell>Rebecca</TableCell>
+                <TableCell>20</TableCell>
+                <TableCell>2 big books</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">3</TableHeadCell>
+                <TableCell>Jessica</TableCell>
+                <TableCell>60</TableCell>
+                <TableCell>Average times two</TableCell>
+            </TableRow>
+        </TableBody>
+        <TableFoot>
+            Footer here!
+        </TableFoot>
+        <TableCaption>List of people with strange heights</TableCaption>
+    </Table>
+</div>
+
+<div class="my-3">
+    <Table Loading="@Loading">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow Scheme="TableRowScheme.Primary">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Secondary">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Warning">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Danger">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Active">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Primary">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Dark">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Info">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow Scheme="TableRowScheme.Light">
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+</div>
+
+<div class="my-3">
+    <Table Loading="@Loading" HeadScheme="TableHeadScheme.Dark" Borders="TableBorder.None" HoverableRows="true">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableHeadCell Scheme="TableCellScheme.Primary" Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell Scheme="TableCellScheme.Secondary">Tonda</TableCell>
+                <TableCell Scheme="TableCellScheme.Active">44</TableCell>
+                <TableCell Scheme="TableCellScheme.Danger">24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scheme="TableCellScheme.Dark" Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell Scheme="TableCellScheme.Default">Tonda</TableCell>
+                <TableCell Scheme="TableCellScheme.Info">44</TableCell>
+                <TableCell Scheme="TableCellScheme.Light">24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scheme="TableCellScheme.Success" Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell Scheme="TableCellScheme.Warning">Tonda</TableCell>
+                <TableCell Scheme="TableCellScheme.Primary">44</TableCell>
+                <TableCell Scheme="TableCellScheme.Primary">24 bananas</TableCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+</div>
+
+
+<div class="my-3">
+    <Table Loading="@Loading" HeadScheme="TableHeadScheme.Light" Borders="TableBorder.Cells">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">2</TableHeadCell>
+                <TableCell>Rebecca</TableCell>
+                <TableCell>20</TableCell>
+                <TableCell>2 big books</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">3</TableHeadCell>
+                <TableCell>Jessica</TableCell>
+                <TableCell>60</TableCell>
+                <TableCell>Average times two</TableCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+</div>
+
+<div class="my-3">
+    <Table Stripes="TableStripe.Even" Loading="@Loading">
+        <TableHead>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Column">#</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Name</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Age</TableHeadCell>
+                <TableHeadCell Scope="TableCellScope.Column">Height</TableHeadCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">1</TableHeadCell>
+                <TableCell>Tonda</TableCell>
+                <TableCell>44</TableCell>
+                <TableCell>24 bananas</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">2</TableHeadCell>
+                <TableCell>Rebecca</TableCell>
+                <TableCell>20</TableCell>
+                <TableCell>2 big books</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableHeadCell Scope="TableCellScope.Row">3</TableHeadCell>
+                <TableCell>Jessica</TableCell>
+                <TableCell>60</TableCell>
+                <TableCell>Average times two</TableCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+</div>

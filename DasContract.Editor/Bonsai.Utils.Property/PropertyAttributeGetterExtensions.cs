@@ -20,23 +20,29 @@ namespace Bonsai.Utils.Property
         /// <summary>
         /// Gets property Name in string
         /// </summary>
-        /// <typeparam name="C">Type of the class</typeparam>
-        /// <typeparam name="P">Type of the property</typeparam>
+        /// <typeparam name="TClass">Type of the class</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (user => user.name))</param>
         /// <returns>Property "in-code" name</returns>
-        public static string GetPropertyName<C, P>(this Expression<Func<C, P>> propertyExpression)
+        public static string GetPropertyName<TClass, TProperty>(this Expression<Func<TClass, TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractName(GetMemberInfo(propertyExpression.Body));
         }
 
         /// <summary>
         /// Gets property Name in string
         /// </summary>
-        /// <typeparam name="C">Type of the property</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (() => user.name))</param>
         /// <returns>Property "in-code" name</returns>
-        public static string GetPropertyName<C>(this Expression<Func<C>> propertyExpression)
+        public static string GetPropertyName<TProperty>(this Expression<Func<TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractName(GetMemberInfo(propertyExpression.Body));
         }
 
@@ -58,23 +64,29 @@ namespace Bonsai.Utils.Property
         /// <summary>
         /// Gets DisplayName or Display attribute in string
         /// </summary>
-        /// <typeparam name="C">Type of the class</typeparam>
-        /// <typeparam name="P">Type of the property</typeparam>
+        /// <typeparam name="TClass">Type of the class</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (user => user.name))</param>
         /// <returns>DisplayName or Display attribut value, else property "in-code" name</returns>
-        public static string GetDisplayName<C, P>(this Expression<Func<C, P>> propertyExpression)
+        public static string GetDisplayName<TClass, TProperty>(this Expression<Func<TClass, TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractDisplayName(GetMemberInfo(propertyExpression.Body));
         }
 
         /// <summary>
         /// Gets DisplayName or Display attribute in string
         /// </summary>
-        /// <typeparam name="C">Type of the property</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (() => user.name))</param>
         /// <returns>DisplayName or Display attribut value, else property "in-code" name</returns>
-        public static string GetDisplayName<C>(this Expression<Func<C>> propertyExpression)
+        public static string GetDisplayName<TProperty>(this Expression<Func<TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractDisplayName(GetMemberInfo(propertyExpression.Body));
         }
 
@@ -111,23 +123,29 @@ namespace Bonsai.Utils.Property
         /// <summary>
         /// Gets Desctription attribute in string
         /// </summary>
-        /// <typeparam name="C">Type of the class</typeparam>
-        /// <typeparam name="P">Type of the property</typeparam>
+        /// <typeparam name="TClass">Type of the class</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (user => user.name))</param>
         /// <returns>Desctription attribut value, else empty string</returns>
-        public static string GetDescription<C, P>(this Expression<Func<C, P>> propertyExpression)
+        public static string GetDescription<TClass, TProperty>(this Expression<Func<TClass, TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractDescription(GetMemberInfo(propertyExpression.Body));
         }
 
         /// <summary>
         /// Gets Desctription attribute in string
         /// </summary>
-        /// <typeparam name="C">Type of the property</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (() => user.name))</param>
         /// <returns>Desctription attribut value, else empty string</returns>
-        public static string GetDescription<C>(this Expression<Func<C>> propertyExpression)
+        public static string GetDescription<TProperty>(this Expression<Func<TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractDescription(GetMemberInfo(propertyExpression.Body));
         }
 
@@ -153,23 +171,29 @@ namespace Bonsai.Utils.Property
         /// <summary>
         /// Tells if a property has required attribute
         /// </summary>
-        /// <typeparam name="C">Type of the class</typeparam>
-        /// /// <typeparam name="C">Type of the property</typeparam>
+        /// <typeparam name="TClass">Type of the class</typeparam>
+        /// /// <typeparam name="TClass">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (user => user.name))</param>
         /// <returns>True if the property has Required attribute, else false</returns>
-        public static bool HasRequiredAttribute<C, P>(this Expression<Func<C, P>> propertyExpression)
+        public static bool HasRequiredAttribute<TClass, TProperty>(this Expression<Func<TClass, TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractRequired(GetMemberInfo(propertyExpression.Body));
         }
 
         /// <summary>
         /// Tells if a property has required attribute
         /// </summary>
-        /// <typeparam name="C">Type of the property</typeparam>
+        /// <typeparam name="TProperty">Type of the property</typeparam>
         /// <param name="propertyExpression">Property expression (f.e. (() => user.name))</param>
         /// <returns>True if the property has Required attribute, else false</returns>
-        public static bool HasRequiredAttribute<C>(this Expression<Func<C>> propertyExpression)
+        public static bool HasRequiredAttribute<TProperty>(this Expression<Func<TProperty>> propertyExpression)
         {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
             return ExtractRequired(GetMemberInfo(propertyExpression.Body));
         }
 
@@ -222,6 +246,9 @@ namespace Bonsai.Utils.Property
         public static T GetAttribute<T>(this MemberInfo member)
             where T : Attribute
         {
+            if (member == null)
+                throw new ArgumentNullException(nameof(member));
+
             var attribute = member.GetCustomAttributes(typeof(T), false).SingleOrDefault();
 
             if (attribute == null)

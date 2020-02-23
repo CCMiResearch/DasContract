@@ -1,0 +1,35 @@
+﻿@page "/progressbar"
+
+@code {
+    int Percent { get; set; } = 0;
+}
+
+<h1>Progress bar</h1>
+
+<div class="my-5">
+    <p>Percent: </p>
+    <input type="number" value="@Percent" @onchange="@((ChangeEventArgs e) => { Percent = int.Parse(e.Value.ToString()); })" />
+    <ButtonInput OnClick="@(() => { StateHasChanged(); })">State has changed</ButtonInput>
+</div>
+
+<div class="my-5">
+    <ProgressBar Minimum="0" Maximum="500" Current="@(Percent * 5)" />
+    <ProgressBar Percentage="@Percent" />
+</div>
+
+<div class="my-5">
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Primary" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Secondary" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Danger" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Warning" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Info" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Success" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Dark" />
+    <ProgressBar Percentage="@Percent" Scheme="ProgressBarScheme.Light" />
+</div>
+
+<div class="my-5">
+    <ProgressBar Percentage="@Percent" Thickness="ProgressBarThickness.Normal" />
+    <ProgressBar Percentage="@Percent" Thickness="ProgressBarThickness.Thick" />
+    <ProgressBar Percentage="@Percent" Thickness="ProgressBarThickness.Thin" />
+</div>

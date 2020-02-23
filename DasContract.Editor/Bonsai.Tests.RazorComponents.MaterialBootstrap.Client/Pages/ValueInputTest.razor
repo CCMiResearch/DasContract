@@ -1,0 +1,285 @@
+﻿@page "/valueinput"
+@inject IFileReaderService fileReaderService
+
+@code {
+    public bool Loading { get; set; } = false;
+    public bool ReadOnly { get; set; } = false;
+
+    class ValueInputTestFoo
+    {
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        [MaxLength(10, ErrorMessage = "Cant be longer than {1} characters")]
+        public string FooString { get; set; } = "Foo";
+
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        public int FooInt { get; set; }
+
+        [DisplayName("Nullable number")]
+        public int? FooIntNull { get; set; } = null;
+
+        [DisplayName("Nullable number2")]
+        public int? FooIntNull2 { get; set; } = null;
+
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        public bool FooBool { get; set; } = true;
+
+        public bool? FooBoolNull { get; set; } = null;
+
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        public ValueInputEnum FooEnum { get; set; }
+
+        public ValueInputEnum? FooEnumNull { get; set; } = null;
+
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        public DateTime FooDate { get; set; }
+
+        [DisplayName("Nullable date")]
+        [Description("This is description")]
+        public DateTime? FooDateNull { get; set; }
+    }
+
+    ValueInputTestFoo Model { get; set; } = new ValueInputTestFoo();
+
+    enum ValueInputEnum
+    {
+        [Display(Name = "Option 1")]
+        Foo1,
+        Foo2
+    }
+
+    ValueInputTestFooInner ModelInner { get; set; } = new ValueInputTestFooInner();
+    class ValueInputTestFooInner
+    {
+        [DisplayName("This is foo")]
+        [Description("This is description")]
+        [Required(ErrorMessage = "Must be filled")]
+        public int FooInt { get; set; }
+    }
+
+    TextValueInput TextValueInput1
+    {
+        get
+        {
+            return textValueInput1;
+        }
+        set
+        {
+            textValueInput1 = value;
+            StateHasChanged();
+        }
+    }
+    TextValueInput textValueInput1 = null;
+
+}
+
+
+<h1>ValueInput Test</h1>
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<div class="my-5">
+    <input type="button" value="ReadOnly: true" @onclick="@(e => { ReadOnly = true; })" />
+    <input type="button" value="ReadOnly: false" @onclick="@(e => { ReadOnly = false; })" />
+</div>
+
+<h2>Binding</h2>
+
+<EditForm Model="Model">
+    <EditContextCascator>
+        <DataAnnotationsValidator />
+
+        <p>Binding <strong>on</strong></p>
+        <TextValueInput @ref="@TextValueInput1"
+                        Id="Foosdoifnspdf"
+                        Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooString)"
+                        @bind-Value="@Model.FooString" />
+        <p>Class: @(TextValueInput1 == null ? "'Not loaded'" : TextValueInput1.InputStateClass)</p>
+
+
+        <p>Binding <strong>off</strong></p>
+        <TextValueInput Id="Foosdoifnspdfxxxxx"
+                        Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooString)" />
+
+        <p>Value: @Model.FooString</p>
+
+
+        <ButtonInput OnClick="@(() => { StateHasChanged(); })">State Has Changed</ButtonInput>
+    </EditContextCascator>
+</EditForm>
+
+<h2>Inputs</h2>
+<EditForm Model="Model">
+    <EditContextCascator>
+        <DataAnnotationsValidator />
+
+        <TextValueInput Id="FoosdoifnspdfZZZ"
+                        Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooString)"
+                        @bind-Value="@Model.FooString" />
+        <p>Text: @Model.FooString</p>
+
+        <NumberValueInput Loading="@Loading"
+                          ReadOnly="@ReadOnly"
+                          PropertyExpression="@(() => Model.FooInt)"
+                          @bind-Value="@Model.FooInt" />
+        <p>Number: @Model.FooInt</p>
+
+        @*<NullableNumberValueInput Loading="@Loading"
+                                      ReadOnly="@ReadOnly"
+                                      PropertyExpression="@(() => Model.FooIntNull)"
+                                      @bind-Value="@Model.FooIntNull" />
+            <p>Number?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
+
+        @*<NullableNumberValueInput Loading="@Loading"
+                                      ReadOnly="@ReadOnly"
+                                      PropertyExpression="@(() => Model.FooIntNull2)"
+                                      @bind-Value="@Model.FooIntNull2" />
+            <p>Number2?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
+
+        <EnumValueInput Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooEnum)"
+                        @bind-Value="@Model.FooEnum" />
+        <p>Enum: @Model.FooEnum.ToString()</p>
+
+        @*<NullableEnumValueInput Loading="@Loading"
+                                    ReadOnly="@ReadOnly"
+                                    PropertyExpression="@(() => Model.FooEnumNull)"
+                                    @bind-Value="@Model.FooEnumNull"
+                                    EnumType="typeof(ValueInputEnum)" />
+            <p>Enum?: @(Model.FooEnumNull == null ? "null" : Model.FooEnum.ToString())</p>*@
+
+
+        <BooleanValueInput Loading="@Loading"
+                           ReadOnly="@ReadOnly"
+                           PropertyExpression="@(() => Model.FooBool)"
+                           @bind-Value="@Model.FooBool" />
+        <p>Bool: @Model.FooBool</p>
+
+        @*<NullableBooleanValueInput Loading="@Loading"
+                                       ReadOnly="@ReadOnly"
+                                       PropertyExpression="@(() => Model.FooBoolNull)"
+                                       @bind-Value="@Model.FooBoolNull" />
+            <p>Bool?: @(Model.FooBoolNull == null ? "null" : ((bool)Model.FooBoolNull).ToString())</p>*@
+
+        <BooleanValueInput Loading="@Loading"
+                           ReadOnly="@ReadOnly"
+                           PropertyExpression="@(() => Model.FooBool)"
+                           Id="@(Guid.NewGuid().ToString())" />
+        <p>Bool [no bind]: @Model.FooBool</p>
+
+
+        <DateValueInput Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooDate)"
+                        @bind-Value="@Model.FooDate" />
+        <p>Date: @Model.FooDate.ToString()</p>
+
+        @*<NullableDateValueInput Loading="@Loading"
+                                    ReadOnly="@ReadOnly"
+                                    PropertyExpression="@(() => Model.FooDateNull)"
+                                    @bind-Value="@Model.FooDateNull" />
+            <p>Date?: @(Model.FooDateNull == null ? "null" : Model.FooDateNull.ToString())</p>*@
+
+        <ButtonInput OnClick="@(() => { StateHasChanged(); })">State Has Changed</ButtonInput>
+    </EditContextCascator>
+</EditForm>
+
+
+<h1>Example form</h1>
+<EditForm Model="@Model">
+    <EditContextCascator>
+        <DataAnnotationsValidator />
+
+        <IndexedList Context="someContext">
+            <IndexedListItem Title="Group 1">
+                <ValueInputRow>
+                    <ValueInputCol>
+                        <TextValueInput Id="FoosdoisdffnspdfZZZ"
+                                        Loading="@Loading"
+                                        ReadOnly="@ReadOnly"
+                                        PropertyExpression="@(() => Model.FooString)"
+                                        @bind-Value="@Model.FooString" />
+                    </ValueInputCol>
+                    <ValueInputCol>
+                        <NumberValueInput Id="1354sda3sd43as54d"
+                                          Loading="@Loading"
+                                          ReadOnly="@ReadOnly"
+                                          PropertyExpression="@(() => Model.FooInt)"
+                                          @bind-Value="@Model.FooInt" />
+                    </ValueInputCol>
+                </ValueInputRow>
+
+                <ValueInputRow>
+                    <ValueInputCol>
+                        <TextValueInput Id="FoosdfgdfgdoisdffnspdfZZZ"
+                                        Loading="@Loading"
+                                        ReadOnly="@ReadOnly"
+                                        PropertyExpression="@(() => Model.FooString)"
+                                        @bind-Value="@Model.FooString" />
+                    </ValueInputCol>
+                    <ValueInputCol>
+                        <NumberValueInput Id="1354sdfgda3sd43as54d"
+                                          Loading="@Loading"
+                                          ReadOnly="@ReadOnly"
+                                          PropertyExpression="@(() => Model.FooInt)"
+                                          @bind-Value="@Model.FooInt" />
+                    </ValueInputCol>
+
+                    <ValueInputCol>
+                        <NumberValueInput Id="1354sda3sdkkk43as54d"
+                                          Loading="@Loading"
+                                          ReadOnly="@ReadOnly"
+                                          PropertyExpression="@(() => Model.FooInt)"
+                                          @bind-Value="@Model.FooInt" />
+                    </ValueInputCol>
+                </ValueInputRow>
+            </IndexedListItem>
+
+            <IndexedListItem Title="Group 2">
+                <TextValueInput Id="FoosdosddsfisdffnspdfZZZ"
+                                Loading="@Loading"
+                                ReadOnly="@ReadOnly"
+                                PropertyExpression="@(() => Model.FooString)"
+                                @bind-Value="@Model.FooString" />
+
+                <EnumValueInput Id="asjnsdkfn"
+                                Loading="@Loading"
+                                ReadOnly="@ReadOnly"
+                                PropertyExpression="@(() => Model.FooEnum)"
+                                @bind-Value="@Model.FooEnum" />
+
+                <DateValueInput Id="yyyyyyssd"
+                                Loading="@Loading"
+                                ReadOnly="@ReadOnly"
+                                PropertyExpression="@(() => Model.FooDate)"
+                                @bind-Value="@Model.FooDate" />
+            </IndexedListItem>
+        </IndexedList>
+
+
+
+    </EditContextCascator>
+</EditForm>
+
+<div style="margin-top: 100rem;">
+    <p>Deep stuff</p>
+</div>

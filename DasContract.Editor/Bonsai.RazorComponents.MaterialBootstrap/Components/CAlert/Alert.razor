@@ -1,0 +1,17 @@
+﻿@inherits RootComponent
+
+@if (!Closed)
+{
+    <div class="alert @AlertSchemeClass @(Closable ? "alert-dismissible" : "") fade @(closing ? "" : "show")" id="@Id">
+
+        @ChildContent
+        @((MarkupString)Content)
+
+        @if (Closable)
+        {
+            <button type="button" class="close" @onclick="@(async () => { await CloseAsync(); })">
+                <span>&times;</span>
+            </button>
+        }
+    </div>
+}

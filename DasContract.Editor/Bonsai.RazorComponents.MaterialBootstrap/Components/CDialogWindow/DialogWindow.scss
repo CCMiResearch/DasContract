@@ -1,0 +1,14 @@
+﻿
+
+
+.modal-backdrop {
+    display: none;
+}
+
+.blazor-modal-backdrop {
+    display: block;
+}
+
+.modal-dialog {
+    z-index: 1050;
+}

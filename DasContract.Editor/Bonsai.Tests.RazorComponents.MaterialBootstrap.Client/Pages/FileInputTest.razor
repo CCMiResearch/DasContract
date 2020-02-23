@@ -1,0 +1,67 @@
+﻿@page "/fileinput"
+
+@code{
+    public bool Loading { get; set; } = false;
+    public bool ReadOnly { get; set; } = false;
+
+    public int TotalFilesSelected { get; set; } = 0;
+
+    void DebugChange(IEnumerable<IFileReference> files)
+    {
+        TotalFilesSelected += files.Count();
+        StateHasChanged();
+    }
+}
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<div class="my-5">
+    <input type="button" value="ReadOnly: true" @onclick="@(e => { ReadOnly = true; })" />
+    <input type="button" value="ReadOnly: false" @onclick="@(e => { ReadOnly = false; })" />
+</div>
+
+<h1>File input components</h1>
+
+<h2>FileInput</h2>
+
+<p>Total files selected: @TotalFilesSelected</p>
+
+<FileInput Loading="@Loading" 
+           ReadOnly="@ReadOnly"
+           Description="This is description"
+           Label="Input #1"
+           Multiple="true"
+           OnChange="DebugChange"
+           />
+
+<FileInput Loading="@Loading"
+           ReadOnly="@ReadOnly"
+           Description="This is description"
+           Label="Input #2"
+           Accept=".jpg, .png"
+           OnChange="DebugChange"
+           />
+
+
+<h2>UploadableFileInput</h2>
+<UploadableFileInput UrlTarget="/test/file" 
+                     Name="files"
+                     Id="SomeInputId"
+                     Loading="@Loading"
+                     Label="This is label"
+                     Description="This is description"
+                     ReadOnly="@ReadOnly"
+                     />
+
+
+<UploadableFileInput UrlTarget="/test/file"
+                     Name="files"
+                     Id="SomeInputIdMultiple"
+                     Loading="@Loading"
+                     Label="This is label"
+                     Description="This is description"
+                     ReadOnly="@ReadOnly"
+                     Multiple="true"/>

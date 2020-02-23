@@ -1,0 +1,57 @@
+﻿@import "../../node_modules/@drozdik.m/common-mixins/_module";
+@import "../../node_modules/@drozdik.m/px-in-rem/_module";
+
+.sortableListComponent {
+    position: relative;
+    list-style-type: none;
+
+    > li {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+
+        .sortableListItemControls {
+            background-color: white;
+            @include box-shadow(0 2px 2px 0 rgba(0, 0, 0, 0.14),0 3px 1px -2px rgba(0, 0, 0, 0.2),0 1px 5px 0 rgba(0, 0, 0, 0.12));
+            min-height: 3.25rem;
+            width: auto;
+            position: relative;
+            $arrowDimensions: 1.25rem;
+            $padding: $pxInRem-6;
+            min-width: 2rem;
+            padding: $padding;
+            margin-right: 1rem;
+
+            .moveUp, .moveDown {
+                position: absolute;
+                height: $arrowDimensions;
+                width: $arrowDimensions;
+                cursor: pointer;
+                z-index: 2;
+            }
+
+            .moveUp {
+                top: $padding;
+                left: $padding;
+            }
+
+            .moveDown {
+                bottom: $padding;
+                left: $padding;
+            }
+
+            .orderInput {
+                text-align: center;
+                $inputDimensions: 2 * $arrowDimensions;
+                height: $inputDimensions;
+                width: 4rem;
+                margin-left: 2rem;
+            }
+        }
+
+
+        .sortableListItem {
+            flex: 1;
+        }
+    }
+}

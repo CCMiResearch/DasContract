@@ -1,0 +1,52 @@
+﻿@page "/dialogwindow"
+
+
+@code {
+
+    int OpenCount = 0;
+    int CloseCount = 0;
+
+    DialogWindow recursiveDialogWindow;
+    DialogWindow classicDialogWindow;
+    DialogWindow moreCustomDialogWindow;
+}
+
+<h1>Dialog window test</h1>
+<p>Open count: @OpenCount</p>
+<p>Close count: @CloseCount</p>
+
+<ButtonInput OnClick="@(async e => { await recursiveDialogWindow.OpenAsync(); })">Recursive dialog</ButtonInput>
+<DialogWindow @ref="@recursiveDialogWindow" Title="This is title">
+    <Body>
+        Hello there... General Kenobi?!
+    </Body>
+    <Footer>
+        <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="@(async e => { await classicDialogWindow.OpenAsync(); })">Open more windows</ButtonInput>
+    </Footer>
+</DialogWindow>
+
+<ButtonInput OnClick="@(async e => { await classicDialogWindow.OpenAsync(); })">Classic dialog</ButtonInput>
+<DialogWindow @ref="@classicDialogWindow" Title="This is title">
+    <Body>
+        Hello there... General Kenobi?!
+    </Body>
+</DialogWindow>
+
+<ButtonInput OnClick="@(async e => { await moreCustomDialogWindow.OpenAsync(); })">More custom dialog</ButtonInput>
+<DialogWindow @ref="@moreCustomDialogWindow"
+              Title="This is title"
+              ShowCloseButton="false"
+              Size="DialogWindowSize.ExtraLarge"
+              OnOpen="@(e => { OpenCount++; })"
+              OnClose="@(e => { CloseCount++; })">
+    <Header>
+        And more HEADER!
+    </Header>
+    <Body>
+        Hello there... General Kenobi?!
+    </Body>
+    <Footer>
+        Footer
+    </Footer>
+</DialogWindow>
+

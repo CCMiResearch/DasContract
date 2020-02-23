@@ -1,0 +1,13 @@
+﻿
+.checkbox{
+    position: relative;
+}
+
+.checkboxReadonly {
+    pointer-events: none !important;
+}
+
+.checkboxLoading {
+    pointer-events: none !important;
+    position: relative;
+}

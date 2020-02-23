@@ -1,0 +1,19 @@
+﻿@inherits LoadableComponent
+
+
+@if (Loading || Disabled)
+{
+    <button type="@(Submit ? "submit" : "button")" class="btn @SchemeClass @TypeClass" disabled>
+        @(Loading ? LoadingText : Text)
+        @(Loading ? null : ChildContent)
+    </button>
+}
+else
+{
+    <button type="@(Submit ? "submit" : "button")" 
+            class="btn @SchemeClass @TypeClass" 
+            @onclick="@OnButtonClick"
+            >
+        @Text@ChildContent
+    </button>
+}

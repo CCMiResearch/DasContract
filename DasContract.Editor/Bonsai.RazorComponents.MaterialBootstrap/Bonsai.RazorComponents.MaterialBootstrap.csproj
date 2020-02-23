@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>Bonsai_RazorComponents_MaterialBootstrap</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Components\CSortableList\SortableList.scss" />
+    <None Remove="Components\CSortableList\SortableList.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\CAlert\Alert.scss" />
+    <Content Include="Components\CAlert\Alert.ts" />
+    <Content Include="Components\CBreadcrumbs\Breadcrumbs.scss" />
+    <Content Include="Components\CBreadcrumbs\Breadcrumbs.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CDialogWindow\DialogWindow.scss" />
+    <Content Include="Components\CDialogWindow\DialogWindow.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CButtonInput\ButtonInput.scss" />
+    <Content Include="Components\CButtonInput\ButtonInput.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CLoadingScreen\LoadingScreen.scss" />
+    <Content Include="Components\CLoadingScreen\LoadingScreen.ts" />
+    <Content Include="Components\CModelForm\ModelForm.scss" />
+    <Content Include="Components\CModelForm\ModelForm.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CSnackbar\Snackbar.scss" />
+    <Content Include="Components\CSnackbar\Snackbar.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CSortableList\SortableList.scss" />
+    <Content Include="Components\CSortableList\SortableList.ts">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Components\CValueInput\PrimitiveValueInputs\BooleanValueInput.scss" />
+    <Content Include="Components\CValueInput\ValueInput.scss" />
+    <Content Include="Components\CIndexedList\IndexedListItem.scss" />
+    <Content Include="Components\CIndexedList\IndexedList.scss" />
+    <Content Include="Components\CValueInput\ValueInputHelpers\ValueInputLabel.scss" />
+    <Content Include="Services\Scroll\SlowScroll.ts">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.1" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="1.2.0.19363" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bonsai.RazorComponents.Interfaces\Bonsai.RazorComponents.Interfaces.csproj" />
+    <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Bonsai.Services.LanguageDictionary\Bonsai.Services.LanguageDictionary.csproj" />
+    <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
+    <ProjectReference Include="..\Bonsai.Utils.String\Bonsai.Utils.String.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\Scripts\Global.ts">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="Components\CFileInput\Uploadable\UploadableFileInput.ts">
+      <SubType>Code</SubType>
+    </None>
+  </ItemGroup>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call builder.exe --config builder.config.xml --no-animations --build-only-once --skip-dependencies&#xD;&#xA;" />
+  </Target>
+
+</Project>

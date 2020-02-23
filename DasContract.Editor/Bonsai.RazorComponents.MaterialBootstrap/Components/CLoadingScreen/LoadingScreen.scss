@@ -1,0 +1,294 @@
+﻿@import "@drozdik.m/common-mixins/_module.scss";
+
+$mainTheme: #537bc3 !default;
+$mainThemeHover: #3e5c91 !default;
+$transition: 250ms cubic-bezier(0.215, 0.61, 0.355, 1) !default;
+
+//--------------------------------------------------
+//----------LOADABLE BLOCK--------------------------
+//--------------------------------------------------
+.loadableBlockWrapper{
+    position: relative;
+}
+
+//--------------------------------------------------
+//----------FULLSCREEN LOADING----------------------
+//--------------------------------------------------
+.loadingScreen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+    opacity: 0;
+    @include transition(opacity $transition);
+    z-index: 999;
+
+    &.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .loadingScreenAnimation {
+        $height: 6.25rem;
+        $width: 6.25rem;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 30%;
+
+        .loadingScreenAnimationObject {
+            display: inline-block;
+            height: $height;
+            width: $width;
+
+            .loadingDot1, .loadingDot1x2 {
+                background-color: $mainTheme;
+            }
+
+            .loadingDot2 {
+                background-color: $mainThemeHover;
+            }
+
+            .loadingDot3 {
+                background-color: $mainTheme;
+            }
+
+            .loadingDot4 {
+                background-color: $mainThemeHover;
+            }
+            /*circle {
+                fill: $mainTheme;
+            }
+            
+
+            circle:nth-child(2n+3) {
+                fill: $mainThemeHover;
+            }*/
+        }
+    }
+}
+
+.fullscreenLoadingScreen {
+    position: fixed !important;
+}
+
+//--------------------------------------------------
+//----------ANIMATING DOTS--------------------------
+//--------------------------------------------------
+.loadingScreenAnimation {
+
+    .loadingScreenAnimationObject {
+        width: 6.25rem;
+        height: 6.25rem;
+        position: relative;
+
+        .loadingDot {
+            position: absolute;
+            top: 3.125rem;
+            left: 1rem;
+            $dimensions: 1.25rem;
+            width: $dimensions;
+            height: $dimensions;
+            font-size: 0;
+            @include border-radius(50%);
+        }
+    }
+
+    .loadingDot1, .loadingDot2, .loadingDot3, .loadingDot4, .loadingDot1x2 {
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+    }
+
+    .loadingDot1 {
+        animation-name: LoadingAnimationDot1;
+        //fill: blue !important;
+    }
+
+    .loadingDot2 {
+        animation-name: LoadingAnimationDot2;
+        //fill: red !important;
+    }
+
+    .loadingDot3 {
+        animation-name: LoadingAnimationDot3;
+        //fill: purple !important;
+    }
+
+    .loadingDot4 {
+        animation-name: LoadingAnimationDot4;
+        //fill: orange !important;
+    }
+
+    .loadingDot1x2 {
+        animation-name: LoadingAnimationDot1x2;
+        //fill: blue !important;
+    }
+}
+
+$loadingDotPosition1: 0;
+$loadingDotPosition2: 2.125rem;
+$loadingDotPosition3: 4.25rem;
+
+@keyframes LoadingAnimationDot1 {
+    0% {
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    25% {
+        @include transform(scale(1));
+        left: $loadingDotPosition1;
+    }
+
+    50% {
+        @include transform(scale(1));
+        left: $loadingDotPosition2;
+    }
+
+    75% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+
+    100% {
+        @include transform(scale(0));
+        left: $loadingDotPosition3;
+    }
+}
+
+@keyframes LoadingAnimationDot2 {
+    0% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+
+    25% {
+        @include transform(scale(0));
+        left: $loadingDotPosition3;
+    }
+
+    26% {
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    50% {
+        @include transform(scale(1));
+        left: $loadingDotPosition1;
+    }
+
+    75% {
+        @include transform(scale(1));
+        left: $loadingDotPosition2;
+    }
+
+    100% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+}
+
+@keyframes LoadingAnimationDot3 {
+    0% {
+        @include transform(scale(1));
+        left: $loadingDotPosition2;
+    }
+
+    25% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+
+    50% {
+        @include transform(scale(0));
+        left: $loadingDotPosition3;
+    }
+
+    51% {
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    75% {
+        @include transform(scale(1));
+        left: $loadingDotPosition1;
+    }
+
+    100% {
+        @include transform(scale(1));
+        left: $loadingDotPosition2;
+    }
+}
+
+@keyframes LoadingAnimationDot4 {
+    0% {
+        @include transform(scale(1));
+        left: $loadingDotPosition1;
+    }
+
+    25% {
+        @include transform(scale(1));
+        left: $loadingDotPosition2;
+    }
+
+    50% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+
+    75% {
+        @include transform(scale(0));
+        left: $loadingDotPosition3;
+    }
+
+    76% {
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    100% {
+        @include transform(scale(1));
+        left: $loadingDotPosition1;
+    }
+}
+
+@keyframes LoadingAnimationDot1x2 {
+    0% {
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    25% {
+        //@include transform(scale(1));
+        @include transform(scale(0));
+        left: $loadingDotPosition1;
+    }
+
+    50% {
+        //@include transform(scale(1));
+        @include transform(scale(0));
+        left: $loadingDotPosition2;
+    }
+
+    51% {
+        @include transform(scale(1));
+    }
+
+    75% {
+        @include transform(scale(1));
+        left: $loadingDotPosition3;
+    }
+
+    76% {
+        r: 0;
+    }
+
+    100% {
+        @include transform(scale(0));
+        left: $loadingDotPosition3;
+    }
+}

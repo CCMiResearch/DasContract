@@ -1,0 +1,30 @@
+﻿@page "/alert/temp"
+
+@code {
+    int CloseCount = 0;
+
+    AlertController alertController;
+}
+
+<h1>Alert test</h1>
+<p>Close count: @CloseCount</p>
+
+<ButtonInput OnClick="@(() => alertController.AddAlert("Success", AlertScheme.Success))">Add success</ButtonInput>
+<ButtonInput OnClick="@(() => alertController.AddAlert("Error", AlertScheme.Danger))">Add error</ButtonInput>
+
+<AlertController @ref="alertController" />
+
+
+<Alert Closable="true" OnClose="@(() => { CloseCount++; StateHasChanged(); })">This is closable alert</Alert>
+<Alert Closable="true" OnClose="@(() => { CloseCount++; StateHasChanged(); })">This is closable alert</Alert>
+<Alert Closable="true" OnClose="@(() => { CloseCount++; StateHasChanged(); })">This is closable alert</Alert>
+<Alert Closable="true" OnClose="@(() => { CloseCount++; StateHasChanged(); })">This is closable alert</Alert>
+
+<Alert Scheme="AlertScheme.Primary">This is alert</Alert>
+<Alert Scheme="AlertScheme.Secondary">This is alert</Alert>
+<Alert Scheme="AlertScheme.Danger">This is alert</Alert>
+<Alert Scheme="AlertScheme.Warning">This is alert</Alert>
+<Alert Scheme="AlertScheme.Dark">This is alert</Alert>
+<Alert Scheme="AlertScheme.Info">This is alert</Alert>
+<Alert Scheme="AlertScheme.Light">This is alert</Alert>
+<Alert Scheme="AlertScheme.Success">This is alert</Alert>

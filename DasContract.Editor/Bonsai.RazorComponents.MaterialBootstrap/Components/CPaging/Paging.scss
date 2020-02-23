@@ -1,0 +1,21 @@
+﻿.pagingWrapper {
+    position: relative;
+
+    .pagination {
+        .page-item {
+            a {
+                cursor: pointer;
+
+                &.disabled {
+                    cursor: default;
+                    .ripple-container{
+                        display: none;
+                    }
+                    &:hover{
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+}

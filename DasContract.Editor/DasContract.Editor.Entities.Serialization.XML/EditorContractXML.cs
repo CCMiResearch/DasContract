@@ -5,6 +5,7 @@ using System.Linq;
 using DasContract.Editor.Entities.Forms;
 using System.Collections.Generic;
 using DasContract.Editor.Entities.DataModels.Entities.Properties;
+using System.Xml;
 
 namespace DasContract.Editor.Entities.Serialization.XML
 {
@@ -22,7 +23,8 @@ namespace DasContract.Editor.Entities.Serialization.XML
             //Deserialize
             var serializer = new XmlSerializer(EditorContractType);
             using var textReader = new StringReader(xml);
-            var deserializedContract = serializer.Deserialize(textReader) as EditorContract;
+            using var xmlReader = XmlReader.Create(textReader);
+            var deserializedContract = serializer.Deserialize(xmlReader) as EditorContract;
 
             SetReferencesInDataModels(deserializedContract);
             SetReferencesInProcesses(deserializedContract);

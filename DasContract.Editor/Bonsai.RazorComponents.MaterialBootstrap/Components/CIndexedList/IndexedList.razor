@@ -1,0 +1,22 @@
+﻿@inherits LoadableComponent
+
+<CascadingValue Value="this" Name="IndexedList">
+    <div class="indexedList">
+
+        <LoadingScreenAnimation Loading="@Loading" />
+
+        @if (Items.Count > 0)
+        {
+            <h2>Sections</h2>
+            <div class="list-group bmd-list-group-sm">
+                @foreach (var item in Items)
+                {
+                    string resultAnchor = item.Id;
+                    <button type="button" class="list-group-item active" @onclick="@(async e => { await SlowScroll.ToAsync("#" + resultAnchor); })">@item.Title</button>
+                }
+            </div>
+        }
+
+        @ChildContent(this)
+    </div>
+</CascadingValue>

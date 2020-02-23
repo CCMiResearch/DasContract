@@ -1,0 +1,77 @@
+﻿@page "/sortablelist"
+
+@code {
+    public List<string> SortableList1 = new List<string>
+{
+        "Text 1",
+        "Text 2",
+        "Text 3",
+        "Text 4",
+        "Text 5",
+        "Text 6",
+        "Text 7",
+        "Text 8"
+    };
+    public int ReorderCounter1 { get; set; } = 0;
+    public SortableListChangeArgs<string> SortableListChangeArgs1 { get; set; } = null;
+
+    public int ReorderCounter2 { get; set; } = 0;
+
+    public int ReorderCounter3 { get; set; } = 0;
+
+
+}
+
+<h1>List 1</h1>
+<p>Reorder counter: @ReorderCounter1</p>
+<p>Change args: @(SortableListChangeArgs1 == null ? "null" : "")</p>
+@if (SortableListChangeArgs1 != null)
+{
+<ul>
+    <li>Old position: @SortableListChangeArgs1.OldPosition</li>
+    <li>New position: @SortableListChangeArgs1.NewPosition</li>
+    <li>Moved item: @SortableListChangeArgs1.MovedItem</li>
+    <li>List: @string.Join(", ", SortableListChangeArgs1.UpdatedList.ToArray())</li>
+    @if (SortableListChangeArgs1.TryGetItemLowerNeighbour(out var lower))
+    {
+        <li>@lower</li>
+    }
+    @if (SortableListChangeArgs1.TryGetItemUpperNeighbour(out var upper))
+    {
+        <li>@upper</li>
+    }
+</ul>
+}
+<SortableList Items="SortableList1" TextInput="true" DragAndDrop="true" Arrows="true"
+              OnReorder="(SortableListChangeArgs<string> e) => { ReorderCounter1++; SortableListChangeArgs1 = e; StateHasChanged(); }">
+    <Item>
+        <p>Context: @context</p>
+    </Item>
+</SortableList>
+
+<h1>List 2</h1>
+<p>Reorder counter: @ReorderCounter2</p>
+<SortableList Items="SortableList1" TextInput="false" DragAndDrop="false" Arrows="true"
+              OnReorder="(SortableListChangeArgs<string> e) => { ReorderCounter2++; StateHasChanged(); }">
+    <Item>
+        <p>Context: @context</p>
+    </Item>
+</SortableList>
+
+<h1>List 3</h1>
+<p>Reorder counter: @ReorderCounter3</p>
+<SortableList Items="SortableList1" TextInput="false" DragAndDrop="true" Arrows="true"
+              OnReorder="(SortableListChangeArgs<string> e) => { ReorderCounter3++; StateHasChanged(); }">
+    <Item>
+        <p>Context: @context</p>
+    </Item>
+</SortableList>
+
+<h1>List 4</h1>
+<SortableList Items="SortableList1" TextInput="false" DragAndDrop="true" Arrows="false">
+    <Item>
+        <p>Context: @context</p>
+    </Item>
+</SortableList>
+
+

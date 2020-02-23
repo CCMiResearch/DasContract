@@ -1,0 +1,11 @@
+﻿@import "IndexedListItem";
+
+.indexedList {
+    position: relative;
+
+    button {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

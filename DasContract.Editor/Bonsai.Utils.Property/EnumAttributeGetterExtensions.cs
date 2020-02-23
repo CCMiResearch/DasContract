@@ -16,6 +16,9 @@ namespace Bonsai.Utils.Property
         /// <returns>Display attribute name or "in-code" name</returns>
         public static string GetDisplayName(this Enum enumValue)
         {
+            if (enumValue == null)
+                throw new ArgumentNullException(nameof(enumValue));
+
             var memberInfo = enumValue.GetType().GetMember(enumValue.ToString()).FirstOrDefault();
             if (memberInfo == null)
                 return null;

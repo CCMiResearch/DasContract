@@ -1,0 +1,57 @@
+﻿@page "/indexedlist"
+
+@code {
+    public bool Loading { get; set; }
+}
+
+<h1>Indexed list test</h1>
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<IndexedList Loading="@Loading">
+    <IndexedListItem Title="Item 1">
+        <p>Content</p>
+    </IndexedListItem>
+    <IndexedListItem Title="Item 2">
+        <p>Content</p>
+    </IndexedListItem>
+    <IndexedListItem Title="Item 3">
+        <p>Content</p>
+    </IndexedListItem>
+    <IndexedListItem Title="Item 4">
+        <p>Content</p>
+    </IndexedListItem>
+    <IndexedListItem Title="Item 5">
+        <p>Content</p>
+    </IndexedListItem>
+</IndexedList>
+
+<h1>Recursive indexed list</h1>
+<IndexedList Loading="@Loading" Context="ListLvl1">
+    <IndexedListItem Title="Item 1" Id="item11">
+        <p>Content</p>
+    </IndexedListItem>
+    <IndexedListItem Title="Item 2" Id="item22">
+        <p>Content</p>
+        <IndexedList>
+            <IndexedListItem Title="Item 2.1">
+                <p>Content</p>
+            </IndexedListItem>
+            <IndexedListItem Title="Item 2.2">
+                <p>Content</p>
+            </IndexedListItem>
+        </IndexedList>
+
+    </IndexedListItem>
+    <IndexedListItem Title="Item 3" Id="item33">
+        <p>Content</p>
+    </IndexedListItem>
+</IndexedList>
+
+
+<div style="margin-top: 100rem;">
+    <p>Deep stuff</p>
+</div>
