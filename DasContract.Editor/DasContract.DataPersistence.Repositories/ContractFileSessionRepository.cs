@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DasContract.Editor.DataPersistence.DbContexts;
 using DasContract.Editor.DataPersistence.Entities;
 using DasContract.Editor.DataPersistence.Repositories.Interfaces;
-using DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions;
 using DasContract.Editor.Interfaces.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

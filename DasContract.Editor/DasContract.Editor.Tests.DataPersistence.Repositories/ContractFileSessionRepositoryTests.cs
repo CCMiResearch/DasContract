@@ -3,8 +3,8 @@ using DasContract.Editor.DataPersistence.Repositories;
 using DasContract.Editor.Tests.DataPersistence.Repositories.ContextFactory;
 using NUnit.Framework;
 using System.Linq;
-using DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions;
 using DasContract.Editor.DataPersistence.Entities;
+using DasContract.Editor.Interfaces.Exceptions;
 
 namespace DasContract.Editor.Tests.DataPersistence.Repositories
 {
