@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Interfaces\DasContract.Editor.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

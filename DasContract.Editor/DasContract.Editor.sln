@@ -109,6 +109,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facades", "Facades", "{0BA4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.AppLogic.Facades", "DasContract.Editor.Tests.AppLogic.Facades\DasContract.Editor.Tests.AppLogic.Facades.csproj", "{51972B08-B9B0-4D5D-9585-5346522BD702}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Server.Interfaces", "DasContract.Editor.Server.Interfaces\DasContract.Editor.Server.Interfaces.csproj", "{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +237,10 @@ Global
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
