@@ -189,7 +189,7 @@ namespace DasContract.Editor.Tests.DataPersistence.Repositories
             var contract = await Facade(contextBuilder).GetAsync("contract-1");
 
             contract.SerializedContract = "new-content";
-            await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+            await Facade(contextBuilder).UpdateAsync(contract);
 
             contract = await Facade(contextBuilder).GetAsync("contract-1");
 
@@ -209,22 +209,23 @@ namespace DasContract.Editor.Tests.DataPersistence.Repositories
 
             try
             {
-                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                await Facade(contextBuilder).UpdateAsync(contract);
                 Assert.Fail();
             } catch(NotFoundException) { }
         }
 
         [Test]
-        public async Task UpdateDifferentIds()
+        public async Task UpdateDefaultId()
         {
             using var contextBuilder = new ContractEditorDbTestBuilder();
 
             var contract = await Facade(contextBuilder).GetAsync("contract-1");
             contract.SerializedContract = "new-content";
+            contract.Id = null;
 
             try
             {
-                await Facade(contextBuilder).UpdateAsync(contract.Id + 1, contract);
+                await Facade(contextBuilder).UpdateAsync(contract);
                 Assert.Fail();
             }
             catch (BadRequestException) { }
@@ -241,7 +242,7 @@ namespace DasContract.Editor.Tests.DataPersistence.Repositories
 
             try
             {
-                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                await Facade(contextBuilder).UpdateAsync(contract);
                 Assert.Fail();
             }
             catch (BadRequestException) { }
@@ -255,7 +256,7 @@ namespace DasContract.Editor.Tests.DataPersistence.Repositories
             try
             {
                 var contract = new ContractFileSession() { Id = "expired" };
-                await Facade(contextBuilder).UpdateAsync(contract.Id, contract);
+                await Facade(contextBuilder).UpdateAsync(contract);
                 Assert.Fail();
             }
             catch (NotFoundException) { }

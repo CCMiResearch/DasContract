@@ -6,6 +6,7 @@ using DasContract.Editor.DataPersistence.DbContexts;
 using DasContract.Editor.DataPersistence.Entities;
 using DasContract.Editor.DataPersistence.Repositories.Interfaces;
 using DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions;
+using DasContract.Editor.Interfaces.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DasContract.Editor.DataPersistence.Repositories
@@ -94,25 +95,25 @@ namespace DasContract.Editor.DataPersistence.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(string id, ContractFileSession item)
+        public async Task UpdateAsync(ContractFileSession item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            if (id != item.Id)
-                throw new BadRequestException("Ids do not match");
+            if (item.Id == default)
+                throw new BadRequestException("Id should not be default");
 
             var toCheck = await context.ContractFileSessions
                 .AsNoTracking()
-                .Where(e => e.Id == id)
+                .Where(e => e.Id == item.Id)
                 .SingleOrDefaultAsync();
             if (toCheck == null)
-                throw new NotFoundException(nameof(ContractFileSession) + " " + id);
+                throw new NotFoundException(nameof(ContractFileSession) + " " + item.Id);
 
             if (toCheck.IsExpired())
             {
                 await RemoveIfExpired(item);
-                throw new NotFoundException(nameof(ContractFileSession) + " " + id);
+                throw new NotFoundException(nameof(ContractFileSession) + " " + item.Id);
             }
 
             if (toCheck.ExpirationDate != item.ExpirationDate)

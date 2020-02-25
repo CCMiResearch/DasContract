@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions
+namespace DasContract.Editor.Interfaces.Exceptions
 {
     public class BadRequestException : Exception
     {

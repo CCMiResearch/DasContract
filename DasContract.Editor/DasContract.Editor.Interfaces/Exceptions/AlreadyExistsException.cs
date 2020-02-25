@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Editor.DataPersistence.Repositories.Interfaces.Exceptions
+namespace DasContract.Editor.Interfaces.Exceptions
 {
-    public class AlreadyExistsException : RepositoryException
+    public class AlreadyExistsException : CRUDException
     {
         public AlreadyExistsException(string message) : base(message)
         {

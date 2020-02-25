@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj" />
     <ProjectReference Include="..\DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Interfaces\DasContract.Editor.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
