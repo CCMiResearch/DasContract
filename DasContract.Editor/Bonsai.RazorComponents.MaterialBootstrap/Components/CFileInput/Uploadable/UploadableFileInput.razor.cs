@@ -35,6 +35,9 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CFileInput.Uploada
         /// </summary>
         public List<FileToUpload> FilesToUpload { get; protected set; } = new List<FileToUpload>();
 
+        [Parameter]
+        public EventCallback OnUploadSuccess { get; set; }
+
         /// <summary>
         /// Resets this input
         /// </summary>
@@ -55,10 +58,13 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CFileInput.Uploada
             State = UploadableFileInputState.Uploading;
 
             var mediator = new UploadableFileMediator(FilesToUpload, JSRuntime, Id, Name);
-            mediator.OnChange += (caller, args) =>
+            mediator.OnChange += async (caller, args) =>
             {
                 if (mediator.AllFilesSuccess)
+                {
                     State = UploadableFileInputState.Finished;
+                    await OnUploadSuccess.InvokeAsync(null);
+                }
                 StateHasChanged();
             };
             await mediator.UploadAsync(UrlTarget);

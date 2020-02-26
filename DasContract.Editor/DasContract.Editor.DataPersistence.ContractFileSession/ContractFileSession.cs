@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DasContract.Editor.Entities;
+using DasContract.Editor.Entities.Serialization.XML;
 
 namespace DasContract.Editor.DataPersistence.Entities
 {
@@ -35,6 +37,14 @@ namespace DasContract.Editor.DataPersistence.Entities
             if (DateTime.Now > ExpirationDate)
                 return true;
             return false;
+        }
+
+        public static ContractFileSession FromContract(EditorContract contract)
+        {
+            return new ContractFileSession()
+            {
+                SerializedContract = EditorContractXML.To(contract)
+            };
         }
     }
 }

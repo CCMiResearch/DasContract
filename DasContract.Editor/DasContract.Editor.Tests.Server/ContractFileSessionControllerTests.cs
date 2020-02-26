@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DasContract.Editor.DataPersistence.Entities;
 using DasContract.Editor.Tests.Server.ServerFactory;
 using DasContract.Editor.Utils.String;
+using Microsoft.AspNetCore.Http;
+using Moq;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -124,6 +127,28 @@ namespace DasContract.Editor.Tests.Server
 
             response = await client.GetAsync("/api/ContractFileSession/to-delete");
             Assert.False(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task StartSession()
+        {
+            using var client = factory.CreateClient();
+
+            var bytes = new ByteArrayContent(new byte[] { 0x00 });
+            var data = new MultipartFormDataContent
+            {
+                { bytes, "contractFile", "fileName" }
+            };
+
+
+            var response = await client.PostAsync("/api/ContractFileSession/StartSession/new-contract-session-1", data);
+            Assert.True(response.IsSuccessStatusCode);
+
+            response = await client.GetAsync("/api/ContractFileSession/" + "new-contract-session-1");
+            Assert.True(response.IsSuccessStatusCode);
+            var responseText = await response.Content.ReadAsStringAsync();
+            var entity = JsonConvert.DeserializeObject<ContractFileSession>(responseText);
+            Assert.Equal("new-contract-session-1", entity.Id);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Bonsai.Services.Interfaces;
 using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
 using DasContract.Editor.Pages.Main.Services.Entities;
+using Bonsai.RazorComponents.MaterialBootstrap.Services;
 
 namespace DasContract.Editor.Pages.Main
 {
@@ -23,6 +24,9 @@ namespace DasContract.Editor.Pages.Main
 
             //API services
             builder.Services.AddSingleton<ContractFileSessionService>();
+
+            //Add material bootstrap
+            builder.Services.AddMaterialBootstrap();
 
             await builder.Build().RunAsync();
         }

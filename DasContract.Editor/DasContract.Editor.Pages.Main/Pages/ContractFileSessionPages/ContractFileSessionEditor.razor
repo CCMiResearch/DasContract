@@ -1,0 +1,17 @@
+﻿@inherits PageBase
+@page "/ContractFileSession/{Id}"
+
+<h1>Contract editor</h1>
+
+@if (Loading)
+{
+    <p>Loading...</p>
+}
+else if (initialException == null)
+{
+    <Alert Scheme="AlertScheme.Success">Currently editing contract in session @ContractFileSession.Id</Alert>
+}
+else
+{
+    <Alert Scheme="AlertScheme.Danger">Error occured: @initialException.Message</Alert>
+}

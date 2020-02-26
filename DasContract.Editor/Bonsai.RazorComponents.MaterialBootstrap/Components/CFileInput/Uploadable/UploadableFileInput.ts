@@ -56,8 +56,10 @@
 
             //Trigger post
             //console.log("Uploading: " + currentId);
-            let formData = new FormData();
+            let formData = new FormData(); 
             formData.append(name, files[currentId]);
+            console.log(name);
+            console.log(files[currentId]);
             ajax.Post(url, [], formData);
         }
 

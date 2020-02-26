@@ -44,6 +44,8 @@ window.MaterialBootstrapRazorComponents.UploadableFileInput = {
             //console.log("Uploading: " + currentId);
             var formData = new FormData();
             formData.append(name, files[currentId]);
+            console.log(name);
+            console.log(files[currentId]);
             ajax.Post(url, [], formData);
         };
         //Start sending

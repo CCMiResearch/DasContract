@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using DasContract.Editor.AppLogic.Facades;
 using DasContract.Editor.AppLogic.Facades.Interfaces;
@@ -90,4 +92,34 @@ namespace DasContract.Editor.Server.Controllers
             }
         }
     }
+
+    public class ContractFileSessionStarterController : Controller
+    {
+        [HttpPost]
+        public async Task<ActionResult> InitiateSession(List<IFormFile> files)
+        {
+            var temp = Request.Form.Files;
+            if (files == null)
+                throw new ArgumentNullException(nameof(files));
+
+            /*var contractFile = files.Single();
+            var fileContentBuilder = new StringBuilder();
+            using (var reader = new StreamReader(contractFile.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    fileContentBuilder.AppendLine(await reader.ReadLineAsync());
+            }
+
+            var newItem = new ContractFileSession()
+            {
+                Id = id,
+                SerializedContract = fileContentBuilder.ToString()
+            };
+
+            return await InsertAsync(newItem);*/
+            return Ok();
+        }
+    }
+
+    
 }
