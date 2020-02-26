@@ -29,11 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Bonsai.RazorComponents.Interfaces\Bonsai.RazorComponents.Interfaces.csproj" />
+    <ProjectReference Include="..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
     <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
+    <ProjectReference Include="..\Bonsai.Utils.String\Bonsai.Utils.String.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Interfaces\DasContract.Editor.Interfaces.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Utils.String\DasContract.Editor.Utils.String.csproj" />
   </ItemGroup>
 
 </Project>

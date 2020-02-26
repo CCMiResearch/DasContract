@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Bonsai.Services.Interfaces;
 using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
+using DasContract.Editor.Pages.Main.Services.Entities;
 
 namespace DasContract.Editor.Pages.Main
 {
@@ -16,8 +17,12 @@ namespace DasContract.Editor.Pages.Main
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
+            //File path provider service
             //builder.Services.AddSingleton<IFilePathProvider, RegularFilePathProvider>();
             builder.Services.AddSingleton<IFilePathProvider, VersionedFilePathProvider>();
+
+            //API services
+            builder.Services.AddSingleton<ContractFileSessionService>();
 
             await builder.Build().RunAsync();
         }
