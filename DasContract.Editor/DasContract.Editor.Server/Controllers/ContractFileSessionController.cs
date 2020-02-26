@@ -52,7 +52,7 @@ namespace DasContract.Editor.Server.Controllers
                 await facade.DeleteAsync(id);
                 return Ok();
             }
-            catch (NotFoundException e)
+            catch (NotFoundException)
             {
                 return NotFound();
             }

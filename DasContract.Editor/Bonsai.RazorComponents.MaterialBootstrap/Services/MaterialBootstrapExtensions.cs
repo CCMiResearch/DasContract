@@ -15,7 +15,7 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Services
         public static IServiceCollection AddMaterialBootstrap(this IServiceCollection servicesCollection)
         {
             servicesCollection.AddSingleton<IScroll, SlowScroll>();
-            servicesCollection.AddSingleton<IMaterialBootstrapLanguageDictionary, CzechMaterialBootstrapLanguageDictionary>();
+            servicesCollection.AddSingleton<IMaterialBootstrapLanguageDictionary, EnglishMaterialBootstrapLanguageDictionary>();
 
             servicesCollection.AddFileReaderService(options => {
                 options.UseWasmSharedBuffer = true;

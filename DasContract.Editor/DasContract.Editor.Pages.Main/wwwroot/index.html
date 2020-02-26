@@ -1,24 +1,67 @@
-<!DOCTYPE html>
-<html>
-
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
+    <!--GENERAL META TAGS-->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>DasContract.Editor.Pages.Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Editor for DasContract smart contracts." />
+    <meta name="keywords" content="DasContract, block chain, smart contract, editor, maker, contract" />
+    <meta name="author" content="Martin Drozdík" />
+    <meta name="designer" content="Martin Drozdík" />
+    <meta name="language" content="en" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!--TITLE-->
+    <title>DasContract Editor</title>
+
+    <!--SOCIAL-->
+    <meta property="og:image" content="/OG/Index.jpg" />
+    <meta property="og:image:secure_url" content="/OG/Index.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Editor for DasContract smart contracts." />
+    <meta property="og:title" content="DasContract Editor" />
+
+    <!--FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="/Favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/Favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-config" content="/Favicon/browserconfig.xml">
+    <meta name="theme-color" content="#009688">
+
+    <!--BASE-->
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/site.css" rel="stylesheet" />
+
+    <!--STYLES-->
+    <!--<link rel="stylesheet" href="/_distAdminPages/Styles/Global.css" />-->
+
+    <!--SCRIPTS-->
+    <script type="text/javascript" src="/_dist/_pack/Global.js"></script>
+    <script type="text/javascript" src="/_content/Bonsai_RazorComponents_MaterialBootstrap/_dist/_pack/Global.js"></script>
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app>
+        <div class="loadingScreen show fullscreenLoadingScreen">
+            <div class="loadingScreenAnimation">
+                <div class="loadingScreenAnimationObject">
+                    <div class="loadingDot loadingDot1">&nbsp;</div>
+                    <div class="loadingDot loadingDot2">&nbsp;</div>
+                    <div class="loadingDot loadingDot3">&nbsp;</div>
+                    <div class="loadingDot loadingDot4">&nbsp;</div>
+                    <div class="loadingDot loadingDot1x2">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </app>
 
-    <div id="blazor-error-ui">
+    <!--div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
-    </div>
+    </div-->
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
-
 </html>
