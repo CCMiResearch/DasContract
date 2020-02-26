@@ -6,30 +6,24 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.2.0-preview1.20073.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
     <ProjectReference Include="..\Bonsai.RazorPages.Error\Bonsai.RazorPages.Error.csproj" />
+    <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Bonsai.Tests.Utils.String\Bonsai.Tests.Utils.String.csproj" />
     <ProjectReference Include="..\DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj" />
+    <ProjectReference Include="..\DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj" />
     <ProjectReference Include="..\DasContract.DataPersistence.Repositories\DasContract.Editor.DataPersistence.Repositories.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj" />
     <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Pages.Main\DasContract.Editor.Pages.Main.csproj" />
-    <ProjectReference Include="..\DasContract.Editor.Server.Interfaces\DasContract.Editor.Server.Interfaces.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call builder.exe --config builder.config.xml --no-animations --build-only-once --skip-dependencies&#xD;&#xA;" />
+  </Target>
 
 </Project>

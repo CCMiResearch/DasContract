@@ -1,22 +1,29 @@
-﻿using Bonsai.RazorPages.Error.Services.LanguageDictionary;
-using Bonsai.RazorPages.Error.Services.LanguageDictionary.Languages;
-using Bonsai.Services.Interfaces;
-using DasContract.Editor.AppLogic.Facades;
-using DasContract.Editor.AppLogic.Facades.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DasContract.Editor.DataPersistence.DbContexts;
-using DasContract.Editor.DataPersistence.Repositories;
-using DasContract.Editor.DataPersistence.Repositories.Interfaces;
-using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using DasContract.Editor.DataPersistence.Repositories;
+using DasContract.Editor.DataPersistence.Repositories.Interfaces;
+using DasContract.Editor.AppLogic.Facades;
+using DasContract.Editor.AppLogic.Facades.Interfaces;
+using Microsoft.AspNetCore.ResponseCompression;
+using Bonsai.RazorComponents.MaterialBootstrap.Services;
+using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
+using Bonsai.Services.Interfaces;
+using Bonsai.RazorPages.Error.Services.LanguageDictionary;
+using Bonsai.RazorPages.Error.Services.LanguageDictionary.Languages;
 
-namespace Test.Server
+namespace DasContract.Editor.Server
 {
     public class Startup
     {
@@ -30,12 +37,13 @@ namespace Test.Server
 
         public IWebHostEnvironment Environment { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Add controllers
             services.AddMvc();
             services.AddControllers();
-
+            
             //Add contract editor db
             services.AddDbContext<ContractEditorDb>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ContractEditorDbLocal")));
@@ -46,13 +54,13 @@ namespace Test.Server
 
             //Controllers view builder
             var controllersViewBuilder = services.AddControllersWithViews();
-            /*if (Environment.IsDevelopment())
-                controllersViewBuilder.AddRazorRuntimeCompilation();*/
+            if (Environment.IsDevelopment())
+                controllersViewBuilder.AddRazorRuntimeCompilation();
 
             //Razor pages builder
             var razorPagesBuilder = services.AddRazorPages();
-            /*if (Environment.IsDevelopment())
-                razorPagesBuilder.AddRazorRuntimeCompilation();*/
+            if (Environment.IsDevelopment())
+                razorPagesBuilder.AddRazorRuntimeCompilation();
 
             //HTTPS
             services.AddHttpsRedirection(options => options.HttpsPort = 443);
@@ -75,7 +83,7 @@ namespace Test.Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
 
@@ -88,11 +96,11 @@ namespace Test.Server
             {
                 app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
             }
-
+                
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<DasContract.Editor.Pages.Main.Program>();
+            app.UseClientSideBlazorFiles<Pages.Main.Program>();
 
             app.UseRouting();
 
@@ -103,7 +111,7 @@ namespace Test.Server
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
-                endpoints.MapFallbackToClientSideBlazor<DasContract.Editor.Pages.Main.Program>("index.html");
+                endpoints.MapFallbackToClientSideBlazor<Pages.Main.Program>("index.html");
             });
         }
     }

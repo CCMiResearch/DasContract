@@ -41,4 +41,8 @@
     <ProjectReference Include="..\DasContract.Editor.Utils.String\DasContract.Editor.Utils.String.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call builder.exe --config builder.config.xml --no-animations --build-only-once --skip-dependencies&#xD;&#xA;" />
+  </Target>
+
 </Project>

@@ -13,7 +13,7 @@ using DasContract.Editor.Server;
 namespace DasContract.Editor.Tests.Server.ServerFactory
 {
     public class ServerWebApplicationFactory
-        : WebApplicationFactory<Startup>
+        : WebApplicationFactory<DasContract.Editor.Server.Startup>
     {
         readonly ContractEditorDbTestBuilder dbBuilder = new ContractEditorDbTestBuilder();
 

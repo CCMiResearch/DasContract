@@ -6,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DasContract.Editor.AppLogic.Facades;
 using DasContract.Editor.AppLogic.Facades.Interfaces;
+using DasContract.Editor.DataPersistence.DbContexts;
 using DasContract.Editor.DataPersistence.Entities;
+using DasContract.Editor.DataPersistence.Repositories;
+using DasContract.Editor.DataPersistence.Repositories.Interfaces;
 using DasContract.Editor.Interfaces.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -88,15 +91,18 @@ namespace DasContract.Editor.Server.Controllers
                 return BadRequest(e);
             }
         }
+    }
 
-        [HttpPost("InitiateSession/{id}")]
-        public async Task<ActionResult> InitiateSession(string id, List<IFormFile> files)
+    public class ContractFileSessionStarterController : Controller
+    {
+        [HttpPost]
+        public async Task<ActionResult> InitiateSession(List<IFormFile> files)
         {
             var temp = Request.Form.Files;
             if (files == null)
                 throw new ArgumentNullException(nameof(files));
 
-            var contractFile = files.Single();
+            /*var contractFile = files.Single();
             var fileContentBuilder = new StringBuilder();
             using (var reader = new StreamReader(contractFile.OpenReadStream()))
             {
@@ -110,13 +116,9 @@ namespace DasContract.Editor.Server.Controllers
                 SerializedContract = fileContentBuilder.ToString()
             };
 
-            return await InsertAsync(newItem);
+            return await InsertAsync(newItem);*/
+            return Ok();
         }
-    }
-
-    public class ContractFileSessionStarterController : Controller
-    {
-        
     }
 
     
