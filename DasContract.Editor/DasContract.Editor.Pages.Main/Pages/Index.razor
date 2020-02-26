@@ -1,7 +1,15 @@
-﻿@page "/"
+﻿@inherits PageBase
+@page "/"
 
-<h1>Hello, world!</h1>
+<h1>DasContract editor</h1>
 
-Welcome to your new app.
+<p>Hello there. What's on the menu?:</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<Card>
+    <Body>
+        <CardTitle>File editor</CardTitle>
+        <CardText>Edit your contracts in a form of a XML file. The online editor will keep your file in a timed session, but you can upload or download it any time.</CardText>
+        <ButtonInput Link="/ContractFileSession">File editor</ButtonInput>
+    </Body>
+</Card>
+
