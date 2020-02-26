@@ -9,6 +9,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Bonsai.RazorPages.Error\Bonsai.RazorPages.Error.csproj" />
+    <ProjectReference Include="..\..\DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj" />
+    <ProjectReference Include="..\..\DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\..\DasContract.DataPersistence.Repositories\DasContract.Editor.DataPersistence.Repositories.csproj" />
+    <ProjectReference Include="..\..\DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj" />
+    <ProjectReference Include="..\..\DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Pages.Main\DasContract.Editor.Pages.Main.csproj" />
   </ItemGroup>
 

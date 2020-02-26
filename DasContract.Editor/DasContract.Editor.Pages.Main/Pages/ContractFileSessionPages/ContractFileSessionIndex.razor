@@ -28,7 +28,7 @@
                          Label="Contract file input"
                          Name="files"
                          Multiple="false"
-                         UrlTarget="/contractFileSessionStarter/InitiateSession"
+                         UrlTarget="/api/ContractFileSession/InitiateSession/123"
                          OnUploadSuccess="async () => { await CreateNewSessionAsync(); }" />
 
     <UploadableFileInput UrlTarget="/test/file"
