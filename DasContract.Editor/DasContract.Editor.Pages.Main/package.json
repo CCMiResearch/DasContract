@@ -32,6 +32,7 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    
+    "@drozdik.m/service-worker": "^1.1.5",
+    "@drozdik.m/service-worker-registrator": "^1.0.1"
   }
 }

@@ -65,5 +65,28 @@ module.exports = [
                 }
             ]
         }
+    },
+
+    //SERVICE WORKER
+    {
+        //Entry points
+        entry: {
+            ServiceWorker: "./wwwroot/_dist/ServiceWorker/ServiceWorkerLink.js"
+        },
+
+        //Output
+        output: {
+            filename: "[name].js",
+            path: path.resolve(__dirname, "./wwwroot")
+        },
+
+        //Mode
+        mode: "production",
+
+        //Watcher
+        watch: false,
+        watchOptions: watchOptions = {
+            ignored: /node_modules/
+        }
     }
 ];

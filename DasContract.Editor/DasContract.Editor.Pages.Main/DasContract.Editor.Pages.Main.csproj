@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Favicon\safari-pinned-tab.svg" />
     <None Include="wwwroot\OG\Index.psd" />
   </ItemGroup>
 
@@ -24,6 +23,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\Components\foo\foo.ts" />
+    <TypeScriptCompile Include="wwwroot\Environment\Environment.ts" />
+    <TypeScriptCompile Include="wwwroot\ServiceWorker\ServiceWorkerLink.ts" />
+    <TypeScriptCompile Include="wwwroot\ServiceWorker\ServiceWorkerRegistrator.ts" />
   </ItemGroup>
 
   <ItemGroup>

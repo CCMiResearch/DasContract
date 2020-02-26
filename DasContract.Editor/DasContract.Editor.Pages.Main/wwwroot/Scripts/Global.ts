@@ -1,4 +1,5 @@
-﻿
+﻿//Import sevice worker
+import "../ServiceWorker/ServiceWorkerRegistrator";
 
 
 //Import styles

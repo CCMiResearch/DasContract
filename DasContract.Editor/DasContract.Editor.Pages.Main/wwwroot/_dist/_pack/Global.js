@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@drozdik.m/service-worker-registrator/dist/ServiceWorkerRegistrator.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/@drozdik.m/service-worker-registrator/dist/ServiceWorkerRegistrator.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("exports.__esModule = true;\r\nvar ServiceWorkerRegistrator = /** @class */ (function () {\r\n    /**\r\n     * @param path Path to the service worker script. Must be in the root directory.\r\n     */\r\n    function ServiceWorkerRegistrator(path) {\r\n        this.path = path;\r\n    }\r\n    /**\r\n     * Tells if service worker is supported\r\n     * */\r\n    ServiceWorkerRegistrator.prototype.IsSupported = function () {\r\n        return \"serviceWorker\" in navigator;\r\n    };\r\n    /**\r\n     * Checks if the service worker is supported in this browser and if so, registers the service worker\r\n     * */\r\n    ServiceWorkerRegistrator.prototype.Register = function () {\r\n        if (this.IsSupported()) {\r\n            var object_1 = this;\r\n            window.addEventListener('load', function () {\r\n                navigator.serviceWorker.register(object_1.path);\r\n            });\r\n        }\r\n    };\r\n    return ServiceWorkerRegistrator;\r\n}());\r\nexports.ServiceWorkerRegistrator = ServiceWorkerRegistrator;\r\n\n\n//# sourceURL=webpack:///./node_modules/@drozdik.m/service-worker-registrator/dist/ServiceWorkerRegistrator.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js!./wwwroot/Styles/Global.scss":
 /*!*************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/sass-loader/dist/cjs.js!./wwwroot/Styles/Global.scss ***!
@@ -139,7 +150,18 @@ eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/run
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports.__esModule = true;\r\n//Import styles\r\n__webpack_require__(/*! ../../Styles/Global.scss */ \"./wwwroot/Styles/Global.scss\");\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Global.js?");
+eval("exports.__esModule = true;\r\n//Import sevice worker\r\n__webpack_require__(/*! ../ServiceWorker/ServiceWorkerRegistrator */ \"./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js\");\r\n//Import styles\r\n__webpack_require__(/*! ../../Styles/Global.scss */ \"./wwwroot/Styles/Global.scss\");\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Global.js?");
+
+/***/ }),
+
+/***/ "./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js":
+/*!*****************************************************************!*\
+  !*** ./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("exports.__esModule = true;\r\nvar service_worker_registrator_1 = __webpack_require__(/*! @drozdik.m/service-worker-registrator */ \"./node_modules/@drozdik.m/service-worker-registrator/dist/ServiceWorkerRegistrator.js\");\r\nnew service_worker_registrator_1.ServiceWorkerRegistrator(\"/ServiceWorker.js\").Register();\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js?");
 
 /***/ })
 
