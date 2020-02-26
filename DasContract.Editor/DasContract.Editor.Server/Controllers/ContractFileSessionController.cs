@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Editor.AppLogic.Facades;
+using DasContract.Editor.AppLogic.Facades.Interfaces;
+using DasContract.Editor.DataPersistence.DbContexts;
 using DasContract.Editor.DataPersistence.Entities;
+using DasContract.Editor.DataPersistence.Repositories;
+using DasContract.Editor.DataPersistence.Repositories.Interfaces;
 using DasContract.Editor.Interfaces.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +18,9 @@ namespace DasContract.Editor.Server.Controllers
     [ApiController]
     public class ContractFileSessionController : ControllerBase
     {
-        readonly ContractFileSessionFacade facade;
+        readonly IContractFileSessionFacade facade;
 
-        public ContractFileSessionController(ContractFileSessionFacade facade)
+        public ContractFileSessionController(IContractFileSessionFacade facade)
         {
             this.facade = facade;
         }

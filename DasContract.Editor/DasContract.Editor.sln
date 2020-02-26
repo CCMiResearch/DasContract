@@ -97,23 +97,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppLogic", "AppLogic", "{20
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facades", "Facades", "{75A421EB-5448-461C-B52C-740D03DC2BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.AppLogic.Facades", "DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj", "{16ED6646-38F4-452F-989F-E24F4BBDCEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.AppLogic.Facades", "DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj", "{16ED6646-38F4-452F-989F-E24F4BBDCEDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.AppLogic.Facades.Interfaces", "DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj", "{11F679A4-BD15-47DF-B911-B12DA32ECA1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.AppLogic.Facades.Interfaces", "DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj", "{11F679A4-BD15-47DF-B911-B12DA32ECA1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Interfaces", "DasContract.Editor.Interfaces\DasContract.Editor.Interfaces.csproj", "{44C9F1BD-FAF4-4266-B1DC-E393BE6C60E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Interfaces", "DasContract.Editor.Interfaces\DasContract.Editor.Interfaces.csproj", "{44C9F1BD-FAF4-4266-B1DC-E393BE6C60E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppLogic", "AppLogic", "{B6B071D2-DB71-4B03-8B4D-97BFC4FB90BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facades", "Facades", "{0BA4B92A-8D0C-4B35-A78C-2AA0EA23D362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.AppLogic.Facades", "DasContract.Editor.Tests.AppLogic.Facades\DasContract.Editor.Tests.AppLogic.Facades.csproj", "{51972B08-B9B0-4D5D-9585-5346522BD702}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.AppLogic.Facades", "DasContract.Editor.Tests.AppLogic.Facades\DasContract.Editor.Tests.AppLogic.Facades.csproj", "{51972B08-B9B0-4D5D-9585-5346522BD702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Server.Interfaces", "DasContract.Editor.Server.Interfaces\DasContract.Editor.Server.Interfaces.csproj", "{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Server.Interfaces", "DasContract.Editor.Server.Interfaces\DasContract.Editor.Server.Interfaces.csproj", "{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{9A1220A0-79B0-4F3A-A8CE-A71C32FFB935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.Server", "DasContract.Editor.Tests.Server\DasContract.Editor.Tests.Server.csproj", "{049EE693-D56C-4315-9B05-A19210D4B78D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.Server", "DasContract.Editor.Tests.Server\DasContract.Editor.Tests.Server.csproj", "{049EE693-D56C-4315-9B05-A19210D4B78D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{502D81DB-8A4D-4B22-9ED2-9575286B3444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Utils.String", "DasContract.Editor.Utils.String\DasContract.Editor.Utils.String.csproj", "{912ECBC1-ECF4-408E-896A-54FA62D40F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -249,6 +253,10 @@ Global
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912ECBC1-ECF4-408E-896A-54FA62D40F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912ECBC1-ECF4-408E-896A-54FA62D40F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912ECBC1-ECF4-408E-896A-54FA62D40F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912ECBC1-ECF4-408E-896A-54FA62D40F6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -307,6 +315,8 @@ Global
 		{51972B08-B9B0-4D5D-9585-5346522BD702} = {0BA4B92A-8D0C-4B35-A78C-2AA0EA23D362}
 		{9A1220A0-79B0-4F3A-A8CE-A71C32FFB935} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
 		{049EE693-D56C-4315-9B05-A19210D4B78D} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
+		{502D81DB-8A4D-4B22-9ED2-9575286B3444} = {BB57D19E-E1D9-418D-86FB-A7083E2B9DFC}
+		{912ECBC1-ECF4-408E-896A-54FA62D40F6C} = {502D81DB-8A4D-4B22-9ED2-9575286B3444}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22B05CF7-6BDF-43DF-B350-6D3ACB9C7439}

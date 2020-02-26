@@ -15,6 +15,8 @@ namespace DasContract.Editor.Tests.Server.ServerFactory
     public class ServerWebApplicationFactory
         : WebApplicationFactory<Startup>
     {
+        readonly ContractEditorDbTestBuilder dbBuilder = new ContractEditorDbTestBuilder();
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -25,7 +27,11 @@ namespace DasContract.Editor.Tests.Server.ServerFactory
                 if (descriptor != null)
                     services.Remove(descriptor);
 
-                //Add InMemory database
+                //Add sqlite database
+                services.AddTransient<DbContextOptions<ContractEditorDb>>(e => null);
+                services.AddTransient(e => dbBuilder.Build());
+
+                /*//Add InMemory database
                 services.AddDbContext<ContractEditorDb>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryDbForTesting-" + Guid.NewGuid().ToString());
@@ -38,22 +44,18 @@ namespace DasContract.Editor.Tests.Server.ServerFactory
                 using var scope = sp.CreateScope();
                 var scopedServices = scope.ServiceProvider;
                 var db = scopedServices.GetRequiredService<ContractEditorDb>();
-                var logger = scopedServices
-                    .GetRequiredService<ILogger<ServerWebApplicationFactory>>();
 
                 //Ensure the database is created.
                 db.Database.EnsureCreated();
-
-                try
-                {
-                    db.SeedTests();
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "An error occurred seeding the " +
-                        "database with test messages. Error: {Message}", ex.Message);
-                }
+                db.SeedTests();*/
+                
             });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            dbBuilder.Dispose();
         }
     }
 }

@@ -35,6 +35,12 @@ namespace DasContract.Editor.Tests.Server.ServerFactory
                 SerializedContract = "serialized-contract-3"
             });
 
+            context.ContractFileSessions.Add(new ContractFileSession()
+            {
+                Id = "to-delete",
+                SerializedContract = "serialized-to-delete"
+            });
+
             context.SaveChanges();
         }
     }

@@ -12,6 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using DasContract.Editor.DataPersistence.Repositories;
+using DasContract.Editor.DataPersistence.Repositories.Interfaces;
+using DasContract.Editor.AppLogic.Facades;
+using DasContract.Editor.AppLogic.Facades.Interfaces;
 
 namespace DasContract.Editor.Server
 {
@@ -32,6 +36,10 @@ namespace DasContract.Editor.Server
             //Add contract editor db
             services.AddDbContext<ContractEditorDb>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ContractEditorDbLocal")));
+
+            //Add contract editor services
+            services.AddTransient<IContractFileSessionRepository, ContractFileSessionRepository>();
+            services.AddTransient<IContractFileSessionFacade, ContractFileSessionFacade>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
