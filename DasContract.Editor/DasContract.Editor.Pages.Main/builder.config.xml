@@ -3,6 +3,7 @@
   
   <Dependencies>
     <ConfigurationDependency Name="Bonsai.RazorComponents.MaterialBootstrap" ConfigPath="../Bonsai.RazorComponents.MaterialBootstrap/builder.config.xml" />
+    <ConfigurationDependency Name="Bonsai.RazorPages.Error" ConfigPath="../Bonsai.RazorPages.Error/builder.config.xml" />
   </Dependencies>
   
   <Prerequisites>

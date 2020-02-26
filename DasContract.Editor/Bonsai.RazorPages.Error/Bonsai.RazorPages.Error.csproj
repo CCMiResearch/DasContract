@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <AssemblyName>Bonsai_RazorPages_Error</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="builder.data.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bonsai.Services.LanguageDictionary\Bonsai.Services.LanguageDictionary.csproj" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call builder.exe --config builder.config.xml --no-animations --build-only-once --skip-dependencies&#xD;&#xA;" />
+  </Target>
+
+
+</Project>

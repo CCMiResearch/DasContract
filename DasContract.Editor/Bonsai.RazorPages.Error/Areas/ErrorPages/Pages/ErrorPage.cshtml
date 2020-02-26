@@ -1,0 +1,21 @@
+﻿@page "/error"
+@model Bonsai.RazorPages.Error.Areas.ErrorPages.Pages.ErrorPageModel
+@{
+    Layout = "_ErrorLayout";
+}
+
+
+@section Styles {
+    <link href="@Model.PathProvider.PathTo("/Styles/_dist/ErrorPage.css", LibraryInfo.Name)" rel="stylesheet" />
+}
+
+<div id="errorWrapper">
+    <img id="errorIcon" src="@Model.IconPath" alt="Error" />
+    <h1>@Model.Header</h1>
+    <p id="errorText">@Model.Text</p>
+    <span id="errorNumber">Error @Model.ErrorStatusCode</span>
+    <span class="commonButtonWrapper">
+        <a id="backButton" class="commonButton" href="/" title="@Model.BackButtonText">@Model.BackButtonText</a>
+    </span>
+</div>
+

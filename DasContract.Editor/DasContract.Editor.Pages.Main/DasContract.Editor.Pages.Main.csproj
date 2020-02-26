@@ -26,4 +26,12 @@
     <TypeScriptCompile Include="wwwroot\Components\foo\foo.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

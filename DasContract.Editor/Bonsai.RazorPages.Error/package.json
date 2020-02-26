@@ -1,0 +1,32 @@
+{
+  "name": "@drozdik.m/error-pages",
+  "version": "1.0.0",
+  "description": ".NET core 3 razor class library with error pages",
+  "main": "dist/Module.js",
+  "typings": "dist/Module.d.ts",
+  "scripts": {
+    "clear": "rmdir /S /Q \"dist\"",
+    "compile": "npm run compile-styles",
+    "compile-styles": "sass --load-path=node_modules --load-path=../ wwwroot/Styles/Global.scss:wwwroot/Styles/_dist/Global.css wwwroot/Styles/ErrorPage.scss:wwwroot/Styles/_dist/ErrorPage.css wwwroot/Styles/OfflinePage.scss:wwwroot/Styles/_dist/OfflinePage.css",
+    "build": "npm update && npm update -D && npm run compile",
+    "test": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bonsai-development.visualstudio.com/AlphaTemplate/_git/AlphaTemplate"
+  },
+  "keywords": [
+    "ErrorPages",
+    "SCSS",
+    "JavaScript",
+    "TypeScript"
+  ],
+  "author": "Martin Drozdík <info@bonsai-development.cz> (http://bonsai-development.cz)",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "@drozdik.m/common-button": "^1.0.3",
+    "@drozdik.m/common-mixins": "^1.0.5",
+    "@drozdik.m/px-in-rem": "^1.0.1"
+  }
+}

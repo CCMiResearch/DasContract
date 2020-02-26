@@ -18,6 +18,10 @@ using DasContract.Editor.AppLogic.Facades;
 using DasContract.Editor.AppLogic.Facades.Interfaces;
 using Microsoft.AspNetCore.ResponseCompression;
 using Bonsai.RazorComponents.MaterialBootstrap.Services;
+using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
+using Bonsai.Services.Interfaces;
+using Bonsai.RazorPages.Error.Services.LanguageDictionary;
+using Bonsai.RazorPages.Error.Services.LanguageDictionary.Languages;
 
 namespace DasContract.Editor.Server
 {
@@ -67,8 +71,17 @@ namespace DasContract.Editor.Server
                     new[] { "application/octet-stream" });
             });
 
+            //File provider
+            if (Environment.IsDevelopment())
+                services.AddSingleton<IFilePathProvider, RegularFilePathProvider>();
+            else
+                services.AddSingleton<IFilePathProvider, VersionedFilePathProvider>();
+
             //Material bootstrap
             services.AddMaterialBootstrap();
+
+            //Error pages services
+            services.AddSingleton<IErrorLanguageDictionary, EnglishErrorLanguageDictionary>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +93,10 @@ namespace DasContract.Editor.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBlazorDebugging();
+            }
+            else
+            {
+                app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
             }
                 
             app.UseHttpsRedirection();
@@ -94,6 +111,7 @@ namespace DasContract.Editor.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapFallbackToClientSideBlazor<Pages.Main.Program>("index.html");
             });
         }

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
+    <ProjectReference Include="..\Bonsai.RazorPages.Error\Bonsai.RazorPages.Error.csproj" />
     <ProjectReference Include="..\DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj" />
     <ProjectReference Include="..\DasContract.DataPersistence.Repositories\DasContract.Editor.DataPersistence.Repositories.csproj" />
     <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj" />

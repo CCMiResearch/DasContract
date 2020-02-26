@@ -5,7 +5,7 @@ using Bonsai.Services.LanguageDictionary.Static.Languages;
 
 namespace Bonsai.RazorComponents.MaterialBootstrap.Services.LanguageDictionary.Languages
 {
-    class EnglishMaterialBootstrapLanguageDictionary : CzechStaticLanguageDictionary, IMaterialBootstrapLanguageDictionary
+    class EnglishMaterialBootstrapLanguageDictionary : EnglishStaticLanguageDictionary, IMaterialBootstrapLanguageDictionary
     {
         public EnglishMaterialBootstrapLanguageDictionary()
             : base(dictionary)

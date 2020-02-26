@@ -14,7 +14,7 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Services
     {
         public static IServiceCollection AddMaterialBootstrap(this IServiceCollection servicesCollection)
         {
-            servicesCollection.AddSingleton<IScroll, SlowScroll>();
+            servicesCollection.AddScoped<IScroll, SlowScroll>();
             servicesCollection.AddSingleton<IMaterialBootstrapLanguageDictionary, EnglishMaterialBootstrapLanguageDictionary>();
 
             servicesCollection.AddFileReaderService(options => {
