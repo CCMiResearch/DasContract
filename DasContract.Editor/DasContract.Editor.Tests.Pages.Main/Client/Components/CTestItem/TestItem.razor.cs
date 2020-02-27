@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
-namespace DasContract.Editor.Tests.Pages.Main.Client.Components.CTestItem
+namespace DasContract.Editor.Tests.Components.Main.Client.Components.CTestItem
 {
     public partial class TestItem
     {

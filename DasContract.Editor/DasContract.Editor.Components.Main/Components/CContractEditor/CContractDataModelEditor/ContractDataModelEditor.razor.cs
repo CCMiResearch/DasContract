@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Pages.Main.Components.CContractEditor.CContractDataModelEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
 {
     public partial class ContractDataModelEditor
     {

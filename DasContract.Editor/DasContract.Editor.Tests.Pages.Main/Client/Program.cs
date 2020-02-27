@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DasContract.Editor.Tests.Pages.Main.Client
+namespace DasContract.Editor.Tests.Components.Main.Client
 {
     public class Program
     {

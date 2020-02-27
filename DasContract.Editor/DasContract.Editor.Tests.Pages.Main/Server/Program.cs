@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace DasContract.Editor.Tests.Pages.Main.Server
+namespace DasContract.Editor.Tests.Components.Main.Server
 {
     public class Program
     {

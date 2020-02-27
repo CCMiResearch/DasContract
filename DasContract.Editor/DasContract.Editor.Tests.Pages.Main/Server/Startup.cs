@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 
-namespace DasContract.Editor.Tests.Pages.Main.Server
+namespace DasContract.Editor.Tests.Components.Main.Server
 {
     public class Startup
     {
