@@ -1,1 +1,39 @@
-﻿
+﻿@inherits ContractEditorSectionBase
+
+<h2>Data model entities</h2>
+
+<div class="dataModelEditor">
+    <AlertController @ref="alertController" />
+
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <EditableItemsList Editable="true"
+                       Deletable="true"
+                       Orderable="true"
+                       OnAdd="async () => { await AddEntityAsync(); }"
+                       OnDelete="async e => { await DeleteEntityAsync(e); }"
+                       Items="@Contract.DataModel.Entities">
+        <ItemHeading>
+            <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+        </ItemHeading>
+        <ItemEdit>
+            <p>This is edit of entity @context.Name</p>
+        </ItemEdit>
+    </EditableItemsList>
+</div>
+
+@* Delete dialog *@
+
+
+@* Add entity dialog *@
+<DialogWindow @ref="createDialogWindow" Title="Add new entity">
+    <Body>
+        <ModelForm Model="@newEntityModel"
+                   OnValidSubmit="async () => { await ConfirmAddEntityAsync(); }">
+            <Inputs>
+                <TextValueInput PropertyExpression="() => newEntityModel.Name"
+                                @bind-Value="newEntityModel.Name" />
+            </Inputs>
+        </ModelForm>
+    </Body>
+</DialogWindow>

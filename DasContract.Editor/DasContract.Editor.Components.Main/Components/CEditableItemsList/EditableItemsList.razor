@@ -40,14 +40,20 @@
                     </div>
 
                     <div class="controls">
-                        <ButtonInput Scheme="ButtonInputScheme.Info"
-                                     OnClick="() => { ToggleEditor(currentIndex); }">
-                            @(IsOpened(currentIndex) ? "Close" : "Edit")
-                        </ButtonInput>
-                        <ButtonInput Scheme="ButtonInputScheme.Danger"
-                                     OnClick="() => { DeleteItem(currentIndex); }">
-                            Delete
-                        </ButtonInput>
+                        @if (Editable)
+                        {
+                            <ButtonInput Scheme="ButtonInputScheme.Info"
+                                         OnClick="() => { ToggleEditor(currentIndex); }">
+                                @(IsOpened(currentIndex) ? "Close" : "Edit")
+                            </ButtonInput>
+                        }
+                        @if (Deletable)
+                        {
+                            <ButtonInput Scheme="ButtonInputScheme.Danger"
+                                         OnClick="async () => { await DeleteItemAsync(currentIndex); }">
+                                Delete
+                            </ButtonInput>
+                        }
                     </div>
                 </div>
 
@@ -60,6 +66,16 @@
             </li>
 
             i++;
+        }
+
+        @if (Extendable)
+        {
+            <div class="text-right mt-3">
+                <ButtonInput OnClick="async () => { await AddItemAsync(); }"
+                             Type="ButtonInputType.Raised">
+                    Add
+                </ButtonInput>
+            </div>
         }
     }
 </ul>

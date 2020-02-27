@@ -6,17 +6,29 @@
 
     EditorContract Contract = new EditorContract()
     {
-        //DataModel = new ContractDataModel()
-        //{
-        //    Entities = new List<ContractEntity>()
-        //    {
-        //        new ContractEntity()
-        //        {
-        //             Name = "Entity 1",
-
-        //        }
-        //    }
-        //}
+        DataModel = new ContractDataModel()
+        {
+            Entities = new List<ContractEntity>()
+            {
+                new ContractEntity()
+                {
+                     Name = "Entity 1",
+                },
+                new ContractEntity()
+                {
+                     Name = "Entity 2",
+                     PrimitiveProperties = new List<PrimitiveContractProperty>()
+                     {
+                         new PrimitiveContractProperty()
+                         {
+                            IsMandatory = true,
+                            Name = "Property 1",
+                            Type = PrimitiveContractPropertyType.Bool
+                         }
+                     }
+                }
+            }
+        }
     };
 }
 
@@ -27,8 +39,5 @@
     <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
 </div>
 
-<div class="my-5">
-    <input type="button" value="ReadOnly: true" @onclick="@(e => { ReadOnly = true; })" />
-    <input type="button" value="ReadOnly: false" @onclick="@(e => { ReadOnly = false; })" />
-</div>
-
+<ContractDataModelEditor DataModel="@Contract.DataModel" 
+                         Loading="@Loading" />

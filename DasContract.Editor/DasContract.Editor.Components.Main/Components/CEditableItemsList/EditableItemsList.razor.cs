@@ -23,8 +23,30 @@ namespace DasContract.Editor.Components.Main.Components.CEditableItemsList
         public RenderFragment<TModel> ItemEdit { get; set; }
 
         //--------------------------------------------------
+        //                    ADDING
+        //--------------------------------------------------
+        [Parameter]
+        public EventCallback OnAdd
+        {
+            get => onAdd.GetValueOrDefault();
+            set => onAdd = value;
+        }
+        EventCallback? onAdd = null;
+
+        protected async Task AddItemAsync()
+        {
+            await onAdd?.InvokeAsync(null);
+        }
+
+        public bool Extendable => onAdd != null;
+
+        //--------------------------------------------------
         //                    EDITING
         //--------------------------------------------------
+
+        [Parameter]
+        public bool Editable { get; set; } = true;
+
         protected int CurrentlyOpenedEditor { get; set; } = -1;
         protected void ToggleEditor(int index)
         {
@@ -46,9 +68,24 @@ namespace DasContract.Editor.Components.Main.Components.CEditableItemsList
         //--------------------------------------------------
         //                   DELETING
         //--------------------------------------------------
-        protected void DeleteItem(int index)
+        [Parameter]
+        public bool Deletable { get; set; } = false;
+
+        [Parameter]
+        public EventCallback<int> OnDelete
         {
-            Items.RemoveAt(index);
+            get => onDelete.GetValueOrDefault();
+            set => onDelete = value;
+        }
+        EventCallback<int>? onDelete = null;
+
+
+        protected async Task DeleteItemAsync(int index)
+        {
+            if (onDelete == null)
+                Items.RemoveAt(index);
+            else
+                await onDelete.Value.InvokeAsync(index);
         }
 
         //--------------------------------------------------

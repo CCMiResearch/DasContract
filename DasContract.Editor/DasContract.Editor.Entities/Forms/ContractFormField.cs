@@ -80,7 +80,7 @@ namespace DasContract.Editor.Entities.Forms
                 propertyBinding = value;
             }
         }
-        ContractPropertyBinding propertyBinding;
+        ContractPropertyBinding propertyBinding = null;
 
 
         //--------------------------------------------------
