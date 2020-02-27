@@ -89,16 +89,14 @@ namespace DasContract.Editor.Server.Controllers
             }
         }
 
-        [HttpPost("InitiateSession/{id}")]
-        public async Task<ActionResult> InitiateSession(string id, List<IFormFile> files)
+        [HttpPost("InitiateWithFile/{id}")]
+        public async Task<ActionResult> InitiateSession(string id, List<IFormFile> contractFile)
         {
-            var temp = Request.Form.Files;
-            if (files == null)
-                throw new ArgumentNullException(nameof(files));
+            if (contractFile == null)
+                throw new ArgumentNullException(nameof(contractFile));
 
-            var contractFile = files.Single();
             var fileContentBuilder = new StringBuilder();
-            using (var reader = new StreamReader(contractFile.OpenReadStream()))
+            using (var reader = new StreamReader(contractFile.Single().OpenReadStream()))
             {
                 while (reader.Peek() >= 0)
                     fileContentBuilder.AppendLine(await reader.ReadLineAsync());

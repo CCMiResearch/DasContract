@@ -21,7 +21,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
         protected NavigationManager NavigationManager { get; set; }
 
         string newSessionId { get; } = Guid.NewGuid().ToString();
-        string newSessionUrl => "/api/ContractFileSession/StartSession/" + newSessionId;
+        string newSessionUrl => "/api/ContractFileSession/InitiateWithFile/" + newSessionId;
 
         public static Breadcrumb Breadcrumb { get; } = new Breadcrumb("File session", "/ContractFileSession");
 
@@ -62,13 +62,14 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
         //--------------------------------------------------
         //               CREATE NEW SESSION
         //--------------------------------------------------
-        async Task CreateNewSessionAsync()
+        Task CreateNewSessionAsync()
         {
             Loading = true;
 
             NavigationManager.NavigateTo("/ContractFileSession/" + newSessionId);
 
             Loading = false;
+            return Task.CompletedTask;
         }
     }
 }

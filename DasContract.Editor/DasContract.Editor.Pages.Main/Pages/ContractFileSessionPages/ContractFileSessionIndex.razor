@@ -5,9 +5,9 @@
 
 <h1>Contract file session</h1>
 <p>Your contracts are managed in sessions. You will have to download or upload your files to save or edit contracts.</p>
-<Alert Scheme="AlertScheme.Info">Contract files are <em>.xml</em> files that contain <strong>editor file information</strong>. Any other <em>.xml</em> files that do not originate from this site are most probably not suitable.</Alert>
+<Alert Scheme="AlertScheme.Info">Contract files are <em>.dascontract</em> files that contain <strong>editor file information</strong>. Any other files that do not originate from this site are most probably not suitable.</Alert>
 
-<div class="my-4">
+<div class="my-5">
     <h2>Create new contract</h2>
     <p>You can create brand new contract. This will create new file session, where you will be able to edit the contract and optionally save it on your device.</p>
     <AlertController @ref="newContractAlertController" />
@@ -17,25 +17,17 @@
 
 </div>
 
-<div class="my-4">
+<div class="my-5">
     <h2>Start new session</h2>
-    <p>If you already have a <em>contract editor .xml file</em>, you can upload it to create new file session. In the you file session, you will be able to edit your existing contract and then download a new version of your contract.</p>
+    <p>If you already have a <em>contract editor .dascontract file</em>, you can upload it to create a new file session. In the file session, you will be able to edit your existing contract and then download a new version of your contract.</p>
     <Alert Scheme="AlertScheme.Info">
-        The <em>.xml</em> file must be in a correct contract format. Usually, only <em>.xml</em> files from this editor are suitable to edit.
+        The <em>.dascontract</em> file must be in a correct contract format. Usually, only <em>.dascontract</em> files from this editor are suitable to edit.
     </Alert>
-    <UploadableFileInput Accept=".xml"
-                         Description="File input for your .xml contract file"
+    <UploadableFileInput Accept=".dascontract"
+                         Description="File input for your .dascontract contract file"
                          Label="Contract file input"
-                         Name="files"
+                         Name="contractFile"
                          Multiple="false"
-                         UrlTarget="/api/ContractFileSession/InitiateSession/123"
+                         UrlTarget="@newSessionUrl"
                          OnUploadSuccess="async () => { await CreateNewSessionAsync(); }" />
-
-    <UploadableFileInput UrlTarget="/test/file"
-                         Name="files"
-                         Id="files"
-                         Loading="@Loading"
-                         Label="This is label"
-                         Description="This is description"
-                         Multiple="true"/>
 </div>

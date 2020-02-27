@@ -140,8 +140,7 @@ namespace DasContract.Editor.Tests.Server
                 { bytes, "contractFile", "fileName" }
             };
 
-
-            var response = await client.PostAsync("/api/ContractFileSession/StartSession/new-contract-session-1", data);
+            var response = await client.PostAsync("/api/ContractFileSession/InitiateWithFile/new-contract-session-1", data);
             Assert.True(response.IsSuccessStatusCode);
 
             response = await client.GetAsync("/api/ContractFileSession/" + "new-contract-session-1");
