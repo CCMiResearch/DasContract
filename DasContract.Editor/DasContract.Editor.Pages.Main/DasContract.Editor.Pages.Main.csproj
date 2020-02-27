@@ -11,6 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="builder.data.xml" />
+    <None Remove="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.ts" />
+    <None Remove="Components\CContractEditor\ContractEditor.ts" />
+    <None Remove="Components\CEditableItemsList\EditableItemsList.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\OG\Index.psd" />
   </ItemGroup>
 
@@ -22,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.ts" />
+    <TypeScriptCompile Include="Components\CContractEditor\ContractEditor.ts" />
+    <TypeScriptCompile Include="Components\CEditableItemsList\EditableItemsList.ts" />
     <TypeScriptCompile Include="wwwroot\Components\foo\foo.ts" />
     <TypeScriptCompile Include="wwwroot\Environment\Environment.ts" />
     <TypeScriptCompile Include="wwwroot\ServiceWorker\ServiceWorkerLink.ts" />

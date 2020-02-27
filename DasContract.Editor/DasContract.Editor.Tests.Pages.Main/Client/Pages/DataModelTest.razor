@@ -1,0 +1,34 @@
+﻿@page "/datamodel"
+
+@code{
+    public bool Loading { get; set; } = false;
+    public bool ReadOnly { get; set; } = false;
+
+    EditorContract Contract = new EditorContract()
+    {
+        //DataModel = new ContractDataModel()
+        //{
+        //    Entities = new List<ContractEntity>()
+        //    {
+        //        new ContractEntity()
+        //        {
+        //             Name = "Entity 1",
+
+        //        }
+        //    }
+        //}
+    };
+}
+
+<h1>Contract data model editor</h1>
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<div class="my-5">
+    <input type="button" value="ReadOnly: true" @onclick="@(e => { ReadOnly = true; })" />
+    <input type="button" value="ReadOnly: false" @onclick="@(e => { ReadOnly = false; })" />
+</div>
+

@@ -1,0 +1,33 @@
+﻿@import "../../node_modules/@drozdik.m/common-mixins/_module";
+
+$transition: 250ms cubic-bezier(0.215, 0.61, 0.355, 1) !default;
+
+.editableItemsList {
+    position: relative;
+
+    .editableItemsListHeading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .headingContent {
+            display: inline-block;
+        }
+
+        .controls {
+            display: inline-block;
+        }
+    }
+
+    .editableItemsListContent {
+        @include transition(transform $transition);
+
+        &, &.closed {
+            @include transform(scaleY(0));
+        }
+
+        &.opened {
+            @include transform(scaleY(1));
+        }
+    }
+}
