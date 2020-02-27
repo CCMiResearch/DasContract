@@ -30,7 +30,5 @@ namespace DasContract.Editor.Entities.Integrity.Extensions
 
             return res;
         }
-
-
     }
 }
