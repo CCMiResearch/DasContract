@@ -1,0 +1,90 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>DasContract_Editor_Components_Main</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="builder.data.xml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.razor" />
+    <_ContentIncludedByDefault Remove="Components\CContractEditor\ContractEditor.razor" />
+    <_ContentIncludedByDefault Remove="Components\CEditableItemsList\EditableItemsListX.razor" />
+    <_ContentIncludedByDefault Remove="Components\CEditableItemsList\EditableItemsList_backup.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Components\CContractEditor\ContractEditor.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CContractEditor\ContractEditor.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Components\CEditableItemsList\EditableItemsList_backup.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CEditableItemsList\EditableItemsList_backup.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Components\CEditableItemsList\EditableItemsListX.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CEditableItemsList\EditableItemsListX.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="Components\CContractEditor\ContractEditor.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="Components\CEditableItemsList\EditableItemsList.ts">
+      <SubType>Code</SubType>
+    </None>
+  </ItemGroup>
+
+</Project>
