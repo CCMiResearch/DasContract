@@ -39,13 +39,18 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CModelForm
         /// Callback triggered on form valid submit
         /// </summary>
         [Parameter]
-        public EventCallback OnValidSubmit { get; set; }
+        public EventCallback OnValidSubmit
+        {
+            get => onValidSubmit.GetValueOrDefault();
+            set => onValidSubmit = value;
+        }
+        EventCallback? onValidSubmit = null;
 
-        /// <summary>
-        /// Callback triggered on any form submit
-        /// </summary>
-        [Parameter]
-        public EventCallback OnSubmit { get; set; }
+        protected async Task HandleValidSubmitAsync()
+        {
+            if (onValidSubmit != null)
+                await onValidSubmit.Value.InvokeAsync(null);
+        }
 
         /// <summary>
         /// Callback triggered when reset is confirmed
@@ -53,16 +58,8 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CModelForm
         [Parameter]
         public EventCallback OnReset 
         {
-            get
-            {
-                if (onReset == null)
-                    return default;
-                return onReset.Value;
-            }
-            set
-            {
-                onReset = value;
-            }
+            get => onReset.GetValueOrDefault();
+            set => onReset = value;
         }
         EventCallback? onReset = null;
 

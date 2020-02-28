@@ -1,0 +1,71 @@
+﻿@inherits ContractPropertyEditorBase
+
+<div class="propertiesEditor">
+    <AlertController @ref="alertController" />
+
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <EditableItemsList Editable="true"
+                       Deletable="true"
+                       Orderable="true"
+                       OnAdd="async () => { await AddPropertyAsync(); }"
+                       OnDelete="async e => { await DeletePropertyAsync(e); }"
+                       Items="@Entity.PrimitiveProperties">
+        <ItemHeading>
+            <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+        </ItemHeading>
+        <ItemEdit>
+            
+            @{ 
+                var propertyModel = context;
+            }
+            <ModelForm Model="@propertyModel">
+                <Inputs>
+                    <TextValueInput PropertyExpression="() => propertyModel.Name"
+                                    @bind-Value="@propertyModel.Name" />
+
+                    <EnumValueInput PropertyExpression="() => propertyModel.Type"
+                                    @bind-Value="@propertyModel.Type" />
+
+                    <BooleanValueInput PropertyExpression="() => propertyModel.IsMandatory"
+                                       @bind-Value="@propertyModel.IsMandatory" />
+                </Inputs>
+            </ModelForm>
+        </ItemEdit>
+    </EditableItemsList>
+</div>
+
+@* Delete dialog *@
+<DialogWindow @ref="deleteDialogWindow"
+              Size="DialogWindowSize.Large">
+    <Body>
+        @if (propertyToDelete != null)
+        {
+            <p class="h4">Do you really want to delete <strong>@propertyToDelete.Name</strong>?</p>
+        }
+        <p>The following will happen:</p>
+        @if (deletePropertyAnalysis != null)
+        {
+            <DeleteAnalysisResult AnalysisResult="deletePropertyAnalysis" />
+        }
+    </Body>
+    <Footer>
+        <ButtonInput Scheme="ButtonInputScheme.Danger"
+                     OnClick="async () => { await ConfirmDeleteAsync(); }">
+            Delete
+        </ButtonInput>
+    </Footer>
+</DialogWindow>
+
+@* Add entity dialog *@
+<DialogWindow @ref="createDialogWindow" Title="Add new entity">
+    <Body>
+        <ModelForm Model="@newPropertyModel"
+                   OnValidSubmit="async () => { await ConfirmAddPropertyAsync(); }">
+            <Inputs>
+                <TextValueInput PropertyExpression="() => newPropertyModel.Name"
+                                @bind-Value="newPropertyModel.Name" />
+            </Inputs>
+        </ModelForm>
+    </Body>
+</DialogWindow>

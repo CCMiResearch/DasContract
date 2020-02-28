@@ -58,9 +58,6 @@
 
 
   <ItemGroup>
-    <None Update="Components\CContractEditor\CContractDataModelEditor\ContractDataModelEditor.ts">
-      <SubType>Code</SubType>
-    </None>
     <None Update="Components\CContractEditor\ContractEditor.ts">
       <SubType>Code</SubType>
     </None>

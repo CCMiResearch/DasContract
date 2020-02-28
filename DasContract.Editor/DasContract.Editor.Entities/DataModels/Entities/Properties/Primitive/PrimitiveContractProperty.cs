@@ -1,6 +1,7 @@
 ﻿using DasContract.Editor.Entities.DataModels.Entities.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive
@@ -10,6 +11,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive
         /// <summary>
         /// Data type of this property
         /// </summary>
+        [DisplayName("Data type")]
+        [Description("Sets a data type for this property")]
         public PrimitiveContractPropertyType Type
         {
             get => type;

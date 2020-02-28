@@ -1,7 +1,5 @@
 ﻿@inherits ContractEditorSectionBase
 
-<h2>Data model entities</h2>
-
 <div class="dataModelEditor">
     <AlertController @ref="alertController" />
 
@@ -17,19 +15,16 @@
             <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
         </ItemHeading>
         <ItemEdit>
-            <p>This is edit of entity @context.Name</p>
+            <div class="propertyEditorsWraper">
+                <h3>Primitive properties</h3>
+                <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
+
+                <h3>Reference properties</h3>
+                <ReferenceContractPropertyEditor Contract="@Contract" Entity="@context" />
+            </div>
         </ItemEdit>
     </EditableItemsList>
 </div>
-
-@if (entityToDelete != null)
-{
-    <p>To delete: @entityToDelete.Name</p>
-}
-else
-{
-    <p>To delete: null</p>
-}
 
 @* Delete dialog *@
 <DialogWindow @ref="deleteDialogWindow"

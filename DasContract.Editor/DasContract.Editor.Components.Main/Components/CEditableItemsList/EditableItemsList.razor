@@ -5,7 +5,7 @@
 
     <LoadingScreenAnimation Loading="@Loading" />
 
-    @if (Orderable)
+    @if (Orderable && Items.Count > 0)
     {
         <ButtonInput Scheme="ButtonInputScheme.Info"
                      Type="ButtonInputType.Raised"

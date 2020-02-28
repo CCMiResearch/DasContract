@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 using DasContract.Editor.Entities.Interfaces;
 using DasContract.Editor.Migrator;
@@ -10,6 +12,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
+        [DisplayName("Property name")]
+        //[Required(ErrorMessage = "Property name is required")]
         public string Name
         {
             get => name;
@@ -25,6 +29,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties
         /// <summary>
         /// Tells if this property is allowed to be the default value or not
         /// </summary>
+        [DisplayName("Mandatory property")]
+        [Description("Indicates whenever this property must have a value")]
         public bool IsMandatory
         {
             get => isMandatory;

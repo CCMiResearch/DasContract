@@ -8,7 +8,7 @@
     <LoadingScreenAnimation Loading="@Loading" />
 
     <!--EDIT FORM-->
-    <EditForm @ref="EditForm" Model="@Model" OnValidSubmit="@OnValidSubmit" OnSubmit="@OnSubmit">
+    <EditForm @ref="EditForm" Model="@Model" OnValidSubmit="@HandleValidSubmitAsync">
         <ModelFormCascator ReadOnly="@ReadOnly" Loading="false">
 
             <!--Annotations validator-->
@@ -19,7 +19,7 @@
 
             <!--Bottom controls-->
             <AlertController @ref="AlertController" />
-            @if (!ReadOnly)
+            @if (!ReadOnly && onValidSubmit != null)
             {
                 <ButtonInput Submit="true" Scheme="ButtonInputScheme.Success">
                     @LanguageDictionary.GetContent(MaterialBootstrapLanguageDictionary.ModelFormSave)
