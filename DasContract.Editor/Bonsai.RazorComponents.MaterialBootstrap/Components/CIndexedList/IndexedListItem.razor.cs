@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Bonsai.RazorComponents.Interfaces;
 using Bonsai.Utils.String;
 using Microsoft.AspNetCore.Components;
 
@@ -46,5 +47,11 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CIndexedList
             }
         }
         private string id = null;
+
+        [Parameter]
+        public HeadingLevel HeadingLevel { get; set; } = HeadingLevel.H2;
+
+        [Parameter]
+        public bool CreateHeader { get; set; } = true;
     }
 }

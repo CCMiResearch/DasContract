@@ -14,6 +14,9 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CIndexedList
         [Parameter]
         public RenderFragment<IndexedList> ChildContent { get; set; }
 
+        [Parameter]
+        public bool CreateMap { get; set; } = true;
+
         protected List<IndexedListItem> Items { get; set; } = new List<IndexedListItem>();
 
         public void AddItem(IndexedListItem item)

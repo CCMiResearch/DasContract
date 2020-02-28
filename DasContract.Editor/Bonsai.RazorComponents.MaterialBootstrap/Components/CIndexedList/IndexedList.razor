@@ -5,9 +5,8 @@
 
         <LoadingScreenAnimation Loading="@Loading" />
 
-        @if (Items.Count > 0)
+        @if (CreateMap  && Items.Count > 0)
         {
-            <h2>Sections</h2>
             <div class="list-group bmd-list-group-sm">
                 @foreach (var item in Items)
                 {

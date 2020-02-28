@@ -31,3 +31,4 @@ require("../../Components/CIndexedList/IndexedList");
 require("../../Components/CProgressBar/ProgressBar");
 require("../../Components/CFileInput/FileInput");
 require("../../Components/CTable/Table");
+require("../../Components/CHeading/Heading");

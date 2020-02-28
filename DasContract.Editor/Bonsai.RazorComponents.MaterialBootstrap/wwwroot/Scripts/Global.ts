@@ -46,6 +46,7 @@ import "../../Components/CIndexedList/IndexedList";
 import "../../Components/CProgressBar/ProgressBar";
 import "../../Components/CFileInput/FileInput";
 import "../../Components/CTable/Table";
+import "../../Components/CHeading/Heading";
 
 
 

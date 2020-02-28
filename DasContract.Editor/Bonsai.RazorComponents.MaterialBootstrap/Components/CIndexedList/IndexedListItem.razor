@@ -2,6 +2,10 @@
 
 
 <div class="indexedListItem">
-    <h2 id="@Id">@Title</h2>
+    @if (CreateHeader)
+    {
+        <Heading Level="@HeadingLevel" Id="@Id">@Title</Heading>
+    }
+
     @ChildContent
 </div>
