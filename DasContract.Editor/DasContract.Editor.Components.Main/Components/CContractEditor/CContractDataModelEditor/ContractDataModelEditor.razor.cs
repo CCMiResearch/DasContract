@@ -6,6 +6,9 @@ using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.DataModels;
+using DasContract.Editor.Entities.DataModels.Entities;
+using DasContract.Editor.Entities.Integrity.Analysis;
+using DasContract.Editor.Entities.Integrity.DataModel.Properties;
 using Microsoft.AspNetCore.Components;
 
 namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
@@ -15,14 +18,38 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
         [Parameter]
         public EditorContract Contract { get; set; }
 
+        public ContractDataModel DataModel => Contract.DataModel;
+
+
         AlertController alertController;
 
         //--------------------------------------------------
         //                    DELETE
         //--------------------------------------------------
+        DialogWindow deleteDialogWindow;
+        ContractIntegrityAnalysisResult deleteEntityAnalysis;
+        ContractEntity entityToDelete = null;
         public async Task DeleteEntityAsync(int index)
         {
-            throw new NotImplementedException();
+            entityToDelete = Contract.DataModel.Entities[index];
+            deleteEntityAnalysis = Contract.AnalyzeIntegrityOf(entityToDelete);
+            await deleteDialogWindow.OpenAsync();
+        }
+
+        async Task ConfirmDeleteAsync()
+        {
+            try
+            {
+                Contract.RemoveSafely(entityToDelete);
+                alertController.AddAlert("Delete successful", AlertScheme.Success);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+                alertController.AddAlert("Something went wrong :(", AlertScheme.Danger);
+            }
+
+            await deleteDialogWindow.CloseAsync();
         }
 
         //--------------------------------------------------

@@ -22,8 +22,36 @@
     </EditableItemsList>
 </div>
 
-@* Delete dialog *@
+@if (entityToDelete != null)
+{
+    <p>To delete: @entityToDelete.Name</p>
+}
+else
+{
+    <p>To delete: null</p>
+}
 
+@* Delete dialog *@
+<DialogWindow @ref="deleteDialogWindow"
+              Size="DialogWindowSize.Large">
+    <Body>
+        @if (entityToDelete != null)
+        {
+            <p class="h4">Do you really want to delete <strong>@entityToDelete.Name</strong>?</p>
+        }
+        <p>The following will happen:</p>
+        @if (deleteEntityAnalysis != null)
+        {
+            <DeleteAnalysisResult AnalysisResult="deleteEntityAnalysis" />
+        }
+    </Body>
+    <Footer>
+        <ButtonInput Scheme="ButtonInputScheme.Danger"
+                     OnClick="async () => { await ConfirmDeleteAsync(); }">
+            Delete
+        </ButtonInput>
+    </Footer>
+</DialogWindow>
 
 @* Add entity dialog *@
 <DialogWindow @ref="createDialogWindow" Title="Add new entity">

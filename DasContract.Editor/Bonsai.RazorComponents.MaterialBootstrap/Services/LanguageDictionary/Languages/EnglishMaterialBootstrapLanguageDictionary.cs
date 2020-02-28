@@ -26,6 +26,9 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Services.LanguageDictionary.L
             { MaterialBootstrapLanguageDictionary.ModelFormReset, "Reset" },
             { MaterialBootstrapLanguageDictionary.ModelFormResetConfirm, "Do you really want to reset the form?" },
             { MaterialBootstrapLanguageDictionary.ModelFormResetConfirmButton, "Reset" },
+
+            //Dialog window
+            { MaterialBootstrapLanguageDictionary.DialogWindowCloseButton, "Close" },
         };
     }
 }

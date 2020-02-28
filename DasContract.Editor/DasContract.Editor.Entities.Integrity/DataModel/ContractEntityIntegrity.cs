@@ -73,7 +73,8 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
             foreach(var property in entity.PrimitiveProperties)
                 childrenAnalyses.Add(contract.AnalyzeIntegrityOf(property));
             foreach (var property in entity.ReferenceProperties)
-                childrenAnalyses.Add(contract.AnalyzeIntegrityOf(property));
+                if (property.Entity != null)
+                    childrenAnalyses.Add(contract.AnalyzeIntegrityOf(property));
 
             return new ContractIntegrityAnalysisResult(deleteRisks, childrenAnalyses);
         }

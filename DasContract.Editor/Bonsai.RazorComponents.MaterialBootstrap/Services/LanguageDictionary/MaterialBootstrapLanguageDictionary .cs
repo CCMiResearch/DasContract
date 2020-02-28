@@ -23,5 +23,7 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Services.LanguageDictionary
         public const string ModelFormResetConfirm = "Material Bootstrap - Model form - Delete confirm";
 
         public const string ModelFormResetConfirmButton = "Material Bootstrap - Model form - Delete confirm button";
+
+        public const string DialogWindowCloseButton = "Material Bootstrap - Dialog window - Close button";
     }
 }

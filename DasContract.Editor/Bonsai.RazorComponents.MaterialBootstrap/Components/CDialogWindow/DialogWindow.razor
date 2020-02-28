@@ -1,5 +1,5 @@
 ﻿@inherits RootComponent
-
+@inject IMaterialBootstrapLanguageDictionary LanguageDictionary
 
 <div class="modal fade" tabindex="-1" id="@Id">
 
@@ -22,7 +22,9 @@
             <div class="modal-footer">
                 @if (ShowCloseButton)
                 {
-                    <ButtonInput Scheme="ButtonInputScheme.Secondary" OnClick="@(async () => { await CloseAsync(); })">Zavřít</ButtonInput>
+                <ButtonInput Scheme="ButtonInputScheme.Secondary" OnClick="@(async () => { await CloseAsync(); })">
+                    @LanguageDictionary.GetContent(MaterialBootstrapLanguageDictionary.DialogWindowCloseButton)
+                </ButtonInput>
                 }
 
                 @Footer

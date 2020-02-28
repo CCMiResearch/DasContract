@@ -39,5 +39,5 @@
     <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
 </div>
 
-<ContractDataModelEditor DataModel="@Contract.DataModel" 
+<ContractDataModelEditor Contract="@Contract" 
                          Loading="@Loading" />

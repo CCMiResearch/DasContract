@@ -82,7 +82,7 @@ namespace DasContract.Editor.Entities.Processes
         /// <summary>
         /// Contract main process. Currently only one process is allowed. 
         /// </summary>
-        public ContractProcess Main { get; set; }
+        public ContractProcess Main { get; set; } = new ContractProcess();
 
         //--------------------------------------------------
         //                  MIGRATOR

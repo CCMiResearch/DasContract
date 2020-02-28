@@ -42,5 +42,40 @@ namespace DasContract.Editor.Tests.Entities.Integrity
             Assert.AreEqual(0, analysis.DeleteRisks.Count);
             Assert.AreEqual(2, analysis.ChildrenAnalyses.Count);
         }
+
+        [Test]
+        public void EntityAnalysis_Sample1()
+        {
+            var contract = new EditorContract()
+            {
+                DataModel = new ContractDataModel()
+                {
+                    Entities = new List<ContractEntity>()
+                    {
+                        new ContractEntity()
+                        {
+                             Name = "Entity 1",
+                        },
+                        new ContractEntity()
+                        {
+                             Name = "Entity 2",
+                             PrimitiveProperties = new List<PrimitiveContractProperty>()
+                             {
+                                 new PrimitiveContractProperty()
+                                 {
+                                    IsMandatory = true,
+                                    Name = "Property 1",
+                                    Type = PrimitiveContractPropertyType.Bool
+                                 }
+                             }
+                        }
+                    }
+                }
+            };
+
+            var analysis = contract.AnalyzeIntegrityOf(contract.DataModel.Entities[1]);
+            Assert.IsTrue(!analysis.HasDeleteRisks());
+
+        }
     }
 }
