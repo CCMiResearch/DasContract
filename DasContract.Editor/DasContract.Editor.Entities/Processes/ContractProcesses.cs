@@ -59,7 +59,8 @@ namespace DasContract.Editor.Entities.Processes
             UpdateMainProcessActivities(oldProcess.UserActivities, newProcess.UserActivities);
 
             //Update start event
-            newProcess.StartEvent.CopyDataFrom(oldProcess.StartEvent);
+            if (oldProcess.StartEvent != null && newProcess.StartEvent != null)
+                newProcess.StartEvent.CopyDataFrom(oldProcess.StartEvent);
         }
 
         /// <summary>
