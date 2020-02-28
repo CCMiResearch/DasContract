@@ -58,17 +58,7 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
                          IsMandatory = true,
                          Entity = entity2
                     }
-                },
-                CollectionReferenceProperties = new List<CollectionReferenceContractProperty>()
-                {
-                    new CollectionReferenceContractProperty()
-                    {
-                         Id = "property-4",
-                         Name = "Property 4",
-                         IsMandatory = false,
-                         Entities = new ObservableCollection<ContractEntity>(){ entity2 }
-                    }
-                },
+                }
             };
 
             dataModel.Entities.Add(entity1);
@@ -99,11 +89,6 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
             Assert.AreEqual(entity2, entity1.ReferenceProperties[0].Entity);
             Assert.AreEqual("entity-2", entity1.ReferenceProperties[0].EntityId);
             
-            Assert.AreEqual("property-4", entity1.CollectionReferenceProperties[0].Id);
-            Assert.AreEqual("Property 4", entity1.CollectionReferenceProperties[0].Name);
-            Assert.IsFalse(entity1.CollectionReferenceProperties[0].IsMandatory);
-            Assert.AreEqual(entity2, entity1.CollectionReferenceProperties[0].Entities[0]);
-            Assert.AreEqual("entity-2", entity1.CollectionReferenceProperties[0].EntityIds[0]);
         }
 
         string GetExampleBPMN()

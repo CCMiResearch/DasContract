@@ -19,12 +19,16 @@ namespace DasContract.Editor.Tests.Entities.Integrity
     {
         protected PrimitiveContractProperty property1;
         protected ReferenceContractProperty property2;
-        protected CollectionReferenceContractProperty property3;
         protected PrimitiveContractProperty property4;
+        protected ReferenceContractProperty property5;
+        protected ReferenceContractProperty property6;
+        protected ReferenceContractProperty property7;
 
         protected ContractEntity entity1;
         protected ContractEntity entity2;
         protected ContractEntity entity3;
+        protected ContractEntity entity4;
+        protected ContractEntity entity5;
 
         protected EditorContract contract;
 
@@ -46,29 +50,44 @@ namespace DasContract.Editor.Tests.Entities.Integrity
             {
                 Entity = entity1
             };
-            property3 = new CollectionReferenceContractProperty()
+            property5 = new ReferenceContractProperty()
             {
-                Entities = new ObservableCollection<ContractEntity>()
-                {
-                    entity1
-                }
+                Entity = entity1
             };
 
             entity2 = new ContractEntity()
             {
                 ReferenceProperties = new List<ReferenceContractProperty>()
                 {
-                    property2
+                    property2,
+                    property5
                 }
             };
 
             entity3 = new ContractEntity()
             {
-                CollectionReferenceProperties = new List<CollectionReferenceContractProperty>()
+                
+            };
+
+
+            property6 = new ReferenceContractProperty();
+            property7 = new ReferenceContractProperty();
+            entity4 = new ContractEntity()
+            {
+                ReferenceProperties = new List<ReferenceContractProperty>()
                 {
-                    property3
+                    property6
                 }
             };
+            entity5 = new ContractEntity()
+            {
+                ReferenceProperties = new List<ReferenceContractProperty>()
+                {
+                    property7
+                }
+            };
+            property6.Entity = entity5;
+            property7.Entity = entity4;
 
             contract = new EditorContract()
             {
@@ -78,7 +97,9 @@ namespace DasContract.Editor.Tests.Entities.Integrity
                     {
                         entity1,
                         entity2,
-                        entity3
+                        entity3,
+                        entity4,
+                        entity5
                     },
                 },
                 Processes = new ContractProcesses()
@@ -98,6 +119,13 @@ namespace DasContract.Editor.Tests.Entities.Integrity
                                                   PropertyBinding = new ContractPropertyBinding()
                                                   {
                                                      Property = property4
+                                                  }
+                                             },
+                                              new ContractFormField()
+                                             {
+                                                  PropertyBinding = new ContractPropertyBinding()
+                                                  {
+                                                     Property = property5
                                                   }
                                              }
                                         }

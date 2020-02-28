@@ -43,19 +43,6 @@ namespace DasContract.Editor.Entities.Serialization.XML
                         property.Entity = contract.DataModel.Entities
                             .Where(e => e.Id == property.EntityId)
                             .Single();
-
-                //Collection reference properties
-                foreach (var property in entity.CollectionReferenceProperties)
-                {
-                    foreach (var entityId in property.EntityIds)
-                    {
-                        property.Entities.Add(
-                                contract.DataModel.Entities
-                                .Where(e => e.Id == entityId)
-                                .Single()
-                            );
-                    }
-                }
             }
         }
 
@@ -86,7 +73,7 @@ namespace DasContract.Editor.Entities.Serialization.XML
                 properties = properties
                     .Concat(entity.PrimitiveProperties)
                     .Concat(entity.ReferenceProperties)
-                    .Concat(entity.CollectionReferenceProperties).ToList();
+                    .ToList();
 
             //Bind property bindings
             foreach (var binding in bindings)

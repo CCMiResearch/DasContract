@@ -1,0 +1,62 @@
+﻿@page "/IntegrityAnalysisResult"
+
+@code {
+    ContractIntegrityAnalysisResult result1;
+    ContractIntegrityAnalysisResult result2;
+    ContractIntegrityAnalysisResult result3;
+    ContractIntegrityAnalysisResult resultEmpty1;
+    ContractIntegrityAnalysisResult resultEmpty2;
+
+    protected override void OnInitialized()
+    {
+        resultEmpty1 = new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>());
+        resultEmpty2 = new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>());
+        resultEmpty2.ChildrenAnalyses.Add(new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()));
+        resultEmpty2.ChildrenAnalyses.Add(new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()));
+        resultEmpty2.ChildrenAnalyses.Add(new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()));
+
+        result1 = new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()
+        {
+            new ContractIntegrityAnalysisDeleteCase("Property xxx must be deleted", () => { }),
+            new ContractIntegrityAnalysisDeleteCase("Property yyy must be deleted", () => { })
+        });
+
+        result2 = new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()
+        {
+            new ContractIntegrityAnalysisDeleteCase("Property asd must be deleted", () => { }),
+            new ContractIntegrityAnalysisDeleteCase("Property dsa must be deleted", () => { })
+        }, new List<ContractIntegrityAnalysisResult>() { 
+            result1
+        });
+
+        result3 = new ContractIntegrityAnalysisResult(new List<ContractIntegrityAnalysisDeleteCase>()
+        {
+            new ContractIntegrityAnalysisDeleteCase("This is just broken, sorry :D", () => { })
+        }, new List<ContractIntegrityAnalysisResult>() { 
+            result2,
+            result1
+        });
+
+    }
+
+
+}
+
+<h1>Integrity analysis result</h1>
+
+<h2>Empty</h2>
+<DeleteAnalysisResult AnalysisResult="resultEmpty1"></DeleteAnalysisResult>
+
+<h2>Empty but some children</h2>
+<DeleteAnalysisResult AnalysisResult="resultEmpty2"></DeleteAnalysisResult>
+
+<h2>Errors</h2>
+<div class="my-5">
+    <DeleteAnalysisResult AnalysisResult="result1"></DeleteAnalysisResult>
+</div>
+<div class="my-5">
+    <DeleteAnalysisResult AnalysisResult="result2"></DeleteAnalysisResult>
+</div>
+<div class="my-5">
+    <DeleteAnalysisResult AnalysisResult="result3"></DeleteAnalysisResult>
+</div>

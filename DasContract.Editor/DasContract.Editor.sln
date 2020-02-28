@@ -139,9 +139,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Componen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{1BCBF9F3-BD95-494B-B343-C8B3579415A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Entities.Integrity", "DasContract.Editor.Entities.Integrity\DasContract.Editor.Entities.Integrity.csproj", "{A3EAC132-BDDD-4CAF-A648-62807BD55442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Entities.Integrity", "DasContract.Editor.Entities.Integrity\DasContract.Editor.Entities.Integrity.csproj", "{A3EAC132-BDDD-4CAF-A648-62807BD55442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Tests.Entities.Integrity", "DasContract.Editor.Tests.Entities.Integrity\DasContract.Editor.Tests.Entities.Integrity.csproj", "{59C2047C-0080-423E-BA46-9E5C3409703C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.Entities.Integrity", "DasContract.Editor.Tests.Entities.Integrity\DasContract.Editor.Tests.Entities.Integrity.csproj", "{59C2047C-0080-423E-BA46-9E5C3409703C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

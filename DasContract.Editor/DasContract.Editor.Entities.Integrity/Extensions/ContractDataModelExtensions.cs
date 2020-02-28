@@ -31,9 +31,6 @@ namespace DasContract.Editor.Entities.Integrity.Extensions
                 foreach (var entityProperty in entity.ReferenceProperties)
                     if (entityProperty == property)
                         return entity;
-                foreach (var entityProperty in entity.CollectionReferenceProperties)
-                    if (entityProperty == property)
-                        return entity;
             }
 
             throw new ArgumentException("No suitable entity found");

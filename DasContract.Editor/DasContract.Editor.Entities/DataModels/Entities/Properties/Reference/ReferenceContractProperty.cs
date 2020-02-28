@@ -30,8 +30,18 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
         }
         ContractEntity entity;
 
-
         public string EntityId { get; set; }
 
+        public ReferenceContractPropertyType Type
+        {
+            get => type;
+            set
+            {
+                if (value != type)
+                    migrator.Notify(() => type, b => type = b);
+                type = value;
+            }
+        }
+        ReferenceContractPropertyType type = ReferenceContractPropertyType.SingleReference;
     }
 }

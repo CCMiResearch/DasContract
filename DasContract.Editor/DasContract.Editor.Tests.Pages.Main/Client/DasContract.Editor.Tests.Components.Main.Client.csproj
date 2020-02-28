@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Components.Main\DasContract.Editor.Components.Main.csproj" />
+    <ProjectReference Include="..\..\DasContract.Editor.Entities.Integrity\DasContract.Editor.Entities.Integrity.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Pages.Main\DasContract.Editor.Pages.Main.csproj" />

@@ -9,6 +9,8 @@ using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Forms;
 using DasContract.Editor.Entities.Integrity.DataModel.Properties;
+using DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive;
+using DasContract.Editor.Entities.Integrity.DataModel.Properties.Reference;
 using DasContract.Editor.Entities.Integrity.Extensions;
 using DasContract.Editor.Entities.Processes;
 using DasContract.Editor.Entities.Processes.Process;
@@ -38,6 +40,24 @@ namespace DasContract.Editor.Tests.Entities.Integrity
             Assert.AreEqual(0, analysis.DeleteRisks.Count);
         }
 
-        
+
+        [Test]
+        public void ReferencePropertyAnalysis()
+        {
+            Assert.AreEqual(1, contract.AnalyzeIntegrityOf(property5).DeleteRisks.Count);
+
+            contract.RemoveSafely(property5);
+            Assert.AreEqual(0, contract.AnalyzeIntegrityOf(property5).DeleteRisks.Count);
+            Assert.IsNull(contract.Processes.Main.UserActivities.First().Form.Fields[1].PropertyBinding);
+            Assert.IsTrue(contract.DataModel.Entities[1].ReferenceProperties.Where(e => e == property5).Count() == 0);
+        }
+
+        [Test]
+        public void ReferencePropertyAnalysis_NoRisks()
+        {
+            var analysis = contract.AnalyzeIntegrityOf(property2);
+            Assert.AreEqual(0, analysis.DeleteRisks.Count);
+        }
+
     }
 }

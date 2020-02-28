@@ -14,7 +14,6 @@ namespace DasContract.Editor.Tests.Entities.Integrity.Extensions
         {
             Assert.AreEqual(entity1, contract.DataModel.GetEntityOf(property1));
             Assert.AreEqual(entity2, contract.DataModel.GetEntityOf(property2));
-            Assert.AreEqual(entity3, contract.DataModel.GetEntityOf(property3));
         }
 
         [Test]

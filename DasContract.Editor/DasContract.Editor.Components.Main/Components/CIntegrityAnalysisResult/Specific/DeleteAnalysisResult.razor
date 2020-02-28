@@ -1,0 +1,29 @@
+﻿@inherits RootComponent
+
+
+<div style="margin-left:@MarginLeftValue">
+    @if (Depth == 0 && !AnalysisResult.HasDeleteRisks())
+    {
+        <Alert Scheme="AlertScheme.Success">No deletion risks. It is safe to delete this entity.</Alert>
+    }
+    else if (!AnalysisResult.HasDeleteRisks())
+    {
+        <p class="text-muted">No further risks</p>
+    }
+    else
+    {
+        @if (AnalysisResult.DeleteRisks.Count == 0)
+        {
+            <Alert Scheme="AlertScheme.Warning">This entity alone can be safely deleted, but its dependents can not.</Alert>
+        }
+
+        @foreach (var deleteRisks in AnalysisResult.DeleteRisks)
+        {
+            <Alert Scheme="AlertScheme.Danger">@deleteRisks.ConsequenceMessage</Alert>
+        }
+        @foreach (var child in AnalysisResult.ChildrenAnalyses)
+        {
+            <DeleteAnalysisResult AnalysisResult="child" Depth="@(Depth + 1)" />
+        }
+    }
+</div>    

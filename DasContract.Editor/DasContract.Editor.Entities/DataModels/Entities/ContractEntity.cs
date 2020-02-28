@@ -68,28 +68,6 @@ namespace DasContract.Editor.Entities.DataModels.Entities
         }
         List<ReferenceContractProperty> referenceProperties = new List<ReferenceContractProperty>();
 
-
-        /// <summary>
-        /// Collection of reference properties of this entity
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO class")]
-        public List<CollectionReferenceContractProperty> CollectionReferenceProperties
-        {
-            get
-            {
-                foreach (var item in collectionReferenceProperties)
-                    item.WithMigrator(migrator);
-                return collectionReferenceProperties;
-            }
-            set
-            {
-                if (value != collectionReferenceProperties)
-                    migrator.Notify(() => collectionReferenceProperties, d => collectionReferenceProperties = d);
-                collectionReferenceProperties = value;
-            }
-        }
-        List<CollectionReferenceContractProperty> collectionReferenceProperties = new List<CollectionReferenceContractProperty>();
-
         //--------------------------------------------------
         //                  MIGRATOR
         //--------------------------------------------------
