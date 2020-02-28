@@ -60,7 +60,7 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
                     {
                         deleteRisks.Add(
                             new ContractIntegrityAnalysisDeleteCase(
-                                $"Property {currentEntity.Name}.{currentProperty.Name} will be deleted)",
+                                $"Property {currentEntity.Name}.{currentProperty.Name} will be deleted",
                                 () => { currentEntity.ReferenceProperties.Remove(currentProperty); })
                                 );
 

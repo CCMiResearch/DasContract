@@ -15,7 +15,27 @@
             <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
         </ItemHeading>
         <ItemEdit>
-            <p>This is edit of reference property @context.Name</p>
+            @{ 
+                var propertyModel = context;
+            }
+
+            <ModelForm Model="propertyModel">
+                <Inputs>
+                    <TextValueInput PropertyExpression="() => propertyModel.Name"
+                                    @bind-Value="@propertyModel.Name" />
+
+                    <ContractEntityValueInput PropertyExpression="() => propertyModel.Entity"
+                                              @bind-Value="propertyModel.Entity"
+                                              Entities="Contract.DataModel.Entities" />
+
+                    <EnumValueInput PropertyExpression="() => propertyModel.Type"
+                                    @bind-Value="@propertyModel.Type" />
+
+                    <BooleanValueInput PropertyExpression="() => propertyModel.IsMandatory"
+                                       @bind-Value="@propertyModel.IsMandatory" />
+                </Inputs>
+            </ModelForm>
+
         </ItemEdit>
     </EditableItemsList>
 </div>

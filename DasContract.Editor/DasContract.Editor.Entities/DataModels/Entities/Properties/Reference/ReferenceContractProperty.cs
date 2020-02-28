@@ -2,6 +2,7 @@
 using DasContract.Editor.Entities.DataModels.Entities.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -13,6 +14,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
         /// The linked contract entity
         /// </summary>
         [XmlIgnore]
+        [DisplayName("Target entity type")]
+        [Description("Entity type that will be used as a data type of this property")]
         public ContractEntity Entity
         {
             get => entity?.WithMigrator(migrator);
@@ -32,6 +35,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
 
         public string EntityId { get; set; }
 
+        [DisplayName("Property type")]
+        [Description("Property type further specifies the data type of this property")]
         public ReferenceContractPropertyType Type
         {
             get => type;
