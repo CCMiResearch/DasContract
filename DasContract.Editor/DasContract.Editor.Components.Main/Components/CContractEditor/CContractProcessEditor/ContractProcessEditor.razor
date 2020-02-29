@@ -10,6 +10,27 @@
 
     <div class="my-3 text-right">
         <ButtonInput Scheme="ButtonInputScheme.Danger" OnClick="async () => { await RevertAsync(); }" Disabled="@(!EditInProgress)">Revert</ButtonInput>
-        <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="async () => { await ConfirmAsync(); }">Confirm</ButtonInput>
+        <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="async () => { await SaveAsync(); }">Confirm</ButtonInput>
     </div>
 </div>   
+
+<DialogWindow @ref="@saveDialogWindow">
+    <Body>
+        <p class="h4">Do you really want to rewrite the diagram?</p>
+        <p>The following will happen:</p>
+        @if (saveIntegrityResult != null)
+        {
+            <DeleteAnalysisResult AnalysisResult="@saveIntegrityResult" />
+        }
+
+    </Body>
+    <Footer>
+        @if (saveIntegrityResult != null)
+        {
+            <ButtonInput Scheme="saveIntegrityResult.HasDeleteRisks() ? ButtonInputScheme.Danger : ButtonInputScheme.Success"
+                         OnClick="async () => { await ConfirmSaveAsync(); }">
+                Confirm
+            </ButtonInput>
+        }
+    </Footer>
+</DialogWindow>

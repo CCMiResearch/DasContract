@@ -73,7 +73,7 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Processes
                 throw new AtLeastOneStartEventRequiredException("At least one start event is required");
 
             if (!newMainProcess.EndEvents.Any())
-                throw new AtLeastOneEndEventRequiredException("At least one start event is required");
+                throw new AtLeastOneEndEventRequiredException("At least one end event is required");
 
             return newMainProcess;
         }

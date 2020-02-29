@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
 using Bonsai.Utils.String;
 using DasContract.Editor.Entities;
+using DasContract.Editor.Entities.Integrity.Analysis;
+using DasContract.Editor.Entities.Integrity.Contract.Processes;
 using DasContract.Editor.Entities.Processes;
 using DasContract.Editor.Entities.Processes.Diagrams;
 using Microsoft.AspNetCore.Components;
@@ -65,20 +68,46 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
             StateHasChanged();
         }
 
-        public async Task ConfirmAsync()
+
+        DialogWindow saveDialogWindow;
+        ContractIntegrityAnalysisResult saveIntegrityResult;
+        BPMNProcessDiagram diagramToSave;
+        public async Task SaveAsync()
         {
             try
             {
                 var xml = await Mediator.GetDiagramXML(Id);
-                Processes.Diagram = BPMNProcessDiagram.FromXml(xml);
+                var newDiagram = BPMNProcessDiagram.FromXml(xml);
+                diagramToSave = newDiagram;
+
+                //Validate
+                Contract.ValidatePotentialDiagram(newDiagram);
+                saveIntegrityResult = Contract.AnalyzeIntegrityWhenReplacedWith(newDiagram);
+
+                //Show dialog
+                await saveDialogWindow.OpenAsync();
+            }
+            catch(Exception e)
+            {
+                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger); 
+            }
+        }
+
+        protected async Task ConfirmSaveAsync()
+        {
+            try
+            {
+                Contract.ReplaceSafely(diagramToSave);
                 alertController.AddAlert("Save successful", AlertScheme.Success);
                 EditInProgress = false;
                 StateHasChanged();
             }
             catch(Exception e)
             {
-                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger); 
+                alertController.AddAlert("Save confirm unsuccessful: " + e.Message, AlertScheme.Danger);
             }
+
+            await saveDialogWindow.CloseAsync();
         }
     }
 }
