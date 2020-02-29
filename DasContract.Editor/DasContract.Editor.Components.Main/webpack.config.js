@@ -28,7 +28,8 @@ module.exports = [
             new webpack.ProvidePlugin({
                 $: "jquery",
                 jQuery: "jquery",
-                Popper: 'popper.js/dist/umd/popper'
+                Popper: "popper.js/dist/umd/popper",
+                BpmnJS: ""
             })
         ],
 
@@ -62,7 +63,24 @@ module.exports = [
                     }, {
                         loader: 'sass-loader' 
                     }]
-                }
+                },
+
+                //FONTS
+                { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader?limit=100000" }
+
+                //FONTS AND FILES
+                //{
+                //    test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                //    use: [
+                //        {
+                //            loader: 'file-loader',
+                //            options: {
+                //                name: '[name].[ext]',
+                //                outputPath: 'fonts/'
+                //            }
+                //        }
+                //    ]
+                //}
             ]
         }
     }

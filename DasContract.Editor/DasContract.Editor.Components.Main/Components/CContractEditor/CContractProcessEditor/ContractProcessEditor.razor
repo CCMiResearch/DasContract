@@ -1,0 +1,15 @@
+﻿@inherits LoadableComponent
+
+<div class="contractProcessEditor" @key="@Id">
+
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <div class="contractProcessEditorBPMN" id="@Id"></div>
+
+    <AlertController @ref="@alertController" />
+
+    <div class="my-3 text-right">
+        <ButtonInput Scheme="ButtonInputScheme.Danger" OnClick="async () => { await RevertAsync(); }" Disabled="@(!EditInProgress)">Revert</ButtonInput>
+        <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="async () => { await ConfirmAsync(); }">Confirm</ButtonInput>
+    </div>
+</div>   

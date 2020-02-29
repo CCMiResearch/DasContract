@@ -27,63 +27,15 @@ namespace DasContract.Editor.Entities.Processes
                 if (value != diagram)
                     migrator.Notify(() => diagram, d => diagram = d);
                 diagram = value;
-
-                if (value == null)
-                    return;
-
-                var processes = ProcessFactory.FromXML(value.DiagramXML);
-                if (processes.Count() != 1)
-                    throw new InvalidProcessCountException("The diagram must contain exactly one process");
-
-                UpdateMainProcess(processes.First());
             }
         }
-        BPMNProcessDiagram diagram;
+        BPMNProcessDiagram diagram = BPMNProcessDiagram.Default();
 
-        /// <summary>
-        /// Updates the main process and copies custom data from the old one
-        /// </summary>
-        /// <param name="value">The new main process</param>
-        public void UpdateMainProcess(ContractProcess value)
-        {
-            var oldProcess = Main;
-            var newProcess = value;
-            Main = newProcess;
-
-            if (newProcess == null || oldProcess == null)
-                return;
-
-            //Update activities
-            UpdateMainProcessActivities(oldProcess.ScriptActivities, newProcess.ScriptActivities);
-            UpdateMainProcessActivities(oldProcess.BusinessActivities, newProcess.BusinessActivities);
-            UpdateMainProcessActivities(oldProcess.UserActivities, newProcess.UserActivities);
-
-            //Update start event
-            if (oldProcess.StartEvent != null && newProcess.StartEvent != null)
-                newProcess.StartEvent.CopyDataFrom(oldProcess.StartEvent);
-        }
-
-        /// <summary>
-        /// Updates ienumerable of new activities with custom data from the old activities
-        /// </summary>
-        /// <typeparam name="TActivity"></typeparam>
-        /// <param name="oldActivities"></param>
-        /// <param name="newActivities"></param>
-        void UpdateMainProcessActivities<TActivity>(IEnumerable<TActivity> oldActivities, IEnumerable<TActivity> newActivities)
-            where TActivity : ContractActivity, IDataCopyable<TActivity>
-        {
-            foreach (var item in oldActivities)
-            {
-                var res = newActivities.Where(e => e.Id == item.Id).SingleOrDefault();
-                if (res != null)
-                    res.CopyDataFrom(item);
-            }
-        }
 
         /// <summary>
         /// Contract main process. Currently only one process is allowed. 
         /// </summary>
-        public ContractProcess Main { get; set; } = new ContractProcess();
+        public ContractProcess Main { get; set; } = ContractProcess.Empty();
 
         //--------------------------------------------------
         //                  MIGRATOR

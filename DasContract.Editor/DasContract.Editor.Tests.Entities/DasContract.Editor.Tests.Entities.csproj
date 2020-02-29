@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasContract.Editor.Entities.Integrity\DasContract.Editor.Entities.Integrity.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
   </ItemGroup>
 

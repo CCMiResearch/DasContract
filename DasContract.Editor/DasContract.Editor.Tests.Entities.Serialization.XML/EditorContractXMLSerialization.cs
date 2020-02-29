@@ -7,6 +7,7 @@ using DasContract.Editor.Entities.DataModels.Entities;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Forms;
+using DasContract.Editor.Entities.Integrity.Contract.Processes;
 using DasContract.Editor.Entities.Processes;
 using DasContract.Editor.Entities.Processes.Diagrams;
 using DasContract.Editor.Entities.Processes.Factories;
@@ -113,9 +114,9 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
             Assert.AreEqual("Gateway_07a4al6", process.SequenceFlows.First().TargetId);
             Assert.AreEqual("Is it General Kenobi?", process.Gateways.First().Name);
 
-            Assert.AreEqual("StartEvent_0q2d5wg", process.StartEvent.Id);
-            Assert.AreEqual(1, process.StartEvent.Outgoing.Count);
-            Assert.IsNull(process.StartEvent.Name);
+            Assert.AreEqual("StartEvent_0q2d5wg", process.StartEvents.First().Id);
+            Assert.AreEqual(1, process.StartEvents.First().Outgoing.Count);
+            Assert.IsNull(process.StartEvents.First().Name);
 
             Assert.AreEqual("Keep calm and refactor the whole goddamn shit goddamit dslkfmsldnfosindofni", process.ScriptActivities.SingleOrDefault().Name);
             Assert.AreEqual("Hello there", process.BusinessActivities.SingleOrDefault().Name);
@@ -139,6 +140,26 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
         public void ExampleProcess()
         {
             AssertExampleProcess(GetExampleProcess());
+        }
+
+        [Test]
+        public void SerializationWithEmptyContract()
+        {
+            var contract = new EditorContract()
+            {
+                Id = "contract",
+                Name = "Contract"
+            };
+
+            //Serialize
+            var serializedContract = EditorContractXML.To(contract);
+
+            //Deserialize
+            var deserializedContract = EditorContractXML.From(serializedContract);
+
+            //Check
+            Assert.AreEqual("contract", deserializedContract.Id);
+            Assert.AreEqual("Contract", deserializedContract.Name);
         }
 
         [Test]
@@ -173,15 +194,16 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
                 DataModel = GetExampleDataModel(),
                 Processes = new ContractProcesses()
                 {
-                    Diagram = BPMNProcessDiagram.FromXml(GetExampleBPMN())
+                    
                 }
             };
+            contract.ReplaceSafely(BPMNProcessDiagram.FromXml(GetExampleBPMN()));
             contract.Processes.Main.UserActivities.First().Form = new ContractForm() { Id = "XXX" };
             contract.Processes.Main.BusinessActivities.First().Diagram = DMNProcessDiagram.FromXML("YYY");
             contract.Processes.Main.ScriptActivities.First().Script = "ZZZ";
-            contract.Processes.Main.StartEvent.StartForm = new ContractForm() { Id = "XXXX" };
+            contract.Processes.Main.StartEvents.First().StartForm = new ContractForm() { Id = "XXXX" };
 
-            contract.Processes.Main.StartEvent.StartForm.Fields.Add(new ContractFormField()
+            contract.Processes.Main.StartEvents.First().StartForm.Fields.Add(new ContractFormField()
             {
                  PropertyBinding = new ContractPropertyBinding() { Property = contract.DataModel.Entities[0].PrimitiveProperties[0] }
             });
@@ -197,13 +219,13 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
             var deserializedContract = EditorContractXML.From(serializedContract);
 
             //Check
-            Assert.AreEqual("XXXX", contract.Processes.Main.StartEvent.StartForm.Id);
+            Assert.AreEqual("XXXX", contract.Processes.Main.StartEvents.First().StartForm.Id);
             Assert.AreEqual("XXX", contract.Processes.Main.UserActivities.First().Form.Id);
             Assert.AreEqual("YYY", contract.Processes.Main.BusinessActivities.First().Diagram.DiagramXML);
             Assert.AreEqual("ZZZ", contract.Processes.Main.ScriptActivities.First().Script);
 
             Assert.AreEqual(contract.DataModel.Entities[0].PrimitiveProperties[0], 
-                contract.Processes.Main.StartEvent.StartForm.Fields[0].PropertyBinding.Property);
+                contract.Processes.Main.StartEvents.First().StartForm.Fields[0].PropertyBinding.Property);
             Assert.AreEqual(contract.DataModel.Entities[0].PrimitiveProperties[0],
                 contract.Processes.Main.UserActivities.First().Form.Fields[0].PropertyBinding.Property);
 

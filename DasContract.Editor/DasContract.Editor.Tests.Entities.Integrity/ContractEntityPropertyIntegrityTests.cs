@@ -10,7 +10,6 @@ using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Forms;
 using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Reference;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties;
 using DasContract.Editor.Entities.Integrity.Extensions;
 using DasContract.Editor.Entities.Processes;
 using DasContract.Editor.Entities.Processes.Process;

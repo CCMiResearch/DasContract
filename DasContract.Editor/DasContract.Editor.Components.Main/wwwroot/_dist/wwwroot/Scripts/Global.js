@@ -1,5 +1,6 @@
 exports.__esModule = true;
-//Import sevice worker
+window.DasContractComponents = {};
+//Import components
 require("../../Components/CContractEditor/ContractEditor");
 require("../../Components/CEditableItemsList/EditableItemsList");
 require("../../Components/CIntegrityAnalysisResult/IntegrityAnalysisResult");

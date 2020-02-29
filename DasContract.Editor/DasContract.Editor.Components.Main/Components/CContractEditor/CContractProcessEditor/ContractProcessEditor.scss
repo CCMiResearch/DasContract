@@ -1,0 +1,39 @@
+﻿
+
+.contractProcessEditor {
+    position: relative;
+
+    .contractProcessEditorBPMN {
+        max-height: 60vh;
+        height: 55rem;
+        border: 1px dotted #a9a9a9;
+        margin-bottom: 1.5rem;
+        // **insert facepalm meme here**
+        .bpmn-icon-intermediate-event-none,
+        .bpmn-icon-subprocess-expanded,
+        .bpmn-icon-data-object,
+        .bpmn-icon-data-store,
+        .bpmn-icon-participant,
+        .bpmn-icon-group,
+        .bpmn-icon-start-event-message,
+        .bpmn-icon-start-event-timer,
+        .bpmn-icon-start-event-condition,
+        .bpmn-icon-start-event-signal,
+        .bpmn-icon-end-event-message,
+        .bpmn-icon-end-event-escalation,
+        .bpmn-icon-end-event-error,
+        .bpmn-icon-end-event-compensation,
+        .bpmn-icon-end-event-signal,
+        .bpmn-icon-end-event-terminate,
+        .bpmn-icon-gateway-eventbased,
+        .djs-popup-header,
+        .bpmn-icon-send,
+        .bpmn-icon-receive,
+        .bpmn-icon-manual,
+        .bpmn-icon-service,
+        .bpmn-icon-call-activity,
+        .bpmn-icon-subprocess-collapsed {
+            display: none;
+        }
+    }
+}

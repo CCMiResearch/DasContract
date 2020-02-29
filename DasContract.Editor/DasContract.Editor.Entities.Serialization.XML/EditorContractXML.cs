@@ -52,12 +52,16 @@ namespace DasContract.Editor.Entities.Serialization.XML
             var bindings = new List<ContractPropertyBinding>();
 
             //Start event
-            if (contract.Processes.Main != null
-                && contract.Processes.Main.StartEvent != null
-                && contract.Processes.Main.StartEvent.StartForm != null)
-                foreach (var field in contract.Processes.Main.StartEvent.StartForm.Fields)
-                    if (field.PropertyBinding != null)
-                        bindings.Add(field.PropertyBinding);
+            if (contract.Processes.Main != null)
+            {
+                foreach(var startEvent in contract.Processes.Main.StartEvents)
+                {
+                    if (startEvent.StartForm != null)
+                        foreach (var field in startEvent.StartForm.Fields)
+                            if (field.PropertyBinding != null)
+                                bindings.Add(field.PropertyBinding);
+                }
+            }
 
             //User forms
             if (contract.Processes.Main != null)

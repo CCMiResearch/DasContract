@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
   </ItemGroup>
 

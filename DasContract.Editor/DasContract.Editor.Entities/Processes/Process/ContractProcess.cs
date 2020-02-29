@@ -24,6 +24,12 @@ namespace DasContract.Editor.Entities.Processes.Process
         public IEnumerable<ContractScriptActivity> ScriptActivities => ProcessElements.OfType<ContractScriptActivity>();
         public IEnumerable<ContractUserActivity> UserActivities => ProcessElements.OfType<ContractUserActivity>();
 
-        public ContractStartEvent StartEvent => ProcessElements.OfType<ContractStartEvent>().SingleOrDefault();
+        public IEnumerable<ContractStartEvent> StartEvents => ProcessElements.OfType<ContractStartEvent>().ToList();
+        public IEnumerable<ContractEndEvent> EndEvents => ProcessElements.OfType<ContractEndEvent>().ToList();
+
+        public static ContractProcess Empty()
+        {
+            return new ContractProcess();
+        }
     }
 }
