@@ -8,7 +8,7 @@ using DasContract.Editor.Entities.DataModels.Entities;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Forms;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
 using DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive;
 using DasContract.Editor.Entities.Integrity.DataModel.Properties.Reference;
 using DasContract.Editor.Entities.Integrity.Extensions;

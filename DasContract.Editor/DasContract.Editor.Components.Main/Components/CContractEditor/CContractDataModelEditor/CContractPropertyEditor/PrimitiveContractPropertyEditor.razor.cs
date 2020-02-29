@@ -4,8 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Primitive;
 
 namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor.CContractPropertyEditor
 {
@@ -49,7 +50,8 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
 
         protected override async Task ConfirmAddPropertyAsync()
         {
-            Entity.PrimitiveProperties.Add(newPropertyModel.ToPrimitiveContractProperty());
+            //Entity.PrimitiveProperties.Add(newPropertyModel.ToPrimitiveContractProperty());
+            Contract.AddSafely(Entity, newPropertyModel.ToPrimitiveContractProperty());
 
             await createDialogWindow.CloseAsync();
             alertController.AddAlert("New primitive property added successfuly", AlertScheme.Success);

@@ -8,17 +8,46 @@ using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Analysis.Cases;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties.Reference;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Primitive;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Integrity.Extensions;
 
-namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
+namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities
 {
     public static class ContractEntityIntegrity
     {
         //--------------------------------------------------
-        //               PRIMITIVE PROPERTY
+        //               CONTRACT ENTITY
         //--------------------------------------------------
+        public static void AddSafely(this EditorContract contract, ContractEntity entity, PrimitiveContractProperty property)
+        {
+            if (contract == null)
+                throw new ArgumentNullException(nameof(contract));
+
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+
+            entity.PrimitiveProperties.Add(property);
+        }
+
+        public static void AddSafely(this EditorContract contract, ContractEntity entity, ReferenceContractProperty property)
+        {
+            if (contract == null)
+                throw new ArgumentNullException(nameof(contract));
+
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+
+            entity.ReferenceProperties.Add(property);
+        }
+
         public static void RemoveSafely(this EditorContract contract, ContractEntity entity)
         {
             if (contract == null)
@@ -51,7 +80,7 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
                 if (contractEntity == entity)
                     continue;
 
-                foreach(var property in contractEntity.ReferenceProperties)
+                foreach (var property in contractEntity.ReferenceProperties)
                 {
                     var currentEntity = contractEntity;
                     var currentProperty = property;
@@ -70,7 +99,7 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
             }
 
             //Analyze all child properties
-            foreach(var property in entity.PrimitiveProperties)
+            foreach (var property in entity.PrimitiveProperties)
                 childrenAnalyses.Add(contract.AnalyzeIntegrityOf(property));
             foreach (var property in entity.ReferenceProperties)
                 if (property.Entity != null)

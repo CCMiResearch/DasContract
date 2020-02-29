@@ -10,12 +10,12 @@ using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Analysis.Cases;
 using DasContract.Editor.Entities.Integrity.Extensions;
 
-namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
+namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties
 {
     public static class ContractPropertyIntegrity
     {
         //--------------------------------------------------
-        //               PRIMITIVE PROPERTY
+        //               PROPERTY ANALYSIS
         //--------------------------------------------------
 
         public static List<ContractIntegrityAnalysisDeleteCase> AnalyzeDeleteRisksOf(this EditorContract contract, ContractProperty property)
@@ -45,6 +45,7 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties
 
             return deleteRisks;
         }
+
 
     }
 }

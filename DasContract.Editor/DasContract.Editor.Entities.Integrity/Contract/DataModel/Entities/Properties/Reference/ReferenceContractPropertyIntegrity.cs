@@ -8,21 +8,17 @@ using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Analysis.Cases;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties;
 using DasContract.Editor.Entities.Integrity.Extensions;
 
-namespace DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive
+namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Reference
 {
-    public static class PrimitiveContractPropertyIntegrity
+    public static class ReferenceContractPropertyIntegrity
     {
         //--------------------------------------------------
-        //               PRIMITIVE PROPERTY
+        //               REFERENCE PROPERTY
         //--------------------------------------------------
-        /// <summary>
-        /// Safely removes a promitive contract property
-        /// </summary>
-        /// <param name="contract">A contract that holds the property</param>
-        /// <param name="property">The property</param>
-        public static void RemoveSafely(this EditorContract contract, PrimitiveContractProperty property)
+        public static void RemoveSafely(this EditorContract contract, ReferenceContractProperty property)
         {
             if (contract == null)
                 throw new ArgumentNullException(nameof(contract));
@@ -35,10 +31,10 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive
 
             //Remove this
             var entity = contract.DataModel.GetEntityOf(property);
-            entity.PrimitiveProperties.Remove(property);
+            entity.ReferenceProperties.Remove(property);
         }
 
-        public static ContractIntegrityAnalysisResult AnalyzeIntegrityOf(this EditorContract contract, PrimitiveContractProperty property)
+        public static ContractIntegrityAnalysisResult AnalyzeIntegrityOf(this EditorContract contract, ReferenceContractProperty property)
         {
             if (contract == null)
                 throw new ArgumentNullException(nameof(contract));
@@ -49,6 +45,5 @@ namespace DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive
             var deleteRisks = contract.AnalyzeDeleteRisksOf(property);
             return new ContractIntegrityAnalysisResult(deleteRisks);
         }
-
     }
 }

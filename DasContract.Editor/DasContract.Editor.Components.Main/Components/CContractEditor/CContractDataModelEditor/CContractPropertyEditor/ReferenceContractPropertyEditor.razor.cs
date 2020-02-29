@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties.Primitive;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties.Reference;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Reference;
 
 namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor.CContractPropertyEditor
 {
@@ -53,7 +53,8 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
         {
             var newProperty = newPropertyModel.ToReferenceContractProperty();
             newProperty.Entity = Entity;
-            Entity.ReferenceProperties.Add(newProperty);
+            //Entity.ReferenceProperties.Add(newProperty);
+            Contract.AddSafely(Entity, newProperty);
 
             await createDialogWindow.CloseAsync();
             alertController.AddAlert("New reference property added successfuly", AlertScheme.Success);

@@ -23,7 +23,7 @@
                 <ReferenceContractPropertyEditor Contract="@Contract" Entity="@context" />
             </div>*@
 
-            <IndexedList Context="indexedListContext" CreateMap="false">
+            <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
                 <IndexedListItem Title="Primitive properties" HeadingLevel="HeadingLevel.H3">
                     <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
                 </IndexedListItem>

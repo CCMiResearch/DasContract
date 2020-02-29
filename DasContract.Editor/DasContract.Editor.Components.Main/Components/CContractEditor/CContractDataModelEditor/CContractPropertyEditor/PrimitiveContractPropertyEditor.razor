@@ -19,7 +19,7 @@
             @{ 
                 var propertyModel = context;
             }
-            <ModelForm Model="@propertyModel">
+            <ModelForm Model="@propertyModel" @key="context.Id">
                 <Inputs>
                     <TextValueInput PropertyExpression="() => propertyModel.Name"
                                     @bind-Value="@propertyModel.Name" />

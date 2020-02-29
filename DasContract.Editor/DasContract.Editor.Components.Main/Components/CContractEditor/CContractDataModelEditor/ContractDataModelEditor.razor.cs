@@ -8,7 +8,8 @@ using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.DataModels;
 using DasContract.Editor.Entities.DataModels.Entities;
 using DasContract.Editor.Entities.Integrity.Analysis;
-using DasContract.Editor.Entities.Integrity.DataModel.Properties;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel;
+using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
 using Microsoft.AspNetCore.Components;
 
 namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
@@ -65,7 +66,8 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
         AddNewEntityFormModel newEntityModel = AddNewEntityFormModel.Empty();
         protected async Task ConfirmAddEntityAsync()
         {
-            Contract.DataModel.Entities.Add(newEntityModel.ToContractEntity());
+            Contract.AddSafely(newEntityModel.ToContractEntity());
+            //Contract.DataModel.Entities.Add(newEntityModel.ToContractEntity());
 
             await createDialogWindow.CloseAsync();
             alertController.AddAlert("New entity added successfuly", AlertScheme.Success);
