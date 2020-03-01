@@ -31,10 +31,8 @@
         else
         {
             <textarea class="form-control @InputStateClass"
-                      name="@Name" id="@Id"
-                      @oninput="@ChangeValueAsync">
-                @Value
-            </textarea>
+                      name="@Name" id="@Id" rows="5"
+                      @oninput="@ChangeValueAsync">@Value</textarea>
         }
     }
     else

@@ -9,7 +9,7 @@
         DataModel = new ContractDataModel()
         {
             Entities = new List<ContractEntity>()
-            {
+        {
                 new ContractEntity()
                 {
                      Name = "Entity 1",
@@ -18,7 +18,7 @@
                 {
                      Name = "Entity 2",
                      PrimitiveProperties = new List<PrimitiveContractProperty>()
-                     {
+                 {
                          new PrimitiveContractProperty()
                          {
                             IsMandatory = true,
@@ -35,10 +35,10 @@
             Main = new ContractProcess()
             {
                 ProcessElements = new List<ContractProcessElement>()
-                {
+            {
                     new ContractScriptActivity()
                     {
-                     
+
                     }
                 }
             }
@@ -53,6 +53,14 @@
     <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
 </div>
 
-<ContractScriptActivityEditor Loading="@Loading"
-                              Contract="Contract"
-                              ScriptActivity="Contract.Processes.Main.ScriptActivities.First()" />
+
+@if (Contract.Processes.Main.ScriptActivities.First() != null)
+{
+    <ContractScriptActivityEditor Loading="@Loading"
+                                  Contract="@Contract"
+                                  ScriptActivity="@Contract.Processes.Main.ScriptActivities.First()" />
+}
+else
+{
+    <p>The script activity is null</p>
+}

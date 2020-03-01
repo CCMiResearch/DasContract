@@ -136,6 +136,13 @@
                         @bind-Value="@Model.FooString" />
         <p>Text: @Model.FooString</p>
 
+        <TextValueInput Id="FoosdoifnspdfZZZsssasdne"
+                        Loading="@Loading"
+                        ReadOnly="@ReadOnly"
+                        PropertyExpression="@(() => Model.FooString)"
+                        @bind-Value="@Model.FooString"
+                        Type="TextValueInputType.Textarea"/>
+
         <NumberValueInput Loading="@Loading"
                           ReadOnly="@ReadOnly"
                           PropertyExpression="@(() => Model.FooInt)"
@@ -143,16 +150,16 @@
         <p>Number: @Model.FooInt</p>
 
         @*<NullableNumberValueInput Loading="@Loading"
-                                      ReadOnly="@ReadOnly"
-                                      PropertyExpression="@(() => Model.FooIntNull)"
-                                      @bind-Value="@Model.FooIntNull" />
-            <p>Number?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
+                                  ReadOnly="@ReadOnly"
+                                  PropertyExpression="@(() => Model.FooIntNull)"
+                                  @bind-Value="@Model.FooIntNull" />
+        <p>Number?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
 
         @*<NullableNumberValueInput Loading="@Loading"
-                                      ReadOnly="@ReadOnly"
-                                      PropertyExpression="@(() => Model.FooIntNull2)"
-                                      @bind-Value="@Model.FooIntNull2" />
-            <p>Number2?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
+                                  ReadOnly="@ReadOnly"
+                                  PropertyExpression="@(() => Model.FooIntNull2)"
+                                  @bind-Value="@Model.FooIntNull2" />
+        <p>Number2?: @(Model.FooIntNull == null ? "null" : Model.FooIntNull.ToString())</p>*@
 
         <EnumValueInput Loading="@Loading"
                         ReadOnly="@ReadOnly"
@@ -161,11 +168,11 @@
         <p>Enum: @Model.FooEnum.ToString()</p>
 
         @*<NullableEnumValueInput Loading="@Loading"
-                                    ReadOnly="@ReadOnly"
-                                    PropertyExpression="@(() => Model.FooEnumNull)"
-                                    @bind-Value="@Model.FooEnumNull"
-                                    EnumType="typeof(ValueInputEnum)" />
-            <p>Enum?: @(Model.FooEnumNull == null ? "null" : Model.FooEnum.ToString())</p>*@
+                                ReadOnly="@ReadOnly"
+                                PropertyExpression="@(() => Model.FooEnumNull)"
+                                @bind-Value="@Model.FooEnumNull"
+                                EnumType="typeof(ValueInputEnum)" />
+        <p>Enum?: @(Model.FooEnumNull == null ? "null" : Model.FooEnum.ToString())</p>*@
 
 
         <BooleanValueInput Loading="@Loading"
@@ -175,10 +182,10 @@
         <p>Bool: @Model.FooBool</p>
 
         @*<NullableBooleanValueInput Loading="@Loading"
-                                       ReadOnly="@ReadOnly"
-                                       PropertyExpression="@(() => Model.FooBoolNull)"
-                                       @bind-Value="@Model.FooBoolNull" />
-            <p>Bool?: @(Model.FooBoolNull == null ? "null" : ((bool)Model.FooBoolNull).ToString())</p>*@
+                                   ReadOnly="@ReadOnly"
+                                   PropertyExpression="@(() => Model.FooBoolNull)"
+                                   @bind-Value="@Model.FooBoolNull" />
+        <p>Bool?: @(Model.FooBoolNull == null ? "null" : ((bool)Model.FooBoolNull).ToString())</p>*@
 
         <BooleanValueInput Loading="@Loading"
                            ReadOnly="@ReadOnly"
@@ -194,10 +201,10 @@
         <p>Date: @Model.FooDate.ToString()</p>
 
         @*<NullableDateValueInput Loading="@Loading"
-                                    ReadOnly="@ReadOnly"
-                                    PropertyExpression="@(() => Model.FooDateNull)"
-                                    @bind-Value="@Model.FooDateNull" />
-            <p>Date?: @(Model.FooDateNull == null ? "null" : Model.FooDateNull.ToString())</p>*@
+                                ReadOnly="@ReadOnly"
+                                PropertyExpression="@(() => Model.FooDateNull)"
+                                @bind-Value="@Model.FooDateNull" />
+        <p>Date?: @(Model.FooDateNull == null ? "null" : Model.FooDateNull.ToString())</p>*@
 
         <ButtonInput OnClick="@(() => { StateHasChanged(); })">State Has Changed</ButtonInput>
     </EditContextCascator>
