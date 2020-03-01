@@ -12,7 +12,7 @@ using DasContract.Editor.Entities.Integrity.Contract.DataModel;
 using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
 using Microsoft.AspNetCore.Components;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor
 {
     public partial class ContractDataModelEditor: ContractEditorSectionBase
     {

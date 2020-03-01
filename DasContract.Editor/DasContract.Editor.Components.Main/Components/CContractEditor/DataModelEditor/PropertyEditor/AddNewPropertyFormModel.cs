@@ -6,7 +6,7 @@ using System.Text;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor.CContractPropertyEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor.PropertyEditor
 {
     public class AddNewPropertyFormModel
     {

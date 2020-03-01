@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DasContract.Editor.Entities.Exceptions;
 using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Analysis.Cases;
@@ -14,7 +13,6 @@ using DasContract.Editor.Entities.Processes.Diagrams;
 using DasContract.Editor.Entities.Processes.Factories;
 using DasContract.Editor.Entities.Processes.Process;
 using DasContract.Editor.Entities.Processes.Process.Activities;
-using DasContract.Editor.Entities.Serialization.XML;
 
 namespace DasContract.Editor.Entities.Integrity.Contract.Processes
 {

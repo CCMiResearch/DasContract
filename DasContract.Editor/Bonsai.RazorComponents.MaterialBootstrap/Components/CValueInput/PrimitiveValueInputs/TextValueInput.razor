@@ -9,15 +9,37 @@
     <ValueInputLabel For="@Id" Required="@Required" Class="@(ReadOnly ? "bmd-label-static" : "bmd-label-floating")">@Label</ValueInputLabel>
 
     <!--INPUT-->
-    @if (ReadOnly)
+    @if (Type == TextValueInputType.Text)
     {
-        <input type="text" class="form-control" id="@Id" value="@Value" readonly />
+        @if (ReadOnly)
+        {
+            <input type="text" class="form-control" id="@Id" name="@Name" value="@Value" readonly />
+        }
+        else
+        {
+            <input type="text" class="form-control @InputStateClass"
+                   name="@Name" id="@Id"
+                   value="@Value" @oninput="@ChangeValueAsync" />
+        }
+    }
+    else if (Type == TextValueInputType.Textarea)
+    {
+        @if (ReadOnly)
+        {
+            <textarea class="form-control" rows="5" name="@Name" id="@Id" readonly>@Value</textarea>
+        }
+        else
+        {
+            <textarea class="form-control @InputStateClass"
+                      name="@Name" id="@Id"
+                      @oninput="@ChangeValueAsync">
+                @Value
+            </textarea>
+        }
     }
     else
     {
-        <input type="text" class="form-control @InputStateClass" 
-               name="@Name" id="@Id" 
-               value="@Value" @oninput="@ChangeValueAsync" />
+        <p><em>Unknown type of text input</em></p>
     }
 
     <!--DESCRIPTION-->

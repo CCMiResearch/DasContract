@@ -5,7 +5,7 @@ using Bonsai.RazorComponents.MaterialBootstrap.Components.CValueInput;
 using DasContract.Editor.Entities.DataModels.Entities;
 using Microsoft.AspNetCore.Components;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor
 {
     public partial class ContractEntityValueInput: ValueInput<ContractEntity>
     {

@@ -13,7 +13,7 @@ using DasContract.Editor.Entities.Processes.Diagrams;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractProcessEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessEditor
 {
     public partial class ContractProcessEditor : LoadableComponent
     {

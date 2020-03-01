@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractProcessEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessEditor
 {
     public class ContractProcessEditorMediator
     {
@@ -19,7 +19,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContrac
 
         public async Task InitBPMN(string id, string xml = "")
         {
-            await jsRuntime.InvokeVoidAsync("DasContractComponents.ContractEditor.ContractProcessEditor.InitBPMN", id, xml, 
+            await jsRuntime.InvokeVoidAsync("DasContractComponents.ContractEditor.ContractProcessEditor.InitBPMN", id, xml,
                 DotNetObjectReference.Create(this));
         }
 

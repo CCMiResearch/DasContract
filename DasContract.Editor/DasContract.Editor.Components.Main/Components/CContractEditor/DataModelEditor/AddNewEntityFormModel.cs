@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using DasContract.Editor.Entities.DataModels.Entities;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor
 {
     class AddNewEntityFormModel
     {

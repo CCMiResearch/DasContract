@@ -9,7 +9,7 @@ using DasContract.Editor.Entities.Integrity.Contract.DataModel;
 using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities;
 using DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Properties.Reference;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.CContractDataModelEditor.CContractPropertyEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor.PropertyEditor
 {
     public partial class ReferenceContractPropertyEditor : ContractPropertyEditorBase
     {
