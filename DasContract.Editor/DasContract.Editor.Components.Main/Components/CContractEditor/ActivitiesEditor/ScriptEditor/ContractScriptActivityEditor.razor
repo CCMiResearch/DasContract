@@ -3,11 +3,15 @@
 <div class="contractScriptActivityEditor">
     <LoadingScreenAnimation Fullscreen="@Loading" />
 
-    @if (ScriptActivity.Script.Length == 0)
+    @if (ScriptActivity.Script == null || ScriptActivity?.Script?.Length == 0)
     {
         <Alert Scheme="AlertScheme.Warning">We recommend you to write at least something...</Alert>
     }
-    <TextValueInput PropertyExpression="@(() => ScriptActivity.Script)"
-                    @bind-Value="ScriptActivity.Script"
-                    Type="TextValueInputType.Textarea" />
+    <ModelForm Model="ScriptActivity">
+        <Inputs>
+            <TextValueInput PropertyExpression="@(() => ScriptActivity.Script)"
+                            @bind-Value="ScriptActivity.Script"
+                            Type="TextValueInputType.Textarea" />
+        </Inputs>
+    </ModelForm>
 </div>

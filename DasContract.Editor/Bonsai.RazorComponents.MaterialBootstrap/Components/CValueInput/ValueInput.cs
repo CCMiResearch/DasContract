@@ -188,6 +188,9 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CValueInput
         /// <returns></returns>
         public ValueInputState GetState()
         {
+            if (EditContextCascade == null)
+                throw new Exception("EditContextCascade is null. Did you forget to use ModelForm?");
+
             var currentField = EditContextCascade.Field(Name);
             //EditContextCascade.Validate();
 
