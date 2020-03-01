@@ -199,7 +199,7 @@ namespace DasContract.Editor.Tests.Entities.Serialization.XML
             };
             contract.ReplaceSafely(BPMNProcessDiagram.FromXml(GetExampleBPMN()));
             contract.Processes.Main.UserActivities.First().Form = new ContractForm() { Id = "XXX" };
-            contract.Processes.Main.BusinessActivities.First().Diagram = DMNProcessDiagram.FromXML("YYY");
+            contract.Processes.Main.BusinessActivities.First().Diagram = DMNProcessDiagram.FromXml("YYY");
             contract.Processes.Main.ScriptActivities.First().Script = "ZZZ";
             contract.Processes.Main.StartEvents.First().StartForm = new ContractForm() { Id = "XXXX" };
 

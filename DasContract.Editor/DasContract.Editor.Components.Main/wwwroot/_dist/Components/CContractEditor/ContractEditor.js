@@ -1,3 +1,4 @@
 exports.__esModule = true;
 window.DasContractComponents.ContractEditor = {};
-require("./CContractProcessEditor/ContractProcessEditor");
+require("./ProcessEditor/ContractProcessEditor");
+require("./ActivitiesEditor/ContractActivitiesEditor");

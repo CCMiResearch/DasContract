@@ -3,5 +3,5 @@
 
 }
 
-import "./CContractProcessEditor/ContractProcessEditor";
-
+import "./ProcessEditor/ContractProcessEditor";
+import "./ActivitiesEditor/ContractActivitiesEditor";

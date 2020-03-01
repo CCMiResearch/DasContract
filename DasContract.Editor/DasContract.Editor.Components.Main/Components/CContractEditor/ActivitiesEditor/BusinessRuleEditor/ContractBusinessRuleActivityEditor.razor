@@ -1,18 +1,17 @@
 ﻿@inherits LoadableComponent
 
-<div class="contractProcessEditor" @key="@Id">
+<div class="contractBusinessRuleActivityEditor">
+    <LoadingScreenAnimation Fullscreen="@Loading" />
 
-    <LoadingScreenAnimation Loading="@Loading" />
-
-    <div class="contractProcessEditorBPMN" id="@Id"></div>
+    <div class="contractBusinessRuleActivityEditorDMN" id="@Id"></div>
 
     <AlertController @ref="@alertController" />
 
     <div class="my-3 text-right">
-        <ButtonInput Scheme="ButtonInputScheme.Danger" OnClick="async () => { await RevertAsync(); }" Disabled="@(!EditInProgress)">Revert</ButtonInput>
+        <ButtonInput Scheme="ButtonInputScheme.Danger" OnClick="async () => { await RevertAsync(); }">Revert</ButtonInput>
         <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="async () => { await SaveAsync(); }">Confirm</ButtonInput>
     </div>
-</div>   
+</div>
 
 <DialogWindow @ref="@revertDialogWindow" Title="Revert confirmation">
     <Body>
@@ -26,7 +25,7 @@
     </Footer>
 </DialogWindow>
 
-<DialogWindow @ref="@saveDialogWindow">
+<DialogWindow @ref="@saveDialogWindow" Title="Rewrite confirmation">
     <Body>
         <p class="h4">Do you really want to rewrite the diagram?</p>
         <p>The following will happen:</p>

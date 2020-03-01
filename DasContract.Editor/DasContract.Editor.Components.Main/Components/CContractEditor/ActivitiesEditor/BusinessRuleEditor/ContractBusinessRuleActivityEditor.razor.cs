@@ -8,37 +8,37 @@ using Bonsai.Utils.String;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Contract.Processes;
-using DasContract.Editor.Entities.Processes;
+using DasContract.Editor.Entities.Integrity.Contract.Processes.Process.Activities;
 using DasContract.Editor.Entities.Processes.Diagrams;
+using DasContract.Editor.Entities.Processes.Process.Activities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessEditor
+namespace DasContract.Editor.Components.Main.Components.CContractEditor.ActivitiesEditor.BusinessRuleEditor
 {
-    public partial class ContractProcessEditor : LoadableComponent
+    public partial class ContractBusinessRuleActivityEditor : LoadableComponent
     {
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
-
         [Parameter]
         public EditorContract Contract { get; set; }
 
-        public ContractProcesses Processes => Contract.Processes;
+        [Parameter]
+        public ContractBusinessRuleActivity BusinessActivity { get; set; }
 
-        public string DiagramXML => Contract.Processes.Diagram.DiagramXML;
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
-        public bool EditInProgress { get; protected set; } = false;
+        public string DiagramXML => BusinessActivity.Diagram.DiagramXML;
 
-        protected ContractProcessEditorMediator Mediator
+        protected ContractBusinessRuleActivityEditorMediator Mediator
         {
             get
             {
                 if (mediator == null)
-                    mediator = new ContractProcessEditorMediator(JSRuntime);
+                    mediator = new ContractBusinessRuleActivityEditorMediator(JSRuntime);
                 return mediator;
             }
         }
-        ContractProcessEditorMediator mediator = null;
+        ContractBusinessRuleActivityEditorMediator mediator = null;
 
         [Parameter]
         public string Id { get; set; } = Guid.NewGuid().ToString().ToIdFriendly();
@@ -50,14 +50,13 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             if (firstRender)
             {
                 await Mediator.InitBPMN(Id, DiagramXML);
-                Mediator.OnDiagramChange += (caller, args) =>
-                {
-                    EditInProgress = true;
-                    StateHasChanged();
-                };
+                //Mediator.OnDiagramChange += (caller, args) =>
+                //{
+                //    EditInProgress = true;
+                //    StateHasChanged();
+                //};
             }
         }
-
 
         //--------------------------------------------------
         //                    REVERT
@@ -65,47 +64,41 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
         DialogWindow revertDialogWindow;
         public async Task RevertAsync()
         {
-            if (!EditInProgress)
-                return;
-
             await revertDialogWindow.OpenAsync();
         }
 
         public async Task ConfirmRevertAsync()
         {
-            if (!EditInProgress)
-                return;
-
             await Mediator.SetDiagramXML(Id, DiagramXML);
-            EditInProgress = false;
             StateHasChanged();
             await revertDialogWindow.CloseAsync();
         }
 
+
         //--------------------------------------------------
-        //                      SAVE
+        //                     SAVE
         //--------------------------------------------------
         DialogWindow saveDialogWindow;
         ContractIntegrityAnalysisResult saveIntegrityResult;
-        BPMNProcessDiagram diagramToSave;
+        DMNProcessDiagram diagramToSave;
         public async Task SaveAsync()
         {
             try
             {
                 var xml = await Mediator.GetDiagramXML(Id);
-                var newDiagram = BPMNProcessDiagram.FromXml(xml);
+                var newDiagram = DMNProcessDiagram.FromXml(xml);
                 diagramToSave = newDiagram;
 
                 //Validate
-                Contract.ValidatePotentialDiagram(newDiagram);
-                saveIntegrityResult = Contract.AnalyzeIntegrityWhenReplacedWith(newDiagram);
+                Contract.ValidatePotentialDiagram(BusinessActivity, newDiagram);
+                saveIntegrityResult = Contract.AnalyzeIntegrityWhenReplacedWith(BusinessActivity, newDiagram);
 
                 //Show dialog
                 await saveDialogWindow.OpenAsync();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger); 
+                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger);
             }
         }
 
@@ -113,12 +106,11 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
         {
             try
             {
-                Contract.ReplaceSafely(diagramToSave);
+                Contract.ReplaceSafely(BusinessActivity, diagramToSave);
                 alertController.AddAlert("Save successful", AlertScheme.Success);
-                EditInProgress = false;
                 StateHasChanged();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 alertController.AddAlert("Save confirm unsuccessful: " + e.Message, AlertScheme.Danger);
             }

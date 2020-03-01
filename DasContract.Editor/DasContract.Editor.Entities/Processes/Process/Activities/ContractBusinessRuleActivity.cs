@@ -20,7 +20,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
                 diagram = value;
             }
         }
-        DMNProcessDiagram diagram;
+        DMNProcessDiagram diagram = DMNProcessDiagram.Default();
 
         public void CopyDataFrom(ContractBusinessRuleActivity source)
         {
