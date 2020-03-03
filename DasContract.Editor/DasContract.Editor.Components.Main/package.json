@@ -43,6 +43,7 @@
     "@types/jquery": "^3.3.32",
     "@types/node": "^13.7.0",
     "bpmn-js": "^6.3.0",
-    "dmn-js": "^8.0.1"
+    "dmn-js": "^8.0.1",
+    "material-design-icons": "^3.0.1"
   }
 }

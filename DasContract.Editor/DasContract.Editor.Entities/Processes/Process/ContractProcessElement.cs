@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using DasContract.Editor.Entities.Interfaces;
 using DasContract.Editor.Entities.Processes.Process.Activities;
@@ -25,7 +26,7 @@ namespace DasContract.Editor.Entities.Processes.Process
     ]
     public abstract class ContractProcessElement : IIdentifiable, INamable
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO class")]

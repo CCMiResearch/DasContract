@@ -38,11 +38,11 @@
                     {
                         @if (Value != null && property == Value.Property)
                         {
-                            <option value="@entity.Id" selected>@($"{property.Name}")</option>
+                            <option value="@property.Id" selected>@($"{property.Name}")</option>
                         }
                         else
                         {
-                            <option value="@entity.Id">@($"{property.Name}")</option>
+                            <option value="@property.Id">@($"{property.Name}")</option>
                         }
                     }
                 </optgroup>

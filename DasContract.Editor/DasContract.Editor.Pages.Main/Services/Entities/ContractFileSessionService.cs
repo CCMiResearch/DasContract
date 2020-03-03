@@ -12,7 +12,7 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
 {
     public class ContractFileSessionService : ICRUDInterfaceAsync<ContractFileSession, string>
     {
-        const string uri = "/api/ContractFileSession/";
+        const string Uri = "/api/ContractFileSession/";
 
         readonly HttpClient http;
 
@@ -21,15 +21,20 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
             this.http = http;
         }
 
+        public static string DownloadUrl(string id)
+        {
+            return Uri + id + "/Download";
+        }
+
         public async Task DeleteAsync(string id)
         {
-            var response = await http.DeleteAsync(uri + id);
+            var response = await http.DeleteAsync(Uri + id);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task<List<ContractFileSession>> GetAsync()
         {
-            var response = await http.GetAsync(uri);
+            var response = await http.GetAsync(Uri);
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -38,7 +43,7 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
 
         public async Task<ContractFileSession> GetAsync(string id)
         {
-            var response = await http.GetAsync(uri + id);
+            var response = await http.GetAsync(Uri + id);
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -47,13 +52,13 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
 
         public async Task InsertAsync(ContractFileSession item)
         {
-            var response = await http.PostAsync(uri, item.ToJsonContent());
+            var response = await http.PostAsync(Uri, item.ToJsonContent());
             response.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(ContractFileSession item)
         {
-            var response = await http.PutAsync(uri, item.ToJsonContent());
+            var response = await http.PutAsync(Uri, item.ToJsonContent());
             response.EnsureSuccessStatusCode();
         }
     }

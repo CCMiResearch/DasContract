@@ -7,11 +7,11 @@
   "scripts": {
     "compile-scripts": "tsc && webpack",
     "watch-scripts": "tsc && webpack --watch",
-    "compile-styles": "sass --load-path=node_modules --load-path=../ wwwroot/Styles:wwwroot/_distAdminPages/Styles",
-    "watch-styles": "sass --load-path=node_modules --load-path=../ --watch  wwwroot/Styles:wwwroot/_distAdminPages/Styles",
-    "clear": "rmdir /S /Q \"wwwroot/_distAdminPages\"",
+    "compile-styles": "npm run compile-scripts",
+    "watch-styles": "npm run watch-scripts",
+    "clear": "rmdir /S /Q \"wwwroot/_dist\"",
     "compile": "npm run compile-scripts && npm run compile-styles",
-    "build": "npm update && npm update -D && npm run compile",
+    "build": "npm install && npm install -D && npm run compile",
     "test": "npm run build"
   },
   "repository": {

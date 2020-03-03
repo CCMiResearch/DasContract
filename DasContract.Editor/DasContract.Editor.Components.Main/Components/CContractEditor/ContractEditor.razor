@@ -1,6 +1,124 @@
 ﻿@inherits LoadableComponent
 
 
-@*<CascadingValue Name="ContractEditorContext" Value="null">
+    <div class="contractEditor" @key="@Contract.Id">
+        <LoadingScreenAnimation Loading="@Loading" />
 
-</CascadingValue>*@
+
+
+        @* The contract general menu *@
+        @if (OpenedTab == ContractEditorTab.General)
+        {
+            <div class="my-4">
+                <h2>Contract properties</h2>
+                <ModelForm Model="@Contract">
+                    <Inputs>
+                        <TextValueInput PropertyExpression="@(() => Contract.Name)"
+                                        @bind-Value="@Contract.Name" />
+                    </Inputs>
+                </ModelForm>
+            </div>
+
+            <div class="my-4">
+                <h2>Contract state</h2>
+                <p><a href="javascript:void(0);" @onclick="async () => { await SaveAsync(); }">Save the contract</a>, publish it or change contract properties.</p>
+
+                <div>
+                    <ButtonInput OnClick="async () => { await SaveAndDownloadAsync(); }"
+                                 Type="ButtonInputType.Raised">
+                        Save and download contract
+                    </ButtonInput>
+                </div>
+                <div>
+                    <ButtonInput OnClick="async () => { await SaveAsync(); }">
+                        Save only
+                    </ButtonInput>
+                    <ButtonInput OnClick="async () => { await DownloadAsync(); }">
+                        Download only
+                    </ButtonInput>
+                </div>
+                <div>
+                    <ButtonInput Disabled="true">Deploy to the store</ButtonInput>
+                    <small class="text-muted">Deploy to the store is currently unavailable – the store does not exists.</small>
+                </div>
+            </div>
+
+
+            <div class="my-4">
+                <h2>Contract editing</h2>
+                <p>Build the contract process, process activities and data model.</p>
+                <p>Firstly, it is recommended to <a href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.DataModel); }">create a data model</a>, as it's the base for contract logic and data management. After that, <a href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.Process); }">creating a contract process</a> would be a great second step. Once the process is complete, <a href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.Activities); }">activities</a> of that process can be edited.</p>
+
+                <div>
+                    <ButtonInput OnClick="() => { Open(ContractEditorTab.Process); }">Process</ButtonInput>
+                </div>
+                <div>
+                    <ButtonInput OnClick="() => { Open(ContractEditorTab.Activities); }">Activities</ButtonInput>
+                </div>
+                <div>
+                    <ButtonInput OnClick="() => { Open(ContractEditorTab.DataModel); }">Data Model</ButtonInput>
+                </div>
+            </div>
+        }
+
+        @* Editor menu *@
+        @if (OpenedTab != ContractEditorTab.General)
+        {
+            <ul class="nav nav-tabs bg-primary">
+                <li class="nav-item">
+                    <a class="nav-link @(OpenedTab == ContractEditorTab.General ? "active" : "")"
+                       @onclick="e => { Open(ContractEditorTab.General); }">
+                        General
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(OpenedTab == ContractEditorTab.Process ? "active" : "")"
+                       @onclick="e => { Open(ContractEditorTab.Process); }">
+                        Process
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(OpenedTab == ContractEditorTab.Activities ? "active" : "")"
+                       @onclick="e => { Open(ContractEditorTab.Activities); }">
+                        Activities
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(OpenedTab == ContractEditorTab.DataModel ? "active" : "")"
+                       @onclick="e => { Open(ContractEditorTab.DataModel); }">
+                        Data Model
+                    </a>
+                </li>
+            </ul>
+        }
+
+        @* Process editor *@
+        @if (OpenedTab == ContractEditorTab.Process)
+        {
+            <h2>Process of contract @Contract.Name</h2>
+            <p>Process is defined using a subset of <a href="http://www.bpmn.org/" rel="nofollow" target="_blank">BPMN language</a>. The contract currently support only one process and three types of activities.</p>
+            <Alert Scheme="AlertScheme.Info">The process must be saved manually</Alert>
+
+            <ContractProcessEditor Contract="@Contract" />
+        }
+
+        @* Activities editor *@
+        @if (OpenedTab == ContractEditorTab.Activities)
+        {
+            <h2>Process activities of contract @Contract.Name</h2>
+            <p>Activities are "steps" of the <a href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.DataModel); }">contract process</a> and they further specify the contract behavior.</p>
+            <Alert Scheme="AlertScheme.Info">In order to edit activities <em>(BPMN tasks)</em>, their type <em>(user task, business rule task or script task)</em> must be set in the <a class="alert-link" href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.DataModel); }">process editor</a>. This can be done by selecting the target activity/task and expanding the <em>"change type"</em> option.</Alert>
+
+            <ContractActivitiesEditor Contract="@Contract" />
+        }
+
+        @* Data model editor *@
+        @if (OpenedTab == ContractEditorTab.DataModel)
+        {
+            <h2>Data model of contract @Contract.Name</h2>
+            <p>Data model is the base of every contract. Data entities <em>(classes)</em> can contrain properties. Properties can be bound to an input or directly manipulated using script activities.</p>
+
+            <ContractDataModelEditor Contract="@Contract" />
+        }
+
+    </div>

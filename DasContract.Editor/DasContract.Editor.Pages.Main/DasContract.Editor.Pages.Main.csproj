@@ -8,6 +8,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\Components\foo\foo.ts" />
     <Content Remove="wwwroot\OG\Index.psd" />
+    <Content Remove="wwwroot\Scripts\Utils\SaveFileAs.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\Components\foo\foo.ts" />
     <TypeScriptCompile Include="wwwroot\Environment\Environment.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\Utils\SaveFileAs.ts" />
     <TypeScriptCompile Include="wwwroot\ServiceWorker\ServiceWorkerLink.ts" />
     <TypeScriptCompile Include="wwwroot\ServiceWorker\ServiceWorkerRegistrator.ts" />
   </ItemGroup>
@@ -38,6 +40,7 @@
     <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
     <ProjectReference Include="..\Bonsai.Utils.String\Bonsai.Utils.String.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Components.Main\DasContract.Editor.Components.Main.csproj" />
     <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />

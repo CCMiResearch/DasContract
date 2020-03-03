@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using DasContract.Editor.DataPersistence.Entities;
+using DasContract.Editor.Entities;
+using DasContract.Editor.Entities.Serialization.XML;
 using DasContract.Editor.Pages.Main.Services.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
 {
@@ -16,7 +20,17 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
         [Inject]
         protected ContractFileSessionService ContractFileSessionService { get; set; }
 
+        [Inject]
+        protected NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        protected IJSRuntime JSRuntime { get; set; }
+
         public ContractFileSession ContractFileSession { get; set; }
+
+        public EditorContract Contract { get; set; }
+        AlertController contractAlertController;
+
 
         protected override void OnInitialized()
         {
@@ -41,6 +55,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
             try
             {
                 ContractFileSession = await ContractFileSessionService.GetAsync(Id);
+                Contract = EditorContractXML.From(ContractFileSession.SerializedContract);
             }
             catch (Exception e)
             {
@@ -48,6 +63,28 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
             }
 
             Loading = false;
+        }
+
+        async Task DownloadAsync()
+        {
+            //await JSRuntime.InvokeVoidAsync("open", ContractFileSessionService.DownloadUrl(Id), "_blank");
+            NavigationManager.NavigateTo(ContractFileSessionService.DownloadUrl(Id));
+        }
+
+        async Task SaveAsync()
+        {
+            ContractFileSession.SerializedContract = EditorContractXML.To(Contract);
+            try
+            {
+                await ContractFileSessionService.UpdateAsync(ContractFileSession);
+                contractAlertController.AddAlert("Contract saved successfuly", AlertScheme.Success);
+            }
+            catch(Exception)
+            {
+                contractAlertController.AddAlert("Error while saving contract occured", AlertScheme.Danger);
+            }
+
+            //await LoadCurrentContractAsync();
         }
     }
 }

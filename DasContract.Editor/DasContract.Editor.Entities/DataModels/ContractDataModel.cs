@@ -9,6 +9,8 @@ namespace DasContract.Editor.Entities.DataModels
 {
     public class ContractDataModel : IMigratableComponent<ContractDataModel, IMigrator>
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
         /// <summary>
         /// Entities of this data model
         /// </summary>

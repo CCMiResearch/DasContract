@@ -19,3 +19,5 @@ import "../../Components/CIntegrityAnalysisResult/IntegrityAnalysisResult";
 //Import styles
 import "../../../Styles/Global.scss";
 
+//Import icons
+import "material-design-icons";

@@ -5,6 +5,7 @@ using DasContract.Editor.Migrator;
 using DasContract.Editor.Migrator.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace DasContract.Editor.Entities
@@ -13,6 +14,7 @@ namespace DasContract.Editor.Entities
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
+        [DisplayName("Contract name")]
         public string Name
         {
             get => name;

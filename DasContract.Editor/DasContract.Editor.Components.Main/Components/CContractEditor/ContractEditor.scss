@@ -2,3 +2,17 @@
 @import "ProcessEditor/ContractProcessEditor";
 @import "ActivitiesEditor/ContractActivitiesEditor";
 @import "FormEditor/ContractFormEditor";
+
+.contractEditor {
+    position: relative;
+
+    .nav-tabs {
+        margin-bottom: 2rem;
+
+        .nav-item {
+            .nav-link {
+                cursor: pointer;
+            }
+        }
+    }
+}

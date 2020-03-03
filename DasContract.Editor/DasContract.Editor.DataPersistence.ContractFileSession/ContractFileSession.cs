@@ -39,6 +39,8 @@ namespace DasContract.Editor.DataPersistence.Entities
             return false;
         }
 
+        public TimeSpan TimeRemaining => ExpirationDate - DateTime.Now;
+
         public static ContractFileSession FromContract(EditorContract contract)
         {
             return new ContractFileSession()

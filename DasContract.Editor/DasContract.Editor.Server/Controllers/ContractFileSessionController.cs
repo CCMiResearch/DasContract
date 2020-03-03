@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DasContract.Editor.AppLogic.Facades;
 using DasContract.Editor.AppLogic.Facades.Interfaces;
 using DasContract.Editor.DataPersistence.Entities;
+using DasContract.Editor.Entities.Serialization.XML;
 using DasContract.Editor.Interfaces.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -90,7 +91,7 @@ namespace DasContract.Editor.Server.Controllers
         }
 
         [HttpPost("InitiateWithFile/{id}")]
-        public async Task<ActionResult> InitiateSession(string id, List<IFormFile> contractFile)
+        public async Task<ActionResult> InitiateSessionAsync(string id, List<IFormFile> contractFile)
         {
             if (contractFile == null)
                 throw new ArgumentNullException(nameof(contractFile));
@@ -109,6 +110,21 @@ namespace DasContract.Editor.Server.Controllers
             };
 
             return await InsertAsync(newItem);
+        }
+
+        [HttpGet("{id}/Download")]
+        public async Task<ActionResult> DownloadAsync(string id)
+        {
+            try
+            {
+                var session = await facade.GetAsync(id);
+                var contract = EditorContractXML.From(session.SerializedContract);
+                return File(Encoding.UTF8.GetBytes(session.SerializedContract), "application/xml", contract.Name + "_" + contract.Id + ".dascontract");
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 
