@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using DasContract.Editor.DataPersistence.Entities;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Serialization.XML;
 using DasContract.Editor.Pages.Main.Services.Entities;
+using DasContract.Editor.Pages.Main.Services.FileDownloader;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -25,6 +27,9 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
 
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }
+
+        [Inject]
+        protected IFileDownloaderService FileDownloaderService { get; set; }
 
         public ContractFileSession ContractFileSession { get; set; }
 
@@ -68,7 +73,12 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
         async Task DownloadAsync()
         {
             //await JSRuntime.InvokeVoidAsync("open", ContractFileSessionService.DownloadUrl(Id), "_blank");
-            NavigationManager.NavigateTo(ContractFileSessionService.DownloadUrl(Id));
+            //NavigationManager.NavigateTo(ContractFileSessionService.DownloadUrl(Id));
+
+            await FileDownloaderService.SaveAsync(Contract.Name + "_" + Contract.Id + ".dascontract",
+                ContractFileSession.SerializedContract, 
+                "application/xml", 
+                "utf-8");
         }
 
         async Task SaveAsync()

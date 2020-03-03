@@ -150,7 +150,7 @@ eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/run
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports.__esModule = true;\r\n//Import sevice worker\r\n__webpack_require__(/*! ../ServiceWorker/ServiceWorkerRegistrator */ \"./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js\");\r\n//Import utils\r\n__webpack_require__(/*! ./Utils/SaveFileAs */ \"./wwwroot/_dist/Scripts/Utils/SaveFileAs.js\");\r\nwindow.DasContractPages = {};\r\n//Import styles\r\n__webpack_require__(/*! ../../Styles/Global.scss */ \"./wwwroot/Styles/Global.scss\");\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Global.js?");
+eval("exports.__esModule = true;\r\n//Import sevice worker\r\n__webpack_require__(/*! ../ServiceWorker/ServiceWorkerRegistrator */ \"./wwwroot/_dist/ServiceWorker/ServiceWorkerRegistrator.js\");\r\nwindow.DasContractPages = {};\r\n//Import utils\r\n__webpack_require__(/*! ./Utils/SaveFileAs */ \"./wwwroot/_dist/Scripts/Utils/SaveFileAs.js\");\r\n//Import styles\r\n__webpack_require__(/*! ../../Styles/Global.scss */ \"./wwwroot/Styles/Global.scss\");\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Global.js?");
 
 /***/ }),
 
@@ -161,7 +161,7 @@ eval("exports.__esModule = true;\r\n//Import sevice worker\r\n__webpack_require_
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("//Source https://wellsb.com/csharp/aspnet/blazor-jsinterop-save-file/\r\nwindow.DasContractPages = {\r\n    SaveFile: function (filename, fileContent, contentType, charset) {\r\n        if (contentType === void 0) { contentType = \"text/plain\"; }\r\n        if (charset === void 0) { charset = \"utf-8\"; }\r\n        var link = document.createElement(\"a\");\r\n        link.download = filename;\r\n        link.href = \"data:\" + contentType + \";charset=,\" + charset + encodeURIComponent(fileContent);\r\n        document.body.appendChild(link);\r\n        link.click();\r\n        document.body.removeChild(link);\r\n    }\r\n};\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Utils/SaveFileAs.js?");
+eval("//Source https://wellsb.com/csharp/aspnet/blazor-jsinterop-save-file/\r\nwindow.DasContractPages.SaveFile\r\n    = function (filename, fileContent, contentType, charset) {\r\n        //console.log(filename);\r\n        //console.log(fileContent);\r\n        //console.log(contentType);\r\n        //console.log(charset);\r\n        if (contentType === void 0) { contentType = \"text/plain\"; }\r\n        if (charset === void 0) { charset = \"utf-8\"; }\r\n        var link = document.createElement(\"a\");\r\n        link.download = filename;\r\n        link.href = \"data:\" + contentType + \";charset=\" + charset + \",\" + encodeURIComponent(fileContent);\r\n        document.body.appendChild(link);\r\n        link.click();\r\n        document.body.removeChild(link);\r\n    };\r\n\n\n//# sourceURL=webpack:///./wwwroot/_dist/Scripts/Utils/SaveFileAs.js?");
 
 /***/ }),
 

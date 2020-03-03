@@ -1,9 +1,6 @@
 ﻿//Import sevice worker
 import "../ServiceWorker/ServiceWorkerRegistrator";
 
-//Import utils
-import "./Utils/SaveFileAs";
-
 declare global
 {
     interface Window
@@ -12,6 +9,9 @@ declare global
     }
 }
 window.DasContractPages = {}
+
+//Import utils
+import "./Utils/SaveFileAs";
 
 //Import styles
 import "../../Styles/Global.scss";

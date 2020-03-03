@@ -8,6 +8,7 @@ using Bonsai.Services.Interfaces;
 using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathProviders;
 using DasContract.Editor.Pages.Main.Services.Entities;
 using Bonsai.RazorComponents.MaterialBootstrap.Services;
+using DasContract.Editor.Pages.Main.Services.FileDownloader;
 
 namespace DasContract.Editor.Pages.Main
 {
@@ -24,6 +25,9 @@ namespace DasContract.Editor.Pages.Main
 
             //API services
             builder.Services.AddSingleton<ContractFileSessionService>();
+
+            //Util services
+            builder.Services.AddSingleton<IFileDownloaderService, FileDownloaderService>();
 
             //Add material bootstrap
             builder.Services.AddMaterialBootstrap();
