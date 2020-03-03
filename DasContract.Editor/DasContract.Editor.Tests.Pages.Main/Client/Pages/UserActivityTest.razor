@@ -1,4 +1,4 @@
-﻿@page "/businessruleactivity"
+﻿@page "/useractivity"
 
 @code{
     public bool Loading { get; set; } = false;
@@ -9,7 +9,7 @@
         DataModel = new ContractDataModel()
         {
             Entities = new List<ContractEntity>()
-        {
+    {
                 new ContractEntity()
                 {
                      Name = "Entity 1",
@@ -18,7 +18,7 @@
                 {
                      Name = "Entity 2",
                      PrimitiveProperties = new List<PrimitiveContractProperty>()
-                 {
+             {
                          new PrimitiveContractProperty()
                          {
                             IsMandatory = true,
@@ -35,12 +35,16 @@
             Main = new ContractProcess()
             {
                 ProcessElements = new List<ContractProcessElement>()
-            {
+        {
                     new ContractScriptActivity()
                     {
 
                     },
                     new ContractBusinessRuleActivity()
+                    {
+
+                    },
+                    new ContractUserActivity()
                     {
 
                     }
@@ -58,11 +62,11 @@
 </div>
 
 
-@if (Contract.Processes.Main.BusinessActivities.First() != null)
+@if (Contract.Processes.Main.UserActivities.First() != null)
 {
-    <ContractBusinessRuleActivityEditor Loading="@Loading"
-                                  Contract="@Contract"
-                                  BusinessActivity="@Contract.Processes.Main.BusinessActivities.First()" />
+    <ContractUserActivityEditor Loading="@Loading"
+                                Contract="@Contract"
+                                UserActivity="@Contract.Processes.Main.UserActivities.First()" />
 }
 else
 {

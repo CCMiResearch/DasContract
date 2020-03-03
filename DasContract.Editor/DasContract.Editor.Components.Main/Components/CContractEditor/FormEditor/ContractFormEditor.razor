@@ -1,0 +1,88 @@
+﻿@inherits LoadableComponent
+
+
+<div class="contractFormEditor">
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <p class="h5">Form fields</p>
+    <AlertController @ref="alertController" />
+
+    <EditableItemsList Editable="true"
+                       Deletable="true"
+                       Orderable="true"
+                       OnAdd="async () => { await AddFieldAsync(); }"
+                       OnDelete="async e => { await DeleteFieldAsync(e); }"
+                       Items="@Form.Fields">
+        <ItemHeading>
+            <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+        </ItemHeading>
+        <ItemEdit>
+            <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
+                <IndexedListItem Title="Field properties" HeadingLevel="HeadingLevel.H3">
+
+                    <ModelForm Model="@context">
+                        <Inputs>
+
+                            <ValueInputRow>
+                                <ValueInputCol>
+                                    <TextValueInput PropertyExpression="() => context.Name"
+                                                    @bind-Value="context.Name" />
+                                </ValueInputCol>
+                                <ValueInputCol>
+                                    <TextValueInput PropertyExpression="() => context.Label"
+                                                    @bind-Value="context.Label" />
+                                </ValueInputCol>
+                            </ValueInputRow>
+
+                            <TextValueInput PropertyExpression="() => context.Description"
+                                            @bind-Value="context.Description" />
+
+                            <BooleanValueInput PropertyExpression="() => context.ReadOnly"
+                                               @bind-Value="context.ReadOnly" />
+
+                            <ContractPropertyBindingInput PropertyExpression="() => context.PropertyBinding"
+                                                          @bind-Value="context.PropertyBinding"
+                                                          DataModel="@Contract.DataModel" />
+                        </Inputs>
+                    </ModelForm>
+
+                </IndexedListItem>
+            </IndexedList>
+        </ItemEdit>
+    </EditableItemsList>
+</div>
+
+@* Delete dialog *@
+<DialogWindow @ref="deleteDialogWindow"
+              Size="DialogWindowSize.Large">
+    <Body>
+        @if (fieldToDelete != null)
+        {
+            <p class="h4">Do you really want to delete <strong>@fieldToDelete.Name</strong>?</p>
+        }
+        <p>The following will happen:</p>
+        @if (deleteFieldAnalysis != null)
+        {
+            <DeleteAnalysisResult AnalysisResult="deleteFieldAnalysis" />
+        }
+    </Body>
+    <Footer>
+        <ButtonInput Scheme="ButtonInputScheme.Danger"
+                     OnClick="async () => { await ConfirmDeleteAsync(); }">
+            Delete
+        </ButtonInput>
+    </Footer>
+</DialogWindow>
+
+@* Add entity dialog *@
+<DialogWindow @ref="createDialogWindow" Title="Add new field">
+    <Body>
+        <ModelForm Model="@newFieldModel"
+                   OnValidSubmit="async () => { await ConfirmAddFieldAsync(); }">
+            <Inputs>
+                <TextValueInput PropertyExpression="() => newFieldModel.Name"
+                                @bind-Value="newFieldModel.Name" />
+            </Inputs>
+        </ModelForm>
+    </Body>
+</DialogWindow>

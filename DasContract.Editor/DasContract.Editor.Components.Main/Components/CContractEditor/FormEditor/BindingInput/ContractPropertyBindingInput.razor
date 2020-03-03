@@ -1,0 +1,58 @@
+﻿@inherits ValueInput<ContractPropertyBinding>
+
+<div class="form-group">
+
+    <!--LOADING-->
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    <!--LABEL-->
+    <ValueInputLabel For="@Id" Required="@Required" Class="@(ReadOnly ? "bmd-label-static" : "bmd-label-floating")">@Label</ValueInputLabel>
+
+    <!--INPUT-->
+    @if (ReadOnly)
+    {
+        @if (Value == null)
+        {
+            <input type="text" class="form-control" id="@Id" value="No binding" readonly />
+        }
+        else
+        {
+            <input type="text" class="form-control" id="@Id" value="@($"{Value.Property.Name}")" readonly />
+        }
+    }
+    else
+    {
+        <select @onchange="@ChangeValueAsync" class="form-control @InputStateClass">
+            @if (Value == null)
+            {
+                <option value="null" selected>No binding</option>
+            }
+            else
+            {
+                <option value="null">No binding</option>
+            }
+            @foreach (var entity in DataModel.Entities)
+            {
+                <optgroup label="@entity.Name">
+                    @foreach(var property in entity.Properties)
+                    {
+                        @if (Value != null && property == Value.Property)
+                        {
+                            <option value="@entity.Id" selected>@($"{property.Name}")</option>
+                        }
+                        else
+                        {
+                            <option value="@entity.Id">@($"{property.Name}")</option>
+                        }
+                    }
+                </optgroup>
+            }
+        </select>
+    }
+
+    <!--DESCRIPTION-->
+    <ValueInputDescription>@Description</ValueInputDescription>
+
+    <!--VALIDATION-->
+    <ValueInputValidationMessage For="@PropertyExpression" />
+</div>

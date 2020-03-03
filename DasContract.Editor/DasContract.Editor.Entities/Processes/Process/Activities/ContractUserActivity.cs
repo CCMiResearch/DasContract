@@ -19,7 +19,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
                 form = value;
             }
         }
-        ContractForm form;
+        ContractForm form = new ContractForm();
 
         public void CopyDataFrom(ContractUserActivity source)
         {

@@ -27,6 +27,14 @@ namespace DasContract.Editor.Entities.Forms
 
         public string PropertyId { get; set; }
 
+        public static ContractPropertyBinding With(ContractProperty property)
+        {
+            return new ContractPropertyBinding()
+            {
+                Property = property
+            };
+        }
+
         //--------------------------------------------------
         //                  MIGRATOR
         //--------------------------------------------------

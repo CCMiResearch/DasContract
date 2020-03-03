@@ -6,6 +6,8 @@ using System;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive;
 using DasContract.Editor.Entities.DataModels.Entities.Properties.Reference;
 using DasContract.Editor.Entities.Interfaces;
+using DasContract.Editor.Entities.DataModels.Entities.Properties;
+using System.Linq;
 
 namespace DasContract.Editor.Entities.DataModels.Entities
 {
@@ -67,6 +69,11 @@ namespace DasContract.Editor.Entities.DataModels.Entities
             }
         }
         List<ReferenceContractProperty> referenceProperties = new List<ReferenceContractProperty>();
+
+        public IEnumerable<ContractProperty> Properties => new List<ContractProperty>()
+            .Concat(PrimitiveProperties)
+            .Concat(ReferenceProperties)
+            .ToList();
 
         //--------------------------------------------------
         //                  MIGRATOR
