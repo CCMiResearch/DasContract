@@ -16,22 +16,22 @@ namespace DasContract.Editor.Entities.Processes
 {
     public class ContractProcesses : IMigratableComponent<ContractProcesses, IMigrator>
     {
+        public event OnDiagramChangeHandler OnDiagramChange;
+
         /// <summary>
         /// BPMN 2.0 XML with process description and a visual process information for the main process
         /// </summary>
         public BPMNProcessDiagram Diagram
         {
-            get => diagram?.WithMigrator(migrator);
+            get => diagram;
             set
             {
-                if (value != diagram)
-                    migrator.Notify(() => diagram, d => diagram = d,
-                            MigratorMode.Smart);
+                var oldDiagram = diagram;
                 diagram = value;
+                OnDiagramChange?.Invoke(this, oldDiagram, diagram);
             }
         }
         BPMNProcessDiagram diagram = BPMNProcessDiagram.Default();
-
 
         /// <summary>
         /// Contract main process. Currently only one process is allowed. 
@@ -49,4 +49,6 @@ namespace DasContract.Editor.Entities.Processes
             return this;
         }
     }
+
+    public delegate void OnDiagramChangeHandler(ContractProcesses caller, BPMNProcessDiagram oldValue, BPMNProcessDiagram currentValue);
 }

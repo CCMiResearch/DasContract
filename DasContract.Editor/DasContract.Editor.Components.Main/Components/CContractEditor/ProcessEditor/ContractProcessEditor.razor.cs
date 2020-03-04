@@ -29,6 +29,9 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
 
         public bool EditInProgress { get; protected set; } = false;
 
+        [Parameter]
+        public EventCallback OnChange { get; set; }
+
         protected ContractProcessEditorMediator Mediator
         {
             get
@@ -50,12 +53,19 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             if (firstRender)
             {
                 await Mediator.InitBPMN(Id, DiagramXML);
-                Mediator.OnDiagramChange += (caller, args) =>
+                Mediator.OnDiagramChange += async (caller, args) =>
                 {
+                    await OnChange.InvokeAsync(null);
                     EditInProgress = true;
                     StateHasChanged();
                 };
             }
+        }
+
+        public async Task RedrawAsync()
+        {
+            await mediator.SetDiagramXML(Id, DiagramXML);
+            await OnChange.InvokeAsync(null);
         }
 
 
@@ -80,6 +90,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             EditInProgress = false;
             StateHasChanged();
             await revertDialogWindow.CloseAsync();
+            await OnChange.InvokeAsync(null);
         }
 
         //--------------------------------------------------
@@ -124,6 +135,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             }
 
             await saveDialogWindow.CloseAsync();
+            await OnChange.InvokeAsync(null);
         }
     }
 }

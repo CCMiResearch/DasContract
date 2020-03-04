@@ -90,9 +90,10 @@
                     </a>
                 </li>
             </ul>
-            <div class="text-right">
-                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepBackward())" OnClick=@(() => { StepBackward(); })>Step backward</ButtonInput>
-                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepForward())" OnClick=@(() => { StepForward(); })>Step forward</ButtonInput>
+            <div class="text-right my-2">
+                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepForward())" OnClick=@(async () => { await StepForwardAsync(); })>Step forward</ButtonInput>
+                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepBackward())" OnClick=@(async () => { await StepBackwardAsync(); })>Step backward</ButtonInput>
+                <ButtonInput OnClick="async () => { await SaveAsync(); }">Save</ButtonInput>
             </div>
         }
 
@@ -101,9 +102,14 @@
         {
             <h2>Process of contract @Contract.Name</h2>
             <p>Process is defined using a subset of <a href="http://www.bpmn.org/" rel="nofollow" target="_blank">BPMN language</a>. The contract currently support only one process and three types of activities.</p>
-            <Alert Scheme="AlertScheme.Info">The process must be saved manually</Alert>
+            <Alert Scheme="AlertScheme.Info">The process diagram must be manually confirmed.</Alert>
 
-            <ContractProcessEditor Contract="@Contract" />
+            @if(processEditor != null && processEditor.EditInProgress)
+            {
+                <Alert Scheme="AlertScheme.Danger">You have unconfirmed changes in the diagram. Leaving or changing the model will result in lost changes.</Alert>
+            }
+
+            <ContractProcessEditor @ref="@processEditor" Contract="@Contract" OnChange="() => { StateHasChanged(); }"  />
         }
 
         @* Activities editor *@

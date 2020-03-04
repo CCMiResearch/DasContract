@@ -1,12 +1,14 @@
 ﻿@inherits PageBase
 @page "/ContractFileSession/{Id}"
 
-@if (Loading)
+@if (Contract == null)
 {
     <LoadingScreen Fullscreen="true" Loading="@Loading" />
 }
 else if (initialException == null)
 {
+    <LoadingScreen Fullscreen="true" Loading="@Loading" />
+
     @if (ContractFileSession.IsExpired())
     {
         <Alert Scheme="AlertScheme.Danger">Session expired</Alert>

@@ -10,6 +10,8 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
     {
         //public event ContractBusinessRuleActivityEditorMediatorHandler OnDiagramChange;
 
+        public event ContractBusinessRuleActivityEditorMediatorHandler OnRedrawRequest;
+
         readonly IJSRuntime jsRuntime;
 
         public ContractBusinessRuleActivityEditorMediator(IJSRuntime jsRuntime)
@@ -31,6 +33,12 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
         public async Task SetDiagramXML(string id, string diagramXML)
         {
             await jsRuntime.InvokeVoidAsync("DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor.SetDiagramXML", id, diagramXML);
+        }
+
+        [JSInvokable]
+        public void RequestEditorRedrawCallback()
+        {
+            OnRedrawRequest?.Invoke(this, new ContractBusinessRuleActivityEditorMediatorArgs());
         }
 
         //[JSInvokable]

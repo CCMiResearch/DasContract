@@ -33,6 +33,25 @@ namespace DasContract.Editor.Entities.Forms
         }
         List<ContractFormField> fields = new List<ContractFormField>();
 
+        public void AddField(ContractFormField newFiled)
+        {
+            Fields.Add(newFiled);
+            migrator.Notify(
+                () => Fields,
+                () => Fields.Add(newFiled),
+                () => Fields.Remove(newFiled), MigratorMode.EveryChange);
+        }
+
+        public void RemoveField(ContractFormField removeField)
+        {
+            var position = Fields.IndexOf(removeField);
+            Fields.Remove(removeField);
+            migrator.Notify(
+                () => Fields,
+                () => Fields.Remove(removeField),
+                () => Fields.Insert(position, removeField), MigratorMode.EveryChange);
+        }
+
         //--------------------------------------------------
         //                  MIGRATOR
         //--------------------------------------------------

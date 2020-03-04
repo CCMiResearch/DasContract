@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Processes.Process;
 using Microsoft.AspNetCore.Components;
@@ -13,7 +14,5 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
         public EditorContract Contract { get; set; }
 
         public ContractProcess Process => Contract.Processes.Main;
-
-
     }
 }

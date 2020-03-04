@@ -10,25 +10,14 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
         /// <summary>
         /// A definition of a business rule in DMN diagram
         /// </summary>
-        public DMNProcessDiagram Diagram
-        {
-            get => diagram?.WithMigrator(Migrator);
-            set
-            {
-                if (value != diagram)
-                    Migrator.Notify(() => diagram, e => diagram = e,
-                            MigratorMode.Smart);
-                diagram = value;
-            }
-        }
-        DMNProcessDiagram diagram = DMNProcessDiagram.Default();
+        public DMNProcessDiagram Diagram { get; set; } = DMNProcessDiagram.Default();
 
         public void CopyDataFrom(ContractBusinessRuleActivity source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            diagram = source.Diagram;
+            Diagram = source.Diagram;
         }
 
         public ContractBusinessRuleActivity WithMigrator(IMigrator parentMigrator)

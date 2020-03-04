@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Bonsai.RazorComponents.MaterialBootstrap.Services;
+using DasContract.Editor.Components.Main.Services;
 
 namespace DasContract.Editor.Tests.Components.Main.Client
 {
@@ -16,6 +17,8 @@ namespace DasContract.Editor.Tests.Components.Main.Client
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddMaterialBootstrap();
+
+            builder.Services.AddEditorMainComponents();
 
             await builder.Build().RunAsync();
         }

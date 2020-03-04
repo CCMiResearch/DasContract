@@ -44,11 +44,12 @@ namespace DasContract.Editor.Entities.DataModels
 
         public void RemoveEntity(ContractEntity removeEntity)
         {
+            var position = Entities.IndexOf(removeEntity);
             Entities.Remove(removeEntity);
             migrator.Notify(
                 () => Entities,
                 () => Entities.Remove(removeEntity),
-                () => Entities.Add(removeEntity), MigratorMode.EveryChange);
+                () => Entities.Insert(position, removeEntity), MigratorMode.EveryChange);
         }
 
         //--------------------------------------------------

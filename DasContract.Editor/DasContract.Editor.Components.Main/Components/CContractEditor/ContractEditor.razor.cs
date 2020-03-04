@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Editor.Components.Main.Components;
+using DasContract.Editor.Components.Main.Components.CContractEditor.ProcessEditor;
+using DasContract.Editor.Components.Main.Services.BusinessRuleActivityEditor;
 using DasContract.Editor.Entities;
+using DasContract.Editor.Entities.Processes;
+using DasContract.Editor.Entities.Processes.Diagrams;
 using DasContract.Editor.Migrator.Interfaces;
 using Microsoft.AspNetCore.Components;
 
@@ -11,6 +15,9 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
 {
     public partial class ContractEditor : LoadableComponent
     {
+        [Inject]
+        public ContractBusinessRuleActivityEditorService ContractBusinessRuleActivityEditorService { get; set; }
+
         [Parameter]
         public EditorContract Contract
         {
@@ -22,7 +29,10 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
 
                 //Unbind the old contract
                 if (contract != null)
+                {
                     contract.GetMigrator().OnMigrationsChange -= OnMigrationsChange;
+                    //contract.Processes.OnDiagramChange -= OnDiagramChange;
+                }
                 contract = value;
                 
                 //Setup the new contract
@@ -30,9 +40,11 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
                 {
                     contract.StartTracingSteps();
                     contract.GetMigrator().OnMigrationsChange += OnMigrationsChange;
+                    //contract.Processes.OnDiagramChange += OnDiagramChange;
                 }
             }
         }
+
 
         EditorContract contract = null;
 
@@ -68,27 +80,46 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
             OpenedTab = tab;
         }
 
-        public void StepBackward()
+        protected async Task UpdateOpenedTab()
+        {
+            if (OpenedTab == ContractEditorTab.Process)
+                await RedrawProcessDiagram();
+            else if (OpenedTab == ContractEditorTab.Activities)
+                await ContractBusinessRuleActivityEditorService.RedrawActiveEditorsAsync();
+        }
+
+        public async Task StepBackwardAsync()
         {
             Contract.GetMigrator().StepBackward();
+            await UpdateOpenedTab();
             StateHasChanged();
         }
 
         public bool HasStepBackward() => Contract.GetMigrator().HasStepBackward();
 
-        public void StepForward()
+        public async Task StepForwardAsync()
         {
             Contract.GetMigrator().StepForward();
+            await UpdateOpenedTab();
             StateHasChanged();
         }
 
         public bool HasStepForward() => Contract.GetMigrator().HasStepForward();
 
 
-        private void OnMigrationsChange(IMigrator caller, IMigratorArgs args)
+        void OnMigrationsChange(IMigrator caller, IMigratorArgs args)
         {
             StateHasChanged();
         }
 
+
+        ContractProcessEditor processEditor;
+        async Task RedrawProcessDiagram()
+        {
+            if (processEditor == null)
+                return;
+
+            await processEditor.RedrawAsync();
+        }
     }
 }

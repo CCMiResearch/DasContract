@@ -61,11 +61,12 @@ namespace DasContract.Editor.Entities.DataModels.Entities
 
         public void RemoveProperty(PrimitiveContractProperty removeProperty)
         {
+            var position = PrimitiveProperties.IndexOf(removeProperty);
             PrimitiveProperties.Remove(removeProperty);
             migrator.Notify(
                 () => PrimitiveProperties,
                 () => PrimitiveProperties.Remove(removeProperty),
-                () => PrimitiveProperties.Add(removeProperty), MigratorMode.EveryChange);
+                () => PrimitiveProperties.Insert(position, removeProperty), MigratorMode.EveryChange);
         }
 
 
@@ -102,11 +103,12 @@ namespace DasContract.Editor.Entities.DataModels.Entities
 
         public void RemoveProperty(ReferenceContractProperty removeProperty)
         {
+            var position = ReferenceProperties.IndexOf(removeProperty);
             ReferenceProperties.Remove(removeProperty);
             migrator.Notify(
                 () => ReferenceProperties,
                 () => ReferenceProperties.Remove(removeProperty),
-                () => ReferenceProperties.Add(removeProperty), MigratorMode.EveryChange);
+                () => ReferenceProperties.Insert(position, removeProperty), MigratorMode.EveryChange);
         }
 
         public IEnumerable<ContractProperty> Properties => new List<ContractProperty>()

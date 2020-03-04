@@ -5,6 +5,7 @@ using DasContract.Editor.Entities.Integrity.Analysis;
 using DasContract.Editor.Entities.Integrity.Analysis.Cases;
 using DasContract.Editor.Entities.Processes.Diagrams;
 using DasContract.Editor.Entities.Processes.Process.Activities;
+using DasContract.Editor.Migrator.Interfaces;
 
 namespace DasContract.Editor.Entities.Integrity.Contract.Processes.Process.Activities
 {
@@ -27,7 +28,15 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Processes.Process.Activ
                 return;
             }
 
+            var oldDiagram = activity.Diagram;
             activity.Diagram = newDiagram;
+
+            contract.GetMigrator().Notify(
+                () => activity.Diagram,
+                () => activity.Diagram = newDiagram,
+                () => activity.Diagram = oldDiagram,
+                MigratorMode.EveryChange
+                );
         }
 
         public static void ValidatePotentialDiagram(this EditorContract contract, ContractBusinessRuleActivity activity, DMNProcessDiagram newDiagram)

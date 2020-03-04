@@ -13,6 +13,7 @@ using DasContract.Editor.Entities.Processes.Diagrams;
 using DasContract.Editor.Entities.Processes.Factories;
 using DasContract.Editor.Entities.Processes.Process;
 using DasContract.Editor.Entities.Processes.Process.Activities;
+using DasContract.Editor.Migrator.Interfaces;
 
 namespace DasContract.Editor.Entities.Integrity.Contract.Processes
 {
@@ -38,6 +39,7 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Processes
             if (contract.Processes.Main != null)
                 contract.AnalyzeIntegrityWhenReplacedWith(newDiagram).ResolveDeleteRisks();
 
+            var oldDiagram = contract.Processes.Diagram;
             contract.Processes.Diagram = newDiagram;
 
             var oldProcess = contract.Processes.Main;
@@ -54,6 +56,24 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Processes
 
             //Update start events
             UpdateMainProcessActivities(oldProcess.StartEvents, newProcess.StartEvents);
+
+
+            //Add migration
+            contract.GetMigrator().Notify(
+                () => contract.Processes.Diagram,
+                () =>
+                {
+                    //Up
+                    contract.Processes.Diagram = newDiagram;
+                    contract.Processes.Main = newProcess;
+                }, 
+                () =>
+                {
+                    //Down
+                    contract.Processes.Diagram = oldDiagram;
+                    contract.Processes.Main = oldProcess;
+                }, MigratorMode.EveryChange);
+
         }
 
         public static ContractProcess ValidatePotentialDiagram(this EditorContract contract, BPMNProcessDiagram newDiagram)
@@ -75,7 +95,6 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Processes
 
             return newMainProcess;
         }
-
 
         static void UpdateMainProcessActivities<TActivity>(IEnumerable<TActivity> oldActivities, IEnumerable<TActivity> newActivities)
             where TActivity : IDataCopyable<TActivity>, IIdentifiable

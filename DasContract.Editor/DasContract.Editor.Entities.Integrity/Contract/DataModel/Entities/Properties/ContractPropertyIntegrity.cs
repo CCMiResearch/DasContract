@@ -36,7 +36,7 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Prop
                     if (field.PropertyBinding == null || field.PropertyBinding.Property != property)
                         continue;
 
-                    var currentField = field;
+                    var currentField = field.WithMigrator(contract.GetMigrator());
                     deleteRisks.Add(new ContractIntegrityAnalysisDeleteCase(
                         $"Property binding on form field {currentField.Name} will be removed",
                         () => { currentField.PropertyBinding = null; }));

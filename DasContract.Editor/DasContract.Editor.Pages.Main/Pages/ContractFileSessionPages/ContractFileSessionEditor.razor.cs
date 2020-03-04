@@ -83,6 +83,8 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
 
         async Task SaveAsync()
         {
+            Loading = true;
+
             ContractFileSession.SerializedContract = EditorContractXML.To(Contract);
             try
             {
@@ -94,6 +96,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
                 contractAlertController.AddAlert("Error while saving contract occured", AlertScheme.Danger);
             }
 
+            Loading = false;
             //await LoadCurrentContractAsync();
         }
     }

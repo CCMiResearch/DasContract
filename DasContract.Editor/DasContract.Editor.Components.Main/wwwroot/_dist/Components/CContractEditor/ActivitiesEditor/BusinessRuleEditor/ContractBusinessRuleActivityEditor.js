@@ -8,6 +8,13 @@ require("dmn-js/dist/assets/dmn-js-drd.css");
 require("dmn-js/dist/assets/dmn-js-literal-expression.css");
 require("dmn-js/dist/assets/dmn-js-shared.css");
 require("dmn-js/dist/assets/dmn-font/css/dmn.css");
+var Editor = /** @class */ (function () {
+    function Editor(editor, mediator) {
+        this.editor = editor;
+        this.mediator = mediator;
+    }
+    return Editor;
+}());
 var editors = {};
 window.DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor = {
     InitBPMN: function (id, editorXML, mediatorReference) {
@@ -24,7 +31,7 @@ window.DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor 
             }
         });
         //Save the editor
-        editors[id] = editor;
+        editors[id] = new Editor(editor, mediatorReference);
         //Set the diagram
         this.SetDiagramXML(id, editorXML);
         //Hook up the change callback
@@ -34,9 +41,9 @@ window.DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor 
         //});
     },
     SetDiagramXML: function (id, editorXML) {
-        var editor = editors[id];
+        var savedEditor = editors[id];
         //Init the editor
-        editor.importXML(editorXML, function (err) {
+        savedEditor.editor.importXML(editorXML, function (err) {
             if (err)
                 throw new Error("Error importing DMN XML");
             //var canvas = editor.get("canvas");
@@ -45,7 +52,7 @@ window.DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor 
     },
     GetDiagramXML: function (id) {
         var res = null;
-        editors[id].saveXML(function (err, xml) {
+        editors[id].editor.saveXML(function (err, xml) {
             if (err)
                 throw new Error("Error getting diagram xml");
             res = xml;
@@ -53,5 +60,14 @@ window.DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor 
         if (res == null)
             throw new Error("Returning string is null");
         return res;
+    },
+    RequestEditorsRedraw: function () {
+        for (var id in editors) {
+            if (document.getElementById(id))
+                this.RequestEditorRedraw(id);
+        }
+    },
+    RequestEditorRedraw: function (id) {
+        editors[id].mediator.invokeMethodAsync("RequestEditorRedrawCallback");
     }
 };

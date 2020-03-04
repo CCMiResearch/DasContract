@@ -50,12 +50,23 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
             if (firstRender)
             {
                 await Mediator.InitBPMN(Id, DiagramXML);
+
+                Mediator.OnRedrawRequest += async (caller, args) =>
+                {
+                    await RedrawAsync();
+                };
+
                 //Mediator.OnDiagramChange += (caller, args) =>
                 //{
                 //    EditInProgress = true;
                 //    StateHasChanged();
                 //};
             }
+        }
+
+        public async Task RedrawAsync()
+        {
+            await Mediator.SetDiagramXML(Id, DiagramXML);
         }
 
         //--------------------------------------------------
@@ -117,5 +128,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
 
             await saveDialogWindow.CloseAsync();
         }
+
+
     }
 }

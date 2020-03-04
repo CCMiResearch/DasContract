@@ -8,7 +8,19 @@ import "dmn-js/dist/assets/dmn-js-literal-expression.css";
 import "dmn-js/dist/assets/dmn-js-shared.css";
 import "dmn-js/dist/assets/dmn-font/css/dmn.css";
 
-let editors: any = {};
+class Editor
+{
+    public editor: any;
+    public mediator: any;
+
+    constructor(editor: any, mediator: any)
+    {
+        this.editor = editor;
+        this.mediator = mediator;
+    }
+}
+
+let editors: {[key:string]: Editor} = {};
 
 (window as any).DasContractComponents.ContractEditor.ActivitiesEditor.BusinessRuleEditor = {
     InitBPMN: function (id: string, editorXML: string, mediatorReference: any)
@@ -29,7 +41,7 @@ let editors: any = {};
         });
 
         //Save the editor
-        editors[id] = editor;
+        editors[id] = new Editor(editor, mediatorReference);
 
         //Set the diagram
         this.SetDiagramXML(id, editorXML);
@@ -41,13 +53,12 @@ let editors: any = {};
         //});
     },
 
-
     SetDiagramXML: function (id: string, editorXML: string)
     {
-        let editor = editors[id];
+        let savedEditor = editors[id];
 
         //Init the editor
-        editor.importXML(editorXML, function (err: any)
+        savedEditor.editor.importXML(editorXML, function (err: any)
         {
             if (err)
                 throw new Error("Error importing DMN XML");
@@ -61,7 +72,7 @@ let editors: any = {};
     GetDiagramXML: function (id: string): string
     {
         var res = null;
-        editors[id].saveXML(function (err: any, xml: any)
+        editors[id].editor.saveXML(function (err: any, xml: any)
         {
             if (err)
                 throw new Error("Error getting diagram xml");
@@ -72,5 +83,19 @@ let editors: any = {};
         if (res == null)
             throw new Error("Returning string is null");
         return res;
+    },
+
+    RequestEditorsRedraw: function ()
+    {
+        for (var id in editors)
+        {
+            if (document.getElementById(id))
+                this.RequestEditorRedraw(id);
+        }
+    },
+
+    RequestEditorRedraw: function (id: string)
+    {
+        editors[id].mediator.invokeMethodAsync("RequestEditorRedrawCallback");
     }
 };

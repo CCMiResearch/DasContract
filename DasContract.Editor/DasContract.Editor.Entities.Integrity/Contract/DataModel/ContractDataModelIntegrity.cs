@@ -65,10 +65,11 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel
 
                     if (property.Entity == entity)
                     {
+                        currentEntity.WithMigrator(contract.GetMigrator());
                         deleteRisks.Add(
                             new ContractIntegrityAnalysisDeleteCase(
                                 $"Property {currentEntity.Name}.{currentProperty.Name} will be deleted",
-                                () => { currentEntity.ReferenceProperties.Remove(currentProperty); })
+                                () => { currentEntity.RemoveProperty(currentProperty); })
                                 );
 
                         childrenAnalyses.Add(contract.AnalyzeIntegrityOf(currentProperty));

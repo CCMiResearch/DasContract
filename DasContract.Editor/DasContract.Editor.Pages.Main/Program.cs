@@ -9,6 +9,7 @@ using DasContract.Editor.Pages.Main.Services.FilePathProvider.SpecificFilePathPr
 using DasContract.Editor.Pages.Main.Services.Entities;
 using Bonsai.RazorComponents.MaterialBootstrap.Services;
 using DasContract.Editor.Pages.Main.Services.FileDownloader;
+using DasContract.Editor.Components.Main.Services;
 
 namespace DasContract.Editor.Pages.Main
 {
@@ -18,6 +19,9 @@ namespace DasContract.Editor.Pages.Main
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
+
+            //Add editor main components 
+            builder.Services.AddEditorMainComponents();
 
             //File path provider service
             //builder.Services.AddSingleton<IFilePathProvider, RegularFilePathProvider>();
