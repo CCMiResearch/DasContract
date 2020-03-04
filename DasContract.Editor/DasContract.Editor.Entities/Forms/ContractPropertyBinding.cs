@@ -18,7 +18,8 @@ namespace DasContract.Editor.Entities.Forms
             {
                 property = value;
                 if (property != value)
-                    migrator.Notify(() => property, e => property = e);
+                    migrator.Notify(() => property, e => property = e,
+                            MigratorMode.Smart);
                 if (value != null)
                     PropertyId = value.Id;
             }

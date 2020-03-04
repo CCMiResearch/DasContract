@@ -20,7 +20,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties
             set
             {
                 if (value != name)
-                    migrator.Notify(() => name, p => name = p);
+                    migrator.Notify(() => name, p => name = p,
+                            MigratorMode.Smart);
                 name = value;
             }
         }
@@ -37,7 +38,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties
             set
             {
                 if (value != isMandatory)
-                    migrator.Notify(() => isMandatory, b => isMandatory = b);
+                    migrator.Notify(() => isMandatory, b => isMandatory = b,
+                            MigratorMode.Smart);
                 isMandatory = value;
             }
         }

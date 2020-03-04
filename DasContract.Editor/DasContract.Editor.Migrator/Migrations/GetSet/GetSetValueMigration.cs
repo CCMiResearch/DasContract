@@ -1,14 +1,12 @@
-﻿using DasContract.Editor.Migrator.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DasContract.Editor.Migrator
+namespace DasContract.Editor.Migrator.Migrations.GetSet
 {
-    public class Migration<TProperty> : IMigration
+    public class GetSetValueMigration<TProperty>: Migration
     {
-        public Expression PropertyExpression { get; set; }
 
         public Func<TProperty> PropertyGetter { get; set; }
 
@@ -16,7 +14,11 @@ namespace DasContract.Editor.Migrator
 
         public TProperty LastKnownValue { get; set; }
 
-        public Migration(Expression propertyExpression, Func<TProperty> propertyGetter, Action<TProperty> propertySetter)
+        protected bool IsUp { get; set; } = true;
+
+        public GetSetValueMigration(Expression propertyExpression, 
+            Func<TProperty> propertyGetter, 
+            Action<TProperty> propertySetter)
         {
             PropertyExpression = propertyExpression;
             PropertyGetter = propertyGetter;
@@ -43,6 +45,24 @@ namespace DasContract.Editor.Migrator
             LastKnownValue = GetCurrentValue();
         }
 
+        public override void Down()
+        {
+            if (!IsUp)
+                return;
+
+            IsUp = false;
+            RevertLastKnownValue();
+        }
+
+        public override void Up()
+        {
+            if (IsUp)
+                return;
+
+            IsUp = true;
+            RevertLastKnownValue();
+        }
+
         public void RevertLastKnownValue()
         {
             var temp = LastKnownValue;
@@ -67,6 +87,5 @@ namespace DasContract.Editor.Migrator
         {
             PropertySetter(newValue);
         }
-
     }
 }

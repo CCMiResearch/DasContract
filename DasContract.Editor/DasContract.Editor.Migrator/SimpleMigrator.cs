@@ -1,5 +1,7 @@
 ﻿using Bonsai.Utils.Property;
 using DasContract.Editor.Migrator.Interfaces;
+using DasContract.Editor.Migrator.Migrations.GetSet;
+using DasContract.Editor.Migrator.Migrations.UpDownMigration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,8 @@ namespace DasContract.Editor.Migrator
 
         int stepsBack = 0;
 
+        public event MigratorHandler OnMigrationsChange;
+
         public bool Recording { get; set; } = false;
 
         /// <summary>
@@ -25,7 +29,7 @@ namespace DasContract.Editor.Migrator
             return migrations.Count;
         }
 
-        public bool HasStepBack()
+        public bool HasStepBackward()
         {
             int remainingSteps = migrations.Count - stepsBack;
             return remainingSteps > 0;
@@ -38,11 +42,12 @@ namespace DasContract.Editor.Migrator
 
         public void StepBackward()
         {
-            if (!HasStepBack())
+            if (!HasStepBackward())
                 return;
 
             var migrationToRollback = migrations[stepsBack++];
-            migrationToRollback.RevertLastKnownValue();
+            migrationToRollback.Down();
+            InvokeMigratorChange();
         }
 
         public void StepForward()
@@ -51,10 +56,14 @@ namespace DasContract.Editor.Migrator
                 return;
 
             var migrationToRollback = migrations[--stepsBack];
-            migrationToRollback.RevertLastKnownValue();
+            migrationToRollback.Up();
+            InvokeMigratorChange();
         }
 
-        public void Notify<TType>(Expression<Func<TType>> propertyExpression, Func<TType> propertyGetter, Action<TType> propertySetter)
+        public void Notify<TType>(Expression<Func<TType>> propertyExpression, 
+            Func<TType> propertyGetter, 
+            Action<TType> propertySetter,
+            MigratorMode mode = MigratorMode.Smart)
         {
             if (!Recording)
                 return;
@@ -63,11 +72,10 @@ namespace DasContract.Editor.Migrator
                 throw new ArgumentNullException(nameof(propertyExpression));
 
             //Remove all "future" steps
-            for (; stepsBack > 0; stepsBack--)
-                migrations.RemoveAt(0);
+            RemoveFutureSteps();
 
             //Check if the previous migrations edits the same property
-            if (migrations.Count > 0
+            if (migrations.Count > 0 && mode == MigratorMode.Smart
                 && PropertyAttributeGetter.GetMemberInfo(propertyExpression.Body).HasSameMetadataDefinitionAs(
                     PropertyAttributeGetter.GetMemberInfo(migrations.First().PropertyExpression))
                 )
@@ -78,17 +86,55 @@ namespace DasContract.Editor.Migrator
             //Create new migration
             else
             {
-                var newMigration = new Migration<TType>(propertyExpression.Body, propertyGetter, propertySetter);
+                var newMigration = new GetSetValueMigration<TType>(propertyExpression.Body, propertyGetter, propertySetter);
                 migrations.Insert(0, newMigration);
+                InvokeMigratorChange();
             }
         }
 
-        public void Notify<TType>(Expression<Func<TType>> propertyExpression, Action<TType> propertySetter)
+        public void Notify<TType>(Expression<Func<TType>> propertyExpression, 
+            Action<TType> propertySetter,
+            MigratorMode mode = MigratorMode.Smart)
         {
             if (propertyExpression == null)
                 throw new ArgumentNullException(nameof(propertyExpression));
 
-            Notify(propertyExpression, propertyExpression.Compile(), propertySetter);
+            Notify(propertyExpression, propertyExpression.Compile(), propertySetter, mode);
+        }
+
+        public void Notify<TType>(Expression<Func<TType>> propertyExpression, Action up, Action down, MigratorMode mode = MigratorMode.Smart)
+        {
+            if (!Recording)
+                return;
+
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
+            //Remove all "future" steps
+            RemoveFutureSteps();
+
+            //Check if the previous migrations edits the same property
+            if (migrations.Count > 0 && mode == MigratorMode.Smart
+                && PropertyAttributeGetter.GetMemberInfo(propertyExpression.Body).HasSameMetadataDefinitionAs(
+                    PropertyAttributeGetter.GetMemberInfo(migrations.First().PropertyExpression))
+                )
+            {
+                //Do nothing
+            }
+
+            //Create new migration
+            else
+            {
+                var newMigration = new UpDownMigration<TType>(propertyExpression.Body, up, down);
+                migrations.Insert(0, newMigration);
+                InvokeMigratorChange();
+            }
+        }
+
+        protected void RemoveFutureSteps()
+        {
+            for (; stepsBack > 0; stepsBack--)
+                migrations.RemoveAt(0);
         }
 
         public void StartTracingSteps()
@@ -101,6 +147,9 @@ namespace DasContract.Editor.Migrator
             Recording = false;
         }
 
-
+        protected void InvokeMigratorChange()
+        {
+            OnMigrationsChange?.Invoke(this, new SimpleMigratorArgs());
+        }
     }
 }

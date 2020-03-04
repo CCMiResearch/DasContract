@@ -18,6 +18,21 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Prop
         //--------------------------------------------------
         //               REFERENCE PROPERTY
         //--------------------------------------------------
+        public static void AddSafely(this EditorContract contract, ContractEntity entity, ReferenceContractProperty property)
+        {
+            if (contract == null)
+                throw new ArgumentNullException(nameof(contract));
+
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+
+            //entity.ReferenceProperties.Add(property);
+            entity.AddProperty(property);
+        }
+
         public static void RemoveSafely(this EditorContract contract, ReferenceContractProperty property)
         {
             if (contract == null)
@@ -31,7 +46,8 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Prop
 
             //Remove this
             var entity = contract.DataModel.GetEntityOf(property);
-            entity.ReferenceProperties.Remove(property);
+            //entity.ReferenceProperties.Remove(property);
+            entity.RemoveProperty(property);
         }
 
         public static ContractIntegrityAnalysisResult AnalyzeIntegrityOf(this EditorContract contract, ReferenceContractProperty property)

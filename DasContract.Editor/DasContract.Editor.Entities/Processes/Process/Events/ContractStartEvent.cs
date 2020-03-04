@@ -15,7 +15,8 @@ namespace DasContract.Editor.Entities.Processes.Process.Events
             set
             {
                 if (value != startForm)
-                    Migrator.Notify(() => startForm, e => startForm = e);
+                    Migrator.Notify(() => startForm, e => startForm = e,
+                            MigratorMode.Smart);
                 startForm = value;
             }
         }
@@ -26,7 +27,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Events
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            StartForm = source.StartForm;
+            startForm = source.StartForm;
         }
 
         public ContractStartEvent WithMigrator(IMigrator parentMigrator)

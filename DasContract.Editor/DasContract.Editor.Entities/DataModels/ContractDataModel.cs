@@ -26,11 +26,30 @@ namespace DasContract.Editor.Entities.DataModels
             set
             {
                 if (value != entities)
-                    migrator.Notify(() => entities, d => entities = d);
+                    migrator.Notify(() => entities, d => entities = d,
+                            MigratorMode.Smart);
                 entities = value;
             }
         }
         List<ContractEntity> entities = new List<ContractEntity>();
+
+        public void AddEntity(ContractEntity newEntity)
+        {
+            Entities.Add(newEntity);
+            migrator.Notify(
+                () => Entities,
+                () => Entities.Add(newEntity),
+                () => Entities.Remove(newEntity), MigratorMode.EveryChange);
+        }
+
+        public void RemoveEntity(ContractEntity removeEntity)
+        {
+            Entities.Remove(removeEntity);
+            migrator.Notify(
+                () => Entities,
+                () => Entities.Remove(removeEntity),
+                () => Entities.Add(removeEntity), MigratorMode.EveryChange);
+        }
 
         //--------------------------------------------------
         //                  MIGRATOR

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Editor.Components.Main.Components;
 using DasContract.Editor.Entities;
+using DasContract.Editor.Migrator.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace DasContract.Editor.Components.Main.Components.CContractEditor
@@ -11,7 +12,29 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
     public partial class ContractEditor : LoadableComponent
     {
         [Parameter]
-        public EditorContract Contract { get; set; }
+        public EditorContract Contract
+        {
+            get => contract;
+            set
+            {
+                if (value == contract)
+                    return;
+
+                //Unbind the old contract
+                if (contract != null)
+                    contract.GetMigrator().OnMigrationsChange -= OnMigrationsChange;
+                contract = value;
+                
+                //Setup the new contract
+                if (contract != null)
+                {
+                    contract.StartTracingSteps();
+                    contract.GetMigrator().OnMigrationsChange += OnMigrationsChange;
+                }
+            }
+        }
+
+        EditorContract contract = null;
 
         public ContractEditorTab OpenedTab { get; protected set; } = ContractEditorTab.General;
 
@@ -44,5 +67,28 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
 
             OpenedTab = tab;
         }
+
+        public void StepBackward()
+        {
+            Contract.GetMigrator().StepBackward();
+            StateHasChanged();
+        }
+
+        public bool HasStepBackward() => Contract.GetMigrator().HasStepBackward();
+
+        public void StepForward()
+        {
+            Contract.GetMigrator().StepForward();
+            StateHasChanged();
+        }
+
+        public bool HasStepForward() => Contract.GetMigrator().HasStepForward();
+
+
+        private void OnMigrationsChange(IMigrator caller, IMigratorArgs args)
+        {
+            StateHasChanged();
+        }
+
     }
 }

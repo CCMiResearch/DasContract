@@ -26,7 +26,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (value != fields)
-                    migrator.Notify(() => fields, d => fields = d);
+                    migrator.Notify(() => fields, d => fields = d,
+                            MigratorMode.Smart);
                 fields = value;
             }
         }

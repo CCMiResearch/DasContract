@@ -16,7 +16,8 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             set
             {
                 if (value != diagram)
-                    Migrator.Notify(() => diagram, e => diagram = e);
+                    Migrator.Notify(() => diagram, e => diagram = e,
+                            MigratorMode.Smart);
                 diagram = value;
             }
         }
@@ -27,7 +28,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            Diagram = source.Diagram;
+            diagram = source.Diagram;
         }
 
         public ContractBusinessRuleActivity WithMigrator(IMigrator parentMigrator)

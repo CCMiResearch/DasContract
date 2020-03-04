@@ -17,7 +17,8 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             set
             {
                 if (value != script)
-                    Migrator.Notify(() => script, e => script = e);
+                    Migrator.Notify(() => script, e => script = e,
+                            MigratorMode.Smart);
                 script = value;
             }
         }
@@ -28,7 +29,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            Script = source.Script;
+            script = source.Script;
         }
 
         public ContractScriptActivity WithMigrator(IMigrator parentMigrator)

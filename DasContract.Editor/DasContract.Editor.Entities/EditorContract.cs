@@ -21,7 +21,8 @@ namespace DasContract.Editor.Entities
             set
             {
                 if (value != name)
-                    migrator.Notify(() => name, p => name = p);
+                    migrator.Notify(() => name, p => name = p,
+                            MigratorMode.Smart);
                 name = value;
             }
         }
@@ -36,7 +37,8 @@ namespace DasContract.Editor.Entities
             set
             {
                 if (value != processes)
-                    migrator.Notify(() => processes, p => processes = p);
+                    migrator.Notify(() => processes, p => processes = p,
+                            MigratorMode.Smart);
                 processes = value;
             }
         }
@@ -51,7 +53,8 @@ namespace DasContract.Editor.Entities
             set
             {
                 if (value != dataModel)
-                    migrator.Notify(() => dataModel, d => dataModel = d);
+                    migrator.Notify(() => dataModel, d => dataModel = d,
+                            MigratorMode.Smart);
                 dataModel = value;
             }
         }

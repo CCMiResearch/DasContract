@@ -19,7 +19,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (name != value)
-                    migrator.Notify(() => name, e => name = e);
+                    migrator.Notify(() => name, e => name = e,
+                            MigratorMode.Smart);
                 name = value;
             }
         }
@@ -36,7 +37,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (label != value)
-                    migrator.Notify(() => label, e => label = e);
+                    migrator.Notify(() => label, e => label = e,
+                            MigratorMode.Smart);
                 label = value;
             }
         }
@@ -53,7 +55,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (description != value)
-                    migrator.Notify(() => description, e => description = e);
+                    migrator.Notify(() => description, e => description = e,
+                            MigratorMode.Smart);
                 description = value;
             }
         }
@@ -70,7 +73,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (readOnly != value)
-                    migrator.Notify(() => readOnly, e => readOnly = e);
+                    migrator.Notify(() => readOnly, e => readOnly = e,
+                            MigratorMode.Smart);
                 readOnly = value;
             }
         }
@@ -87,7 +91,8 @@ namespace DasContract.Editor.Entities.Forms
             set
             {
                 if (propertyBinding != value)
-                    migrator.Notify(() => propertyBinding, e => propertyBinding = e);
+                    migrator.Notify(() => propertyBinding, e => propertyBinding = e,
+                            MigratorMode.Smart);
                 propertyBinding = value;
             }
         }

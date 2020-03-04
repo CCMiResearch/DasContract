@@ -1,5 +1,6 @@
 ﻿using DasContract.Editor.Entities.DataModels.Entities;
 using DasContract.Editor.Entities.DataModels.Entities.Properties;
+using DasContract.Editor.Migrator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
             set
             {
                 if (value != entity)
-                    migrator.Notify(() => entity, b => entity = b);
+                    migrator.Notify(() => entity, b => entity = b,
+                            MigratorMode.Smart);
                 entity = value;
 
                 if (value != null)
@@ -43,7 +45,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Reference
             set
             {
                 if (value != type)
-                    migrator.Notify(() => type, b => type = b);
+                    migrator.Notify(() => type, b => type = b,
+                            MigratorMode.Smart);
                 type = value;
             }
         }

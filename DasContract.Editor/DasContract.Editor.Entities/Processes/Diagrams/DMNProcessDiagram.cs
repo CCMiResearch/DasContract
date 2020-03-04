@@ -17,7 +17,8 @@ namespace DasContract.Editor.Entities.Processes.Diagrams
             set
             {
                 if (value != diagramXML)
-                    migrator.Notify(() => diagramXML, e => diagramXML = e);
+                    migrator.Notify(() => diagramXML, e => diagramXML = e,
+                            MigratorMode.Smart);
                 diagramXML = value;
             }
         }

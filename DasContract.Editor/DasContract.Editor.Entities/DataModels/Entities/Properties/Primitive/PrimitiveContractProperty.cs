@@ -1,4 +1,5 @@
 ﻿using DasContract.Editor.Entities.DataModels.Entities.Properties;
+using DasContract.Editor.Migrator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities.Properties.Primitive
             set
             {
                 if (value != type)
-                    migrator.Notify(() => type, b => type = b);
+                    migrator.Notify(() => type, b => type = b,
+                            MigratorMode.Smart);
                 type = value;
             }
         }

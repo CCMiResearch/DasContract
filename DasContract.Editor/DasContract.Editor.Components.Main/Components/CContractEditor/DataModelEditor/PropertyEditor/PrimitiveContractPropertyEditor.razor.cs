@@ -12,7 +12,6 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
 {
     public partial class PrimitiveContractPropertyEditor : ContractPropertyEditorBase
     {
-
         //--------------------------------------------------
         //                    DELETE
         //--------------------------------------------------

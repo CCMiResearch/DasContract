@@ -25,7 +25,8 @@ namespace DasContract.Editor.Entities.Processes
             set
             {
                 if (value != diagram)
-                    migrator.Notify(() => diagram, d => diagram = d);
+                    migrator.Notify(() => diagram, d => diagram = d,
+                            MigratorMode.Smart);
                 diagram = value;
             }
         }

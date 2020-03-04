@@ -21,7 +21,8 @@ namespace DasContract.Tests.Migrator
                         Migrator.Notify(
                             () => property1,
                             () => property1,
-                            e => property1 = e);
+                            e => property1 = e,
+                            MigratorMode.Smart);
                     property1 = value;
                 }
             }
@@ -36,7 +37,8 @@ namespace DasContract.Tests.Migrator
                     if (property2 != value)
                         Migrator.Notify(
                             () => property2,
-                            e => property2 = e);
+                            e => property2 = e,
+                            MigratorMode.Smart);
                     property2 = value;
                 }
             }
@@ -48,7 +50,8 @@ namespace DasContract.Tests.Migrator
                 set
                 {
                     if (value != component1)
-                        Migrator.Notify(() => component1, e => component1 = e);
+                        Migrator.Notify(() => component1, e => component1 = e,
+                            MigratorMode.Smart);
                     component1 = value;
                 }
             }
@@ -80,7 +83,8 @@ namespace DasContract.Tests.Migrator
                         Migrator.Notify(
                             () => property1,
                             () => property1,
-                            e => property1 = e);
+                            e => property1 = e,
+                            MigratorMode.Smart);
                     property1 = value;
                 }
             }

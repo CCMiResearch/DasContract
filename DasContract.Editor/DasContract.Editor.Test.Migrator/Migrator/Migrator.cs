@@ -33,10 +33,16 @@ namespace DasContract.Tests.Migrator
                 get => property2;
                 set
                 {
+                    /*if (property2 != value)
+                        Migrator.Notify(
+                            () => property2,
+                            e => property2 = e);*/
+                    var previousValue = property2;
                     if (property2 != value)
                         Migrator.Notify(
                             () => property2,
-                            e => property2 = e);
+                            () => property2 = value,
+                            () => property2 = previousValue);
                     property2 = value;
                 }
             }
@@ -60,31 +66,31 @@ namespace DasContract.Tests.Migrator
             testClass.Migrator.StartTracingSteps();
 
             Assert.AreEqual(0, testClass.Migrator.MigrationsCount());
-            Assert.IsFalse(testClass.Migrator.HasStepBack());
+            Assert.IsFalse(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(1, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(1, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property2 = Guid.NewGuid().ToString();
 
             Assert.AreEqual(2, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(3, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
         }
 
@@ -100,37 +106,37 @@ namespace DasContract.Tests.Migrator
             testClass.Migrator.StartTracingSteps();
 
             Assert.AreEqual(0, testClass.Migrator.MigrationsCount());
-            Assert.IsFalse(testClass.Migrator.HasStepBack());
+            Assert.IsFalse(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(1, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(1, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property2 = Guid.NewGuid().ToString();
 
             Assert.AreEqual(2, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property2 = Guid.NewGuid().ToString();
 
             Assert.AreEqual(2, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
 
             testClass.Property1++;
 
             Assert.AreEqual(3, testClass.Migrator.MigrationsCount());
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             Assert.IsFalse(testClass.Migrator.HasStepForward());
         }
 
@@ -156,7 +162,7 @@ namespace DasContract.Tests.Migrator
             testClass.Migrator.StepForward();
             Assert.AreEqual(10, testClass.Property1);
 
-            Assert.IsTrue(testClass.Migrator.HasStepBack());
+            Assert.IsTrue(testClass.Migrator.HasStepBackward());
             testClass.Migrator.StepBackward();
             Assert.AreEqual(1, testClass.Property1);
 
@@ -363,5 +369,6 @@ namespace DasContract.Tests.Migrator
             Assert.AreEqual(1, testClass.Property1);
             Assert.AreEqual("xxx", testClass.Property2);
         }
+
     }
 }

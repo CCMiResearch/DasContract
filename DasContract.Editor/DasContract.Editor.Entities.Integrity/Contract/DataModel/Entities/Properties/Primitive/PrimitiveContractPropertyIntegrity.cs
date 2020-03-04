@@ -18,6 +18,21 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Prop
         //--------------------------------------------------
         //               PRIMITIVE PROPERTY
         //--------------------------------------------------
+        public static void AddSafely(this EditorContract contract, ContractEntity entity, PrimitiveContractProperty property)
+        {
+            if (contract == null)
+                throw new ArgumentNullException(nameof(contract));
+
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+
+            //entity.PrimitiveProperties.Add(property);
+            entity.AddProperty(property);
+        }
+
         /// <summary>
         /// Safely removes a promitive contract property
         /// </summary>
@@ -36,7 +51,8 @@ namespace DasContract.Editor.Entities.Integrity.Contract.DataModel.Entities.Prop
 
             //Remove this
             var entity = contract.DataModel.GetEntityOf(property);
-            entity.PrimitiveProperties.Remove(property);
+            //entity.PrimitiveProperties.Remove(property);
+            entity.RemoveProperty(property);
         }
 
         public static ContractIntegrityAnalysisResult AnalyzeIntegrityOf(this EditorContract contract, PrimitiveContractProperty property)

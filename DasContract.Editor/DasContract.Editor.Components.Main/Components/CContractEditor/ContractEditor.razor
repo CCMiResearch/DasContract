@@ -90,6 +90,10 @@
                     </a>
                 </li>
             </ul>
+            <div class="text-right">
+                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepBackward())" OnClick=@(() => { StepBackward(); })>Step backward</ButtonInput>
+                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepForward())" OnClick=@(() => { StepForward(); })>Step forward</ButtonInput>
+            </div>
         }
 
         @* Process editor *@

@@ -21,7 +21,8 @@ namespace DasContract.Editor.Entities.DataModels.Entities
             set
             {
                 if (value != name)
-                    migrator.Notify(() => name, p => name = p);
+                    migrator.Notify(() => name, p => name = p,
+                            MigratorMode.Smart);
                 name = value;
             }
         }
@@ -42,11 +43,30 @@ namespace DasContract.Editor.Entities.DataModels.Entities
             set
             {
                 if (value != primitiveProperties)
-                    migrator.Notify(() => primitiveProperties, d => primitiveProperties = d);
+                    migrator.Notify(() => primitiveProperties, d => primitiveProperties = d,
+                            MigratorMode.Smart);
                 primitiveProperties = value;
             }
         }
         List<PrimitiveContractProperty> primitiveProperties = new List<PrimitiveContractProperty>();
+
+        public void AddProperty(PrimitiveContractProperty newProperty)
+        {
+            PrimitiveProperties.Add(newProperty);
+            migrator.Notify(
+                () => PrimitiveProperties,
+                () => PrimitiveProperties.Add(newProperty),
+                () => PrimitiveProperties.Remove(newProperty), MigratorMode.EveryChange);
+        }
+
+        public void RemoveProperty(PrimitiveContractProperty removeProperty)
+        {
+            PrimitiveProperties.Remove(removeProperty);
+            migrator.Notify(
+                () => PrimitiveProperties,
+                () => PrimitiveProperties.Remove(removeProperty),
+                () => PrimitiveProperties.Add(removeProperty), MigratorMode.EveryChange);
+        }
 
 
         /// <summary>
@@ -64,11 +84,30 @@ namespace DasContract.Editor.Entities.DataModels.Entities
             set
             {
                 if (value != referenceProperties)
-                    migrator.Notify(() => referenceProperties, d => referenceProperties = d);
+                    migrator.Notify(() => referenceProperties, d => referenceProperties = d,
+                            MigratorMode.Smart);
                 referenceProperties = value;
             }
         }
         List<ReferenceContractProperty> referenceProperties = new List<ReferenceContractProperty>();
+
+        public void AddProperty(ReferenceContractProperty newProperty)
+        {
+            ReferenceProperties.Add(newProperty);
+            migrator.Notify(
+                () => ReferenceProperties,
+                () => ReferenceProperties.Add(newProperty),
+                () => ReferenceProperties.Remove(newProperty), MigratorMode.EveryChange);
+        }
+
+        public void RemoveProperty(ReferenceContractProperty removeProperty)
+        {
+            ReferenceProperties.Remove(removeProperty);
+            migrator.Notify(
+                () => ReferenceProperties,
+                () => ReferenceProperties.Remove(removeProperty),
+                () => ReferenceProperties.Add(removeProperty), MigratorMode.EveryChange);
+        }
 
         public IEnumerable<ContractProperty> Properties => new List<ContractProperty>()
             .Concat(PrimitiveProperties)

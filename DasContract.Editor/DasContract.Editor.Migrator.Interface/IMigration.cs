@@ -13,8 +13,13 @@ namespace DasContract.Editor.Migrator.Interfaces
         Expression PropertyExpression { get; set; }
 
         /// <summary>
-        /// Reverts to the last known value and the last known value will be the current one
+        /// Bring the version up / forward
         /// </summary>
-        void RevertLastKnownValue();
+        void Up();
+
+        /// <summary>
+        /// Brings the version down / backward
+        /// </summary>
+        void Down();
     }
 }

@@ -15,7 +15,8 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             set
             {
                 if (value != form)
-                    Migrator.Notify(() => form, e => form = e);
+                    Migrator.Notify(() => form, e => form = e,
+                            MigratorMode.Smart);
                 form = value;
             }
         }
@@ -26,7 +27,7 @@ namespace DasContract.Editor.Entities.Processes.Process.Activities
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            Form = source.Form;
+            form = source.Form;
         }
 
         public ContractUserActivity WithMigrator(IMigrator parentMigrator)
