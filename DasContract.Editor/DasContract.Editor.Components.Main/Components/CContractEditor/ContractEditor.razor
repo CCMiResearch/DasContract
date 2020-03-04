@@ -119,7 +119,8 @@
             <p>Activities are "steps" of the <a href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.DataModel); }">contract process</a> and they further specify the contract behavior.</p>
             <Alert Scheme="AlertScheme.Info">In order to edit activities <em>(BPMN tasks)</em>, their type <em>(user task, business rule task or script task)</em> must be set in the <a class="alert-link" href="javascript:void(0);" @onclick="() => { Open(ContractEditorTab.DataModel); }">process editor</a>. This can be done by selecting the target activity/task and expanding the <em>"change type"</em> option.</Alert>
 
-            <ContractActivitiesEditor Contract="@Contract" />
+
+            <ContractActivitiesEditor @ref="activitiesEditor" Contract="@Contract" />
         }
 
         @* Data model editor *@

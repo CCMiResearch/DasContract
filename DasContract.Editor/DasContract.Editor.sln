@@ -143,6 +143,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Entities
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.Entities.Integrity", "DasContract.Editor.Tests.Entities.Integrity\DasContract.Editor.Tests.Entities.Integrity.csproj", "{59C2047C-0080-423E-BA46-9E5C3409703C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Migrator.Extensions", "DasContract.Editor.Migrator.Extensions\DasContract.Editor.Migrator.Extensions.csproj", "{19C70281-BF11-481F-AAA6-36545153FC00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -309,6 +311,10 @@ Global
 		{59C2047C-0080-423E-BA46-9E5C3409703C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59C2047C-0080-423E-BA46-9E5C3409703C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59C2047C-0080-423E-BA46-9E5C3409703C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C70281-BF11-481F-AAA6-36545153FC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C70281-BF11-481F-AAA6-36545153FC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C70281-BF11-481F-AAA6-36545153FC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C70281-BF11-481F-AAA6-36545153FC00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -381,6 +387,7 @@ Global
 		{1BCBF9F3-BD95-494B-B343-C8B3579415A7} = {E74D3CA3-6B08-43DC-B9F4-57C3083957F8}
 		{A3EAC132-BDDD-4CAF-A648-62807BD55442} = {1D2F95F3-C0B2-4914-A162-BAEB1BCD260F}
 		{59C2047C-0080-423E-BA46-9E5C3409703C} = {9A1220A0-79B0-4F3A-A8CE-A71C32FFB935}
+		{19C70281-BF11-481F-AAA6-36545153FC00} = {1899A025-285F-465E-8192-20F3532ED825}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22B05CF7-6BDF-43DF-B350-6D3ACB9C7439}

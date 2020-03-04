@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasContract.Editor.Migrator.Extensions\DasContract.Editor.Migrator.Extensions.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Migrator.Interface\DasContract.Editor.Migrator.Interfaces.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Migrator\DasContract.Editor.Migrator.csproj" />
   </ItemGroup>

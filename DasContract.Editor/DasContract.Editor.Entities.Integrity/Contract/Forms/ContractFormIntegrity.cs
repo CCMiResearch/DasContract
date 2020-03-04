@@ -21,7 +21,7 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Forms
                 throw new ArgumentNullException(nameof(field));
 
             //form.Fields.Add(field);
-            form.AddField(field);
+            form.WithMigrator(contract.GetMigrator()).AddField(field);
         }
 
         public static void RemoveSafely(this EditorContract contract, ContractForm form, ContractFormField field)
@@ -40,7 +40,7 @@ namespace DasContract.Editor.Entities.Integrity.Contract.Forms
 
             //Remove this
             //form.Fields.Remove(field);
-            form.RemoveField(field);
+            form.WithMigrator(contract.GetMigrator()).RemoveField(field);
         }
 
         public static ContractIntegrityAnalysisResult AnalyzeIntegrityOf(this EditorContract contract, ContractForm form, ContractFormField field)

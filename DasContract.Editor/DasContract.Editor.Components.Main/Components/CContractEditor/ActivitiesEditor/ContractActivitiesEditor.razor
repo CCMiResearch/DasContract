@@ -4,7 +4,8 @@
         <LoadingScreenAnimation Loading="@Loading" />
 
         <h3>User activities</h3>
-        <EditableItemsList Editable="true"
+        <EditableItemsList @ref="UserActivitiesList"
+                           Editable="true"
                            Items="@Process.UserActivities.ToList()">
             <ItemHeading>
                 <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
@@ -20,7 +21,8 @@
         </EditableItemsList>
 
         <h3>Business rule activities</h3>
-        <EditableItemsList Editable="true"
+        <EditableItemsList @ref="BusinessRuleActivitiesList"
+                           Editable="true"
                            Items="@Process.BusinessActivities.ToList()">
             <ItemHeading>
                 <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
@@ -36,7 +38,8 @@
         </EditableItemsList>
 
         <h3>Script activities</h3>
-        <EditableItemsList Editable="true"
+        <EditableItemsList @ref="ScriptActivitiesList"
+                           Editable="true"
                            Items="@Process.ScriptActivities.ToList()">
             <ItemHeading>
                 <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>

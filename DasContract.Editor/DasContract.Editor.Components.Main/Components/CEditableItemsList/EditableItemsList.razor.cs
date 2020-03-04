@@ -55,7 +55,7 @@ namespace DasContract.Editor.Components.Main.Components.CEditableItemsList
             else
                 CurrentlyOpenedEditor = index;
         }
-        protected void CloseEditor()
+        public void CloseEditor()
         {
             CurrentlyOpenedEditor = -1;
         }

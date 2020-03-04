@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Editor.Components.Main.Components;
+using DasContract.Editor.Components.Main.Components.CContractEditor.ActivitiesEditor;
 using DasContract.Editor.Components.Main.Components.CContractEditor.ProcessEditor;
 using DasContract.Editor.Components.Main.Services.BusinessRuleActivityEditor;
 using DasContract.Editor.Entities;
@@ -80,12 +81,17 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor
             OpenedTab = tab;
         }
 
+        ContractActivitiesEditor activitiesEditor;
         protected async Task UpdateOpenedTab()
         {
             if (OpenedTab == ContractEditorTab.Process)
                 await RedrawProcessDiagram();
             else if (OpenedTab == ContractEditorTab.Activities)
+            {
                 await ContractBusinessRuleActivityEditorService.RedrawActiveEditorsAsync();
+                activitiesEditor?.ScriptActivitiesList?.CloseEditor();
+
+            }
         }
 
         public async Task StepBackwardAsync()

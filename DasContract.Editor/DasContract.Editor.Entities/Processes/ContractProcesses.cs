@@ -36,7 +36,13 @@ namespace DasContract.Editor.Entities.Processes
         /// <summary>
         /// Contract main process. Currently only one process is allowed. 
         /// </summary>
-        public ContractProcess Main { get; set; } = ContractProcess.Empty();
+        public ContractProcess Main
+        {
+            get => main.WithMigrator(migrator);
+            set => main = value;
+        }
+
+        ContractProcess main = ContractProcess.Empty();
 
         //--------------------------------------------------
         //                  MIGRATOR
