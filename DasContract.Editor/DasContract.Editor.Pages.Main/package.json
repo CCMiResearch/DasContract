@@ -11,7 +11,7 @@
     "watch-styles": "npm run watch-scripts",
     "clear": "rmdir /S /Q \"wwwroot/_dist\"",
     "compile": "npm run compile-scripts && npm run compile-styles",
-    "build": "npm install && npm install -D && npm run compile",
+    "build": "npm install && npm run compile",
     "test": "npm run build"
   },
   "repository": {

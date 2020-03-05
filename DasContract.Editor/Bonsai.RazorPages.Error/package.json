@@ -8,7 +8,7 @@
     "clear": "rmdir /S /Q \"dist\"",
     "compile": "npm run compile-styles",
     "compile-styles": "sass --load-path=node_modules --load-path=../ wwwroot/Styles/Global.scss:wwwroot/Styles/_dist/Global.css wwwroot/Styles/ErrorPage.scss:wwwroot/Styles/_dist/ErrorPage.css wwwroot/Styles/OfflinePage.scss:wwwroot/Styles/_dist/OfflinePage.css",
-    "build": "npm update && npm update -D && npm run compile",
+    "build": "npm install && npm run compile",
     "test": "npm run build"
   },
   "repository": {
