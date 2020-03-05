@@ -1,20 +1,25 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+DasContract Editor is a product of my Bachelor thesis.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Project DasContract focuses on enabling easy creation and managing of SmartContracts. This project – DasContract Editor – serves as an easy to use SmartContract editor. DasContracs produces by this editor can be published to a DasContract store and further processed. 
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+# Getting started
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Compiling back-end
+
+Compiling back-end and all its C# code is as easy as running "build" action in a Visual Studio editor or via console.
+
+The project you want to run is named `DasContract.Editor.Server`.
+
+## Compiling front-end
+
+Front-end files such as scripts and styles must be compiled using a TypeScript compiler, SASS compiler, and webpack. Each project that utilizes any front-end files provides a set of scripts via package.json file for compiling, building, etc. These are especially useful if you plan to develop, fix or expand the front-end of this project.
+
+The easiest way to compile everything is to run a _builder.exe_ file inside the main project `DasContract.Editor.Server`.
+
+`.\builder.exe --config builder.config.xml`
+
+The builder is set to run automatically on the first build (right after fresh clone). This may, however, cause permission problems.
+
+If you encounter some permission problems with the npm, hit me up. 
