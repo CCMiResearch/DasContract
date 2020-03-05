@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="ContractEditorDB" />
+    <None Remove="Dockerfile_backup" />
+    <None Remove="nginx.conf_backup" />
   </ItemGroup>
 
   <ItemGroup>

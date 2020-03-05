@@ -67,7 +67,7 @@ namespace DasContract.Editor.Server
                 razorPagesBuilder.AddRazorRuntimeCompilation();
 
             //HTTPS
-            services.AddHttpsRedirection(options => options.HttpsPort = 443);
+            //services.AddHttpsRedirection(options => options.HttpsPort = 443);
 
             //Response compression
             services.AddResponseCompression(opts =>
@@ -101,7 +101,7 @@ namespace DasContract.Editor.Server
                 app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Pages.Main.Program>();
