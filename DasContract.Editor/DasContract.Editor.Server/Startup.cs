@@ -37,8 +37,20 @@ namespace DasContract.Editor.Server
             services.AddControllers();
 
             //Add contract editor db
-            services.AddDbContext<ContractEditorDb>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ContractEditorDbLocal")));
+            if(Environment.IsDevelopment())
+            {
+                services.AddDbContext<ContractEditorDb>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ContractEditorDbLocal")));
+            }
+            else
+            {
+                services.AddDbContext<ContractEditorDb>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("ContractEditorDbSQLite")));
+
+                using var serviceScope = services.BuildServiceProvider().CreateScope();
+                var dbContext = serviceScope.ServiceProvider.GetService<ContractEditorDb>();
+                dbContext.Database.EnsureCreated();
+            }
 
             //Add contract editor services
             services.AddTransient<IContractFileSessionRepository, ContractFileSessionRepository>();
@@ -46,13 +58,13 @@ namespace DasContract.Editor.Server
 
             //Controllers view builder
             var controllersViewBuilder = services.AddControllersWithViews();
-            /*if (Environment.IsDevelopment())
-                controllersViewBuilder.AddRazorRuntimeCompilation();*/
+            if (Environment.IsDevelopment())
+                controllersViewBuilder.AddRazorRuntimeCompilation();
 
             //Razor pages builder
             var razorPagesBuilder = services.AddRazorPages();
-            /*if (Environment.IsDevelopment())
-                razorPagesBuilder.AddRazorRuntimeCompilation();*/
+            if (Environment.IsDevelopment())
+                razorPagesBuilder.AddRazorRuntimeCompilation();
 
             //HTTPS
             services.AddHttpsRedirection(options => options.HttpsPort = 443);

@@ -7,9 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="builder.data.xml" />
+    <Compile Remove="wwwroot\_dist\Components\**" />
+    <Compile Remove="wwwroot\_dist\wwwroot\**" />
+    <Content Remove="wwwroot\_dist\Components\**" />
+    <Content Remove="wwwroot\_dist\wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\_dist\Components\**" />
+    <EmbeddedResource Remove="wwwroot\_dist\wwwroot\**" />
+    <None Remove="wwwroot\_dist\Components\**" />
+    <None Remove="wwwroot\_dist\wwwroot\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="builder.data.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.2" />
