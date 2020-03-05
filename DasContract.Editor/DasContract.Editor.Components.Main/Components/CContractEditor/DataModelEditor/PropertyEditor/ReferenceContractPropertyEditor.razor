@@ -21,17 +21,20 @@
 
             <ModelForm Model="propertyModel" @key="context.Id">
                 <Inputs>
-                    <TextValueInput PropertyExpression="() => propertyModel.Name"
+                    <TextValueInput Id="ReferenceProperty_Name"
+                                    PropertyExpression="() => propertyModel.Name"
                                     @bind-Value="@propertyModel.Name" />
 
                     <ContractEntityValueInput PropertyExpression="() => propertyModel.Entity"
                                               @bind-Value="propertyModel.Entity"
                                               Entities="Contract.DataModel.Entities" />
 
-                    <EnumValueInput PropertyExpression="() => propertyModel.Type"
+                    <EnumValueInput Id="ReferenceProperty_Type"
+                                    PropertyExpression="() => propertyModel.Type"
                                     @bind-Value="@propertyModel.Type" />
 
-                    <BooleanValueInput PropertyExpression="() => propertyModel.IsMandatory"
+                    <BooleanValueInput Id="ReferenceProperty_Mandatory"
+                                       PropertyExpression="() => propertyModel.IsMandatory"
                                        @bind-Value="@propertyModel.IsMandatory" />
                 </Inputs>
             </ModelForm>

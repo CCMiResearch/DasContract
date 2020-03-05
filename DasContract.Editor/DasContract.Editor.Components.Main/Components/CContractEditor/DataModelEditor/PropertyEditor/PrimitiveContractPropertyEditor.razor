@@ -21,13 +21,16 @@
             }
             <ModelForm Model="@propertyModel" @key="context.Id">
                 <Inputs>
-                    <TextValueInput PropertyExpression="() => propertyModel.Name"
+                    <TextValueInput Id="PrimitiveProperty_Name"
+                                    PropertyExpression="() => propertyModel.Name"
                                     @bind-Value="@propertyModel.Name" />
 
-                    <EnumValueInput PropertyExpression="() => propertyModel.Type"
+                    <EnumValueInput Id="PrimitiveProperty_Type"
+                                    PropertyExpression="() => propertyModel.Type"
                                     @bind-Value="@propertyModel.Type" />
 
-                    <BooleanValueInput PropertyExpression="() => propertyModel.IsMandatory"
+                    <BooleanValueInput Id="PrimitiveProperty_Mandatory"
+                                       PropertyExpression="() => propertyModel.IsMandatory"
                                        @bind-Value="@propertyModel.IsMandatory" />
                 </Inputs>
             </ModelForm>

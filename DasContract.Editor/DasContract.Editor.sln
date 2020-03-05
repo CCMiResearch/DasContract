@@ -107,8 +107,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facades", "Facades", "{0BA4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.AppLogic.Facades", "DasContract.Editor.Tests.AppLogic.Facades\DasContract.Editor.Tests.AppLogic.Facades.csproj", "{51972B08-B9B0-4D5D-9585-5346522BD702}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Server.Interfaces", "DasContract.Editor.Server.Interfaces\DasContract.Editor.Server.Interfaces.csproj", "{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{9A1220A0-79B0-4F3A-A8CE-A71C32FFB935}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.Server", "DasContract.Editor.Tests.Server\DasContract.Editor.Tests.Server.csproj", "{049EE693-D56C-4315-9B05-A19210D4B78D}"
@@ -143,7 +141,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Entities
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Tests.Entities.Integrity", "DasContract.Editor.Tests.Entities.Integrity\DasContract.Editor.Tests.Entities.Integrity.csproj", "{59C2047C-0080-423E-BA46-9E5C3409703C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Migrator.Extensions", "DasContract.Editor.Migrator.Extensions\DasContract.Editor.Migrator.Extensions.csproj", "{19C70281-BF11-481F-AAA6-36545153FC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Migrator.Extensions", "DasContract.Editor.Migrator.Extensions\DasContract.Editor.Migrator.Extensions.csproj", "{19C70281-BF11-481F-AAA6-36545153FC00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -267,10 +265,6 @@ Global
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51972B08-B9B0-4D5D-9585-5346522BD702}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AE77341-1E96-46A6-A1D7-DE1BEEB322DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049EE693-D56C-4315-9B05-A19210D4B78D}.Release|Any CPU.ActiveCfg = Release|Any CPU

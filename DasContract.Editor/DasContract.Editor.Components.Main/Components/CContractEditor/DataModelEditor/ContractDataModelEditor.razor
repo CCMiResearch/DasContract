@@ -24,6 +24,14 @@
             </div>*@
 
             <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
+                <IndexedListItem Title="Entity properties" HeadingLevel="HeadingLevel.H3">
+                    <ModelForm Model="context">
+                        <Inputs>
+                            <TextValueInput PropertyExpression="() => context.Name"
+                                            @bind-Value="context.Name" />
+                        </Inputs>
+                    </ModelForm>
+                </IndexedListItem>
                 <IndexedListItem Title="Primitive properties" HeadingLevel="HeadingLevel.H3">
                     <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
                 </IndexedListItem>

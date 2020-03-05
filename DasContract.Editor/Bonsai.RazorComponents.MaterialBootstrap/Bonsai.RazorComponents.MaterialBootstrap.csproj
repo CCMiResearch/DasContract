@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\_dist\Components\**" />
+    <Compile Remove="wwwroot\_dist\Services\**" />
+    <Compile Remove="wwwroot\_dist\wwwroot\**" />
+    <Content Remove="wwwroot\_dist\Components\**" />
+    <Content Remove="wwwroot\_dist\Services\**" />
+    <Content Remove="wwwroot\_dist\wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\_dist\Components\**" />
+    <EmbeddedResource Remove="wwwroot\_dist\Services\**" />
+    <EmbeddedResource Remove="wwwroot\_dist\wwwroot\**" />
+    <None Remove="wwwroot\_dist\Components\**" />
+    <None Remove="wwwroot\_dist\Services\**" />
+    <None Remove="wwwroot\_dist\wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Components\CSortableList\SortableList.scss" />
     <None Remove="Components\CSortableList\SortableList.ts" />
   </ItemGroup>
@@ -80,10 +95,5 @@
       <SubType>Code</SubType>
     </None>
   </ItemGroup>
-
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="call builder.exe --config builder.config.xml --no-animations --build-only-once --skip-dependencies&#xD;&#xA;" />
-  </Target>
 
 </Project>
