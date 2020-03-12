@@ -1,5 +1,0 @@
-﻿@import "_Variables";
-
-@function pathTo($path) {
-    @return $pathPrefix + $path;
-} 

@@ -22,6 +22,7 @@
   "author": "Martin Drozdík <info@bonsai-development.cz> (http://bonsai-development.cz)",
   "license": "MIT",
   "devDependencies": {
+    "@types/jquery": "^3.3.33",
     "@types/sortablejs": "^1.10.2",
     "autoprefixer": "^9.7.4",
     "css-loader": "^3.4.2",
@@ -40,7 +41,6 @@
     "@drozdik.m/px-in-rem": "^1.0.1",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@types/bootstrap": "^4.3.1",
-    "@types/jquery": "^3.3.32",
     "@types/node": "^13.7.0",
     "bpmn-js": "^6.3.0",
     "dmn-js": "^8.0.1",

@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bonsai.RazorComponents.MaterialBootstrap" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.2.0-preview1.20073.1" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.2.0-preview1.20073.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.2.0-preview1.20073.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview1.20073.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Components.Main\DasContract.Editor.Components.Main.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Entities.Integrity\DasContract.Editor.Entities.Integrity.csproj" />
     <ProjectReference Include="..\..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bonsai.Utils.Property" Version="1.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -12,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Migrator.Interface\DasContract.Editor.Migrator.Interfaces.csproj" />
   </ItemGroup>
 
