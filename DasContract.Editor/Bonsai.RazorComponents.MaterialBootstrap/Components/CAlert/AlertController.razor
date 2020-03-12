@@ -1,4 +1,11 @@
 ﻿@inherits RootComponent
 
-@foreach (var alert in Alerts)
-    @alert.Value
+@if (OnlyLatestAlert)
+{
+    @LatestAlert
+}
+else
+{
+    @foreach (var alert in Alerts)
+        @alert.Value
+}

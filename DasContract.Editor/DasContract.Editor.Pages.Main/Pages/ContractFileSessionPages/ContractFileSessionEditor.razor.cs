@@ -43,7 +43,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
             Breadcrumbs
                 .AddHome("DasContract")
                 .AddCrumb(ContractFileSessionIndex.Breadcrumb)
-                .AddLastCrumb("Contract session " + Id);
+                .AddLastCrumb("Contract session " /*+ Id*/);
         }
 
         Exception initialException = null;

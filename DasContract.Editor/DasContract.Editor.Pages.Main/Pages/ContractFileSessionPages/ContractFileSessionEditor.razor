@@ -17,7 +17,7 @@ else if (initialException == null)
     {
         <h1>Editing contract @Contract.Name</h1>
         <AlertController @ref="contractAlertController" />
-        var expireString = "";
+        @*var expireString = "";
         var resultStrings = new List<string>();
         var interval = ContractFileSession.TimeRemaining;
 
@@ -38,7 +38,7 @@ else if (initialException == null)
             else if (i != resultStrings.Count - 1)
                 expireString += ", ";
         }
-        <Alert Scheme="AlertScheme.Info">The session will expire in @expireString</Alert>
+        <Alert Scheme="AlertScheme.Info">The session will expire in @expireString</Alert>*@
 
         <div class="">
             <ContractEditor Contract="@Contract"

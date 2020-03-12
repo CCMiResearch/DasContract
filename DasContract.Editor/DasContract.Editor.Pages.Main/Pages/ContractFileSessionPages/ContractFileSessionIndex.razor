@@ -3,13 +3,13 @@
 
 <LoadingScreen Fullscreen="true" Loading="@Loading" />
 
-<h1>Contract file session</h1>
-<p>Your contracts are managed in sessions. You will have to download or upload your files to save or edit contracts.</p>
-<Alert Scheme="AlertScheme.Info">Contract files are <em>.dascontract</em> files that contain <strong>editor file information</strong>. Any other files that do not originate from this site are most probably not suitable.</Alert>
+<h1>Contract file editor</h1>
+<p>You can edit your <em>.dascontract</em> files. You will have to download or upload your files to save or edit them.</p>
+@*<Alert Scheme="AlertScheme.Info">Contract files are <em>.dascontract</em> files that contain <strong>editor file information</strong>. Any other files that do not originate from this site are most probably not suitable.</Alert>*@
 
 <div class="my-5">
     <h2>Create new contract</h2>
-    <p>You can create brand new contract. This will create new file session, where you will be able to edit the contract and optionally save it on your device.</p>
+    <p>You can create brand new contract. This will create new contract, that you will be able to edit and optionally save it on your device.</p>
     <AlertController @ref="newContractAlertController" />
     <ButtonInput Scheme="ButtonInputScheme.Success"
                  Type="ButtonInputType.Raised"
@@ -18,11 +18,11 @@
 </div>
 
 <div class="my-5">
-    <h2>Start new session</h2>
-    <p>If you already have a <em>contract editor .dascontract file</em>, you can upload it to create a new file session. In the file session, you will be able to edit your existing contract and then download a new version of your contract.</p>
-    <Alert Scheme="AlertScheme.Info">
+    <h2>Upload existing contract</h2>
+    <p>If you already have a <em>contract editor .dascontract file</em>, you can upload it. You will be able to edit your existing contract and then download a new version of your contract.</p>
+    @*<Alert Scheme="AlertScheme.Info">
         The <em>.dascontract</em> file must be in a correct contract format. Usually, only <em>.dascontract</em> files from this editor are suitable to edit.
-    </Alert>
+    </Alert>*@
     <UploadableFileInput Accept=".dascontract"
                          Description="File input for your .dascontract contract file"
                          Label="Contract file input"

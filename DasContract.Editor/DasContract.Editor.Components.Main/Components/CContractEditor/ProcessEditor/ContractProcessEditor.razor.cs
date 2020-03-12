@@ -116,7 +116,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             }
             catch(Exception e)
             {
-                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger); 
+                alertController.AddAlert("Confirm unsuccessful: " + e.Message, AlertScheme.Danger); 
             }
         }
 
@@ -125,13 +125,13 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             try
             {
                 Contract.ReplaceSafely(diagramToSave);
-                alertController.AddAlert("Save successful", AlertScheme.Success);
+                alertController.AddAlert("Diagram confirmation successful", AlertScheme.Success);
                 EditInProgress = false;
                 StateHasChanged();
             }
             catch(Exception e)
             {
-                alertController.AddAlert("Save confirm unsuccessful: " + e.Message, AlertScheme.Danger);
+                alertController.AddAlert("Diagram confirm unsuccessful: " + e.Message, AlertScheme.Danger);
             }
 
             await saveDialogWindow.CloseAsync();

@@ -10,6 +10,8 @@ namespace DasContract.Editor.Pages.Main.Pages
 
         protected override void OnInitialized()
         {
+            
+
             base.OnInitialized();
             Breadcrumbs
                 .AddHome("DasContract")

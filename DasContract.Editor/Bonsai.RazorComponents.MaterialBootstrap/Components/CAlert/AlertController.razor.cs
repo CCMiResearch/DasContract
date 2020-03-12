@@ -13,6 +13,11 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert
         /// </summary>
         protected List<KeyValuePair<string, RenderFragment>> Alerts { get; set; } = new List<KeyValuePair<string, RenderFragment>>();
 
+        protected RenderFragment LatestAlert { get; set; } = null;
+
+        [Parameter]
+        public bool OnlyLatestAlert { get; set; } = true;
+
         public void AddAlert(string text, AlertScheme scheme)
         {
             var id = Guid.NewGuid().ToString().ToIdFriendly();
@@ -25,7 +30,8 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert
                 builder.AddAttribute(4, "Content", text);
                 builder.CloseComponent();
             };
-            Alerts.Add(new KeyValuePair<string, RenderFragment>(id, fragment));
+            LatestAlert = fragment;
+            Alerts.Add(new KeyValuePair<string, RenderFragment>(id, LatestAlert));
             StateHasChanged();
         }
     }
