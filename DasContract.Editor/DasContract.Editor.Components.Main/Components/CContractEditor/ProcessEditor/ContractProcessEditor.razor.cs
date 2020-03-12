@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using Bonsai.Utils.String;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Integrity.Analysis;
@@ -47,6 +48,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
         public string Id { get; set; } = Guid.NewGuid().ToString().ToIdFriendly();
 
         AlertController alertController;
+        Snackbar successSnackbar;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -125,7 +127,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.ProcessE
             try
             {
                 Contract.ReplaceSafely(diagramToSave);
-                alertController.AddAlert("Diagram confirmation successful", AlertScheme.Success);
+                await successSnackbar.ShowAsync();
                 EditInProgress = false;
                 StateHasChanged();
             }

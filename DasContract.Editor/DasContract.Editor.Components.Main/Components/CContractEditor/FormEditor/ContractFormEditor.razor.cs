@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.DataModels.Entities;
 using DasContract.Editor.Entities.Forms;
@@ -59,7 +60,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.FormEdit
         //--------------------------------------------------
         //                     ADD
         //--------------------------------------------------
-
+        Snackbar addFieldSuccessSnackbar;
         DialogWindow createDialogWindow;
         public async Task AddFieldAsync()
         {
@@ -73,7 +74,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.FormEdit
             //Contract.DataModel.Entities.Add(newEntityModel.ToContractEntity());
 
             await createDialogWindow.CloseAsync();
-            alertController.AddAlert("New field added successfuly", AlertScheme.Success);
+            await addFieldSuccessSnackbar.ShowAsync();
             ResetNewFieldModel();
         }
 

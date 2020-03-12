@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using DasContract.Editor.Components.Main.Components.CContractEditor.DataModelEditor.PropertyEditor;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.DataModels.Entities;
@@ -21,6 +22,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
         public ContractEntity Entity { get; set; }
 
         protected AlertController alertController;
+        protected Snackbar addSnackbarSuccess;
         //--------------------------------------------------
         //                    DELETE
         //--------------------------------------------------

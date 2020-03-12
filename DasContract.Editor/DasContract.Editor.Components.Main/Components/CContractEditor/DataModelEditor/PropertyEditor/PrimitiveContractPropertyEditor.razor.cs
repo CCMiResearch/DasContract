@@ -53,7 +53,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
             Contract.AddSafely(Entity, newPropertyModel.ToPrimitiveContractProperty());
 
             await createDialogWindow.CloseAsync();
-            alertController.AddAlert("New primitive property added successfuly", AlertScheme.Success);
+            await addSnackbarSuccess.ShowAsync();
             ResetNewPropertyModel();
         }
     }

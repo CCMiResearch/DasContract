@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using DasContract.Editor.DataPersistence.Entities;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Serialization.XML;
@@ -35,6 +36,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
 
         public EditorContract Contract { get; set; }
         AlertController contractAlertController;
+        Snackbar successSnackbar;
 
 
         protected override void OnInitialized()
@@ -89,7 +91,7 @@ namespace DasContract.Editor.Pages.Main.Pages.ContractFileSessionPages
             try
             {
                 await ContractFileSessionService.UpdateAsync(ContractFileSession);
-                contractAlertController.AddAlert("Contract saved successfuly", AlertScheme.Success);
+                await successSnackbar.ShowAsync();
             }
             catch(Exception)
             {

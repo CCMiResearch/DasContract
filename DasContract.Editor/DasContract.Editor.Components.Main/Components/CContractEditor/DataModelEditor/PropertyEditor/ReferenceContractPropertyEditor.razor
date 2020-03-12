@@ -2,7 +2,10 @@
 
 <div class="propertiesEditor">
     <AlertController @ref="alertController" />
-
+    <Snackbar @ref="@addSnackbarSuccess"
+              AutoHide="true"
+              HideTimeout="5000"
+              Content="New property added successfuly" />
     <LoadingScreenAnimation Loading="@Loading" />
 
     <EditableItemsList Editable="true"
@@ -15,7 +18,7 @@
             <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
         </ItemHeading>
         <ItemEdit>
-            @{ 
+            @{
                 var propertyModel = context;
             }
 

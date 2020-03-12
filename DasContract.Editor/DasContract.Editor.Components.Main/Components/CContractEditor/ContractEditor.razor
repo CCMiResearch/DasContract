@@ -4,7 +4,38 @@
     <div class="contractEditor" @key="@Contract.Id">
         <LoadingScreenAnimation Loading="@Loading" />
 
-
+        @* Editor menu *@
+        <ul class="nav nav-tabs bg-primary">
+            <li class="nav-item">
+                <a class="nav-link @(OpenedTab == ContractEditorTab.General ? "active" : "")"
+                   @onclick="e => { Open(ContractEditorTab.General); }">
+                    General
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(OpenedTab == ContractEditorTab.Process ? "active" : "")"
+                   @onclick="e => { Open(ContractEditorTab.Process); }">
+                    Process
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(OpenedTab == ContractEditorTab.Activities ? "active" : "")"
+                   @onclick="e => { Open(ContractEditorTab.Activities); }">
+                    Activities
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(OpenedTab == ContractEditorTab.DataModel ? "active" : "")"
+                   @onclick="e => { Open(ContractEditorTab.DataModel); }">
+                    Data Model
+                </a>
+            </li>
+        </ul>
+        <div class="text-right my-2">
+            <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepForward())" OnClick=@(async () => { await StepForwardAsync(); })>Step forward</ButtonInput>
+            <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepBackward())" OnClick=@(async () => { await StepBackwardAsync(); })>Step backward</ButtonInput>
+            <ButtonInput OnClick="async () => { await SaveAsync(); }">Save</ButtonInput>
+        </div>
 
         @* The contract general menu *@
         @if (OpenedTab == ContractEditorTab.General)
@@ -61,55 +92,19 @@
             </div>
         }
 
-        @* Editor menu *@
-        @if (OpenedTab != ContractEditorTab.General)
-        {
-            <ul class="nav nav-tabs bg-primary">
-                <li class="nav-item">
-                    <a class="nav-link @(OpenedTab == ContractEditorTab.General ? "active" : "")"
-                       @onclick="e => { Open(ContractEditorTab.General); }">
-                        General
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @(OpenedTab == ContractEditorTab.Process ? "active" : "")"
-                       @onclick="e => { Open(ContractEditorTab.Process); }">
-                        Process
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @(OpenedTab == ContractEditorTab.Activities ? "active" : "")"
-                       @onclick="e => { Open(ContractEditorTab.Activities); }">
-                        Activities
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @(OpenedTab == ContractEditorTab.DataModel ? "active" : "")"
-                       @onclick="e => { Open(ContractEditorTab.DataModel); }">
-                        Data Model
-                    </a>
-                </li>
-            </ul>
-            <div class="text-right my-2">
-                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepForward())" OnClick=@(async () => { await StepForwardAsync(); })>Step forward</ButtonInput>
-                <ButtonInput Scheme="ButtonInputScheme.Info" Disabled="@(!HasStepBackward())" OnClick=@(async () => { await StepBackwardAsync(); })>Step backward</ButtonInput>
-                <ButtonInput OnClick="async () => { await SaveAsync(); }">Save</ButtonInput>
-            </div>
-        }
-
         @* Process editor *@
         @if (OpenedTab == ContractEditorTab.Process)
         {
             <h2>Process of contract @Contract.Name</h2>
             <p>Process is defined using a subset of <a href="http://www.bpmn.org/" rel="nofollow" target="_blank">BPMN language</a>. The contract currently support only one process and three types of activities.</p>
-            <Alert Scheme="AlertScheme.Info">The process diagram must be manually confirmed.</Alert>
+            @*<Alert Scheme="AlertScheme.Info">The process diagram must be manually confirmed.</Alert>*@
 
-            @if(processEditor != null && processEditor.EditInProgress)
+            @if (processEditor != null && processEditor.EditInProgress)
             {
                 <Alert Scheme="AlertScheme.Danger">You have unconfirmed changes in the diagram. Leaving or changing the model will result in lost changes.</Alert>
             }
 
-            <ContractProcessEditor @ref="@processEditor" Contract="@Contract" OnChange="() => { StateHasChanged(); }"  />
+            <ContractProcessEditor @ref="@processEditor" Contract="@Contract" OnChange="() => { StateHasChanged(); }" />
         }
 
         @* Activities editor *@

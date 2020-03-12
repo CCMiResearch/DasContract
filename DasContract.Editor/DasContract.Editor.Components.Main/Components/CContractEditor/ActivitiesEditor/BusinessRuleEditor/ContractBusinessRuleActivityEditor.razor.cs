@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using Bonsai.Utils.String;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.Integrity.Analysis;
@@ -90,6 +91,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
         //                     SAVE
         //--------------------------------------------------
         DialogWindow saveDialogWindow;
+        Snackbar successSnackbar;
         ContractIntegrityAnalysisResult saveIntegrityResult;
         DMNProcessDiagram diagramToSave;
         public async Task SaveAsync()
@@ -109,24 +111,26 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.Activiti
             }
             catch (Exception e)
             {
-                alertController.AddAlert("Save unsuccessful: " + e.Message, AlertScheme.Danger);
+                alertController.AddAlert("Confirm unsuccessful: " + e.Message, AlertScheme.Danger);
             }
         }
 
         protected async Task ConfirmSaveAsync()
         {
+            await saveDialogWindow.CloseAsync();
+
             try
             {
                 Contract.ReplaceSafely(BusinessActivity, diagramToSave);
-                alertController.AddAlert("Save successful", AlertScheme.Success);
+                await successSnackbar.ShowAsync();
                 StateHasChanged();
             }
             catch (Exception e)
             {
-                alertController.AddAlert("Save confirm unsuccessful: " + e.Message, AlertScheme.Danger);
+                alertController.AddAlert("Confirm unsuccessful: " + e.Message, AlertScheme.Danger);
             }
 
-            await saveDialogWindow.CloseAsync();
+            
         }
 
 

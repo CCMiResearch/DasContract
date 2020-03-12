@@ -1,47 +1,51 @@
 ﻿@inherits ContractEditorSectionBase
 
-<div class="dataModelEditor">
-    <AlertController @ref="alertController" />
+    <div class="dataModelEditor">
+        <AlertController @ref="alertController" />
+        <Snackbar @ref="@addSuccessSnackbar"
+                  AutoHide="true"
+                  HideTimeout="5000"
+                  Content="New entity added successfuly" />
 
-    <LoadingScreenAnimation Loading="@Loading" />
+        <LoadingScreenAnimation Loading="@Loading" />
 
-    <EditableItemsList Editable="true"
-                       Deletable="true"
-                       Orderable="true"
-                       OnAdd="async () => { await AddEntityAsync(); }"
-                       OnDelete="async e => { await DeleteEntityAsync(e); }"
-                       Items="@Contract.DataModel.Entities">
-        <ItemHeading>
-            <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
-        </ItemHeading>
-        <ItemEdit>
-            @*<div class="propertyEditorsWraper">
-                <h3>Primitive properties</h3>
-                <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
-
-                <h3>Reference properties</h3>
-                <ReferenceContractPropertyEditor Contract="@Contract" Entity="@context" />
-            </div>*@
-
-            <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
-                <IndexedListItem Title="Entity properties" HeadingLevel="HeadingLevel.H3">
-                    <ModelForm Model="context">
-                        <Inputs>
-                            <TextValueInput PropertyExpression="() => context.Name"
-                                            @bind-Value="context.Name" />
-                        </Inputs>
-                    </ModelForm>
-                </IndexedListItem>
-                <IndexedListItem Title="Primitive properties" HeadingLevel="HeadingLevel.H3">
+        <EditableItemsList Editable="true"
+                           Deletable="true"
+                           Orderable="true"
+                           OnAdd="async () => { await AddEntityAsync(); }"
+                           OnDelete="async e => { await DeleteEntityAsync(e); }"
+                           Items="@Contract.DataModel.Entities">
+            <ItemHeading>
+                <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+            </ItemHeading>
+            <ItemEdit>
+                @*<div class="propertyEditorsWraper">
+                    <h3>Primitive properties</h3>
                     <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
-                </IndexedListItem>
-                <IndexedListItem Title="Reference properties" HeadingLevel="HeadingLevel.H3">
+
+                    <h3>Reference properties</h3>
                     <ReferenceContractPropertyEditor Contract="@Contract" Entity="@context" />
-                </IndexedListItem>
-            </IndexedList>
-        </ItemEdit>
-    </EditableItemsList>
-</div>
+                </div>*@
+
+                <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
+                    <IndexedListItem Title="Entity properties" HeadingLevel="HeadingLevel.H3">
+                        <ModelForm Model="context">
+                            <Inputs>
+                                <TextValueInput PropertyExpression="() => context.Name"
+                                                @bind-Value="context.Name" />
+                            </Inputs>
+                        </ModelForm>
+                    </IndexedListItem>
+                    <IndexedListItem Title="Primitive properties" HeadingLevel="HeadingLevel.H3">
+                        <PrimitiveContractPropertyEditor Contract="@Contract" Entity="@context" />
+                    </IndexedListItem>
+                    <IndexedListItem Title="Reference properties" HeadingLevel="HeadingLevel.H3">
+                        <ReferenceContractPropertyEditor Contract="@Contract" Entity="@context" />
+                    </IndexedListItem>
+                </IndexedList>
+            </ItemEdit>
+        </EditableItemsList>
+    </div>
 
 @* Delete dialog *@
 <DialogWindow @ref="deleteDialogWindow"

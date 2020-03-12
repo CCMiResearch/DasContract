@@ -57,7 +57,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
             Contract.AddSafely(Entity, newProperty);
 
             await createDialogWindow.CloseAsync();
-            alertController.AddAlert("New reference property added successfuly", AlertScheme.Success);
+            await addSnackbarSuccess.ShowAsync();
             ResetNewPropertyModel();
         }
     }

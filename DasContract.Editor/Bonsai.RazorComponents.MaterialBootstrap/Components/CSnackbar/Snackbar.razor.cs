@@ -67,10 +67,11 @@ namespace Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar
 
             if (AutoHide)
             {
-                timeoutInProgress = true;
+                Opened = false;
+                /*timeoutInProgress = true;
                 await Task.Delay(HideTimeout);
                 timeoutInProgress = false;
-                await HideAsync();
+                await HideAsync();*/
             }
         }
         private bool timeoutInProgress = false;

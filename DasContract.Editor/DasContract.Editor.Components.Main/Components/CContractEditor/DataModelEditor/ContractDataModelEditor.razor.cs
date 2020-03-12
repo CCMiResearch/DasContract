@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CAlert;
 using Bonsai.RazorComponents.MaterialBootstrap.Components.CDialogWindow;
+using Bonsai.RazorComponents.MaterialBootstrap.Components.CSnackbar;
 using DasContract.Editor.Entities;
 using DasContract.Editor.Entities.DataModels;
 using DasContract.Editor.Entities.DataModels.Entities;
@@ -23,6 +24,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
 
 
         AlertController alertController;
+        Snackbar addSuccessSnackbar;
 
         //--------------------------------------------------
         //                    DELETE
@@ -70,7 +72,7 @@ namespace DasContract.Editor.Components.Main.Components.CContractEditor.DataMode
             //Contract.DataModel.Entities.Add(newEntityModel.ToContractEntity());
 
             await createDialogWindow.CloseAsync();
-            alertController.AddAlert("New entity added successfuly", AlertScheme.Success);
+            await addSuccessSnackbar.ShowAsync();
             ResetNewEntityModel();
         }
 

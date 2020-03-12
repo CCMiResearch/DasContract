@@ -3,14 +3,20 @@
 <div class="contractBusinessRuleActivityEditor">
     <LoadingScreenAnimation Fullscreen="@Loading" />
 
-    <div class="contractBusinessRuleActivityEditorDMN" id="@Id"></div>
-
-    <AlertController @ref="@alertController" />
-
     <div class="my-3 text-right">
         <ButtonInput Scheme="ButtonInputScheme.Danger" OnClick="async () => { await RevertAsync(); }">Revert</ButtonInput>
         <ButtonInput Scheme="ButtonInputScheme.Success" OnClick="async () => { await SaveAsync(); }">Confirm</ButtonInput>
     </div>
+
+    <AlertController @ref="@alertController" />
+
+    <div class="contractBusinessRuleActivityEditorDMN" id="@Id"></div>
+
+    <Snackbar Id="contractBusinessRuleActivityEditorSuccessSnackbar"
+              @ref="@successSnackbar" 
+              AutoHide="true"
+              HideTimeout="5000" 
+              Content="Diagram confirmed successfully" />
 </div>
 
 <DialogWindow @ref="@revertDialogWindow" Title="Revert confirmation">

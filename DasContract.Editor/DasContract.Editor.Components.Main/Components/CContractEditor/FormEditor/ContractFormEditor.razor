@@ -1,56 +1,61 @@
 ﻿@inherits LoadableComponent
 
 
-<div class="contractFormEditor">
-    <LoadingScreenAnimation Loading="@Loading" />
+    <div class="contractFormEditor">
+        <LoadingScreenAnimation Loading="@Loading" />
 
-    <p class="h5">Form fields</p>
-    <AlertController @ref="alertController" />
+        <p class="h5">Form fields</p>
+        <AlertController @ref="alertController" />
 
-    <EditableItemsList Editable="true"
-                       Deletable="true"
-                       Orderable="true"
-                       OnAdd="async () => { await AddFieldAsync(); }"
-                       OnDelete="async e => { await DeleteFieldAsync(e); }"
-                       Items="@Form.Fields">
-        <ItemHeading>
-            <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
-        </ItemHeading>
-        <ItemEdit>
-            <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
-                <IndexedListItem Title="Field properties" HeadingLevel="HeadingLevel.H3">
+        <Snackbar @ref="@addFieldSuccessSnackbar"
+                  AutoHide="true"
+                  HideTimeout="5000"
+                  Content="New field added successfuly" />
 
-                    <ModelForm Model="@context">
-                        <Inputs>
+        <EditableItemsList Editable="true"
+                           Deletable="true"
+                           Orderable="true"
+                           OnAdd="async () => { await AddFieldAsync(); }"
+                           OnDelete="async e => { await DeleteFieldAsync(e); }"
+                           Items="@Form.Fields">
+            <ItemHeading>
+                <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+            </ItemHeading>
+            <ItemEdit>
+                <IndexedList Context="indexedListContext" CreateMap="false" @key="context.Id">
+                    <IndexedListItem Title="Field properties" HeadingLevel="HeadingLevel.H3">
 
-                            <ValueInputRow>
-                                <ValueInputCol>
-                                    <TextValueInput PropertyExpression="() => context.Name"
-                                                    @bind-Value="context.Name" />
-                                </ValueInputCol>
-                                <ValueInputCol>
-                                    <TextValueInput PropertyExpression="() => context.Label"
-                                                    @bind-Value="context.Label" />
-                                </ValueInputCol>
-                            </ValueInputRow>
+                        <ModelForm Model="@context">
+                            <Inputs>
 
-                            <TextValueInput PropertyExpression="() => context.Description"
-                                            @bind-Value="context.Description" />
+                                <ValueInputRow>
+                                    <ValueInputCol>
+                                        <TextValueInput PropertyExpression="() => context.Name"
+                                                        @bind-Value="context.Name" />
+                                    </ValueInputCol>
+                                    <ValueInputCol>
+                                        <TextValueInput PropertyExpression="() => context.Label"
+                                                        @bind-Value="context.Label" />
+                                    </ValueInputCol>
+                                </ValueInputRow>
 
-                            <BooleanValueInput PropertyExpression="() => context.ReadOnly"
-                                               @bind-Value="context.ReadOnly" />
+                                <TextValueInput PropertyExpression="() => context.Description"
+                                                @bind-Value="context.Description" />
 
-                            <ContractPropertyBindingInput PropertyExpression="() => context.PropertyBinding"
-                                                          @bind-Value="context.PropertyBinding"
-                                                          DataModel="@Contract.DataModel" />
-                        </Inputs>
-                    </ModelForm>
+                                <BooleanValueInput PropertyExpression="() => context.ReadOnly"
+                                                   @bind-Value="context.ReadOnly" />
 
-                </IndexedListItem>
-            </IndexedList>
-        </ItemEdit>
-    </EditableItemsList>
-</div>
+                                <ContractPropertyBindingInput PropertyExpression="() => context.PropertyBinding"
+                                                              @bind-Value="context.PropertyBinding"
+                                                              DataModel="@Contract.DataModel" />
+                            </Inputs>
+                        </ModelForm>
+
+                    </IndexedListItem>
+                </IndexedList>
+            </ItemEdit>
+        </EditableItemsList>
+    </div>
 
 @* Delete dialog *@
 <DialogWindow @ref="deleteDialogWindow"
