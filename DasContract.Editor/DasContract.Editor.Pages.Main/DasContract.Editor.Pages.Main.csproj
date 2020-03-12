@@ -35,7 +35,6 @@
     <ProjectReference Include="..\Bonsai.RazorComponents.MaterialBootstrap\Bonsai.RazorComponents.MaterialBootstrap.csproj" />
     <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
-    <ProjectReference Include="..\Bonsai.Utils.String\Bonsai.Utils.String.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Components.Main\DasContract.Editor.Components.Main.csproj" />
     <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
     <ProjectReference Include="..\DasContract.Editor.Entities.Serialization.XML\DasContract.Editor.Entities.Serialization.XML.csproj" />

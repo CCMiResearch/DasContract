@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AssemblyName>Bonsai_RazorComponents_MaterialBootstrap</AssemblyName>
+    <PackageId>Bonsai.RazorComponents.MaterialBootstrap</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -79,7 +80,6 @@
     <ProjectReference Include="..\Bonsai.Services.Interfaces\Bonsai.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Bonsai.Services.LanguageDictionary\Bonsai.Services.LanguageDictionary.csproj" />
     <ProjectReference Include="..\Bonsai.Utils.Property\Bonsai.Utils.Property.csproj" />
-    <ProjectReference Include="..\Bonsai.Utils.String\Bonsai.Utils.String.csproj" />
   </ItemGroup>
 
 
