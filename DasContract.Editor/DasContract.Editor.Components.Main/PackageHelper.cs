@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bonsai.RazorComponents.MaterialBootstrap
+namespace DasContract.Editor.Components.Main
 {
     public static class LibraryInfo
     {
