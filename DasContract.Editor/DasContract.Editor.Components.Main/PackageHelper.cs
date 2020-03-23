@@ -9,3 +9,4 @@ namespace DasContract.Editor.Components.Main
         public static string Name { get; set; } = typeof(LibraryInfo).Assembly.GetName().Name;
     }
 }
+

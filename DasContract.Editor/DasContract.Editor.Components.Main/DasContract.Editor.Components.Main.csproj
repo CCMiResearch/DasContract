@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="obj\**" />
     <Compile Remove="wwwroot\_dist\Components\**" />
     <Compile Remove="wwwroot\_dist\wwwroot\**" />
+    <Content Remove="obj\**" />
     <Content Remove="wwwroot\_dist\Components\**" />
     <Content Remove="wwwroot\_dist\wwwroot\**" />
+    <EmbeddedResource Remove="obj\**" />
     <EmbeddedResource Remove="wwwroot\_dist\Components\**" />
     <EmbeddedResource Remove="wwwroot\_dist\wwwroot\**" />
+    <None Remove="obj\**" />
     <None Remove="wwwroot\_dist\Components\**" />
     <None Remove="wwwroot\_dist\wwwroot\**" />
   </ItemGroup>
