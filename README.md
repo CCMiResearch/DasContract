@@ -2,6 +2,8 @@
 
 DasContract Editor is a product of my Bachelor thesis.
 
+Live page: https://dascontracteditor.azurewebsites.net/
+
 Project DasContract focuses on enabling easy creation and managing of SmartContracts. This project – DasContract Editor – serves as an easy to use SmartContract editor. DasContracs produced by this editor can be published to a DasContract store and further processed. 
 
 # Getting started
