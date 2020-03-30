@@ -21,11 +21,6 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
             this.http = http;
         }
 
-        public static string DownloadUrl(string id)
-        {
-            return Uri + id + "/Download";
-        }
-
         public async Task DeleteAsync(string id)
         {
             var response = await http.DeleteAsync(Uri + id);
@@ -34,9 +29,11 @@ namespace DasContract.Editor.Pages.Main.Services.Entities
 
         public async Task<List<ContractFileSession>> GetAsync()
         {
+            //Reach the API and ensure success response
             var response = await http.GetAsync(Uri);
             response.EnsureSuccessStatusCode();
 
+            //Serialize and return
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<ContractFileSession>>(content);
         }
