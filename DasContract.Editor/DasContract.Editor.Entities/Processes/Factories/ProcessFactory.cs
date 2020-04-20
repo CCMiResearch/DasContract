@@ -113,6 +113,9 @@ namespace DasContract.Editor.Entities.Processes.Factories
                 case BPMNNS + "exclusiveGateway":
                     processElement = CreateExclusiveGateway(xElement);
                     break;
+                case BPMNNS + "parallelGateway":
+                    processElement = CreateParallelGateway(xElement);
+                    break;
                 default:
                     processElement = null;
                     break;
@@ -178,6 +181,16 @@ namespace DasContract.Editor.Entities.Processes.Factories
         static ContractExclusiveGateway CreateExclusiveGateway(XElement xElement)
         {
             var gateway = new ContractExclusiveGateway
+            {
+                Id = GetProcessId(xElement),
+                Name = GetProcessName(xElement)
+            };
+            return gateway;
+        }
+
+        static ContractParallelGateway CreateParallelGateway(XElement xElement)
+        {
+            var gateway = new ContractParallelGateway
             {
                 Id = GetProcessId(xElement),
                 Name = GetProcessName(xElement)
