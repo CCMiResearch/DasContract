@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract", "DasContract.csproj", "{76FBE568-F8D7-490F-89D6-346C42360A54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76FBE568-F8D7-490F-89D6-346C42360A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76FBE568-F8D7-490F-89D6-346C42360A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76FBE568-F8D7-490F-89D6-346C42360A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76FBE568-F8D7-490F-89D6-346C42360A54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B8DF210-A39F-41DF-8CD0-FCA6E11EB94A}
+	EndGlobalSection
+EndGlobal
