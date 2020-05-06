@@ -24,6 +24,4 @@ The easiest way to compile everything is to run a _builder.exe_ file inside the 
 
 `.\builder.exe --config builder.config.xml`
 
-The builder is set to run automatically on the first build (right after fresh clone). This may, however, cause permission problems.
-
 If you encounter some permission problems with the npm, hit me up. 
