@@ -1,11 +1,11 @@
-﻿using BpmnToSolidity.SolidityConverter;
+﻿using DasToSolidity.SolidityConverter;
 using Liquid.NET;
 using Liquid.NET.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.Solidity
+namespace DasToSolidity.Solidity
 {
     public class SolidityModifier : SolidityComponent
     {

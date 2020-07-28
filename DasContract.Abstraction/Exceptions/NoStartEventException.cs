@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.Exceptions
+namespace DasToSolidity.Exceptions
 {
     class NoStartEventException: Exception
     {

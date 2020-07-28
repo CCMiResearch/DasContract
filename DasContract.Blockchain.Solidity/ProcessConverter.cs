@@ -1,40 +1,93 @@
-﻿using BpmnToSolidity.Exceptions;
-using BpmnToSolidity.Solidity.ConversionHelpers;
+﻿using DasToSolidity.Exceptions;
+using DasToSolidity.Solidity.ConversionHelpers;
 using DasContract.Abstraction;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Solidity;
 using Liquid.NET;
+using System.Linq;
+using System;
 using System.Collections.Generic;
+using DasContract.DasContract.Blockchain.Solidity;
 
-namespace BpmnToSolidity.SolidityConverter
+namespace DasToSolidity.SolidityConverter
 {
     class ProcessConverter
     {
         SolidityContract solidityContract;
         Process process;
+        List<Entity> entities;
+        List<SolidityStruct> dataModel = new List<SolidityStruct>();
 
-        static readonly string SOLIDITY_VERSION = "0.5.1";
-        public static readonly string STATE_NAME = "currentState";
+        static readonly string SOLIDITY_VERSION = "^0.6.6";
+        public static readonly string IS_STATE_ACTIVE_FUNCTION_NAME = "isStateActive";
+        public static readonly string ACTIVE_STATES_NAME = "ActiveStates";
+        public static readonly string STATE_PARAMETER_NAME = "state";
 
+        // Import for ERC721 token usage only, remove otherwise
         LiquidTemplate template = LiquidTemplate.Create("pragma solidity " + SOLIDITY_VERSION + ";\n\n" +
+            "import \"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC721/IERC721.sol\";\n\n" +
             "{{contract}}").LiquidTemplate;
 
         public ProcessConverter(Contract contract)
         {
             process = contract.Process;
+            entities = (List<Entity>)contract.Entities;
             solidityContract = new SolidityContract("GeneratedContract");
 
-            solidityContract.AddComponent(new SolidityStatement("int a")); //TODO TEMPORARY FÖR TESTING
+            AddDataModel();
+
+            // ERC721 HouseToken address, only for Mortgage usecase, remove otherwise
+            solidityContract.AddComponent(new SolidityStatement("IERC721 houseTokenAddress = IERC721(address(0x93b6784CE509d1cEA255aE8269af4Ee258943Bd0))"));
 
             //Current state declaration
-            solidityContract.AddComponent(new SolidityStatement("string " + STATE_NAME));
+            solidityContract.AddComponent(new SolidityStatement("mapping (string => bool) public " + ACTIVE_STATES_NAME));
+            solidityContract.AddComponent(new SolidityStatement("mapping (string => address) public " + Helpers.ADDRESS_MAPPING_VAR_NAME));
+
             //Method for retrieving current state
-            var getStateFunction = new SolidityFunction("getCurrentState", SolidityVisibility.Public, "string");
-            getStateFunction.AddToBody(new SolidityStatement("return " + STATE_NAME));
+            var getStateFunction = new SolidityFunction(IS_STATE_ACTIVE_FUNCTION_NAME, SolidityVisibility.Public, "bool");
+            getStateFunction.AddToBody(new SolidityStatement("return " + ACTIVE_STATES_NAME + "[" + STATE_PARAMETER_NAME + "]"));
+            getStateFunction.AddParameter(new SolidityParameter("string", STATE_PARAMETER_NAME));
             solidityContract.AddComponent(getStateFunction);
-            
+
             IterateProcess();
+        }
+
+        //TODO: Working, but not very nice solution. Might need update
+        void AddDataModel()
+        {
+            foreach (var e in entities)
+            {
+                SolidityStruct s = new SolidityStruct(e);
+                SolidityStatement statement = new SolidityStatement();
+                List<Property> newProperties = new List<Property>();
+                newProperties.Clear();
+                foreach (var p in e.Properties)
+                {
+                    string type = Helpers.GetSolidityStringType(p);
+                    if (!p.IsCollection)
+                        statement.Add(type + " " + Helpers.GetPropertyVariableName(p.Name));
+                    else if (p.IsCollection)
+                    {
+                        statement.Add("mapping (uint => " + type + ") " + Helpers.GetPropertyVariableName(p.Name));
+
+                        Property property = new Property();
+                        string name = Helpers.GetPropertyVariableName(p.Name) + "Length";
+                        property.Type = PropertyType.Int;
+                        property.Name = name;
+                        statement.Add("uint " + name);
+                        newProperties.Add(property);
+                    }
+                }
+                foreach (var np in newProperties)
+                {
+                    s.En.Properties.Add(np);
+                }
+                s.AddToBody(statement);
+                solidityContract.AddComponent(s);
+                dataModel.Add(s);
+            }
         }
 
         /// <summary>
@@ -74,7 +127,7 @@ namespace BpmnToSolidity.SolidityConverter
                 }
                 //Create converter for the current element and use it to generate code elements
                 var elementConverter = ConverterFactory.CreateConverter(current);
-                var elementCode = elementConverter.GetElementCode(nextElements, SeqFlowIdToObject(current.Outgoing));
+                var elementCode = elementConverter.GetElementCode(nextElements, SeqFlowIdToObject(current.Outgoing), dataModel);
                 solidityContract.AddComponents(elementCode);
             }
         }
