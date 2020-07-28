@@ -1,10 +1,11 @@
-﻿using BpmnToSolidity.SolidityConverter;
+﻿using DasToSolidity.SolidityConverter;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.Solidity.ConversionHelpers
+namespace DasToSolidity.Solidity.ConversionHelpers
 {
 
     public abstract class ElementConverter
@@ -15,12 +16,12 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
         /// <param name="nextElements"></param>
         /// <param name="outgoingSeqFlows"></param>
         /// <returns></returns>
-        public abstract IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows);
+        public abstract IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null);
         /// <summary>
         /// Returns a statement that allows the previous element to call the main logic function
         /// </summary>
         /// <returns></returns>
-        public abstract SolidityStatement GetStatementForPrevious();
+        public abstract SolidityStatement GetStatementForPrevious(ProcessElement previous);
 
         public abstract string GetElementId();
     }

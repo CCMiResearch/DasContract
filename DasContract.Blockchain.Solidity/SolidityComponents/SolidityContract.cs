@@ -1,4 +1,4 @@
-﻿using BpmnToSolidity.SolidityConverter;
+﻿using DasToSolidity.SolidityConverter;
 using Liquid.NET;
 using Liquid.NET.Constants;
 using System;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DasContract.Abstraction.Solidity
 {
-    class SolidityContract : SolidityComponent
+    public class SolidityContract : SolidityComponent
     {
         string name;
 
@@ -26,12 +26,16 @@ namespace DasContract.Abstraction.Solidity
 
         public void AddComponent(SolidityComponent component)
         {
-            components.Add(component);
+            if (component is SolidityStatement)
+                components.Insert(0, component);
+            else
+                components.Add(component);
         }
 
         public void AddComponents(IList<SolidityComponent> components)
         {
-            this.components.AddRange(components);
+            foreach (var component in components)
+                AddComponent(component);
         }
 
         public override LiquidString ToLiquidString(int indent)

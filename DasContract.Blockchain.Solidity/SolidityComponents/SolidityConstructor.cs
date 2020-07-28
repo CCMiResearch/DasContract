@@ -4,12 +4,12 @@ using System.Text;
 using Liquid.NET;
 using Liquid.NET.Constants;
 
-namespace BpmnToSolidity.SolidityConverter
+namespace DasToSolidity.SolidityConverter
 {
-    class SolidityConstructor : SolidityComponent
+    public class SolidityConstructor : SolidityComponent
     {
         List<SolidityComponent> body;
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor() public" +
+        LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor () public payable" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;

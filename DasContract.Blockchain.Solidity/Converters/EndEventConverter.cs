@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BpmnToSolidity.SolidityConverter;
+using DasToSolidity.SolidityConverter;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 
-namespace BpmnToSolidity.Solidity.ConversionHelpers
+namespace DasToSolidity.Solidity.ConversionHelpers
 {
     class EndEventConverter : ElementConverter
     {
@@ -15,7 +16,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             this.endEvent = endEvent;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
+        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
         {
             return new List<SolidityComponent>();
         }
@@ -25,9 +26,9 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             return endEvent.Id;
         }
 
-        public override SolidityStatement GetStatementForPrevious()
+        public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement(ProcessConverter.STATE_NAME + "=\"" + GetEventName() + "\"");
+            return new SolidityStatement(ProcessConverter.ACTIVE_STATES_NAME + "[\"" + GetEventName() + "\"] = true");
         }
 
         string GetEventName()

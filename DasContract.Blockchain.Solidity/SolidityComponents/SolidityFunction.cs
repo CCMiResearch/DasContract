@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.SolidityConverter
+namespace DasToSolidity.SolidityConverter
 {
     public class SolidityFunction : SolidityComponent
     {
@@ -15,11 +15,11 @@ namespace BpmnToSolidity.SolidityConverter
         IList<SolidityComponent> body;
         IList<string> modifiers;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}()" +
-            //" {{ parameters | join: ', '}}) " +
-            " {{modifiers}}" +
+        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
+            "{{parameters}}) " +
+            "{{modifiers}}" +
             "{{visibility}} " +
-            "{% unless returns == ''%}returns({{returns}} memory){% endunless %}" +
+            "{% unless returns == ''%}returns({{returns}}){% endunless %}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;
@@ -33,6 +33,15 @@ namespace BpmnToSolidity.SolidityConverter
             parameters = new List<SolidityParameter>();
             body = new List<SolidityComponent>();
             modifiers = new List<string>();
+
+            // Has to be payable and has to be public (for now, solidity v0.6.x)
+            // TODO: Payable from DAS contract field instead of function name
+            if (functionName.ToLower().EndsWith("payable"))
+            {
+                modifiers.Add("payable");
+                if (visibility == SolidityVisibility.Internal)
+                    this.visibility = LiquidString.Create("public");
+            }
         }
 
         public SolidityFunction AddParameter(SolidityParameter parameter)
@@ -83,7 +92,11 @@ namespace BpmnToSolidity.SolidityConverter
         {
             var col = new LiquidCollection();
             foreach (var par in parameters)
+            {
+                if (par != parameters[parameters.Count - 1])
+                    par.Name = par.Name + ", ";
                 col.Add(par.ToLiquidString());
+            }
             return col;
         }
 

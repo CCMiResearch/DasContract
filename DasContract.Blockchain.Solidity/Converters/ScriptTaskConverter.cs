@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BpmnToSolidity.SolidityConverter;
+using DasToSolidity.SolidityConverter;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Tasks;
 
-namespace BpmnToSolidity.Solidity.ConversionHelpers
+namespace DasToSolidity.Solidity.ConversionHelpers
 {
     class ScriptTaskConverter : ElementConverter
     {
@@ -16,13 +17,27 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             this.scriptTask = scriptTask;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
+        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Internal);
-            function.AddToBody(new SolidityStatement(scriptTask.Script));
-            function.AddToBody(nextElements[0].GetStatementForPrevious());
-            return new List<SolidityComponent> { function };
+            function.AddModifier("is" + GetTaskName() + "State");
+            SolidityStatement disableFunctionStatement = new SolidityStatement(ProcessConverter.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
+            function.AddToBody(disableFunctionStatement);
+            function.AddToBody(new SolidityStatement(scriptTask.Script, false));
+            function.AddToBody(nextElements[0].GetStatementForPrevious(scriptTask));
+            return new List<SolidityComponent> { CreateStateGuard(), function };
         }
+
+        SolidityModifier CreateStateGuard()
+        {
+            SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
+            SolidityStatement requireStatement = new SolidityStatement(
+                "require(" + ProcessConverter.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName() + "\")==true)");
+
+            stateGuard.AddToBody(requireStatement);
+            return stateGuard;
+        }
+
         public override string GetElementId()
         {
             return scriptTask.Id;
@@ -35,9 +50,12 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             return scriptTask.Id;
         }
 
-        public override SolidityStatement GetStatementForPrevious()
+        public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement(GetTaskName() + "()");
+            List<string> statements = new List<string>();
+            statements.Add("ActiveStates[\"" + GetTaskName() + "\"] = true");
+            statements.Add(GetTaskName() + "()");
+            return new SolidityStatement(statements);
         }
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.SolidityConverter
+namespace DasToSolidity.SolidityConverter
 {
 
     public class SolidityIfElse : SolidityComponent

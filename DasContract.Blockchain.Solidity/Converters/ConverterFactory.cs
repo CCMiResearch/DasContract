@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BpmnToSolidity.Solidity.ConversionHelpers
+namespace DasToSolidity.Solidity.ConversionHelpers
 {
     class ConverterFactory
     {
@@ -21,7 +21,9 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             else if (elementType == typeof(EndEvent))
                 return new EndEventConverter((EndEvent)element);
             else if (elementType == typeof(ExclusiveGateway))
-                return new GatewayConverter((ExclusiveGateway)element);
+                return new ExclusiveGatewayConverter((ExclusiveGateway)element);
+            else if (elementType == typeof(ParallelGateway))
+                return new ParallelGatewayConverter((ParallelGateway)element);
             else if (elementType == typeof(StartEvent))
                 return new StartEventConverter((StartEvent)element);
             return null;

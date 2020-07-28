@@ -2,15 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
-namespace BpmnToSolidity.SolidityConverter
+namespace DasToSolidity.SolidityConverter
 {
     public class SolidityStatement : SolidityComponent
     {
-        string statement;
-        public SolidityStatement(string statement)
+        public List<Tuple<string, bool>> Statements = new List<Tuple<string, bool>>();
+
+        public List<string> GetStatements()
         {
-            this.statement = statement;
+            return Statements.Select(_ => _.Item1).ToList();
+        }
+
+        public SolidityStatement(string statement, bool semicolon = true)
+        {
+            Add(statement, semicolon);
+        }
+        public SolidityStatement() { }
+        public SolidityStatement(List<string> statements)
+        {
+            foreach (var s in statements)
+            {
+                Add(s, true);
+            }
+        }
+        public void Add(string statement, bool semicolon)
+        {
+            Statements.Add(new Tuple<string, bool>(statement, semicolon));
+        }
+
+        public void Add(string statement)
+        {
+            Add(statement, true);
         }
         public override LiquidString ToLiquidString(int indent)
         {
@@ -19,7 +43,15 @@ namespace BpmnToSolidity.SolidityConverter
 
         public override string ToString(int indent = 0)
         {
-            return CreateIndent(indent) + statement + ";" + "\n";
+            string statement = "";
+            foreach (var t in Statements)
+            {
+                statement += CreateIndent(indent) + t.Item1;
+                if (t.Item2 == true) statement += ";";
+                statement += "\n";
+            }
+            return statement;
         }
+
     }
 }

@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BpmnToSolidity.SolidityConverter;
+using DasToSolidity.SolidityConverter;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
 
-namespace BpmnToSolidity.Solidity.ConversionHelpers
+namespace DasToSolidity.Solidity.ConversionHelpers
 {
-    class GatewayConverter : ElementConverter
+    class ExclusiveGatewayConverter : ElementConverter
     {
         ExclusiveGateway gateway;
 
-        public GatewayConverter(ExclusiveGateway gateway)
+        public ExclusiveGatewayConverter(ExclusiveGateway gateway)
         {
             this.gateway = gateway;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
+        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
         {
             var logicFunction = new SolidityFunction(gateway.Id + "Logic", SolidityVisibility.Internal);
             if (nextElements.Count == 1)
-                logicFunction.AddToBody(nextElements[0].GetStatementForPrevious());
+                logicFunction.AddToBody(nextElements[0].GetStatementForPrevious(gateway));
             else
                 logicFunction.AddToBody(CreateIfElseBlock(nextElements, outgoingSeqFlows));
             return new List<SolidityComponent> { logicFunction };
@@ -34,7 +35,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
                 foreach(var nextElement in nextElements)
                 {
                     if (seqFlow.TargetId == nextElement.GetElementId())
-                        ifElseBlock.AddConditionBlock(seqFlow.Condition, nextElement.GetStatementForPrevious());
+                        ifElseBlock.AddConditionBlock(seqFlow.Condition, nextElement.GetStatementForPrevious(gateway));
                 }
             }
             return ifElseBlock;
@@ -45,7 +46,7 @@ namespace BpmnToSolidity.Solidity.ConversionHelpers
             return gateway.Id;
         }
 
-        public override SolidityStatement GetStatementForPrevious()
+        public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
             return new SolidityStatement(gateway.Id + "Logic" + "()");
         }
