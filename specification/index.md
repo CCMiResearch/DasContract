@@ -8,4 +8,4 @@ The Das Contract consists of four models:
 - Actions model 
 
 ## Meta Model
-![UML](/ContractDiagram.png)
+![UML](ContractDiagram.png)
