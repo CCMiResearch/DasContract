@@ -1,8 +1,6 @@
 # DasContract
 A visual language to define contracts between people. 
 
-Gitter https://gitter.im/dascontract
-
 ## Usage
 This project requieres .NET Core 3.1 installed and works on Windows, Linux and MacOS platforms.
 
