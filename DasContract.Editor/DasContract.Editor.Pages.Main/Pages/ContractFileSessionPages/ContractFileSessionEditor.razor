@@ -1,0 +1,59 @@
+﻿@inherits PageBase
+@page "/ContractFileSession/{Id}"
+
+@if (Contract == null)
+{
+    <LoadingScreen Fullscreen="true" Loading="@Loading" />
+}
+else if (initialException == null)
+{
+    <LoadingScreen Fullscreen="true" Loading="@Loading" />
+
+    <Snackbar Id="contractEditorFileSuccessSaveSnackbar"
+              @ref="@successSnackbar"
+              AutoHide="true"
+              HideTimeout="5000"
+              Content="Contract saved successfully" />
+
+    @if (ContractFileSession.IsExpired())
+    {
+        <Alert Scheme="AlertScheme.Danger">Session expired</Alert>
+    }
+    else
+    {
+        <h1>Editing contract @Contract.Name</h1>
+        <AlertController @ref="contractAlertController" />
+        @*var expireString = "";
+            var resultStrings = new List<string>();
+            var interval = ContractFileSession.TimeRemaining;
+
+            if (interval.Days != 0)
+                resultStrings.Add($"{interval.Days} days");
+            if (interval.Hours != 0)
+                resultStrings.Add($"{interval.Hours} hours");
+            if (interval.Minutes != 0)
+                resultStrings.Add($"{interval.Minutes} minutes");
+            if (interval.Seconds != 0)
+                resultStrings.Add($"{interval.Seconds} seconds");
+
+            for (int i = 0; i < resultStrings.Count; i++)
+            {
+                expireString += resultStrings[i];
+                if (i == resultStrings.Count - 2)
+                    expireString += " and ";
+                else if (i != resultStrings.Count - 1)
+                    expireString += ", ";
+            }
+            <Alert Scheme="AlertScheme.Info">The session will expire in @expireString</Alert>*@
+
+        <div class="">
+            <ContractEditor Contract="@Contract"
+                            OnDownload="@(async () => { await DownloadAsync(); })"
+                            OnSave="@(async () => { await SaveAsync(); })" />
+        </div>
+    }
+}
+else
+{
+    <Alert Scheme="AlertScheme.Danger">Error occured: @initialException.Message</Alert>
+}

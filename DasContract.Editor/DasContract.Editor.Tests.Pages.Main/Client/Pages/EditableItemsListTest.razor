@@ -1,0 +1,71 @@
+﻿@page "/editableitemslist"
+
+@code{
+    public bool Loading { get; set; } = false;
+
+    List<string> Items { get; set; } = new List<string>()
+    {
+        "Item 1",
+        "Item 2",
+        "Item 3",
+        "Item 4",
+        "Item 5"
+    };
+
+    int deletedIndex1 = -1;
+    int addItemCounter1 = 0;
+}
+
+<h1>Editable items list</h1>
+
+<div class="my-5">
+    <input type="button" value="Loading: true" @onclick="@(e => { Loading = true; })" />
+    <input type="button" value="Loading: false" @onclick="@(e => { Loading = false; })" />
+</div>
+
+<h2>Regular</h2>
+<EditableItemsList Items="@Items"
+                   Loading="@Loading"
+                   Orderable="true"
+                   Deletable="true"
+                   Editable="true">
+    <ItemHeading>
+        Heading @context
+    </ItemHeading>
+    <ItemEdit>
+        This is item edit of @context
+    </ItemEdit>
+</EditableItemsList>
+
+<h2>Plain</h2>
+<EditableItemsList Items="@Items"
+                   Loading="@Loading"
+                   Orderable="false"
+                   Deletable="false"
+                   Editable="false">
+    <ItemHeading>
+        Heading @context
+    </ItemHeading>
+    <ItemEdit>
+        This is item edit of @context
+    </ItemEdit>
+</EditableItemsList>
+
+
+<h2>Custom</h2>
+<p>Deleted index: @deletedIndex1</p>
+<p>Add item counter: @addItemCounter1</p>
+<EditableItemsList Items="@Items"
+                   Loading="@Loading"
+                   Orderable="true"
+                   Deletable="true"
+                   Editable="true"
+                   OnDelete="(e) => { deletedIndex1 = e; }"
+                   OnAdd="() => { addItemCounter1++; }">
+    <ItemHeading>
+        Heading @context
+    </ItemHeading>
+    <ItemEdit>
+        This is item edit of @context
+    </ItemEdit>
+</EditableItemsList>

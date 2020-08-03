@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<ProjectBuilderConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <Dependencies>
+    <ConfigurationDependency Name="Bonsai.RazorComponents.MaterialBootstrap" ConfigPath="../Bonsai.RazorComponents.MaterialBootstrap/builder.config.xml" />
+    <ConfigurationDependency Name="Bonsai.RazorPages.Error" ConfigPath="../Bonsai.RazorPages.Error/builder.config.xml" />
+  </Dependencies>
+  
+  <Prerequisites>
+    
+    <!--NodeJS-->
+    <Prerequisite xsi:type="UnresolvableCommandPrerequisite">
+      <Name>NodeJS installed</Name>
+      <CommandName>node</CommandName>
+      <WhatCanBeDone>Nodejs not found. Please install latest nodejs from official nodejs page "nodejs.org".</WhatCanBeDone>
+    </Prerequisite>
+
+    <!--NPM-->
+    <Prerequisite xsi:type="UnresolvableCommandPrerequisite">
+      <Name>NPM installed</Name>
+      <CommandName>npm</CommandName>
+      <WhatCanBeDone>NPM not found. Please install latest nodejs from official nodejs page "nodejs.org".</WhatCanBeDone>
+    </Prerequisite>
+
+    <!--Type Script-->
+    <Prerequisite xsi:type="ResolvableCommandPrerequisite" IgnoreInstallErrors="false">
+      <Name>Type Script (tsc) installed</Name>
+      <CommandName>tsc</CommandName>
+      <InstallCommand>
+        <Name>npm</Name>
+        <Args>install -g typescript</Args>
+      </InstallCommand>
+    </Prerequisite>
+
+    <!--SASS-->
+    <Prerequisite xsi:type="ResolvableCommandPrerequisite" IgnoreInstallErrors="true">
+      <Name>SASS/SCSS installed</Name>
+      <CommandName>sass</CommandName>
+      <InstallCommand>
+        <Name>npm</Name>
+        <Args>install -g sass</Args>
+      </InstallCommand>
+    </Prerequisite>
+
+    <!--WEBPACK-->
+    <Prerequisite xsi:type="ResolvableCommandPrerequisite" IgnoreInstallErrors="true">
+      <Name>Webpack installed</Name>
+      <CommandName>webpack</CommandName>
+      <InstallCommand>
+        <Name>npm</Name>
+        <Args>install -g webpack</Args>
+      </InstallCommand>
+    </Prerequisite>
+
+    <!--WEBPACK-CLI-->
+    <Prerequisite xsi:type="ResolvableCommandPrerequisite" IgnoreInstallErrors="true">
+      <Name>Webpack-cli installed</Name>
+      <CommandName>webpack-cli</CommandName>
+      <InstallCommand>
+        <Name>npm</Name>
+        <Args>install -g webpack-cli</Args>
+      </InstallCommand>
+    </Prerequisite>
+  </Prerequisites>
+  
+  
+  <BuildActions>
+
+    <!--NODE_MODULES-->
+    <BuildAction xsi:type="InstallNodeModules" OnlyIfNotFound="false">
+      <Name>Ensure node_modules folder</Name>
+    </BuildAction>
+
+    <!--COMPILE FRONT-END-->
+    <BuildAction xsi:type="CommandBuildAction">
+      <Name>Compile front-end files</Name>
+      <Command>
+        <Name>npm</Name>
+        <Args>run compile</Args>
+      </Command>
+    </BuildAction>
+    
+  </BuildActions>
+</ProjectBuilderConfiguration>

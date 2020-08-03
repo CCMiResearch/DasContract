@@ -1,0 +1,46 @@
+﻿@inherits ValueInput<ContractEntity>
+
+
+    <div class="form-group">
+
+        <!--LOADING-->
+        <LoadingScreenAnimation Loading="@Loading" />
+
+        <!--LABEL-->
+        <ValueInputLabel For="@Id" Required="@Required" Class="@(ReadOnly ? "bmd-label-static" : "bmd-label-floating")">@Label</ValueInputLabel>
+
+        <!--INPUT-->
+        @if (ReadOnly)
+        {
+            @if (Value == null)
+            {
+                <input type="text" class="form-control" id="@Id" value="" readonly />
+            }
+            else
+            {
+                <input type="text" class="form-control" id="@Id" value="@($"{Value.Name} [{Value.Id}]")" readonly />
+            }
+        }
+        else
+        {
+            <select @onchange="@ChangeValueAsync" class="form-control @InputStateClass">
+                @foreach (var entity in Entities)
+                {
+                    if (entity == Value)
+                    {
+                        <option value="@entity.Id" selected>@($"{entity.Name} [{entity.Id}]")</option>
+                    }
+                    else
+                    {
+                        <option value="@entity.Id">@($"{entity.Name} [{entity.Id}]")</option>
+                    }
+                }
+            </select>
+        }
+
+        <!--DESCRIPTION-->
+        <ValueInputDescription>@Description</ValueInputDescription>
+
+        <!--VALIDATION-->
+        <ValueInputValidationMessage For="@PropertyExpression" />
+    </div>

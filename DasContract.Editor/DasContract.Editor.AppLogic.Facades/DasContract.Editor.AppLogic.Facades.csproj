@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

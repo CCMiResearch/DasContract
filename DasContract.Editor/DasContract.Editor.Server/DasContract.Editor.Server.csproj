@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>3b9cebee-6d91-48c4-bb40-07088323b499</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ContractEditorDB" />
+    <None Remove="Dockerfile_backup" />
+    <None Remove="nginx.conf_backup" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bonsai_RazorPages_Error" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.2.0-preview1.20073.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DasContract.DataPersistence.DbContexts\DasContract.Editor.DataPersistence.DbContexts.csproj" />
+    <ProjectReference Include="..\DasContract.DataPersistence.Repositories.Interfaces\DasContract.Editor.DataPersistence.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\DasContract.DataPersistence.Repositories\DasContract.Editor.DataPersistence.Repositories.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades.Interfaces\DasContract.Editor.AppLogic.Facades.Interfaces.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.AppLogic.Facades\DasContract.Editor.AppLogic.Facades.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.DataPersistence.ContractFileSession\DasContract.Editor.DataPersistence.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Entities\DasContract.Editor.Entities.csproj" />
+    <ProjectReference Include="..\DasContract.Editor.Pages.Main\DasContract.Editor.Pages.Main.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,81 @@
+﻿@inherits LoadableComponent
+@typeparam TModel
+
+<ul class="editableItemsList">
+
+    <LoadingScreenAnimation Loading="@Loading" />
+
+    @if (Orderable && Items.Count > 1)
+    {
+        <ButtonInput Scheme="ButtonInputScheme.Info"
+                     Type="ButtonInputType.Raised"
+                     OnClick="ToggleOrdering">
+            @(Ordering ? "Stop ordering" : "Reorder items")
+        </ButtonInput>
+    }
+
+    @if (Ordering && Orderable)
+    {
+        <SortableList Arrows="true"
+                      DragAndDrop="true"
+                      Items="@Items">
+            <Item>
+                @ItemHeading(context)
+            </Item>
+        </SortableList>
+    }
+
+    else
+    {
+        int i = 0;
+        @foreach (var item in Items)
+        {
+            var currentItem = item;
+            var currentIndex = i;
+
+            <li class="@(IsOpened(currentIndex) ? "opened" : "closed")">
+                <div class="editableItemsListHeading">
+                    <div class="headingContent">
+                        @ItemHeading(currentItem)
+                    </div>
+
+                    <div class="controls">
+                        @if (Editable)
+                        {
+                            <ButtonInput Scheme="ButtonInputScheme.Info"
+                                         OnClick="() => { ToggleEditor(currentIndex); }">
+                                @(IsOpened(currentIndex) ? "Close" : "Edit")
+                            </ButtonInput>
+                        }
+                        @if (Deletable)
+                        {
+                            <ButtonInput Scheme="ButtonInputScheme.Danger"
+                                         OnClick="async () => { await DeleteItemAsync(currentIndex); }">
+                                Delete
+                            </ButtonInput>
+                        }
+                    </div>
+                </div>
+
+                @if (IsOpened(currentIndex))
+                {
+                    <div class="editableItemsListContent @(IsOpened(currentIndex) ? "opened" : "closed")">
+                        @ItemEdit(currentItem)
+                    </div>
+                }
+            </li>
+
+            i++;
+        }
+
+        @if (Extendable)
+        {
+            <div class="text-right mt-3">
+                <ButtonInput OnClick="async () => { await AddItemAsync(); }"
+                             Type="ButtonInputType.Raised">
+                    Add
+                </ButtonInput>
+            </div>
+        }
+    }
+</ul>

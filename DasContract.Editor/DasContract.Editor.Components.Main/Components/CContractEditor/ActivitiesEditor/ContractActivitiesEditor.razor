@@ -1,0 +1,56 @@
+﻿@inherits LoadableComponent
+
+    <div class="contractActivitiesEditor">
+        <LoadingScreenAnimation Loading="@Loading" />
+
+        <h3>User activities</h3>
+        <EditableItemsList @ref="UserActivitiesList"
+                           Editable="true"
+                           Items="@Process.UserActivities.ToList()">
+            <ItemHeading>
+                <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+            </ItemHeading>
+            <ItemEdit Context="activity">
+                <IndexedList CreateMap="false">
+                    <IndexedListItem Title="Editor" CreateHeader="false">
+                        <ContractUserActivityEditor Contract="@Contract"
+                                                    UserActivity="@activity" />
+                    </IndexedListItem>
+                </IndexedList>
+            </ItemEdit>
+        </EditableItemsList>
+
+        <h3>Business rule activities</h3>
+        <EditableItemsList @ref="BusinessRuleActivitiesList"
+                           Editable="true"
+                           Items="@Process.BusinessActivities.ToList()">
+            <ItemHeading>
+                <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+            </ItemHeading>
+            <ItemEdit Context="activity">
+                <IndexedList CreateMap="false">
+                    <IndexedListItem Title="Editor" CreateHeader="false">
+                        <ContractBusinessRuleActivityEditor Contract="@Contract"
+                                                            BusinessActivity="@activity" />
+                    </IndexedListItem>
+                </IndexedList>
+            </ItemEdit>
+        </EditableItemsList>
+
+        <h3>Script activities</h3>
+        <EditableItemsList @ref="ScriptActivitiesList"
+                           Editable="true"
+                           Items="@Process.ScriptActivities.ToList()">
+            <ItemHeading>
+                <span>@context.Name <small class="text-muted ">[@context.Id]</small></span>
+            </ItemHeading>
+            <ItemEdit Context="activity">
+                <IndexedList CreateMap="false">
+                    <IndexedListItem Title="Editor" CreateHeader="false">
+                        <ContractScriptActivityEditor Contract="@Contract"
+                                                      ScriptActivity="@activity" />
+                    </IndexedListItem>
+                </IndexedList>
+            </ItemEdit>
+        </EditableItemsList>
+    </div>
