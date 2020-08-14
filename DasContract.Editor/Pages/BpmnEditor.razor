@@ -1,0 +1,14 @@
+﻿@page "/editor"
+@inject IJSRuntime JSRunTime
+
+<MatButton OnClick="@DisplayEditor" Label="Display Editor"></MatButton>
+
+<div id="canvas"></div>
+
+
+@code {
+    async void DisplayEditor()
+    {
+        await JSRunTime.InvokeVoidAsync("MyLib.CreateModeler");
+    }
+}
