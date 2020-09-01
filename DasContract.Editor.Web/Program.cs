@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace DasContract.Editor
+namespace DasContract.Editor.Web
 {
     public class Program
     {

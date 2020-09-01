@@ -16,5 +16,6 @@ module.exports = {
         path: path.resolve(__dirname, '../js'),
         filename: "my_lib.js",
         library: "MyLib"
-    }
+    },
+    watch: true
 };

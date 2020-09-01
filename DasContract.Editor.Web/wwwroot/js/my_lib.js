@@ -4130,11 +4130,11 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: CreateModeler */
+/*! exports provided: createModeler, getDiagramXML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"CreateModeler\", function() { return CreateModeler; });\n/* harmony import */ var bpmn_js_lib_Modeler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bpmn-js/lib/Modeler */ \"./node_modules/bpmn-js/lib/Modeler.js\");\n // create a modeler\n\nfunction CreateModeler() {\n  var editor = new bpmn_js_lib_Modeler__WEBPACK_IMPORTED_MODULE_0__[\"default\"]({\n    container: document.getElementById('canvas')\n  });\n  editor.createDiagram();\n}\n\n//# sourceURL=webpack://MyLib/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createModeler\", function() { return createModeler; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getDiagramXML\", function() { return getDiagramXML; });\n/* harmony import */ var bpmn_js_lib_Modeler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bpmn-js/lib/Modeler */ \"./node_modules/bpmn-js/lib/Modeler.js\");\n // create a modeler\n\nfunction createModeler() {\n  window.modeler = new bpmn_js_lib_Modeler__WEBPACK_IMPORTED_MODULE_0__[\"default\"]({\n    container: document.getElementById('canvas')\n  });\n  window.modeler.createDiagram();\n}\nasync function getDiagramXML() {\n  var xml = (await window.modeler.saveXML({\n    format: true\n  })).xml;\n  debugger;\n  return xml;\n}\n\n//# sourceURL=webpack://MyLib/./src/index.js?");
 
 /***/ })
 
