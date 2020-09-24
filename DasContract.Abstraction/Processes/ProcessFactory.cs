@@ -126,6 +126,13 @@ namespace DasContract.Abstraction.Processes
             return processElement;
         }
 
+        /*
+        static TaskInstanceType GetTaskInstanceType(XElement xElement)
+        {
+            
+        }
+        */
+
         static IList<string> GetDescendantList(XElement xElement, string descendantName)
         {
             var descendants = xElement.Descendants(descendantName).First().Descendants("string");
