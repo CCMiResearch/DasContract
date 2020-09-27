@@ -4,7 +4,8 @@ using System.Text;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public class SubProcess: Task
+    public class CallActivity: Task
     {
+        public string CalledElement { get; set; }
     }
 }
