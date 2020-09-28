@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DasContract.Abstraction
 {
@@ -13,9 +14,19 @@ namespace DasContract.Abstraction
         public string ProcessDiagram { get; set; }
 
         /// <summary>
-        /// Contract main process. Currently only one process is allowed. 
+        /// Currently used for backwards compatibility, when only one 
+        /// process was allowed.
         /// </summary>
-        public Process Process { get; set; }
+        public Process Process { 
+            get { return Processes.ElementAtOrDefault(0); } 
+            set { Processes[0] = value; } 
+        }
+
+        /// <summary>
+        /// List of processes present in the contract.
+        /// </summary>
+        public IList<Process> Processes { get; set; } = new List<Process>();
+        //TODO list with backwards compatibility (route Processes to Processes.First)
 
         /// <summary>
         /// Data Model
