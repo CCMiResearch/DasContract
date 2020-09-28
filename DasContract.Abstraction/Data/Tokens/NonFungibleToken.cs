@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Abstraction.Data
+namespace DasContract.Abstraction.Data.Tokens
 {
-    class Token
+    public class NonFungibleToken: Token
     {
     }
 }
