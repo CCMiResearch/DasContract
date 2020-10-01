@@ -1,9 +1,9 @@
-﻿using DasContract.Abstraction.Processes.Tasks.InstanceTypes;
+﻿using DasContract.Abstraction.Processes.Tasks;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
     public abstract class Task : ProcessElement
     {
-        public MultiInstance InstanceType { get; set; }
+        public MultiInstance MultiInstance { get; set; }
     }
 }

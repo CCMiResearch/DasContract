@@ -4,8 +4,7 @@ using System.Text;
 
 namespace DasContract.Abstraction.Data.Tokens
 {
-    public abstract class Token
+    public abstract class Token: Entity
     {
-        public string Name { get; set; }
     }
 }

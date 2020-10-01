@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Abstraction.Processes.Tasks.InstanceTypes
+namespace DasContract.Abstraction.Processes.Tasks
 {
-    public abstract class MultiInstance
+    public class MultiInstance
     {
         public int LoopCardinality { get; set; }
         public Property LoopCollection { get; set; }
+        public MultiInstanceType InstanceType { get; set; }
     }
 }
