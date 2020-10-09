@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
     class ConverterFactory
     {

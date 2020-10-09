@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using DasToSolidity.Solidity;
-using DasToSolidity.SolidityConverter;
+﻿using Xunit;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
 {

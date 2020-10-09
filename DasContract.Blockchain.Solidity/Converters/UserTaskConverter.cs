@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DasToSolidity.SolidityConverter;
+﻿using System.Collections.Generic;
 using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Tasks;
 using System.Linq;
-using DasContract.DasContract.Blockchain.Solidity;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
     class UserTaskConverter : ElementConverter
     {
@@ -77,7 +74,7 @@ namespace DasToSolidity.Solidity.ConversionHelpers
                 {
                     foreach (var s in dataModel)
                     {
-                        Property p = s.En.Properties.FirstOrDefault(p => p.Id == field.PropertyExpression);
+                        Property p = s.En.Properties.FirstOrDefault(e => e.Id == field.PropertyExpression);
                         if (p != null)
                         {
                             function.AddParameter(new SolidityParameter(Helpers.GetSolidityStringType(p), field.DisplayName));

@@ -4,7 +4,7 @@ using System.Text;
 using Liquid.NET;
 using Liquid.NET.Constants;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityConstructor : SolidityComponent
     {

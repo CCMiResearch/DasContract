@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.Exceptions
+namespace DasContract.Abstraction.Exceptions
 {
-    class NoStartEventException: Exception
+    public class NoStartEventException: Exception
     {
         public NoStartEventException(string message) : base(message) { }
     }

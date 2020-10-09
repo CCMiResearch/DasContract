@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using DasToSolidity.SolidityConverter;
-using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
     class StartEventConverter : ElementConverter
     {

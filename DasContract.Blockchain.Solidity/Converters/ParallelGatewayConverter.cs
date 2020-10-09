@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DasToSolidity.SolidityConverter;
+﻿using System.Collections.Generic;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
 using System.Linq;
-using DasContract.Abstraction.Data;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
     class ParallelGatewayConverter : ElementConverter
     {
@@ -45,7 +42,7 @@ namespace DasToSolidity.Solidity.ConversionHelpers
         SolidityStatement CreateParallelism(List<ElementConverter> nextElements)
         {
             var statement = new SolidityStatement();
-            nextElements.ForEach(e => { e.GetStatementForPrevious(gateway).GetStatements().ForEach(e => statement.Add(e)); });
+            nextElements.ForEach(e => { e.GetStatementForPrevious(gateway).GetStatements().ForEach(f => statement.Add(f)); });
             return statement;
         }
 

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DasToSolidity.SolidityConverter;
+﻿using DasContract.Blockchain.Solidity.SolidityComponents;
 using Xunit;
 
-
-namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
+namespace DasContract.Blockchain.Solidity.Tests.SolidityComponents
 {
     public class SolidityIfElseTest
     {

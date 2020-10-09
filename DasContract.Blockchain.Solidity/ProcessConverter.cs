@@ -1,17 +1,14 @@
-﻿using DasToSolidity.Exceptions;
-using DasToSolidity.Solidity.ConversionHelpers;
-using DasContract.Abstraction;
+﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
-using DasContract.Abstraction.Solidity;
 using Liquid.NET;
-using System.Linq;
-using System;
 using System.Collections.Generic;
-using DasContract.DasContract.Blockchain.Solidity;
+using DasContract.Abstraction.Exceptions;
+using DasContract.Blockchain.Solidity.SolidityComponents;
+using DasContract.Blockchain.Solidity.Converters;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity
 {
     class ProcessConverter
     {

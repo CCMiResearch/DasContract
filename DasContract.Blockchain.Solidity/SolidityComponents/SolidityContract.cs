@@ -1,11 +1,8 @@
-﻿using DasToSolidity.SolidityConverter;
-using Liquid.NET;
+﻿using Liquid.NET;
 using Liquid.NET.Constants;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace DasContract.Abstraction.Solidity
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityContract : SolidityComponent
     {

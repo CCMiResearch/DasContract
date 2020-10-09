@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DasToSolidity.SolidityConverter;
-using DasContract.Abstraction.Data;
+﻿using System.Collections.Generic;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
     class ExclusiveGatewayConverter : ElementConverter
     {

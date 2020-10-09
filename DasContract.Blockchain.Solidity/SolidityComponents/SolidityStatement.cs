@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityStatement : SolidityComponent
     {

@@ -1,11 +1,8 @@
-﻿using DasToSolidity.SolidityConverter;
-using DasContract.Abstraction.Data;
-using DasContract.Abstraction.Processes;
-using System;
+﻿using DasContract.Abstraction.Processes;
 using System.Collections.Generic;
-using System.Text;
+using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasToSolidity.Solidity.ConversionHelpers
+namespace DasContract.Blockchain.Solidity.Converters
 {
 
     public abstract class ElementConverter

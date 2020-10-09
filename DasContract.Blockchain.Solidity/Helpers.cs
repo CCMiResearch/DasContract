@@ -1,10 +1,7 @@
 ﻿using DasContract.Abstraction.Data;
-using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DasContract.DasContract.Blockchain.Solidity
+namespace DasContract.Blockchain.Solidity
 {
     class Helpers
     {
