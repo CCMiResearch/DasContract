@@ -4,7 +4,10 @@ using System.Text;
 
 namespace DasContract.Abstraction.Data.Tokens
 {
-    public abstract class Token: Entity
+    public class Token: Entity
     {
+        public string Symbol { get; set; }
+        public bool IsFungible { get; set; }
+        public bool IsIssued { get; set; }
     }
 }

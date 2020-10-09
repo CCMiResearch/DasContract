@@ -10,7 +10,7 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
         string structId = "1";
         string propertyName = "bar";
         string propertyId = "2";
-        PropertyType propertyType = PropertyType.String;
+        PropertyDataType propertyType = PropertyDataType.String;
 
         private SolidityStruct GetSampleStruct()
         {
@@ -19,7 +19,7 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
 
             property.Id = propertyId;
             property.Name = propertyName;
-            property.Type = propertyType;
+            property.DataType = propertyType;
 
             entity.Id = structId;
             entity.Name = structName;

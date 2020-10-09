@@ -4,6 +4,8 @@ namespace DasContract.Abstraction.Processes.Tasks
 {
     public abstract class Task : ProcessElement
     {
-        public MultiInstance MultiInstance { get; set; }
+        public InstanceType InstanceType { get; set; }
+        public int LoopCardinality { get; set; }
+        public string LoopCollection { get; set; }
     }
 }

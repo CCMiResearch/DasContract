@@ -2,7 +2,8 @@
 {
     public enum FormFieldType
     {
-        Property, 
+        Property,
+        ComboBox,
         Custom
     }
 }

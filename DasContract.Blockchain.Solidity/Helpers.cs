@@ -9,26 +9,26 @@ namespace DasContract.Blockchain.Solidity
 
         public static string GetSolidityStringType(Property property)
         {
-            var type = property.Type;
+            var type = property.DataType;
             switch (type)
             {
-                case PropertyType.Bool:
+                case PropertyDataType.Bool:
                     return "bool";
-                case PropertyType.String:
+                case PropertyDataType.String:
                     return "string";
-                case PropertyType.Int:
+                case PropertyDataType.Int:
                     return "int";
-                case PropertyType.Address:
+                case PropertyDataType.Address:
                     return "address";
-                case PropertyType.AddressPayable:
+                case PropertyDataType.AddressPayable:
                     return "address payable";
-                case PropertyType.Data:
+                case PropertyDataType.Data:
                     return "string";
-                case PropertyType.DateTime:
+                case PropertyDataType.DateTime:
                     return "string";
-                case PropertyType.Uint:
+                case PropertyDataType.Uint:
                     return "uint256";
-                case PropertyType.Entity:
+                case PropertyDataType.Entity:
                     return GetPropertyStructureName(property.Entity.Name);
                 default:
                     return "string";
@@ -37,26 +37,26 @@ namespace DasContract.Blockchain.Solidity
 
         public static string GetDefaultValueString(Property property)
         {
-            var type = property.Type;
+            var type = property.DataType;
             switch (type)
             {
-                case PropertyType.Bool:
+                case PropertyDataType.Bool:
                     return "false";
-                case PropertyType.String:
+                case PropertyDataType.String:
                     return "\"\"";
-                case PropertyType.Int:
+                case PropertyDataType.Int:
                     return "0";
-                case PropertyType.Address:
+                case PropertyDataType.Address:
                     return "address(0x0)";
-                case PropertyType.AddressPayable:
+                case PropertyDataType.AddressPayable:
                     return "address(0x0)";
-                case PropertyType.Data:
+                case PropertyDataType.Data:
                     return "\"\"";
-                case PropertyType.DateTime:
+                case PropertyDataType.DateTime:
                     return "\"\"";
-                case PropertyType.Uint:
+                case PropertyDataType.Uint:
                     return "0";
-                case PropertyType.Entity:
+                case PropertyDataType.Entity:
                     string s = GetPropertyStructureName(property.Entity.Name) + "({";
                     foreach (var p in property.Entity.Properties)
                     {

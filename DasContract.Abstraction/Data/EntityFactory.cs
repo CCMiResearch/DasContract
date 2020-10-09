@@ -48,7 +48,7 @@ namespace DasContract.DasContract.Abstraction.Data
             {
                 foreach(var p in e.Properties)
                 {
-                    if (p.Type == PropertyType.Entity && p.Entity != null)
+                    if (p.DataType == PropertyDataType.Entity && p.Entity != null)
                     {
                         foreach (var en in entities)
                         {
@@ -81,26 +81,26 @@ namespace DasContract.DasContract.Abstraction.Data
             {
                 // TODO: Fill the rest
                 case "ReferenceCollection":
-                    property.Type = PropertyType.Entity;
+                    property.DataType = PropertyDataType.Entity;
                     property.IsCollection = true;
                     break;
                 case "SingleReference":
-                    property.Type = PropertyType.Entity;
+                    property.DataType = PropertyDataType.Entity;
                     break;
                 case "Number":
-                    property.Type = PropertyType.Uint;
+                    property.DataType = PropertyDataType.Uint;
                     break;
                 case "Address":
-                    property.Type = PropertyType.Address;
+                    property.DataType = PropertyDataType.Address;
                     break;
                 case "AddressPayable":
-                    property.Type = PropertyType.AddressPayable;
+                    property.DataType = PropertyDataType.AddressPayable;
                     break;
                 case "Bool":
-                    property.Type = PropertyType.Bool;
+                    property.DataType = PropertyDataType.Bool;
                     break;
                 default:
-                    property.Type = PropertyType.String;
+                    property.DataType = PropertyDataType.String;
                     break;
             }
             return property;

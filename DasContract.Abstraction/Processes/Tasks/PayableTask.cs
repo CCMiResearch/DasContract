@@ -4,9 +4,8 @@ using System.Text;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public enum MultiInstanceType
+    public abstract class PayableTask: Task
     {
-        Parallel,
-        Sequential
+        public TokenOperationType OperationType { get; set; }
     }
 }

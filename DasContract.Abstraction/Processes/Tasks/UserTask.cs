@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public class UserTask : Task
+    public class UserTask : PayableTask
     {
         public UserForm Form { get; set; }
 

@@ -71,7 +71,7 @@ namespace DasContract.Blockchain.Solidity
 
                         Property property = new Property();
                         string name = Helpers.GetPropertyVariableName(p.Name) + "Length";
-                        property.Type = PropertyType.Int;
+                        property.DataType = PropertyDataType.Int;
                         property.Name = name;
                         statement.Add("uint " + name);
                         newProperties.Add(property);

@@ -31,7 +31,8 @@ namespace DasContract.Abstraction
         /// <summary>
         /// Data Model
         /// </summary>
-        public IList<Entity> Entities { get; set; } = new List<Entity>(); 
+        public IList<Entity> Entities { get; set; } = new List<Entity>();
+        public IList<Enum> Enums { get; set; } = new List<Enum>();
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
     }
 }

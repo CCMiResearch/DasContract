@@ -4,10 +4,8 @@ using System.Text;
 
 namespace DasContract.Abstraction.Data
 {
-    public enum PropertyType
+    public class Enum
     {
-        Single,
-        Collection,
-        Dictionary
+        public IList<string> Values { get; set; } = new List<string>();
     }
 }
