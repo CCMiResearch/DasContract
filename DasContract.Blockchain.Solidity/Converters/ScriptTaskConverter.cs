@@ -7,7 +7,6 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     class ScriptTaskConverter : ElementConverter
     {
-
         ScriptTask scriptTask;
         public ScriptTaskConverter(ScriptTask scriptTask)
         {
@@ -18,7 +17,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Internal);
             function.AddModifier("is" + GetTaskName() + "State");
-            SolidityStatement disableFunctionStatement = new SolidityStatement(ProcessConverter.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
+            SolidityStatement disableFunctionStatement = new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
             function.AddToBody(disableFunctionStatement);
             function.AddToBody(new SolidityStatement(scriptTask.Script, false));
             function.AddToBody(nextElements[0].GetStatementForPrevious(scriptTask));
@@ -29,7 +28,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
             SolidityStatement requireStatement = new SolidityStatement(
-                "require(" + ProcessConverter.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName() + "\")==true)");
+                "require(" + ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName() + "\")==true)");
 
             stateGuard.AddToBody(requireStatement);
             return stateGuard;

@@ -30,7 +30,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
             SolidityStatement requireStatement = new SolidityStatement(
-                "require(" + ProcessConverter.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName()+ "\")==true)");
+                "require(" + ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName()+ "\")==true)");
 
             stateGuard.AddToBody(requireStatement);
             return stateGuard;
@@ -46,7 +46,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             }
             else if (userTask.Assignee.Name != null)
             {
-                var addressPosition = Helpers.ADDRESS_MAPPING_VAR_NAME + "[\"" + userTask.Assignee.Name + "\"]";
+                var addressPosition = ConverterConfig.ADDRESS_MAPPING_VAR_NAME + "[\"" + userTask.Assignee.Name + "\"]";
                 var ifElseBlock = new SolidityIfElse();
                 ifElseBlock.AddConditionBlock(addressPosition + " == address(0x0)", new SolidityStatement(addressPosition + " = msg.sender"));
                 SolidityStatement requireStatement = new SolidityStatement("require(msg.sender==" + addressPosition + ")");
@@ -64,7 +64,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             if (userTask.Assignee != null && (userTask.Assignee.Address != null || userTask.Assignee.Name != null))
                 function.AddModifier("is" + GetTaskName() + "Authorized");
 
-            SolidityStatement statement = new SolidityStatement(ProcessConverter.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
+            SolidityStatement statement = new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
 
             function.AddToBody(statement);
 

@@ -186,7 +186,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Incoming = new List<string> { "Sequence_Flow_5", "Sequence_Flow_6" },
                 Outgoing = new List<string> { "Sequence_Flow_7" },
                 InstanceType = InstanceType.Parallel,
-                Name = "Approve and Order Candidates"
+                Name = "Approve and Order Candidates",
+                Form = new Abstraction.UserInterface.UserForm()
             };
         }
 
@@ -199,6 +200,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = new List<string> { "Sequence_Flow_5" },
                 InstanceType = InstanceType.Parallel,
                 Name = "Register New Party",
+                Form = new Abstraction.UserInterface.UserForm()
             };
         }
 
@@ -221,6 +223,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = outgoing,
                 InstanceType = InstanceType.Parallel,
                 Name = "Register New Party",
+                Form = new Abstraction.UserInterface.UserForm()
             };
         }
 

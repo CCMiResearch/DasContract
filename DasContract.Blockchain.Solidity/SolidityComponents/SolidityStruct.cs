@@ -55,8 +55,8 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             string s = "{";
             foreach (var p in En.Properties)
             {
-                if(!p.IsCollection)
-                    s += (Helpers.GetPropertyVariableName(p.Name) + ": " + Helpers.GetDefaultValueString(p) + ", ");
+                //if(!p.IsCollection) TODO
+                  //  s += (Helpers.GetPropertyVariableName(p.Name) + ": " + Helpers.GetDefaultValueString(p) + ", ");
             }
             return LiquidString.Create(s.Trim().Trim(',') + "}");
         }

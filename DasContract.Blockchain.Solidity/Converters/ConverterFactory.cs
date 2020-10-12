@@ -26,6 +26,8 @@ namespace DasContract.Blockchain.Solidity.Converters
                 return new ParallelGatewayConverter((ParallelGateway)element);
             else if (elementType == typeof(StartEvent))
                 return new StartEventConverter((StartEvent)element);
+            else if (elementType == typeof(CallActivity))
+                return new CallActivityConverter((CallActivity)element);
             return null;
         }
     }

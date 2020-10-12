@@ -25,7 +25,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement(ProcessConverter.ACTIVE_STATES_NAME + "[\"" + GetEventName() + "\"] = true");
+            return new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetEventName() + "\"] = true");
         }
 
         string GetEventName()

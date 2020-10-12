@@ -33,11 +33,11 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
-                DefineLocalVariable("body", bodyToLiquid(indent));
+                DefineLocalVariable("body", BodyToLiquid(indent));
             return template.Render(ctx).Result;
         }
 
-        LiquidCollection bodyToLiquid(int indent)
+        LiquidCollection BodyToLiquid(int indent)
         {
             var col = new LiquidCollection();
             foreach (var b in body)

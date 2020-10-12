@@ -5,7 +5,7 @@ namespace DasContract.Blockchain.Solidity
 {
     class Helpers
     {
-        public static readonly string ADDRESS_MAPPING_VAR_NAME = "addressMapping";
+
 
         public static string GetSolidityStringType(Property property)
         {
@@ -28,8 +28,8 @@ namespace DasContract.Blockchain.Solidity
                     return "string";
                 case PropertyDataType.Uint:
                     return "uint256";
-                case PropertyDataType.Entity:
-                    return GetPropertyStructureName(property.ReferencedDataType.Name);
+                case PropertyDataType.Reference:
+                    return GetPropertyStructureName(property.ReferencedDataType); //TODO: needs an update
                 default:
                     return "string";
             }
@@ -56,7 +56,8 @@ namespace DasContract.Blockchain.Solidity
                     return "\"\"";
                 case PropertyDataType.Uint:
                     return "0";
-                case PropertyDataType.Entity:
+                case PropertyDataType.Reference:
+                    /*
                     string s = GetPropertyStructureName(property.ReferencedDataType.Name) + "({";
                     foreach (var p in property.ReferencedDataType.Properties)
                     {
@@ -65,7 +66,10 @@ namespace DasContract.Blockchain.Solidity
                             s += GetPropertyVariableName(p.Name) + ": " + GetDefaultValueString(p) + ", ";
                         }
                     }
+                    
                     return s.Trim().Trim(',') + "})";
+                    */
+                    return "placedholder"; //TODO: needs an update
                 default:
                     return "\"\"";
             }

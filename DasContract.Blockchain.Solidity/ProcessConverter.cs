@@ -1,90 +1,48 @@
-﻿using DasContract.Abstraction;
-using DasContract.Abstraction.Data;
+﻿using DasContract.Abstraction.Exceptions;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
-using Liquid.NET;
-using System.Collections.Generic;
-using DasContract.Abstraction.Exceptions;
-using DasContract.Blockchain.Solidity.SolidityComponents;
 using DasContract.Blockchain.Solidity.Converters;
+using DasContract.Blockchain.Solidity.SolidityComponents;
+using Liquid.NET;
+using Liquid.NET.Constants;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DasContract.Blockchain.Solidity
 {
-    class ProcessConverter
+    public class ProcessConverter
     {
-        SolidityContract solidityContract;
-        Process process;
-        List<Entity> entities;
-        List<SolidityStruct> dataModel = new List<SolidityStruct>();
-
-        static readonly string SOLIDITY_VERSION = "^0.6.6";
-        public static readonly string IS_STATE_ACTIVE_FUNCTION_NAME = "isStateActive";
-        public static readonly string ACTIVE_STATES_NAME = "ActiveStates";
-        public static readonly string STATE_PARAMETER_NAME = "state";
-
-        // Import for ERC721 token usage only, remove otherwise
-        LiquidTemplate template = LiquidTemplate.Create("pragma solidity " + SOLIDITY_VERSION + ";\n\n" +
-            "import \"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC721/IERC721.sol\";\n\n" +
+        LiquidTemplate template = LiquidTemplate.Create(
             "{{contract}}").LiquidTemplate;
 
-        public ProcessConverter(Contract contract)
+        private Process process;
+        //The solidity contract generated from the process
+        private SolidityContract solidityContract;
+
+        public ProcessConverter(Process process)
         {
-            process = contract.Process;
-            entities = (List<Entity>)contract.DataTypes;
-            solidityContract = new SolidityContract("GeneratedContract");
+            this.process = process;
+        }
 
-            AddDataModel();
-
+        public void ConvertProcess()
+        {
+            solidityContract = new SolidityContract(process.Id);
             // ERC721 HouseToken address, only for Mortgage usecase, remove otherwise
-            solidityContract.AddComponent(new SolidityStatement("IERC721 houseTokenAddress = IERC721(address(0x93b6784CE509d1cEA255aE8269af4Ee258943Bd0))"));
+            //solidityContract.AddComponent(new SolidityStatement("IERC721 houseTokenAddress = IERC721(address(0x93b6784CE509d1cEA255aE8269af4Ee258943Bd0))"));
 
             //Current state declaration
-            solidityContract.AddComponent(new SolidityStatement("mapping (string => bool) public " + ACTIVE_STATES_NAME));
-            solidityContract.AddComponent(new SolidityStatement("mapping (string => address) public " + Helpers.ADDRESS_MAPPING_VAR_NAME));
+            solidityContract.AddComponent(new SolidityStatement("mapping (string => bool) public " + ConverterConfig.ACTIVE_STATES_NAME));
+            //TODO: this address mapping will not work for roles
+            solidityContract.AddComponent(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
 
             //Method for retrieving current state
-            var getStateFunction = new SolidityFunction(IS_STATE_ACTIVE_FUNCTION_NAME, SolidityVisibility.Public, "bool");
-            getStateFunction.AddToBody(new SolidityStatement("return " + ACTIVE_STATES_NAME + "[" + STATE_PARAMETER_NAME + "]"));
-            getStateFunction.AddParameter(new SolidityParameter("string", STATE_PARAMETER_NAME));
+            var getStateFunction = new SolidityFunction(ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME, SolidityVisibility.Public, "bool");
+            getStateFunction.AddToBody(new SolidityStatement("return " + ConverterConfig.ACTIVE_STATES_NAME + "[" + ConverterConfig.STATE_PARAMETER_NAME + "]"));
+            getStateFunction.AddParameter(new SolidityParameter("string", ConverterConfig.STATE_PARAMETER_NAME));
             solidityContract.AddComponent(getStateFunction);
 
             IterateProcess();
-        }
-
-        //TODO: Working, but not very nice solution. Might need update
-        void AddDataModel()
-        {
-            foreach (var e in entities)
-            {
-                SolidityStruct s = new SolidityStruct(e);
-                SolidityStatement statement = new SolidityStatement();
-                List<Property> newProperties = new List<Property>();
-                newProperties.Clear();
-                foreach (var p in e.Properties)
-                {
-                    string type = Helpers.GetSolidityStringType(p);
-                    if (!p.IsCollection)
-                        statement.Add(type + " " + Helpers.GetPropertyVariableName(p.Name));
-                    else if (p.IsCollection)
-                    {
-                        statement.Add("mapping (uint => " + type + ") " + Helpers.GetPropertyVariableName(p.Name));
-
-                        Property property = new Property();
-                        string name = Helpers.GetPropertyVariableName(p.Name) + "Length";
-                        property.DataType = PropertyDataType.Int;
-                        property.Name = name;
-                        statement.Add("uint " + name);
-                        newProperties.Add(property);
-                    }
-                }
-                foreach (var np in newProperties)
-                {
-                    s.En.Properties.Add(np);
-                }
-                s.AddToBody(statement);
-                solidityContract.AddComponent(s);
-                dataModel.Add(s);
-            }
         }
 
         /// <summary>
@@ -101,11 +59,11 @@ namespace DasContract.Blockchain.Solidity
             var flagged = new HashSet<string>();
             var toVisit = new Queue<ProcessElement>();
             //Find the startEvent
-            var startEvent = FindStartEvent();
+            var startEvent = GetStartEvent();
             toVisit.Enqueue(startEvent);
             flagged.Add(startEvent.Id);
             //BFS - go through every element
-            while(toVisit.Count > 0)
+            while (toVisit.Count > 0)
             {
                 var current = toVisit.Dequeue();
                 var nextElements = new List<ElementConverter>();
@@ -124,7 +82,7 @@ namespace DasContract.Blockchain.Solidity
                 }
                 //Create converter for the current element and use it to generate code elements
                 var elementConverter = ConverterFactory.CreateConverter(current);
-                var elementCode = elementConverter.GetElementCode(nextElements, SeqFlowIdToObject(current.Outgoing), dataModel);
+                var elementCode = elementConverter.GetElementCode(nextElements, SeqFlowIdToObject(current.Outgoing));
                 solidityContract.AddComponents(elementCode);
             }
         }
@@ -137,7 +95,7 @@ namespace DasContract.Blockchain.Solidity
         IList<SequenceFlow> SeqFlowIdToObject(IList<string> sequenceFlowIds)
         {
             var seqFlows = new List<SequenceFlow>();
-            foreach(var id in sequenceFlowIds)
+            foreach (var id in sequenceFlowIds)
             {
                 seqFlows.Add(process.SequenceFlows[id]);
             }
@@ -154,26 +112,30 @@ namespace DasContract.Blockchain.Solidity
         /// Finds the start event inside of the process
         /// </summary>
         /// <returns>Start Event</returns>
-        StartEvent FindStartEvent()
+        StartEvent GetStartEvent()
         {
             foreach (var e in process.Events)
             {
-                if (e.GetType() == typeof(StartEvent)) 
+                if (e.GetType() == typeof(StartEvent))
                     return (StartEvent) e;
             }
             throw new NoStartEventException("The process must contain a startEvent");
         }
-    
+
+
+
         /// <summary>
         /// Generates the solidity code
         /// </summary>
         /// <returns>Solidity code in string</returns>
-        public string GenerateSolidity()
+        public override string ToString()
         {
-            ITemplateContext ctx = new TemplateContext();
-            ctx.DefineLocalVariable("contract", solidityContract.ToLiquidString(0));
+            return solidityContract.ToString();
+        }
 
-            return template.Render(ctx).Result;
+        public LiquidString ToLiquidString()
+        {
+            return solidityContract.ToLiquidString(0);
         }
     }
 }

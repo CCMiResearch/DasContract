@@ -158,6 +158,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Parallel,
                 Name = "Vote",
                 OperationType = TokenOperationType.Send,
+                Form = new Abstraction.UserInterface.UserForm()
             };
         }
 
@@ -171,7 +172,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Single,
                 Name = "Send ballots to the elegible EU Citizens",
                 OperationType = TokenOperationType.Create,
-                Script = "" //TODO
+                Script = "", //TODO
             };
         }
     }
