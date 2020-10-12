@@ -5,16 +5,17 @@
         public string Id { get; set; }
         public string Name { get; set; }
         public bool IsMandatory { get; set; } = true;
-        //TODO: remove this
-        public bool IsCollection { get; set; } = false;
 
         public PropertyType PropertyType { get; set; }
 
+        /// <summary>
+        /// The keytype in case of PropertyType=PropertyType.Dictionary
+        /// </summary>
         public PropertyDataType KeyType { get; set; }
         public PropertyDataType DataType { get; set; }
         /// <summary>
-        /// A linked entity in case of Type=PropertyType.Entity. 
+        /// A linked entity's id in case of Type=PropertyDataType.Entity. 
         /// </summary>
-        public Entity Entity { get; set; }
+        public string ReferencedDataType { get; set; }
     }
 }

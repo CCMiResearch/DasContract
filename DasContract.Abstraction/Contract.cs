@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction.Data;
+using DasContract.Abstraction.Data.Tokens;
 using DasContract.Abstraction.Processes;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,16 @@ namespace DasContract.Abstraction
         /// List of processes present in the contract.
         /// </summary>
         public IList<Process> Processes { get; set; } = new List<Process>();
-        //TODO list with backwards compatibility (route Processes to Processes.First)
 
         /// <summary>
         /// Data Model
         /// </summary>
-        public IList<Entity> Entities { get; set; } = new List<Entity>();
-        public IList<Enum> Enums { get; set; } = new List<Enum>();
+        public IEnumerable<DataType> DataTypes { get; set; } = new List<DataType>();
+
+        public IEnumerable<Token> Tokens { get { return DataTypes.OfType<Token>(); } }
+        public IEnumerable<Enum> Enums { get { return DataTypes.OfType<Enum>(); } }
+        public IEnumerable<Entity> Entities { get { return DataTypes.OfType<Entity>(); } }
+
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
     }
 }

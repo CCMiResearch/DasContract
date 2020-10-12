@@ -29,7 +29,7 @@ namespace DasContract.Blockchain.Solidity
                 case PropertyDataType.Uint:
                     return "uint256";
                 case PropertyDataType.Entity:
-                    return GetPropertyStructureName(property.Entity.Name);
+                    return GetPropertyStructureName(property.ReferencedDataType.Name);
                 default:
                     return "string";
             }
@@ -57,8 +57,8 @@ namespace DasContract.Blockchain.Solidity
                 case PropertyDataType.Uint:
                     return "0";
                 case PropertyDataType.Entity:
-                    string s = GetPropertyStructureName(property.Entity.Name) + "({";
-                    foreach (var p in property.Entity.Properties)
+                    string s = GetPropertyStructureName(property.ReferencedDataType.Name) + "({";
+                    foreach (var p in property.ReferencedDataType.Properties)
                     {
                         if (!p.IsCollection)
                         {

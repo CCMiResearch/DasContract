@@ -30,7 +30,7 @@ namespace DasContract.Blockchain.Solidity
         public ProcessConverter(Contract contract)
         {
             process = contract.Process;
-            entities = (List<Entity>)contract.Entities;
+            entities = (List<Entity>)contract.DataTypes;
             solidityContract = new SolidityContract("GeneratedContract");
 
             AddDataModel();

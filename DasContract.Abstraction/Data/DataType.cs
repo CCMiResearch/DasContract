@@ -4,8 +4,9 @@ using System.Text;
 
 namespace DasContract.Abstraction.Data
 {
-    public class Enum: DataType
+    public abstract class DataType
     {
-        public IList<string> Values { get; set; } = new List<string>();
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

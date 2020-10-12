@@ -6,8 +6,10 @@ using DasContract.Abstraction.Data;
 
 namespace DasContract.DasContract.Abstraction.Data
 {
-    public class EntityFactory
+    public class DataTypeFactory
     {
+        //TODO: Refactor entity factory
+        /*
         public static List<Entity> FromDasFile(string processXml)
         {
             return FromDasFile(XElement.Parse(processXml));
@@ -48,13 +50,13 @@ namespace DasContract.DasContract.Abstraction.Data
             {
                 foreach(var p in e.Properties)
                 {
-                    if (p.DataType == PropertyDataType.Entity && p.Entity != null)
+                    if (p.DataType == PropertyDataType.Entity && p.ReferencedDataType != null)
                     {
                         foreach (var en in entities)
                         {
-                            if(en.Id == p.Entity.Id)
+                            if(en.Id == p.ReferencedDataType.Id)
                             {
-                                p.Entity = en;
+                                p.ReferencedDataType = en;
                             }
                         }
                     }
@@ -73,8 +75,8 @@ namespace DasContract.DasContract.Abstraction.Data
             }
             if (element.Descendants("EntityId").FirstOrDefault() != null)
             {
-                property.Entity = new Entity();
-                property.Entity.Id = element.Descendants("EntityId").FirstOrDefault().Value;
+                property.ReferencedDataType = new Entity();
+                property.ReferencedDataType.Id = element.Descendants("EntityId").FirstOrDefault().Value;
             }
             var type = element.Descendants("Type").FirstOrDefault().Value;
             switch (type)
@@ -110,5 +112,6 @@ namespace DasContract.DasContract.Abstraction.Data
         {
             return string.Join("", str.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
         }
+        */
     }
 }

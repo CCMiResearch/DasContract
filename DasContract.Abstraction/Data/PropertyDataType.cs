@@ -10,6 +10,7 @@
         Address, 
         AddressPayable,
         Data, //Byte array
-        Entity
+        Byte,
+        Reference
     }
 }
