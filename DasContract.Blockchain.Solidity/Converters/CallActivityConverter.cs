@@ -9,23 +9,27 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     public class CallActivityConverter : ElementConverter
     {
-        public CallActivityConverter(CallActivity element)
-        {
+        CallActivity callActivity;
 
+        public CallActivityConverter(CallActivity callActivity)
+        {
+            this.callActivity = callActivity;
         }
+
         public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return new List<SolidityComponent>();
         }
 
         public override string GetElementId()
         {
-            throw new NotImplementedException();
+            return callActivity.Id;
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            throw new NotImplementedException();
+            return new SolidityStatement("ActiveStates[\"" + callActivity.Id + "\"] = true");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace DasContract.Blockchain.Solidity
 {
     public class ContractConverter
     {
-        IList<ProcessConverter> processConverters;
+        IList<ProcessConverter> processConverters = new List<ProcessConverter>();
         IList<DataType> dataTypes;
         IList<SolidityStruct> dataModel = new List<SolidityStruct>();
 

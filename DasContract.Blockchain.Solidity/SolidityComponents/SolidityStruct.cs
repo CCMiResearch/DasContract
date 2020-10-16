@@ -18,11 +18,11 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             "{{indent}}}\n"+
             "{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
 
-        public Entity En { get; set; }
+        public Entity Entity { get; set; }
 
         public SolidityStruct(Entity entity)
         {
-            En = entity;
+            Entity = entity;
 
             structName = LiquidString.Create(entity.Name);
             body = new List<SolidityComponent>();
@@ -53,7 +53,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         public LiquidString GetParamteres()
         {
             string s = "{";
-            foreach (var p in En.Properties)
+            foreach (var p in Entity.Properties)
             {
                 //if(!p.IsCollection) TODO
                   //  s += (Helpers.GetPropertyVariableName(p.Name) + ": " + Helpers.GetDefaultValueString(p) + ", ");

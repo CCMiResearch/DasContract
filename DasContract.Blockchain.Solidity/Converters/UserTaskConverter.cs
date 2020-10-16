@@ -74,7 +74,7 @@ namespace DasContract.Blockchain.Solidity.Converters
                 {
                     foreach (var s in dataModel)
                     {
-                        Property p = s.En.Properties.FirstOrDefault(e => e.Id == field.PropertyExpression);
+                        Property p = s.Entity.Properties.FirstOrDefault(e => e.Id == field.PropertyExpression);
                         if (p != null)
                         {
                             function.AddParameter(new SolidityParameter(Helpers.GetSolidityStringType(p), field.DisplayName));

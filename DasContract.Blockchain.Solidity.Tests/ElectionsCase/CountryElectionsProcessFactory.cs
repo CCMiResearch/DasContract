@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-
+using DasContract.Abstraction.UserInterface;
 
 namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 {
@@ -114,8 +114,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new ScriptTask
             {
                 Id = "Script_Task_6",
-                Incoming = new List<string> { "Sequence_Flow_16 " },
-                Outgoing = new List<string> { "Sequence_Flow_17 " },
+                Incoming = new List<string> { "Sequence_Flow_16" },
+                Outgoing = new List<string> { "Sequence_Flow_17" },
                 InstanceType = InstanceType.Single,
                 Name = "Assign Privilegues to the Elected Candidates",
                 Script = "" //TODO
@@ -127,8 +127,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new ScriptTask
             {
                 Id = "Script_Task_5",
-                Incoming = new List<string> { "Sequence_Flow_15 " },
-                Outgoing = new List<string> { "Sequence_Flow_16 " },
+                Incoming = new List<string> { "Sequence_Flow_15" },
+                Outgoing = new List<string> { "Sequence_Flow_16" },
                 InstanceType = InstanceType.Single,
                 Name = "Distribute Seats",
                 Script = "" //TODO
@@ -140,8 +140,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new ScriptTask
             {
                 Id = "Script_Task_4",
-                Incoming = new List<string> { "Sequence_Flow_13 ", "Sequence_Flow_14" },
-                Outgoing = new List<string> { "Sequence_Flow_15 " },
+                Incoming = new List<string> { "Sequence_Flow_13", "Sequence_Flow_14" },
+                Outgoing = new List<string> { "Sequence_Flow_15" },
                 InstanceType = InstanceType.Single,
                 Name = "Count Votes",
                 Script = "" //TODO
@@ -150,11 +150,22 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
         private static UserTask CreateVoteTask()
         {
+            var Form = new UserForm
+            {
+                Fields = new List<FormField>
+                {
+                    new FormField
+                    {
+                        Id = "Form_1_",
+                        PropertyExpression = 
+                    }
+                }
+            }
             return new UserTask
             {
                 Id = "User_Task_4",
-                Incoming = new List<string> { "Sequence_Flow_12 " },
-                Outgoing = new List<string> { "Sequence_Flow_13 " },
+                Incoming = new List<string> { "Sequence_Flow_12" },
+                Outgoing = new List<string> { "Sequence_Flow_13" },
                 InstanceType = InstanceType.Parallel,
                 Name = "Vote",
                 OperationType = TokenOperationType.Send,
@@ -167,12 +178,12 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new ScriptTask
             {
                 Id = "Script_Task_3",
-                Incoming = new List<string> { "Sequence_Flow_11 " },
-                Outgoing = new List<string> { "Sequence_Flow_12 " },
+                Incoming = new List<string> { "Sequence_Flow_11" },
+                Outgoing = new List<string> { "Sequence_Flow_12" },
                 InstanceType = InstanceType.Single,
                 Name = "Send ballots to the elegible EU Citizens",
                 OperationType = TokenOperationType.Create,
-                Script = "", //TODO
+                Script = "" //TODO
             };
         }
     }
