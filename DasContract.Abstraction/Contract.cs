@@ -35,7 +35,7 @@ namespace DasContract.Abstraction
 
         public IEnumerable<Token> Tokens { get { return DataTypes.OfType<Token>(); } }
         public IEnumerable<Enum> Enums { get { return DataTypes.OfType<Enum>(); } }
-        public IEnumerable<Entity> Entities { get { return DataTypes.OfType<Entity>(); } }
+        public IEnumerable<Entity> Entities { get { return DataTypes.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
     }

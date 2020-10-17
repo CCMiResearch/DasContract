@@ -36,6 +36,12 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         {
             Add(statement, true);
         }
+
+        public void Add(SolidityStatement statement)
+        {
+            Statements.AddRange(statement.Statements);
+        }
+
         public override LiquidString ToLiquidString(int indent)
         {
             return LiquidString.Create(ToString(indent));

@@ -1,51 +1,75 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters
 {
-    class ExclusiveGatewayConverter : ElementConverter
+    public class ExclusiveGatewayConverter : ElementConverter
     {
-        ExclusiveGateway gateway;
+        ExclusiveGateway gatewayElement;
 
-        public ExclusiveGatewayConverter(ExclusiveGateway gateway)
+        SolidityFunction logicFunction;
+
+        public ExclusiveGatewayConverter(ExclusiveGateway gatewayElement, ProcessConverter converterService)
         {
-            this.gateway = gateway;
+            this.gatewayElement = gatewayElement;
+            this.processConverter = converterService;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
-            var logicFunction = new SolidityFunction(gateway.Id + "Logic", SolidityVisibility.Internal);
-            if (nextElements.Count == 1)
-                logicFunction.AddToBody(nextElements[0].GetStatementForPrevious(gateway));
+            return new List<SolidityComponent>
+            {
+                logicFunction
+            };
+        }
+
+        public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
+        {
+            return new SolidityStatement($"{GetElementCallName()}Logic()");
+        }
+
+        public override void ConvertElementLogic()
+        {
+            logicFunction = CreateLogicFunction();
+        }
+
+        SolidityFunction CreateLogicFunction()
+        {
+            var logicFunction = new SolidityFunction($"{GetElementCallName()}Logic", SolidityVisibility.Internal);
+            var outgoingSequenceFlows = processConverter.GetOutgoingSequenceFlows(gatewayElement);
+            if (outgoingSequenceFlows.Count == 1)
+            {
+                ElementConverter nextConverter = processConverter.GetConverterOfElement(outgoingSequenceFlows.First().TargetId);
+                logicFunction.AddToBody(nextConverter.GetStatementForPrevious(gatewayElement));
+            }
             else
-                logicFunction.AddToBody(CreateIfElseBlock(nextElements, outgoingSeqFlows));
-            return new List<SolidityComponent> { logicFunction };
+                logicFunction.AddToBody(CreateIfElseBlock(outgoingSequenceFlows));
+
+            return logicFunction;
         }
 
-        SolidityIfElse CreateIfElseBlock(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows)
+        SolidityIfElse CreateIfElseBlock(IList<SequenceFlow> outgoingSequenceFlows)
         {
             var ifElseBlock = new SolidityIfElse();
-            foreach(var seqFlow in outgoingSeqFlows)
+            foreach (var sequenceFlow in outgoingSequenceFlows)
             {
-                foreach(var nextElement in nextElements)
-                {
-                    if (seqFlow.TargetId == nextElement.GetElementId())
-                        ifElseBlock.AddConditionBlock(seqFlow.Condition, nextElement.GetStatementForPrevious(gateway));
-                }
+                var targetConverter = processConverter.GetConverterOfElement(sequenceFlow.TargetId);
+                ifElseBlock.AddConditionBlock(sequenceFlow.Condition, targetConverter.GetStatementForPrevious(gatewayElement));
             }
             return ifElseBlock;
         }
 
         public override string GetElementId()
         {
-            return gateway.Id;
+            return gatewayElement.Id;
         }
 
-        public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
+        public override string GetElementCallName()
         {
-            return new SolidityStatement(gateway.Id + "Logic" + "()");
+            return GetElementCallName(gatewayElement);
         }
     }
 }

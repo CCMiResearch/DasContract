@@ -5,53 +5,69 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters
 {
-    class ScriptTaskConverter : ElementConverter
+    //TODO: State guard is unnecessary here, discuss whether to remove it
+    public class ScriptTaskConverter : ElementConverter
     {
-        ScriptTask scriptTask;
-        public ScriptTaskConverter(ScriptTask scriptTask)
+        ScriptTask scriptTaskElement;
+
+        SolidityFunction mainFunction;
+        //SolidityModifier stateGuard;
+
+        public ScriptTaskConverter(ScriptTask scriptTaskElement, ProcessConverter converterService)
         {
-            this.scriptTask = scriptTask;
+            this.scriptTaskElement = scriptTaskElement;
+            this.processConverter = converterService;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+        public override void ConvertElementLogic()
         {
-            SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Internal);
-            function.AddModifier("is" + GetTaskName() + "State");
-            SolidityStatement disableFunctionStatement = new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
+            //Create main function containing the script logic 
+            mainFunction = CreateTaskFunction();
+            //Create the state guard modifier
+            //stateGuard = ConversionTemplates.StateGuardModifier(GetElementCallName());
+        }
+
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
+        {
+            return new List<SolidityComponent> 
+            {
+                mainFunction,
+                //stateGuard
+            };
+        }
+
+        private SolidityFunction CreateTaskFunction()
+        {
+            SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Internal);
+            //Add state guard modifier
+            function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
+            //Add a statement that disables the current active state
+            SolidityStatement disableFunctionStatement = ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), false);
             function.AddToBody(disableFunctionStatement);
-            function.AddToBody(new SolidityStatement(scriptTask.Script, false));
-            function.AddToBody(nextElements[0].GetStatementForPrevious(scriptTask));
-            return new List<SolidityComponent> { CreateStateGuard(), function };
-        }
-
-        SolidityModifier CreateStateGuard()
-        {
-            SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
-            SolidityStatement requireStatement = new SolidityStatement(
-                "require(" + ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName() + "\")==true)");
-
-            stateGuard.AddToBody(requireStatement);
-            return stateGuard;
+            //Add the script logic
+            function.AddToBody(new SolidityStatement(scriptTaskElement.Script, false));
+            //Get the delegation logic of the next connected element
+            function.AddToBody(processConverter.GetStatementOfNextElement(scriptTaskElement));
+            return function;
         }
 
         public override string GetElementId()
         {
-            return scriptTask.Id;
+            return scriptTaskElement.Id;
         }
 
-        string GetTaskName()
+        public override string GetElementCallName()
         {
-            if (scriptTask.Name != null)
-                return scriptTask.Name;
-            return scriptTask.Id;
+            return GetElementCallName(scriptTaskElement);
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
             List<string> statements = new List<string>();
-            statements.Add("ActiveStates[\"" + GetTaskName() + "\"] = true");
-            statements.Add(GetTaskName() + "()");
+            statements.Add("ActiveStates[\"" + GetElementCallName() + "\"] = true");
+            statements.Add(GetElementCallName() + "()");
             return new SolidityStatement(statements);
         }
+
     }
 }

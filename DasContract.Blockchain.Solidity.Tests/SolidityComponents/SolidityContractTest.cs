@@ -31,5 +31,18 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void TestInheritance()
+        {
+            SolidityContract contract = new SolidityContract("foo");
+            contract.AddInheritance("Bar1");
+            contract.AddInheritance("Bar2");
+
+            var actual = contract.ToString();
+            var expected = "contract foo is Bar1, Bar2{ \n }";
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

@@ -3,14 +3,12 @@ using System.Linq;
 
 namespace DasContract.Blockchain.Solidity
 {
-    class Helpers
+    public static class Helpers
     {
 
-
-        public static string GetSolidityStringType(Property property)
+        public static string PropertyTypeToString(PropertyDataType propertyType)
         {
-            var type = property.DataType;
-            switch (type)
+            switch (propertyType)
             {
                 case PropertyDataType.Bool:
                     return "bool";
@@ -25,14 +23,22 @@ namespace DasContract.Blockchain.Solidity
                 case PropertyDataType.Data:
                     return "string";
                 case PropertyDataType.DateTime:
-                    return "string";
+                    return "uint";
                 case PropertyDataType.Uint:
                     return "uint256";
-                case PropertyDataType.Reference:
-                    return GetPropertyStructureName(property.ReferencedDataType); //TODO: needs an update
                 default:
                     return "string";
             }
+        }
+
+        public static string PropertyTypeToString(Property property)
+        {
+            var type = property.DataType;
+
+            if (type == PropertyDataType.Reference)
+                return ToUpperCamelCase(property.ReferencedDataType);
+            else
+                return PropertyTypeToString(type);
         }
 
         public static string GetDefaultValueString(Property property)
@@ -53,7 +59,7 @@ namespace DasContract.Blockchain.Solidity
                 case PropertyDataType.Data:
                     return "\"\"";
                 case PropertyDataType.DateTime:
-                    return "\"\"";
+                    return "0";
                 case PropertyDataType.Uint:
                     return "0";
                 case PropertyDataType.Reference:
@@ -75,14 +81,18 @@ namespace DasContract.Blockchain.Solidity
             }
         }
 
-        public static string GetPropertyVariableName(string name)
+        public static string ToLowerCamelCase(string name)
         {
-            return name.First().ToString().ToLower() + name.Substring(1);
+            //remove spaces if any are present
+            var trimmed = name.Replace(" ", "");
+            return trimmed.First().ToString().ToLower() + trimmed.Substring(1);
         }
 
-        public static string GetPropertyStructureName(string name)
+        public static string ToUpperCamelCase(string name)
         {
-            return name.First().ToString().ToUpper() + name.Substring(1);
+            //remove spaces if any are present
+            var trimmed = name.Replace(" ", "");
+            return trimmed.First().ToString().ToUpper() + trimmed.Substring(1);
         }
 
     }

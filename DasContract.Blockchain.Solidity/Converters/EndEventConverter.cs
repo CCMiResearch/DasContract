@@ -7,34 +7,39 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     class EndEventConverter : ElementConverter
     {
-        EndEvent endEvent;
-        public EndEventConverter(EndEvent endEvent)
+        EndEvent endEventElement;
+
+        public EndEventConverter(EndEvent endEventElement, ProcessConverter converterService)
         {
-            this.endEvent = endEvent;
+            this.endEventElement = endEventElement;
+            this.processConverter = converterService;
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+        public override void ConvertElementLogic()
+        {
+            
+        }
+
+
+        public override string GetElementCallName()
+        {
+            return GetElementCallName(endEventElement);
+        }
+
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
             return new List<SolidityComponent>();
         }
 
         public override string GetElementId()
         {
-            return endEvent.Id;
+            return endEventElement.Id;
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetEventName() + "\"] = true");
+            //Set the event state
+            return ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), true);
         }
-
-        string GetEventName()
-        {
-            if (endEvent.Name != null)
-                return endEvent.Name;
-            return endEvent.Id;
-        }
-
-
     }
 }

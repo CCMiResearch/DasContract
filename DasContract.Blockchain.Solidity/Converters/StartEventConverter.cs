@@ -6,30 +6,50 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters
 {
-    class StartEventConverter : ElementConverter
+    public class StartEventConverter : ElementConverter
     {
+        StartEvent startEventElement;
 
-        StartEvent startEvent;
+        SolidityConstructor constructor;
 
-        public StartEventConverter(StartEvent startEvent)
+        public override void ConvertElementLogic()
         {
-            this.startEvent = startEvent;
+            constructor = CreateConstructor();
         }
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+
+        private SolidityConstructor CreateConstructor()
         {
             SolidityConstructor constructor = new SolidityConstructor();
-            constructor.AddToBody(nextElements[0].GetStatementForPrevious(startEvent));
-            return new List<SolidityComponent> { constructor };
+            constructor.AddToBody(processConverter.GetStatementOfNextElement(startEventElement));
+            return constructor;
+        }
+
+        public StartEventConverter(StartEvent startEventElement, ProcessConverter converterService)
+        {
+            this.startEventElement = startEventElement;
+            this.processConverter = converterService;
+        }
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
+        {
+            return new List<SolidityComponent>
+            {
+                constructor
+            };
         }
 
         public override string GetElementId()
         {
-            return startEvent.Id;
+            return startEventElement.Id;
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
             throw new NotImplementedException();
+        }
+
+        public override string GetElementCallName()
+        {
+            return GetElementCallName(startEventElement);
         }
     }
 }

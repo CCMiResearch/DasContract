@@ -1,69 +1,99 @@
-﻿using System.Collections.Generic;
-using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
-using System.Linq;
 using DasContract.Blockchain.Solidity.SolidityComponents;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DasContract.Blockchain.Solidity.Converters
 {
-    class ParallelGatewayConverter : ElementConverter
+    public class ParallelGatewayConverter : ElementConverter
     {
-        ParallelGateway gateway;
-        string incVaribaleName;
+        ParallelGateway gatewayElement;
+        string incrementVariableName;
 
-        public ParallelGatewayConverter(ParallelGateway gateway)
+        SolidityFunction mainFunction;
+        SolidityStatement incomingFlowsVariable;
+
+        public ParallelGatewayConverter(ParallelGateway gatewayElement, ProcessConverter converterService)
         {
-            this.gateway = gateway;
-            incVaribaleName = gateway.Id + "Incoming";
+            this.gatewayElement = gatewayElement;
+            this.processConverter = converterService;
+            incrementVariableName = $"{GetElementCallName()}Incoming";
         }
 
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+        public override void ConvertElementLogic()
         {
-            var logicFunction = new SolidityFunction(gateway.Id + "Logic", SolidityVisibility.Internal);
-            var body = CreateParallelism(nextElements);
-            if (gateway.Incoming.Count == 1)
+            mainFunction = CreateMainFunction();
+            incomingFlowsVariable = CreateIncomingFlowsVariable();
+        }
+
+        SolidityFunction CreateMainFunction()
+        {
+            var logicFunction = new SolidityFunction($"{GetElementCallName()}Logic", SolidityVisibility.Internal);
+            var body = CreateCallsToOutgoing();
+
+            if (gatewayElement.Incoming.Count == 1)
             {
                 logicFunction.AddToBody(body);
-                return new List<SolidityComponent> { logicFunction };
             }
             else
             {
-                var incomingFlowsVar = new SolidityStatement("int " + incVaribaleName + " = 0");
+                //Increment the incoming variable
+                logicFunction.AddToBody(new SolidityStatement($"{incrementVariableName} += 1"));
+
                 var ifElseBlock = new SolidityIfElse();
-                string ifElseCondition = incVaribaleName + "==" + gateway.Incoming.Count.ToString();
-                body.Add(incVaribaleName + " = 0");
+                string ifElseCondition = $"{incrementVariableName}=={gatewayElement.Incoming.Count}";
+                //reset the incoming flow count
+                body.Add(incrementVariableName + " = 0");
                 ifElseBlock.AddConditionBlock(ifElseCondition, body);
                 logicFunction.AddToBody(ifElseBlock);
-                return new List<SolidityComponent> { incomingFlowsVar, logicFunction };
             }
 
+            return logicFunction;
         }
 
-        SolidityStatement CreateParallelism(List<ElementConverter> nextElements)
+        SolidityStatement CreateIncomingFlowsVariable()
         {
+            if(gatewayElement.Incoming.Count > 1)
+                return new SolidityStatement($"int {incrementVariableName} = 0");
+            return null;
+        }
+
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
+        {
+            var elementComponents = new List<SolidityComponent>
+            {
+                mainFunction,
+            };
+            if (incomingFlowsVariable != null)
+                elementComponents.Add(incomingFlowsVariable);
+
+            return elementComponents;
+        }
+
+        SolidityStatement CreateCallsToOutgoing()
+        {
+            var nextElementConverters = processConverter.GetTargetConvertersOfElement(gatewayElement).ToList();
             var statement = new SolidityStatement();
-            nextElements.ForEach(e => { e.GetStatementForPrevious(gateway).GetStatements().ForEach(f => statement.Add(f)); });
+            nextElementConverters.ForEach(e => { e.GetStatementForPrevious(gatewayElement).GetStatements().
+                                                            ForEach(f => statement.Add(f)); 
+            });
             return statement;
         }
 
         public override string GetElementId()
         {
-            return gateway.Id;
+            return gatewayElement.Id;
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            SolidityStatement statement = new SolidityStatement();
+            return new SolidityStatement($"{GetElementCallName()}Logic()");
+        }
 
-            if (gateway.Incoming.Count > 1)
-            {
-                var commonFlow = gateway.Incoming.Intersect(previous.Outgoing);
-                statement.Add(incVaribaleName + " += 1");
-            }
-
-            statement.Add(gateway.Id + "Logic" + "()");
-
-            return statement;
+        public override string GetElementCallName()
+        {
+            return GetElementCallName(gatewayElement);
         }
     }
 }

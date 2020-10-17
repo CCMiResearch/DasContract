@@ -150,6 +150,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
         private static UserTask CreateVoteTask()
         {
+            /*
             var Form = new UserForm
             {
                 Fields = new List<FormField>
@@ -161,6 +162,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     }
                 }
             }
+            */
             return new UserTask
             {
                 Id = "User_Task_4",

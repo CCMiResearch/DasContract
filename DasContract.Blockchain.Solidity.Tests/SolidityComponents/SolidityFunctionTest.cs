@@ -46,5 +46,6 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
 
             Assert.Equal(actual, expected);
         }
+
     }
 }

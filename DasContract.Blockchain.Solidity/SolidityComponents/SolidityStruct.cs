@@ -18,7 +18,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             "{{indent}}}\n"+
             "{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
 
-        public Entity Entity { get; set; }
+        public Entity Entity { get;}
 
         public SolidityStruct(Entity entity)
         {

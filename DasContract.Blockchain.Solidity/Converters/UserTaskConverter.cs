@@ -7,108 +7,140 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters
 {
-    class UserTaskConverter : ElementConverter
+    public class UserTaskConverter : ElementConverter
     {
-        UserTask userTask;
-        public UserTaskConverter(UserTask userTask)
+        UserTask userTaskElement;
+
+        SolidityFunction mainFunction;
+        SolidityModifier stateGuard;
+        SolidityModifier addressGuard;
+
+
+        public UserTaskConverter(UserTask userTaskElement, ProcessConverter converterService)
         {
-            this.userTask = userTask;
+            this.userTaskElement = userTaskElement;
+            this.processConverter = converterService;
         }
-        public override IList<SolidityComponent> GetElementCode(List<ElementConverter> nextElements, IList<SequenceFlow> outgoingSeqFlows, IList<SolidityStruct> dataModel = null)
+
+
+        public override void ConvertElementLogic()
         {
-            List<SolidityComponent> components = new List<SolidityComponent>();
 
-            if (userTask.Assignee != null && (userTask.Assignee.Address != null || userTask.Assignee.Name != null))
-                   components.Add(CreateAddressGuard());
+            if (isAddressGuardRequired())
+                addressGuard = CreateAddressGuard();
 
-            components.Add(CreateStateGuard());
-            components.Add(CreateElementMainFunction(nextElements[0], (List<SolidityStruct>) dataModel));
+            stateGuard = CreateStateGuard();
+            mainFunction = CreateElementMainFunction();
+        }
+
+        public override IList<SolidityComponent> GetGeneratedSolidityComponents()
+        {
+            var components = new List<SolidityComponent>();
+            components.Add(stateGuard);
+            if (addressGuard != null)
+                components.Add(addressGuard);
+            components.Add(mainFunction);
             return components;
         }
 
         SolidityModifier CreateStateGuard()
         {
-            SolidityModifier stateGuard = new SolidityModifier("is" + GetTaskName() + "State");
-            SolidityStatement requireStatement = new SolidityStatement(
-                "require(" + ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME + "(\"" + GetTaskName()+ "\")==true)");
-
+            SolidityModifier stateGuard = new SolidityModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
+            SolidityStatement requireStatement = ConversionTemplates.RequireActiveStateStatement(GetElementCallName());
             stateGuard.AddToBody(requireStatement);
             return stateGuard;
         }
 
         SolidityModifier CreateAddressGuard()
         {
-            SolidityModifier addressGuard = new SolidityModifier("is" + GetTaskName() + "Authorized");
-            if (userTask.Assignee.Address != null)
+            //Initialize the modifier using the generated name
+            SolidityModifier addressGuard = new SolidityModifier(ConversionTemplates.AddressGuardModifierName(GetElementCallName()));
+            //Address is force assigned
+            if (userTaskElement.Assignee.Address != null)
             {
-                SolidityStatement requireStatement = new SolidityStatement("require(msg.sender==" + GetAssigneeAddress() + ")");
+                SolidityStatement requireStatement = new SolidityStatement($"require(msg.sender=={GetAssigneeAddress()})");
                 addressGuard.AddToBody(requireStatement);
             }
-            else if (userTask.Assignee.Name != null)
+            //Address is not force assigned, it will be assigned to the first caller of the first task method containing this assignee
+            else if (userTaskElement.Assignee.Name != null)
             {
-                var addressPosition = ConverterConfig.ADDRESS_MAPPING_VAR_NAME + "[\"" + userTask.Assignee.Name + "\"]";
+                var addressPosition = $"{ConverterConfig.ADDRESS_MAPPING_VAR_NAME}[\"{userTaskElement.Assignee.Name}\"]";
+
                 var ifElseBlock = new SolidityIfElse();
-                ifElseBlock.AddConditionBlock(addressPosition + " == address(0x0)", new SolidityStatement(addressPosition + " = msg.sender"));
-                SolidityStatement requireStatement = new SolidityStatement("require(msg.sender==" + addressPosition + ")");
+                //Assigns the address, if address has not been been yet assigned to the assignee
+                ifElseBlock.AddConditionBlock($"{addressPosition} == address(0x0)", new SolidityStatement($"{addressPosition} = msg.sender"));
+                //Checks whether the sender has the required address
+                SolidityStatement requireStatement = new SolidityStatement($"require(msg.sender=={addressPosition})");
                 addressGuard.AddToBody(ifElseBlock);
                 addressGuard.AddToBody(requireStatement);
             }
             return addressGuard;
         }
 
-        SolidityFunction CreateElementMainFunction(ElementConverter nextElement, List<SolidityStruct> dataModel)
+        SolidityFunction CreateElementMainFunction()
         {
             SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Public);
-            function.AddModifier("is" + GetTaskName() + "State");
+            function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
 
-            if (userTask.Assignee != null && (userTask.Assignee.Address != null || userTask.Assignee.Name != null))
-                function.AddModifier("is" + GetTaskName() + "Authorized");
+            if (isAddressGuardRequired())
+                function.AddModifier(ConversionTemplates.AddressGuardModifierName(GetElementCallName()));
 
-            SolidityStatement statement = new SolidityStatement(ConverterConfig.ACTIVE_STATES_NAME + "[\"" + GetTaskName() + "\"] = false");
-
-            function.AddToBody(statement);
-
-            if (userTask.Form.Fields != null)
+            if (userTaskElement.Form.Fields != null)
             {
-                foreach (var field in userTask.Form.Fields)
+                foreach (var field in userTaskElement.Form.Fields)
                 {
-                    foreach (var s in dataModel)
-                    {
-                        Property p = s.Entity.Properties.FirstOrDefault(e => e.Id == field.PropertyExpression);
-                        if (p != null)
-                        {
-                            function.AddParameter(new SolidityParameter(Helpers.GetSolidityStringType(p), field.DisplayName));
-                            function.AddToBody(new SolidityStatement(s.VariableName() + "." + Helpers.GetPropertyVariableName(p.Name) + " = " + field.DisplayName));
-                        }
-                    }
+                    //TODO: throw exception if no property has been found
+                    var propertyAndEntity = processConverter.GetPropertyAndEntity(field.PropertyExpression);
+                    var property = propertyAndEntity.Item1;
+                    var entity = propertyAndEntity.Item2;
+                    var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.DisplayName);
+
+                    function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property), formPropertyDisplayName));
+                    var propertySetter = new SolidityStatement($"{Helpers.ToUpperCamelCase(entity.Name)}.{Helpers.ToLowerCamelCase(property.Name)} " +
+                        $"= {formPropertyDisplayName}");
+                    function.AddToBody(propertySetter);
                 }
             }
 
-            function.AddToBody(nextElement.GetStatementForPrevious(userTask));
+            //Sets the state flag for this activity to false
+            function.AddToBody(ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), false));
+            //Get call of next element
+            function.AddToBody(processConverter.GetStatementOfNextElement(userTaskElement));
             return function;
+        }
+
+        bool isAddressGuardRequired()
+        {
+            return userTaskElement.Assignee != null 
+                && (userTaskElement.Assignee.Address != null || userTaskElement.Assignee.Name != null);
         }
 
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement("ActiveStates[\"" + GetTaskName() + "\"] = true");
+            return ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), true);
         }
 
         string GetTaskName()
         {
-            return userTask.Name;
+            return userTaskElement.Name;
         }
 
         string GetAssigneeAddress()
         {
-            if (userTask.Assignee != null)
-                return userTask.Assignee.Address ?? "msg.sender";
+            if (userTaskElement.Assignee != null && userTaskElement.Assignee.Address != null)
+                return userTaskElement.Assignee.Address;
             return "msg.sender";
         }
 
         public override string GetElementId()
         {
-            return userTask.Id;
+            return userTaskElement.Id;
+        }
+
+        public override string GetElementCallName()
+        {
+            return GetElementCallName(userTaskElement);
         }
     }
 }

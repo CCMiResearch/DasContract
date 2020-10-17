@@ -14,10 +14,10 @@ namespace DasContract.Blockchain.Solidity
 {
     public class ContractConverter
     {
-        IList<ProcessConverter> processConverters = new List<ProcessConverter>();
-        IList<DataType> dataTypes;
-        IList<SolidityStruct> dataModel = new List<SolidityStruct>();
+        public Contract Contract { get; private set; }
 
+        IList<ProcessConverter> processConverters = new List<ProcessConverter>();
+        
         static readonly string SOLIDITY_VERSION = "^0.6.6";
 
 
@@ -28,14 +28,15 @@ namespace DasContract.Blockchain.Solidity
 
         public ContractConverter(Contract contract)
         {
+            this.Contract = contract;
             var processes = contract.Processes;
-            dataTypes = contract.DataTypes.ToList();
+            
             
             AddDataModel();
 
             foreach(var process in processes)
             {
-                var processConverter = new ProcessConverter(process);
+                var processConverter = new ProcessConverter(process, this);
                 processConverter.ConvertProcess();
                 processConverters.Add(processConverter);
             }
@@ -46,48 +47,20 @@ namespace DasContract.Blockchain.Solidity
         //TODO: Working, but not very nice solution. Might need update
         void AddDataModel()
         {
-            /*
-            foreach (var dataType in dataTypes)
-            {
-                SolidityStruct s = new SolidityStruct(dataType);
-                SolidityStatement statement = new SolidityStatement();
-                List<Property> newProperties = new List<Property>();
-                newProperties.Clear();
-                foreach (var p in dataType.Properties)
-                {
-                    string type = Helpers.GetSolidityStringType(p);
-                    if (!p.IsCollection)
-                        statement.Add(type + " " + Helpers.GetPropertyVariableName(p.Name));
-                    else if (p.IsCollection)
-                    {
-                        statement.Add("mapping (uint => " + type + ") " + Helpers.GetPropertyVariableName(p.Name));
 
-                        Property property = new Property();
-                        string name = Helpers.GetPropertyVariableName(p.Name) + "Length";
-                        property.DataType = PropertyDataType.Int;
-                        property.Name = name;
-                        statement.Add("uint " + name);
-                        newProperties.Add(property);
-                    }
-                }
-                foreach (var np in newProperties)
-                {
-                    s.En.Properties.Add(np);
-                }
-                s.AddToBody(statement);
-                solidityContract.AddComponent(s);
-                dataModel.Add(s);
-            }
-            */
+            
+            
         }
 
         private LiquidCollection ProcessesToLiquid()
         {
             var collection = new LiquidCollection();
+            /* //TODO
             foreach (var processConverter in processConverters)
             {
                 collection.Add(processConverter.ToLiquidString());
             }
+            */
             return collection;
         }
 

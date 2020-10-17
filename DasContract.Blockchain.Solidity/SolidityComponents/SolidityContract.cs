@@ -1,6 +1,7 @@
 ﻿using Liquid.NET;
 using Liquid.NET.Constants;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
@@ -8,10 +9,12 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
     {
         string name;
 
+        List<string> inheritance;
         List<SolidityComponent> components;
 
         LiquidTemplate template = LiquidTemplate.Create(
-            "contract {{name}} { \n" +
+            "contract {{name}} " +
+            "{% unless inherits == '' %}is {{inherits}}{%endunless%}{ \n" +
             "{{components}} " +
             "}").LiquidTemplate;
 
@@ -19,6 +22,12 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         {
             this.name = name;
             components = new List<SolidityComponent>();
+            inheritance = new List<string>();
+        }
+
+        public void AddInheritance(string inheritance)
+        {
+            this.inheritance.Add(inheritance);
         }
 
         public void AddComponent(SolidityComponent component)
@@ -44,9 +53,17 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         {
             var ctx = new TemplateContext();
             ctx.DefineLocalVariable("components", FunctionsToLiquid(indent)).
-                DefineLocalVariable("name",LiquidString.Create(name));
+                DefineLocalVariable("name",LiquidString.Create(name)).
+                DefineLocalVariable("inherits", InheritanceToLiquid());
 
             return template.Render(ctx).Result;
+        }
+
+        LiquidString InheritanceToLiquid()
+        {
+            if (inheritance.Count == 0)
+                return LiquidString.Create("");
+            return LiquidString.Create(string.Join(", ", inheritance));
         }
 
         LiquidCollection FunctionsToLiquid(int indent)
