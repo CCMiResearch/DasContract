@@ -111,7 +111,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_1",
                     Outgoing = new List<string> { "Sequence_Flow_4" },
                     AttachedTo = "User_Task_1",
-                    TimerDefinition = "", //TODO
+                    TimerDefinition = "2020-10-20", //TODO
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
                 new TimerBoundaryEvent
@@ -119,7 +119,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_2",
                     Outgoing = new List<string> { "Sequence_Flow_6" },
                     AttachedTo = "User_Task_2",
-                    TimerDefinition = "", //TODO
+                    TimerDefinition = "2020-10-21", //TODO
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
                 new TimerBoundaryEvent
@@ -127,7 +127,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_3",
                     Outgoing = new List<string> { "Sequence_Flow_8" },
                     AttachedTo = "User_Task_3",
-                    TimerDefinition = "", //TODO
+                    TimerDefinition = "2020-10-22", //TODO
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
             };

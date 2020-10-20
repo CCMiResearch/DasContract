@@ -6,7 +6,7 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     //TODO: State guard is unnecessary here, discuss whether to remove it
-    public class ScriptTaskConverter : ElementConverter
+    public class ScriptTaskConverter : TaskConverter
     {
         ScriptTask scriptTaskElement;
 

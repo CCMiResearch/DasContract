@@ -1,5 +1,6 @@
 ﻿using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
+using DasContract.Blockchain.Solidity.Converters.Tasks;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
     {
         TimerBoundaryEvent eventElement;
 
+        SolidityFunction touchFunction;
+        SolidityStatement timerConstantStatement;
+
         public TimerBoundaryEventConverter(TimerBoundaryEvent eventElement, ProcessConverter processConverter)
         {
             this.eventElement = eventElement;
@@ -19,15 +23,53 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
 
         public override void ConvertElementLogic()
         {
-
+            var attachedToConverter = processConverter.GetConverterOfElementOfType<TaskConverter>(eventElement.AttachedTo);
+            touchFunction = CreateTouchFunction(attachedToConverter);
+            timerConstantStatement = CreateTimerConstantStatement();
+            AddTouchCheckToAttachedElement(attachedToConverter);
         }
 
-        /*
-        SolidityFunction CreateTouchFunction()
+        void AddTouchCheckToAttachedElement(TaskConverter attachedToConverter)
         {
-
+            attachedToConverter.AddBoundaryEventCall(new SolidityStatement($"require(touch{GetElementCallName()}())"));
         }
-        */
+
+        SolidityStatement CreateTimerConstantStatement()
+        {
+            if (eventElement.TimerDefinitionType == TimerDefinitionType.Date)
+            {
+                var datetime = Helpers.ParseISO8601String(eventElement.TimerDefinition);
+                long unixTime = ((DateTimeOffset)datetime).ToUnixTimeSeconds();
+                return new SolidityStatement($"uint {GetElementCallName()}TimerDef = {unixTime}");
+            }
+            else if (eventElement.TimerDefinitionType == TimerDefinitionType.Duration) //TODO
+                return null;
+            return null; //TODO throw exception
+        }
+
+        SolidityFunction CreateTouchFunction(TaskConverter attachedToConverter)
+        {
+            var function = new SolidityFunction($"touch{GetElementCallName()}", SolidityVisibility.Public, "bool");
+
+            function.AddModifier(ConversionTemplates.StateGuardModifierName(attachedToConverter.GetElementCallName()));
+            var solidityCondition = new SolidityIfElse();
+            solidityCondition.AddConditionBlock($"now > {GetElementCallName()}TimerDef", CreateTouchFunctionLogic(attachedToConverter));
+            function.AddToBody(solidityCondition);
+            function.AddToBody(new SolidityStatement("return true"));
+            return function;
+        }
+
+        SolidityStatement CreateTouchFunctionLogic(TaskConverter attachedToConverter)
+        {
+            var touchLogic = new SolidityStatement();
+            //Disable the current state
+            touchLogic.Add(ConversionTemplates.ChangeActiveStateStatement(attachedToConverter.GetElementCallName(), false));
+            //place the call statement of the next element
+            touchLogic.Add(processConverter.GetStatementOfNextElement(eventElement));
+            touchLogic.Add(new SolidityStatement("return false"));
+            return touchLogic;
+        }
+        
 
         public override string GetElementCallName()
         {
@@ -41,8 +83,11 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
-            //TODO
-            return new List<SolidityComponent>();
+            return new List<SolidityComponent>()
+            {
+                timerConstantStatement,
+                touchFunction
+            };
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)

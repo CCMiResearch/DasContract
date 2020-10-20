@@ -87,7 +87,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Id = "Timer_Boundary_Event_4",
                 Outgoing = new List<string> { "Sequence_Flow_14" },
                 TimerDefinitionType = TimerDefinitionType.Date,
-                AttachedTo = "User_Task_4"
+                AttachedTo = "User_Task_4",
+                TimerDefinition = "2020-10-20"
             };
         }
 

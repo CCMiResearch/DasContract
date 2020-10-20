@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
-    public class CallActivityConverter : ElementConverter
+    public class CallActivityConverter : TaskConverter
     {
         CallActivity callActivity;
 

@@ -1,5 +1,7 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Blockchain.Solidity.Converters;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,6 +9,33 @@ namespace DasContract.Blockchain.Solidity
 {
     public static class Helpers
     {
+
+        static readonly string[] formats = { 
+            // Basic formats
+            "yyyyMMddTHHmmsszzz",
+            "yyyyMMddTHHmmsszz",
+            "yyyyMMddTHHmmssZ",
+            "yyyyMMdd",
+            "yyyy-MM-dd",
+            // Extended formats
+            "yyyy-MM-ddTHH:mm:sszzz",
+            "yyyy-MM-ddTHH:mm:sszz",
+            "yyyy-MM-ddTHH:mm:ssZ",
+            // All of the above with reduced accuracy
+            "yyyyMMddTHHmmzzz",
+            "yyyyMMddTHHmmzz",
+            "yyyyMMddTHHmmZ",
+            "yyyy-MM-ddTHH:mmzzz",
+            "yyyy-MM-ddTHH:mmzz",
+            "yyyy-MM-ddTHH:mmZ",
+            // Accuracy reduced to hours
+            "yyyyMMddTHHzzz",
+            "yyyyMMddTHHzz",
+            "yyyyMMddTHHZ",
+            "yyyy-MM-ddTHHzzz",
+            "yyyy-MM-ddTHHzz",
+            "yyyy-MM-ddTHHZ"
+        };
 
         public static string PropertyTypeToString(PropertyDataType propertyType)
         {
@@ -94,8 +123,15 @@ namespace DasContract.Blockchain.Solidity
         public static string ToUpperCamelCase(string name)
         {
             //remove spaces if any are present
-            var trimmed = Regex.Replace(name,@"\s+", "");
+            var trimmed = Regex.Replace(name, @"\s+", "");
             return trimmed.First().ToString().ToUpper() + trimmed.Substring(1);
+        }
+
+
+        public static DateTime ParseISO8601String(string str)
+        {
+            return DateTime.ParseExact(str, formats,
+                CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
 
     }

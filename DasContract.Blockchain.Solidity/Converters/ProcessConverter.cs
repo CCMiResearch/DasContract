@@ -20,7 +20,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         IList<SolidityComponent> generalProcessComponents = new List<SolidityComponent>();
 
-        StartEvent GetStartEvent()
+        StartEvent GetRootStartEvent()
         {
             foreach (var e in Process.Events)
             {
@@ -106,6 +106,11 @@ namespace DasContract.Blockchain.Solidity.Converters
             return null;
         }
 
+        public SolidityStatement GetStatementOfNextElement(string elementId)
+        {
+            return GetStatementOfNextElement(Process.ProcessElements[elementId]);
+        }
+
         public SolidityStatement GetStatementOfNextElement(ProcessElement element)
         {
             var targetConverters = GetTargetConvertersOfElement(element);
@@ -121,6 +126,15 @@ namespace DasContract.Blockchain.Solidity.Converters
         public ElementConverter GetConverterOfElement(string elementId)
         {
             return elementConverters[elementId];
+        }
+
+        public T GetConverterOfElementOfType<T>(string elementId) 
+            where T: ElementConverter
+        {
+            var elementConverter = elementConverters[elementId];
+            if (elementConverter is T)
+                return elementConverter as T;
+            return null; //TODO throw exception
         }
 
         //TODO: Check whether it works properly

@@ -7,7 +7,7 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
-    public class UserTaskConverter : ElementConverter
+    public class UserTaskConverter : TaskConverter
     {
         UserTask userTaskElement;
 
@@ -25,8 +25,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
-
-            if (isAddressGuardRequired())
+            if (IsAddressGuardRequired())
                 addressGuard = CreateAddressGuard();
 
             stateGuard = CreateStateGuard();
@@ -82,8 +81,10 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Public);
             function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
 
-            if (isAddressGuardRequired())
+            if (IsAddressGuardRequired())
                 function.AddModifier(ConversionTemplates.AddressGuardModifierName(GetElementCallName()));
+
+            boundaryEventCalls.ForEach(c => function.AddToBody(c));
 
             if (userTaskElement.Form.Fields != null)
             {
@@ -109,7 +110,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             return function;
         }
 
-        bool isAddressGuardRequired()
+        bool IsAddressGuardRequired()
         {
             return userTaskElement.Assignee != null
                 && (userTaskElement.Assignee.Address != null || userTaskElement.Assignee.Name != null);
@@ -119,11 +120,6 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
             return ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), true);
-        }
-
-        string GetTaskName()
-        {
-            return userTaskElement.Name;
         }
 
         string GetAssigneeAddress()
