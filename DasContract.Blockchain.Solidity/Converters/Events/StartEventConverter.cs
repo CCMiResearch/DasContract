@@ -4,7 +4,7 @@ using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Events
 {
     public class StartEventConverter : ElementConverter
     {
@@ -27,7 +27,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public StartEventConverter(StartEvent startEventElement, ProcessConverter converterService)
         {
             this.startEventElement = startEventElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {

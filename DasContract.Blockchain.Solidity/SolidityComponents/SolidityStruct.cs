@@ -15,16 +15,12 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             "{{indent}}struct {{name}}" +
             "{\n" +
             "{{body}}" +
-            "{{indent}}}\n"+
-            "{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
+            "{{indent}}}\n").LiquidTemplate;//+
+            //"{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
 
-        public Entity Entity { get;}
-
-        public SolidityStruct(Entity entity)
+        public SolidityStruct(string name)
         {
-            Entity = entity;
-
-            structName = LiquidString.Create(entity.Name);
+            structName = LiquidString.Create(name);
             body = new List<SolidityComponent>();
         }
 
@@ -53,11 +49,13 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         public LiquidString GetParamteres()
         {
             string s = "{";
+            /* TODO i guess
             foreach (var p in Entity.Properties)
             {
-                //if(!p.IsCollection) TODO
-                  //  s += (Helpers.GetPropertyVariableName(p.Name) + ": " + Helpers.GetDefaultValueString(p) + ", ");
+                if(!p.PropertyType == PropertyType.Single) 
+                    s += (Helpers.PropertyTypeToString(p) + ": " + Helpers.GetDefaultValueString(p) + ", ");
             }
+            */
             return LiquidString.Create(s.Trim().Trim(',') + "}");
         }
 
@@ -67,7 +65,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
                 DefineLocalVariable("name", TypeName()).
                 DefineLocalVariable("varName", VariableName()).
-                DefineLocalVariable("parameters", GetParamteres()).
+                //DefineLocalVariable("parameters", GetParamteres()).
                 DefineLocalVariable("body", BodyToLiquid(indent));
             return template.Render(ctx).Result;
         }

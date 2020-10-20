@@ -3,21 +3,22 @@ using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Exceptions;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
-using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DasContract.Blockchain.Solidity
+namespace DasContract.Blockchain.Solidity.Converters
 {
     public class ProcessConverter
     {
         public Process Process { get; private set; }
-        public Contract Contract { get { return ContractConverter.Contract; }}
+        public Contract Contract { get { return ContractConverter.Contract; } }
         public ContractConverter ContractConverter { get; private set; }
         IDictionary<string, ElementConverter> elementConverters = new Dictionary<string, ElementConverter>();
+
+        IList<SolidityComponent> generalProcessComponents = new List<SolidityComponent>();
 
         StartEvent GetStartEvent()
         {
@@ -33,29 +34,39 @@ namespace DasContract.Blockchain.Solidity
         {
             Process = process;
             ContractConverter = contractConverter;
-            GenerateElementConverters();
+            CreateElementConverters();
+        }
+
+        public IList<SolidityComponent> GetGeneratedSolidityComponents()
+        {
+            var generatedComponents = new List<SolidityComponent>();
+            generatedComponents.AddRange(generalProcessComponents);
+            foreach (var converter in elementConverters.Values)
+            {
+                generatedComponents.AddRange(converter.GetGeneratedSolidityComponents());
+            }
+            return generatedComponents;
         }
 
         public void ConvertProcess()
         {
-            /*
-            solidityContract = new SolidityContract(process.Id);
-            // ERC721 HouseToken address, only for Mortgage usecase, remove otherwise
-            //solidityContract.AddComponent(new SolidityStatement("IERC721 houseTokenAddress = IERC721(address(0x93b6784CE509d1cEA255aE8269af4Ee258943Bd0))"));
-
+            generalProcessComponents.Clear();
             //Current state declaration
-            solidityContract.AddComponent(new SolidityStatement("mapping (string => bool) public " + ConverterConfig.ACTIVE_STATES_NAME));
+            generalProcessComponents.Add(new SolidityStatement("mapping (string => bool) public " + ConverterConfig.ACTIVE_STATES_NAME));
             //TODO: this address mapping will not work for roles
-            solidityContract.AddComponent(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
+            generalProcessComponents.Add(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
 
             //Method for retrieving current state
             var getStateFunction = new SolidityFunction(ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME, SolidityVisibility.Public, "bool");
             getStateFunction.AddToBody(new SolidityStatement("return " + ConverterConfig.ACTIVE_STATES_NAME + "[" + ConverterConfig.STATE_PARAMETER_NAME + "]"));
             getStateFunction.AddParameter(new SolidityParameter("string", ConverterConfig.STATE_PARAMETER_NAME));
-            solidityContract.AddComponent(getStateFunction);
+            generalProcessComponents.Add(getStateFunction);
 
-            IterateProcess();
-            */
+            //Convert process elements
+            foreach (var converter in elementConverters.Values)
+            {
+                converter.ConvertElementLogic();
+            }
         }
 
         /// <summary>
@@ -66,7 +77,7 @@ namespace DasContract.Blockchain.Solidity
         public IList<ElementConverter> GetTargetConvertersOfElement(ProcessElement element)
         {
             var targetConverters = new List<ElementConverter>();
-            foreach(var outgoingSequenceFlow in element.Outgoing)
+            foreach (var outgoingSequenceFlow in element.Outgoing)
             {
                 var target = GetSequenceFlowTarget(outgoingSequenceFlow);
                 targetConverters.Add(elementConverters[target.Id]);
@@ -137,12 +148,7 @@ namespace DasContract.Blockchain.Solidity
             return Process.ProcessElements[sequenceFlow.TargetId];
         }
 
-        public void Initialize()
-        {
-            GenerateElementConverters();
-        }
-
-        private void GenerateElementConverters()
+        private void CreateElementConverters()
         {
             foreach (var element in Process.ProcessElements.Values)
             {

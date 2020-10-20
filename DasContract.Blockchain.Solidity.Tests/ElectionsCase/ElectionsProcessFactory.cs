@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using DasContract.Abstraction.UserInterface;
 
 namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 {
@@ -180,6 +181,20 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
         private static UserTask CreateApproveCandidatesTask()
         {
+            var form = new UserForm
+            {
+                Id = "Form_4",
+                Fields = new List<FormField>
+                {
+                    new FormField
+                    {
+                        Id = "Form_4_Field_1",
+                        DisplayName = "chosen candidates",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_11"
+                    }
+                }
+            };
             return new UserTask
             {
                 Id = "User_Task_3",
@@ -187,12 +202,41 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = new List<string> { "Sequence_Flow_7" },
                 InstanceType = InstanceType.Parallel,
                 Name = "Approve and Order Candidates",
-                Form = new Abstraction.UserInterface.UserForm()
+                Form = form
             };
         }
 
         private static UserTask CreateRegisterCandidateTask()
         {
+            var form = new UserForm
+            {
+                Id = "Form_3",
+                Fields = new List<FormField>
+                {
+                    new FormField
+                    {
+                        Id = "Form_3_Field_1",
+                        DisplayName = "Party Id",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_11",
+                        IsReadOnly = true
+                    },
+                    new FormField
+                    {
+                        Id = "Form_3_Field_2",
+                        DisplayName = "name",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_19"
+                    },
+                    new FormField
+                    {
+                        Id = "Form_3_Field_3",
+                        DisplayName = "website",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_20"
+                    }
+                }
+            };
             return new UserTask
             {
                 Id = "User_Task_2",
@@ -200,12 +244,40 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = new List<string> { "Sequence_Flow_5" },
                 InstanceType = InstanceType.Parallel,
                 Name = "Register New Party",
-                Form = new Abstraction.UserInterface.UserForm()
+                Form = form
             };
         }
 
         private static UserTask CreateRegisterNewPartyTask()
         {
+            var form = new UserForm
+            {
+                Id = "Form_2",
+                Fields = new List<FormField>
+                {
+                    new FormField
+                    {
+                        Id = "Form_2_Field_1",
+                        DisplayName = "Name",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_13"
+                    },
+                    new FormField
+                    {
+                        Id = "Form_2_Field_2",
+                        DisplayName = "Code",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_14"
+                    },
+                    new FormField
+                    {
+                        Id = "Form_2_Field_3",
+                        DisplayName = "Website",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_15"
+                    }
+                }
+            };
             var incoming = new List<string>()
             {
                 "Sequence_Flow_2"
@@ -223,7 +295,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = outgoing,
                 InstanceType = InstanceType.Parallel,
                 Name = "Register New Party",
-                Form = new Abstraction.UserInterface.UserForm()
+                Form = form
             };
         }
 
@@ -242,6 +314,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new ScriptTask
             {
                 Id = "Script_Task_1",
+                Name = "Initiate Elections",
                 Incoming = incoming,
                 Outgoing = outgoing,
                 InstanceType = InstanceType.Single,

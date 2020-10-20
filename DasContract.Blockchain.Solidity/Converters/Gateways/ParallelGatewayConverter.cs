@@ -4,7 +4,7 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Gateways
 {
     public class ParallelGatewayConverter : ElementConverter
     {
@@ -17,7 +17,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public ParallelGatewayConverter(ParallelGateway gatewayElement, ProcessConverter converterService)
         {
             this.gatewayElement = gatewayElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
             incrementVariableName = $"{GetElementCallName()}Incoming";
         }
 
@@ -54,7 +54,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         SolidityStatement CreateIncomingFlowsVariable()
         {
-            if(gatewayElement.Incoming.Count > 1)
+            if (gatewayElement.Incoming.Count > 1)
                 return new SolidityStatement($"int {incrementVariableName} = 0");
             return null;
         }
@@ -75,8 +75,10 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             var nextElementConverters = processConverter.GetTargetConvertersOfElement(gatewayElement).ToList();
             var statement = new SolidityStatement();
-            nextElementConverters.ForEach(e => { e.GetStatementForPrevious(gatewayElement).GetStatements().
-                                                            ForEach(f => statement.Add(f)); 
+            nextElementConverters.ForEach(e =>
+            {
+                e.GetStatementForPrevious(gatewayElement).GetStatements().
+                           ForEach(f => statement.Add(f));
             });
             return statement;
         }

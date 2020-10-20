@@ -25,7 +25,7 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
             entity.Name = structName;
             entity.Properties.Add(property);
 
-            var s = new SolidityStruct(entity);
+            var s = new SolidityStruct(entity.Name);
             s.AddToBody(new SolidityStatement(propertyType.ToString().ToLower() + " " + propertyName));
             return s;
         }
@@ -36,8 +36,8 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
             SolidityStruct st = GetSampleStruct();
             string expected = "struct Foo{\n" +
                 "\tstring bar;\n" +
-                 "}\n" +
-                 "Foo foo = Foo({bar: \"\"});\n";
+                 "}\n"; //+
+                 //"Foo foo = Foo({bar: \"\"});\n";
             Assert.Equal(expected, st.ToString());
 
         }

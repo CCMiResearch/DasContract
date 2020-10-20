@@ -3,7 +3,7 @@ using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Events
 {
     class EndEventConverter : ElementConverter
     {
@@ -12,12 +12,12 @@ namespace DasContract.Blockchain.Solidity.Converters
         public EndEventConverter(EndEvent endEventElement, ProcessConverter converterService)
         {
             this.endEventElement = endEventElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
 
         public override void ConvertElementLogic()
         {
-            
+
         }
 
 

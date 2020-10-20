@@ -3,7 +3,7 @@ using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     //TODO: State guard is unnecessary here, discuss whether to remove it
     public class ScriptTaskConverter : ElementConverter
@@ -16,7 +16,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public ScriptTaskConverter(ScriptTask scriptTaskElement, ProcessConverter converterService)
         {
             this.scriptTaskElement = scriptTaskElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
 
         public override void ConvertElementLogic()
@@ -29,9 +29,9 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
-            return new List<SolidityComponent> 
+            return new List<SolidityComponent>
             {
-                mainFunction,
+                mainFunction
                 //stateGuard
             };
         }
@@ -40,7 +40,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Internal);
             //Add state guard modifier
-            function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
+            //function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
             //Add a statement that disables the current active state
             SolidityStatement disableFunctionStatement = ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), false);
             function.AddToBody(disableFunctionStatement);

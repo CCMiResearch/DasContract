@@ -1,5 +1,4 @@
 ﻿using DasContract.Abstraction.Data;
-using DasContract.Abstraction.Data.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -86,6 +85,14 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Name = "hasSeat",
                     DataType = PropertyDataType.Bool,
                     PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    Id = "Property_23",
+                    Name = "party",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Single,
+                    ReferencedDataType = "Entity_3"
                 }
             };
             return entity;

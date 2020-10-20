@@ -13,7 +13,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         List<string> values;
 
         LiquidTemplate template = LiquidTemplate.Create(
-            "{{indent}}enum {{name}}{ {{values}} }").LiquidTemplate;
+            "{{indent}}enum {{enumName}}{\n{{values}}\n{{indent}}}\n").LiquidTemplate;
 
         public SolidityEnum(string enumName)
         {
@@ -36,16 +36,10 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             return LiquidString.Create(ToString(indent));
         }
 
-        LiquidCollection ValuesToLiquid()
+        LiquidString ValuesToLiquid(int indent)
         {
-            //TODO add exceptions
-            var liquidCollection = new LiquidCollection();
-            foreach(var value in values.Take(values.Count() - 1))
-            {
-                liquidCollection.Add(LiquidString.Create($"{value}, "));
-            }
-            liquidCollection.Add(LiquidString.Create(values.Last()));
-            return liquidCollection;
+            var indented = values.Select(v => $"{CreateIndent(indent + 1)}{v}");
+            return LiquidString.Create(string.Join(",\n", indented));
         }
 
         public override string ToString(int indent = 0)
@@ -53,7 +47,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
                 DefineLocalVariable("enumName", enumName).
-                DefineLocalVariable("values", ValuesToLiquid());
+                DefineLocalVariable("values", ValuesToLiquid(indent));
             return template.Render(ctx).Result;
         }
     }

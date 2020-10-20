@@ -5,7 +5,7 @@ using DasContract.Abstraction.Processes.Tasks;
 using System.Linq;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     public class UserTaskConverter : ElementConverter
     {
@@ -19,7 +19,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public UserTaskConverter(UserTask userTaskElement, ProcessConverter converterService)
         {
             this.userTaskElement = userTaskElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
 
 
@@ -79,7 +79,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         SolidityFunction CreateElementMainFunction()
         {
-            SolidityFunction function = new SolidityFunction(GetTaskName(), SolidityVisibility.Public);
+            SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Public);
             function.AddModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
 
             if (isAddressGuardRequired())
@@ -95,7 +95,7 @@ namespace DasContract.Blockchain.Solidity.Converters
                     var entity = propertyAndEntity.Item2;
                     var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.DisplayName);
 
-                    function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property), formPropertyDisplayName));
+                    function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property, processConverter.ContractConverter), formPropertyDisplayName));
                     var propertySetter = new SolidityStatement($"{Helpers.ToUpperCamelCase(entity.Name)}.{Helpers.ToLowerCamelCase(property.Name)} " +
                         $"= {formPropertyDisplayName}");
                     function.AddToBody(propertySetter);
@@ -111,7 +111,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         bool isAddressGuardRequired()
         {
-            return userTaskElement.Assignee != null 
+            return userTaskElement.Assignee != null
                 && (userTaskElement.Assignee.Address != null || userTaskElement.Assignee.Name != null);
         }
 

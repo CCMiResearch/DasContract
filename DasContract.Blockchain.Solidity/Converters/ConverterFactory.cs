@@ -2,6 +2,9 @@
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
+using DasContract.Blockchain.Solidity.Converters.Events;
+using DasContract.Blockchain.Solidity.Converters.Gateways;
+using DasContract.Blockchain.Solidity.Converters.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +31,8 @@ namespace DasContract.Blockchain.Solidity.Converters
                 return new StartEventConverter((StartEvent)element, processConverter);
             else if (elementType == typeof(CallActivity))
                 return new CallActivityConverter((CallActivity)element, processConverter);
+            else if (elementType == typeof(TimerBoundaryEvent))
+                return new TimerBoundaryEventConverter((TimerBoundaryEvent)element, processConverter);
             return null;
         }
     }

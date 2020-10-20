@@ -1,5 +1,7 @@
 ﻿using DasContract.Abstraction.Data;
+using DasContract.Blockchain.Solidity.Converters;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity
 {
@@ -31,12 +33,13 @@ namespace DasContract.Blockchain.Solidity
             }
         }
 
-        public static string PropertyTypeToString(Property property)
+        public static string PropertyTypeToString(Property property, ContractConverter contractConverter)
         {
             var type = property.DataType;
 
+            //Get the datatype name if reference
             if (type == PropertyDataType.Reference)
-                return ToUpperCamelCase(property.ReferencedDataType);
+                return ToUpperCamelCase(contractConverter.GetDataType(property.ReferencedDataType).Name);
             else
                 return PropertyTypeToString(type);
         }
@@ -84,14 +87,14 @@ namespace DasContract.Blockchain.Solidity
         public static string ToLowerCamelCase(string name)
         {
             //remove spaces if any are present
-            var trimmed = name.Replace(" ", "");
+            var trimmed = Regex.Replace(name, @"\s+", "");
             return trimmed.First().ToString().ToLower() + trimmed.Substring(1);
         }
 
         public static string ToUpperCamelCase(string name)
         {
             //remove spaces if any are present
-            var trimmed = name.Replace(" ", "");
+            var trimmed = Regex.Replace(name,@"\s+", "");
             return trimmed.First().ToString().ToUpper() + trimmed.Substring(1);
         }
 

@@ -150,19 +150,22 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
         private static UserTask CreateVoteTask()
         {
-            /*
-            var Form = new UserForm
+
+            var form = new UserForm
             {
+                Id = "Form_1",
                 Fields = new List<FormField>
                 {
                     new FormField
                     {
-                        Id = "Form_1_",
-                        PropertyExpression = 
+                        Id = "Form_1_Field_1",
+                        DisplayName = "Voting choices",
+                        Type = FormFieldType.Property,
+                        PropertyExpression = "Property_11"
                     }
                 }
-            }
-            */
+            };
+            
             return new UserTask
             {
                 Id = "User_Task_4",
@@ -171,7 +174,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Parallel,
                 Name = "Vote",
                 OperationType = TokenOperationType.Send,
-                Form = new Abstraction.UserInterface.UserForm()
+                Form = form
             };
         }
 

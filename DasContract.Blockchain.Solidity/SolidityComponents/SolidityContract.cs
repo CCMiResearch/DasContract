@@ -14,8 +14,8 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 
         LiquidTemplate template = LiquidTemplate.Create(
             "contract {{name}} " +
-            "{% unless inherits == '' %}is {{inherits}}{%endunless%}{ \n" +
-            "{{components}} " +
+            "{% unless inherits == '' %}is {{inherits}}{%endunless%}{\n" +
+            "{{components}}" +
             "}").LiquidTemplate;
 
         public SolidityContract(string name)

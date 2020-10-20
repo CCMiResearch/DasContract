@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     public class CallActivityConverter : ElementConverter
     {
@@ -14,13 +14,13 @@ namespace DasContract.Blockchain.Solidity.Converters
         public CallActivityConverter(CallActivity callActivity, ProcessConverter converterService)
         {
             this.callActivity = callActivity;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
 
 
         public override void ConvertElementLogic()
         {
-            throw new NotImplementedException();
+            //TODO
         }
 
         public override string GetElementCallName()

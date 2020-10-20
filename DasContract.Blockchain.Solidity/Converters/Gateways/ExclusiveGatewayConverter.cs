@@ -4,7 +4,7 @@ using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 
-namespace DasContract.Blockchain.Solidity.Converters
+namespace DasContract.Blockchain.Solidity.Converters.Gateways
 {
     public class ExclusiveGatewayConverter : ElementConverter
     {
@@ -15,7 +15,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public ExclusiveGatewayConverter(ExclusiveGateway gatewayElement, ProcessConverter converterService)
         {
             this.gatewayElement = gatewayElement;
-            this.processConverter = converterService;
+            processConverter = converterService;
         }
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
