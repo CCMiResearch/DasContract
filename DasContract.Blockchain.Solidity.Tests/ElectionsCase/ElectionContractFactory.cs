@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction;
 using System.Collections.Generic;
 using DasContract.Abstraction.Processes;
+using System.Linq;
 
 namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 {
@@ -12,7 +13,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new Contract
             {
                 Id = "Contract",
-                DataTypes = ElectionDataModelFactory.CreateDataModel(),
+                DataTypes = ElectionDataModelFactory.CreateDataModel().ToDictionary(d => d.Id),
                 Processes = new List<Process>
                 {
                     ElectionsProcessFactory.CreateElectionsProcess(),

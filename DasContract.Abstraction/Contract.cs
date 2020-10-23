@@ -30,11 +30,11 @@ namespace DasContract.Abstraction
         /// <summary>
         /// Data Model
         /// </summary>
-        public IEnumerable<DataType> DataTypes { get; set; } = new List<DataType>();
+        public IDictionary<string, DataType> DataTypes { get; set; } = new Dictionary<string, DataType>();
 
-        public IEnumerable<Token> Tokens { get { return DataTypes.OfType<Token>(); } }
-        public IEnumerable<Enum> Enums { get { return DataTypes.OfType<Enum>(); } }
-        public IEnumerable<Entity> Entities { get { return DataTypes.OfType<Entity>().Except(Tokens); } }
+        public IEnumerable<Token> Tokens { get { return DataTypes.Values.OfType<Token>(); } }
+        public IEnumerable<Enum> Enums { get { return DataTypes.Values.OfType<Enum>(); } }
+        public IEnumerable<Entity> Entities { get { return DataTypes.Values.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
     }

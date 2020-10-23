@@ -26,5 +26,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// Process roles allowed to execute this task. 
         /// </summary>
         public IEnumerable<ProcessRole> CandidateRoles { get; set; }
+
+        public string ValidationScript { get; set; }
     }
 }

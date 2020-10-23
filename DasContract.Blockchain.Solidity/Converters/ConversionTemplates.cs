@@ -17,6 +17,16 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"is{elementCallName}Authorized";
         }
 
+        public static string MultiInstanceCollectionVariable(string elementCallName)
+        {
+            return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCollection";
+        }
+
+        public static string MultiInstanceCountVariable(string elementCallName)
+        {
+            return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCount";
+        }
+
         public static SolidityStatement ChangeActiveStateStatement(string elementCallName, bool isActive)
         {
             return new SolidityStatement($"{ConverterConfig.ACTIVE_STATES_NAME}[\"{elementCallName}\"] = {isActive}");

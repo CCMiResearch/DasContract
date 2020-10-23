@@ -51,7 +51,15 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         public DataType GetDataType(string dataTypeId)
         {
-            return Contract.DataTypes.FirstOrDefault(e => e.Id == dataTypeId);
+            return Contract.DataTypes[dataTypeId];
+        }
+
+        public T GetDataTypeOfType<T>(string dataTypeId) where T: DataType
+        {
+            var dataType = Contract.DataTypes[dataTypeId];
+            if (dataType is T)
+                return dataType as T;
+            return null; //TODO throw exception
         }
 
         public string GetSolidityCode()

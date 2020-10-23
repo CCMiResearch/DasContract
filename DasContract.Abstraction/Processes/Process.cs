@@ -11,6 +11,8 @@ namespace DasContract.Abstraction.Processes
     {
         public string Id { get; set; }
 
+        public bool IsExecutable { get; set; }
+
         public IDictionary<string, SequenceFlow> SequenceFlows { get; set; } = new Dictionary<string, SequenceFlow>(); 
         public IDictionary<string, ProcessElement> ProcessElements { get; set; } = new Dictionary<string, ProcessElement>();
         

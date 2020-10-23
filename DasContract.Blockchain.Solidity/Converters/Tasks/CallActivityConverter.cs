@@ -20,12 +20,13 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
+
             //TODO
         }
 
         public override string GetElementCallName()
         {
-            throw new NotImplementedException();
+            return GetElementCallName(callActivity);
         }
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
