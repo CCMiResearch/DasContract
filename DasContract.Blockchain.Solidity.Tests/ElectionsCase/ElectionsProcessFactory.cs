@@ -29,6 +29,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new Process
             {
                 Id = "Process_1",
+                IsExecutable = true,
                 ProcessElements = processElements.ToDictionary(e => e.Id, e => e),
                 SequenceFlows = CreateSequenceFlows().ToDictionary(e => e.Id, e => e)
             }; 
@@ -157,7 +158,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new CallActivity
             {
                 Id = "Call_Activity_1",
-                CalledElement = "", //TODO called process ID
+                CalledElement = "Process_2", //TODO called process ID
                 InstanceType = InstanceType.Parallel,
                 Incoming = new List<string> { "Sequence_Flow_9" },
                 Outgoing = new List<string> { "Sequence_Flow_10" },

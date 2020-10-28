@@ -14,7 +14,8 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
 
         public override void ConvertElementLogic()
         {
-            constructor = CreateConstructor();
+            if(processConverter.IsRootProcess)
+                constructor = CreateConstructor();
         }
 
         private SolidityConstructor CreateConstructor()
@@ -31,10 +32,10 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
         }
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
-            return new List<SolidityComponent>
-            {
-                constructor
-            };
+            var solidityComponents = new List<SolidityComponent>();
+            if (processConverter.IsRootProcess)
+                solidityComponents.Add(constructor);
+            return solidityComponents;
         }
 
         public override string GetElementId()

@@ -27,6 +27,19 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCount";
         }
 
+        public static string ProcessConverterId(string processId, string callActivityId)
+        {
+            if (callActivityId != null)
+                return $"{processId}_{callActivityId}";
+            else
+                return processId;
+        }
+
+        public static string CallActivityReturnFunctionName(string callActivityId)
+        {
+            return $"{callActivityId}ReturnLogic";
+        }
+
         public static SolidityStatement ChangeActiveStateStatement(string elementCallName, bool isActive)
         {
             return new SolidityStatement($"{ConverterConfig.ACTIVE_STATES_NAME}[\"{elementCallName}\"] = {isActive}");

@@ -16,6 +16,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new Process
             {
                 Id = "Process_2",
+                IsExecutable = false,
                 ProcessElements = new List<ProcessElement>
                 {
                     CreateStartEvent(),

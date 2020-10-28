@@ -3,6 +3,7 @@ using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Exceptions;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
+using DasContract.Blockchain.Solidity.Converters.Events;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,35 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     public class ProcessConverter
     {
+        public string Id { get { return ConversionTemplates.ProcessConverterId(Process.Id, CallActivityId); } }
+
+        public bool IsRootProcess { get; private set; }
+        public string CallActivityId { get; private set; }
+
+        /// <summary>
+        /// If the process is a subprocess called by a parallel multi-instance CallActivity,
+        /// then the instances need to be identified by some Property. These multi-instance
+        /// subprocesses could theoretically be nested, hence the list.
+        /// </summary>
+        public List<Property> InstanceIdentifiers { get; } = new List<Property>();
+
+
         public Process Process { get; private set; }
         public Contract Contract { get { return ContractConverter.Contract; } }
-        public ContractConverter ContractConverter { get; private set; }
+        public ContractConverter ContractConverter { get; }
         IDictionary<string, ElementConverter> elementConverters = new Dictionary<string, ElementConverter>();
 
         IList<SolidityComponent> generalProcessComponents = new List<SolidityComponent>();
 
-        StartEvent GetRootStartEvent()
-        {
-            foreach (var e in Process.Events)
-            {
-                if (e.GetType() == typeof(StartEvent))
-                    return (StartEvent)e;
-            }
-            throw new NoStartEventException("The process must contain a startEvent");
-        }
-
-        public ProcessConverter(Process process, ContractConverter contractConverter)
+        public ProcessConverter(Process process, ContractConverter contractConverter, string callActivityId = null)
         {
             Process = process;
+            CallActivityId = callActivityId;
             ContractConverter = contractConverter;
+            if (callActivityId == null)
+                IsRootProcess = true;
+            else
+                IsRootProcess = false;
             CreateElementConverters();
         }
 
@@ -46,6 +55,14 @@ namespace DasContract.Blockchain.Solidity.Converters
                 generatedComponents.AddRange(converter.GetGeneratedSolidityComponents());
             }
             return generatedComponents;
+        }
+
+        public StartEventConverter GetStartEventConverter()
+        {
+            var startEvents = Process.Events.Where(e => e is StartEvent);
+            if (startEvents.Count() != 1)
+                return null; //TODO throw exception
+            return GetConverterOfElementOfType<StartEventConverter>(startEvents.First().Id);
         }
 
         public void ConvertProcess()

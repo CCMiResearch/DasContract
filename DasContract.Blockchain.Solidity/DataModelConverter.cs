@@ -10,6 +10,7 @@ namespace DasContract.Blockchain.Solidity
     {
         ContractConverter contractConverter;
 
+        List<SolidityStatement> rootProperties = new List<SolidityStatement>();
         List<SolidityStruct> structs = new List<SolidityStruct>();
         List<SolidityEnum> enums = new List<SolidityEnum>();
         List<SolidityContract> tokens = new List<SolidityContract>();
@@ -71,12 +72,22 @@ namespace DasContract.Blockchain.Solidity
         {
             foreach (var entity in contractConverter.Contract.Entities)
             {
-                SolidityStruct solidityStruct = new SolidityStruct(entity.Name);
-                foreach (var property in entity.Properties)
+                if (entity.IsRootEntity)
                 {
-                    solidityStruct.AddToBody(ConvertProperty(property));
+                    foreach (var property in entity.Properties)
+                    {
+                        rootProperties.Add(ConvertProperty(property));
+                    }
                 }
-                structs.Add(solidityStruct);
+                else
+                {
+                    SolidityStruct solidityStruct = new SolidityStruct(entity.Name);
+                    foreach (var property in entity.Properties)
+                    {
+                        solidityStruct.AddToBody(ConvertProperty(property));
+                    }
+                    structs.Add(solidityStruct);
+                }
             }
         }
 

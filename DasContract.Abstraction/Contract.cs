@@ -22,6 +22,33 @@ namespace DasContract.Abstraction
             set { Processes[0] = value; } 
         }
 
+        public bool TryGetProcess(string processId, out Process process)
+        {
+            var search = Processes.Where(p => p.Id == processId);
+            if(search.Count() == 0)
+            {
+                process = null;
+                return false;
+            }
+            process = search.First();
+            return true;
+        }
+
+        public bool TryGetProperty(string propertyId, out Property property)
+        {
+            foreach (var entity in Entities)
+            {
+                var search = entity.Properties.Where(p => p.Id == propertyId);
+                if (search.Count() > 0)
+                {
+                    property = search.First();
+                    return true;
+                }
+            }
+            property = null;
+            return false;
+        }
+
         /// <summary>
         /// List of processes present in the contract.
         /// </summary>

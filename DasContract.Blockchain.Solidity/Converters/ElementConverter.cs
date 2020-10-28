@@ -33,11 +33,17 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         protected string GetElementCallName<T>(T element) where T: ProcessElement
         {
+            string callName;
             //TODO: check whether name is unique, short enough, etc...
             if (element.Name != null && element.Name.Length <= 20)
-                return Helpers.ToUpperCamelCase(element.Name);
+                callName = Helpers.ToUpperCamelCase(element.Name);
             else
-                return element.Id;
+                callName = element.Id;
+
+            if (processConverter.CallActivityId != null)
+                callName = $"{processConverter.CallActivityId}_{callName}";
+
+            return callName;
         }
     }
 }
