@@ -34,7 +34,7 @@ namespace DasContract.Abstraction
             return true;
         }
 
-        public bool TryGetProperty(string propertyId, out Property property)
+        public bool TryGetProperty(string propertyId, out Property property, out Entity outEntity)
         {
             foreach (var entity in Entities)
             {
@@ -42,11 +42,18 @@ namespace DasContract.Abstraction
                 if (search.Count() > 0)
                 {
                     property = search.First();
+                    outEntity = entity;
                     return true;
                 }
             }
             property = null;
+            outEntity = null;
             return false;
+        }
+
+        public bool TryGetProperty(string propertyId, out Property property)
+        {
+            return TryGetProperty(propertyId, out property, out _);
         }
 
         /// <summary>

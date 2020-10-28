@@ -65,6 +65,11 @@ namespace DasContract.Blockchain.Solidity.Converters
             return GetConverterOfElementOfType<StartEventConverter>(startEvents.First().Id);
         }
 
+        SolidityStatement CreateActiveStatesMapping()
+        {
+
+        }
+
         public void ConvertProcess()
         {
             generalProcessComponents.Clear();

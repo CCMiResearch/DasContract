@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction.Data;
+using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
@@ -55,14 +56,33 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                     break;
                 case InstanceType.Sequential:
                     //Call the subprocess and create a counter.
-                    mainFunction.AddToBody(new SolidityStatement($"{GetElementCallName()}Counter = "));
+                    mainFunction.AddToBody(new SolidityStatement($"{GetElementCallName()}Counter = 0"));
+                    mainFunction.AddToBody(callElementStatement);
                     break;
                 case InstanceType.Parallel:
+                    mainFunction.AddToBody(new SolidityStatement($"{GetElementCallName()}Counter = 0"));
+                    var solidityForLoop = new SolidityFor(ConversionTemplates.IdentifierVariableName(GetLoopCollectionName()), GetLoopCollectionName());
                     //Call all of the subprocesses using an identifier, create a counter.
-                    
+
                     break;
             }
             //TODO
+        }
+
+        string GetLoopCollectionName()
+        {
+            if (callActivity.LoopCollection != null)
+            {
+                if (processConverter.Contract.TryGetProperty(callActivity.LoopCollection, out var property, out var entity))
+                {
+                    if (!entity.IsRootEntity)
+                        return null; //TODO Exception
+                    if (property.PropertyType != PropertyType.Collection)
+                        return null; //TODO Exception
+                    return Helpers.ToLowerCamelCase(property.Name);
+                }
+            }
+            return null; //TODO exception
         }
 
         public override string GetElementCallName()

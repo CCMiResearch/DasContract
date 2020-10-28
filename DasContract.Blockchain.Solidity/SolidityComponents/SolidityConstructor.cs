@@ -9,7 +9,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
     public class SolidityConstructor : SolidityComponent
     {
         List<SolidityComponent> body;
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor () public payable" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor () public payable" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;

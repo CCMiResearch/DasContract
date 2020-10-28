@@ -15,7 +15,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         IList<SolidityComponent> body;
         IList<string> modifiers;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
             "{{parameters}}) " +
             "{{modifiers}}" +
             "{{visibility}} " +

@@ -21,7 +21,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         SolidityContract mainSolidityContract;
 
         // Import for ERC721 token usage only, remove otherwise
-        LiquidTemplate template = LiquidTemplate.Create("pragma solidity " + ConverterConfig.SOLIDITY_VERSION + ";\n\n" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("pragma solidity " + ConverterConfig.SOLIDITY_VERSION + ";\n\n" +
             "{{imports}}\n\n" +
             "{{tokencontracts}}\n\n" +
             "{{maincontract}}").LiquidTemplate;

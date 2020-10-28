@@ -12,7 +12,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         List<string> inheritance;
         List<SolidityComponent> components;
 
-        LiquidTemplate template = LiquidTemplate.Create(
+        static readonly LiquidTemplate template = LiquidTemplate.Create(
             "contract {{name}} " +
             "{% unless inherits == '' %}is {{inherits}}{%endunless%}{\n" +
             "{{components}}" +

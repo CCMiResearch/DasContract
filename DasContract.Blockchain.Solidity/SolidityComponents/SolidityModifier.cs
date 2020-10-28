@@ -9,7 +9,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         LiquidString modifierName;
         IList<SolidityComponent> body;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}modifier {{name}}" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}modifier {{name}}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}\t_;\n" +

@@ -12,7 +12,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         LiquidString enumName;
         List<string> values;
 
-        LiquidTemplate template = LiquidTemplate.Create(
+        static readonly LiquidTemplate template = LiquidTemplate.Create(
             "{{indent}}enum {{enumName}}{\n{{values}}\n{{indent}}}\n").LiquidTemplate;
 
         public SolidityEnum(string enumName)

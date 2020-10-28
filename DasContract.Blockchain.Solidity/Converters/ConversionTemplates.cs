@@ -27,6 +27,11 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCount";
         }
 
+        public static string IdentifierVariableName(string identifierPropertyName)
+        {
+            return $"{Helpers.ToLowerCamelCase(identifierPropertyName)}Identifier";
+        }
+
         public static string ProcessConverterId(string processId, string callActivityId)
         {
             if (callActivityId != null)

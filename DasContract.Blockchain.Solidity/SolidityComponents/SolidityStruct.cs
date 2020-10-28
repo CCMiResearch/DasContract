@@ -11,12 +11,11 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         LiquidString structName;
         IList<SolidityComponent> body;
 
-        LiquidTemplate template = LiquidTemplate.Create(
+        static readonly LiquidTemplate template = LiquidTemplate.Create(
             "{{indent}}struct {{name}}" +
             "{\n" +
             "{{body}}" +
-            "{{indent}}}\n").LiquidTemplate;//+
-            //"{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
+            "{{indent}}}\n").LiquidTemplate;
 
         public SolidityStruct(string name)
         {

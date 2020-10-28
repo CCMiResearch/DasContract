@@ -48,7 +48,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         SolidityComponent blockBody;
         bool isElse;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}{% if isElse == true%}else {% endif%}" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}{% if isElse == true%}else {% endif%}" +
             "if({{condition}}){\n" +
             "{{blockBody}}"+
             "{{indent}}}\n").LiquidTemplate;
