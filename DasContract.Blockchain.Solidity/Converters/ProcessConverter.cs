@@ -14,17 +14,19 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     public class ProcessConverter
     {
-        public string Id { get { return ConversionTemplates.ProcessConverterId(Process.Id, CallActivityId); } }
+        public string Id { get { return ConversionTemplates.ProcessConverterId(Process.Id, ParentCallActivityId); } }
+
 
         public bool IsRootProcess { get; private set; }
-        public string CallActivityId { get; private set; }
+        public string ParentCallActivityId { get; private set; }
+        public ProcessConverter ParentProcessConverter { get; private set; }
 
         /// <summary>
         /// If the process is a subprocess called by a parallel multi-instance CallActivity,
         /// then the instances need to be identified by some Property. These multi-instance
         /// subprocesses could theoretically be nested, hence the list.
         /// </summary>
-        public List<Property> InstanceIdentifiers { get; } = new List<Property>();
+        public List<ProcessInstanceIdentifier> InstanceIdentifiers { get; } = new List<ProcessInstanceIdentifier>();
 
 
         public Process Process { get; private set; }
@@ -34,12 +36,13 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         IList<SolidityComponent> generalProcessComponents = new List<SolidityComponent>();
 
-        public ProcessConverter(Process process, ContractConverter contractConverter, string callActivityId = null)
+        public ProcessConverter(Process process, ContractConverter contractConverter, string parentCallActivityCallName = null, ProcessConverter parentProcessConverter = null)
         {
             Process = process;
-            CallActivityId = callActivityId;
+            ParentCallActivityId = parentCallActivityCallName;
+            ParentProcessConverter = parentProcessConverter;
             ContractConverter = contractConverter;
-            if (callActivityId == null)
+            if (parentCallActivityCallName == null)
                 IsRootProcess = true;
             else
                 IsRootProcess = false;
@@ -67,14 +70,19 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         SolidityStatement CreateActiveStatesMapping()
         {
-
+            var mappingStatement = new SolidityMappingStatement(
+                "string",
+                "bool",
+                ConversionTemplates.ActiveStatesMappingName(Id),
+                InstanceIdentifiers.Select(i => new Property { DataType = PropertyDataType.Int }).ToList());
+            return new SolidityStatement(mappingStatement.ToString());
         }
 
         public void ConvertProcess()
         {
             generalProcessComponents.Clear();
-            //Current state declaration
-            generalProcessComponents.Add(new SolidityStatement("mapping (string => bool) public " + ConverterConfig.ACTIVE_STATES_NAME));
+            //Mapping of the current states
+            generalProcessComponents.Add(CreateActiveStatesMapping());
             //TODO: this address mapping will not work for roles
             generalProcessComponents.Add(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
 
@@ -150,8 +158,8 @@ namespace DasContract.Blockchain.Solidity.Converters
             return elementConverters[elementId];
         }
 
-        public T GetConverterOfElementOfType<T>(string elementId) 
-            where T: ElementConverter
+        public T GetConverterOfElementOfType<T>(string elementId)
+            where T : ElementConverter
         {
             var elementConverter = elementConverters[elementId];
             if (elementConverter is T)
@@ -184,12 +192,57 @@ namespace DasContract.Blockchain.Solidity.Converters
             return Process.ProcessElements[sequenceFlow.TargetId];
         }
 
+        public string GetIdentifierNames()
+        {
+            return string.Join(",", InstanceIdentifiers.Select(i => i.IdentifierName)
+                .ToList());
+        }
+
+        public List<SolidityParameter> GetIdentifiersAsParameters()
+        {
+            var parameters = new List<SolidityParameter>();
+            foreach (var identifier in InstanceIdentifiers)
+            {
+                parameters.Add(new SolidityParameter(Helpers.PropertyTypeToString(PropertyDataType.Int), identifier.IdentifierName));
+            }
+            return parameters;
+        }
+
         private void CreateElementConverters()
         {
             foreach (var element in Process.ProcessElements.Values)
             {
                 elementConverters[element.Id] = ConverterFactory.CreateConverter(element, this);
             }
+        }
+
+        public string GetElementCallName(string elementId)
+        {
+            //TODO check if ID valid
+            return GetElementCallName(Process.ProcessElements[elementId]);
+        }
+
+        public string GetElementCallName(ProcessElement element)
+        {
+            string callName;
+            //TODO: check whether name is unique, short enough, etc...
+            if (element.Name != null && element.Name.Length <= 20)
+                callName = Helpers.ToUpperCamelCase(element.Name);
+            else
+                callName = element.Id;
+
+            if (ParentCallActivityId != null)
+                callName = $"{ParentCallActivityId}_{callName}";
+
+            return callName;
+        }
+
+        public string GetParentCallActivityCallName()
+        {
+            //TODO check invalid id
+            if (ParentCallActivityId == null)
+                return null;
+            return ParentProcessConverter.GetElementCallName(ParentCallActivityId);
         }
     }
 }

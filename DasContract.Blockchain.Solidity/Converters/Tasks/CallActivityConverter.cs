@@ -4,6 +4,7 @@ using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DasContract.Blockchain.Solidity.Converters.Tasks
@@ -13,6 +14,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         CallActivity callActivity;
 
         SolidityFunction mainFunction;
+        SolidityFunction processReturnFunction;
         SolidityStatement stateTracker;
 
         public CallActivityConverter(CallActivity callActivity, ProcessConverter converterService)
@@ -21,22 +23,48 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             processConverter = converterService;
         }
 
+        SolidityStatement CreateNextElementStatement()
+        {
+            var statement = new SolidityStatement();
+
+            statement.Add(GetChangeActiveStateStatement(false));
+            statement.Add(processConverter.GetStatementOfNextElement(callActivity));
+            return statement;
+        }
+
         SolidityFunction CreateProcessReturnFunction()
         {
-            var function = new SolidityFunction(ConversionTemplates.CallActivityReturnFunctionName(callActivity.Id), SolidityVisibility.Internal);
-            var nextElementStatement = processConverter.GetStatementOfNextElement(callActivity);
+            var function = new SolidityFunction(ConversionTemplates.CallActivityReturnFunctionName(GetElementCallName()), SolidityVisibility.Internal);
+            function.AddParameters(processConverter.GetIdentifiersAsParameters());
+
+            var nextElementStatement = CreateNextElementStatement();
+            var incrementStatement = new SolidityStatement($"{ConversionTemplates.CallActivityCounter(GetElementCallName())}++");
+            var checkConditionBlock = new SolidityIfElse();
+            var calledStartEventConverter = processConverter.ContractConverter.GetStartEventConverter(callActivity);
+            var callSubprocessStatement = calledStartEventConverter.GetStatementForPrevious(callActivity);
+
+            checkConditionBlock.AddConditionBlock($"{ConversionTemplates.CallActivityCounter(GetElementCallName())} >= {GetCountTarget(callActivity)}",
+                        nextElementStatement);
+
             switch (callActivity.InstanceType)
             {
                 case InstanceType.Single:
                     function.AddToBody(nextElementStatement);
                     break;
                 case InstanceType.Sequential:
-                    //Decrement the counter, check if counter 0.
-                    //If counter reached 0, then call the next element. If not, call the subprocess again.
+                    //increment the counter, check if counter reached limit.
+                    //If counter reached limit, then call the next element. If not, call the subprocess again.
+                    function.AddToBody(incrementStatement);
+                    
+                    checkConditionBlock.AddConditionBlock("", callSubprocessStatement);
+                    function.AddToBody(checkConditionBlock);
+
                     break;
                 case InstanceType.Parallel:
-                    //Decrement the counter, check if counter 0.
-                    //If counter reached 0, then call the next element. If not, do nothing.
+                    //increment the counter, check if counter reached limit.
+                    //If counter reached limit, then call the next element. If not, do nothing.
+                    function.AddToBody(incrementStatement);
+                    function.AddToBody(checkConditionBlock);
                     break;
             }
             return function;
@@ -44,43 +72,38 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
+            processReturnFunction = CreateProcessReturnFunction();
             mainFunction = new SolidityFunction(GetElementCallName(), SolidityVisibility.Internal);
+            mainFunction.AddParameters(processConverter.GetIdentifiersAsParameters());
             var calledStartEventConverter = processConverter.ContractConverter.GetStartEventConverter(callActivity);
-            var callElementStatement = calledStartEventConverter.GetStatementForPrevious(callActivity);
-            stateTracker = new SolidityStatement($"uint {GetElementCallName()}Counter");
+            var callSubprocessStatement = calledStartEventConverter.GetStatementForPrevious(callActivity);
+            stateTracker = new SolidityStatement($"uint {ConversionTemplates.CallActivityCounter(GetElementCallName())}");
             switch (callActivity.InstanceType)
             {
                 case InstanceType.Single:
                     //Call the subprocess.
-                    mainFunction.AddToBody(callElementStatement);
+                    mainFunction.AddToBody(callSubprocessStatement);
                     break;
                 case InstanceType.Sequential:
                     //Call the subprocess and create a counter.
-                    mainFunction.AddToBody(new SolidityStatement($"{GetElementCallName()}Counter = 0"));
-                    mainFunction.AddToBody(callElementStatement);
+                    mainFunction.AddToBody(new SolidityStatement($"{ConversionTemplates.CallActivityCounter(GetElementCallName())} = 0"));
+                    mainFunction.AddToBody(callSubprocessStatement);
                     break;
                 case InstanceType.Parallel:
-                    mainFunction.AddToBody(new SolidityStatement($"{GetElementCallName()}Counter = 0"));
-                    var solidityForLoop = new SolidityFor(ConversionTemplates.IdentifierVariableName(GetLoopCollectionName()), GetLoopCollectionName());
                     //Call all of the subprocesses using an identifier, create a counter.
-
+                    mainFunction.AddToBody(new SolidityStatement($"{ConversionTemplates.CallActivityCounter(GetElementCallName())} = 0"));
+                    var solidityForLoop = new SolidityFor(GetLoopVariable(), GetCountTarget(callActivity));
+                    solidityForLoop.AddToBody(callSubprocessStatement);
+                    mainFunction.AddToBody(solidityForLoop);
                     break;
             }
-            //TODO
         }
 
-        string GetLoopCollectionName()
+        string GetLoopVariable()
         {
-            if (callActivity.LoopCollection != null)
+            if (callActivity.LoopCollection != null || callActivity.LoopCardinality != 0)
             {
-                if (processConverter.Contract.TryGetProperty(callActivity.LoopCollection, out var property, out var entity))
-                {
-                    if (!entity.IsRootEntity)
-                        return null; //TODO Exception
-                    if (property.PropertyType != PropertyType.Collection)
-                        return null; //TODO Exception
-                    return Helpers.ToLowerCamelCase(property.Name);
-                }
+                return ConversionTemplates.IdentifierVariableName(callActivity.Id);
             }
             return null; //TODO exception
         }
@@ -92,8 +115,17 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
-            //throw new NotImplementedException();
-            return new List<SolidityComponent>();
+            var components = new List<SolidityComponent>
+            {
+                mainFunction,
+                processReturnFunction
+            };
+
+            if(callActivity.InstanceType != InstanceType.Single)
+            {
+                components.Add(stateTracker);
+            }
+            return components;
         }
 
         public override string GetElementId()
@@ -103,7 +135,10 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement("ActiveStates[\"" + callActivity.Id + "\"] = true");
+            var statement = new SolidityStatement();
+            statement.Add(GetChangeActiveStateStatement(true));
+            statement.Add(GetFunctionCallStatement());
+            return statement;
         }
     }
 }

@@ -5,7 +5,7 @@ using DasContract.Blockchain.Solidity.SolidityComponents;
 
 namespace DasContract.Blockchain.Solidity.Converters.Events
 {
-    class EndEventConverter : ElementConverter
+    public class EndEventConverter : ElementConverter
     {
         EndEvent endEventElement;
 
@@ -38,8 +38,15 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            //Set the event state
-            return ConversionTemplates.ChangeActiveStateStatement(GetElementCallName(), true);
+            var statement = new SolidityStatement();
+            statement.Add(GetChangeActiveStateStatement(true));
+            //Call the return function of the parent call element, if it exists
+            if (processConverter.ParentProcessConverter != null)
+            {
+                var callActivityReturnName = ConversionTemplates.CallActivityReturnFunctionName(processConverter.GetParentCallActivityCallName());
+                statement.Add($"{callActivityReturnName}({processConverter.ParentProcessConverter.GetIdentifierNames()})");
+            }
+            return statement;
         }
     }
 }

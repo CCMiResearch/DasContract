@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction.Data;
+using DasContract.Abstraction.Processes;
 using DasContract.Blockchain.Solidity.Converters;
 using System;
 using System.Globalization;
@@ -128,11 +129,12 @@ namespace DasContract.Blockchain.Solidity
         }
 
 
-        public static DateTime ParseISO8601String(string str)
+        public static DateTime ParseISO8601String(this string str)
         {
             return DateTime.ParseExact(str, formats,
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
+
 
     }
 }

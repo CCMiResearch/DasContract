@@ -6,6 +6,7 @@ using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Blockchain.Solidity.Converters.Events;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using Liquid.NET;
+using Liquid.NET.Constants;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,23 +39,25 @@ namespace DasContract.Blockchain.Solidity.Converters
         //TODO try to simplify this monstrous method
         void CreateProcessConverters()
         {
+            //Find the root proces (the one marked as executable) and create its process converter
             var rootProcessConverter = new ProcessConverter(GetExecutableProcess(), this);
             processConverters.Add(rootProcessConverter.Id, rootProcessConverter);
-
+            //Store the newly found converters in a queue
             var processConverterQueue = new Queue<ProcessConverter>();
             processConverterQueue.Enqueue(rootProcessConverter);
-
+            
             while (processConverterQueue.Count() > 0)
             {
                 var currentConverter = processConverterQueue.Dequeue();
                 var inheritedIdentifiers = processConverters[currentConverter.Id].InstanceIdentifiers;
                 var callActivities = currentConverter.Process.Tasks.Where(t => t is CallActivity).Cast<CallActivity>();
-
+                //Look through all call activities of the current process converter
                 foreach (var callActivity in callActivities)
                 {
                     if (Contract.TryGetProcess(callActivity.CalledElement, out var referencedProcess))
                     {
-                        var calledProcessConverter = new ProcessConverter(referencedProcess, this, callActivity.Id);
+                        //Create a new process converter based on the target process of the callactivity
+                        var calledProcessConverter = new ProcessConverter(referencedProcess, this, callActivity.Id, currentConverter);
                         calledProcessConverter.InstanceIdentifiers.AddRange(inheritedIdentifiers);
                         if(TryGetIdentifier(callActivity, out var identifier))
                         {
@@ -68,45 +71,17 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         }
 
-        bool TryGetIdentifier(CallActivity callActivity, out Property identifier)
+        bool TryGetIdentifier(CallActivity callActivity, out ProcessInstanceIdentifier identifier)
         {
-            if (callActivity.InstanceType != InstanceType.Parallel)
+
+            if(callActivity.InstanceType == InstanceType.Parallel && (callActivity.LoopCollection != null || callActivity.LoopCardinality != 0))
             {
-                identifier = null;
-                return false;
-            }
-            if(callActivity.LoopCollection != null && Contract.TryGetProperty(callActivity.LoopCollection, out var property))
-            {
-                identifier = property;
-                return true;
-            }
-            else if(callActivity.LoopCardinality != 0)
-            {
-                identifier = new Property { DataType = PropertyDataType.Int };
+                identifier = new ProcessInstanceIdentifier(callActivity.Id);
                 return true;
             }
 
             identifier = null;
             return false;
-        }
-
-        public bool IsProcessCompatible(ProcessConverter processConverter, CallActivity callActivity, IList<Property> inheritedIdentifiers)
-        {
-            var currentIdentifiers = new List<Property>(inheritedIdentifiers);
-            var processIdentifiers = processConverter.InstanceIdentifiers;
-            if (callActivity.LoopCollection != null && Contract.TryGetProperty(callActivity.LoopCollection, out var property))
-            {
-                currentIdentifiers.Add(property);
-            }
-            else if (callActivity.LoopCardinality != 0)
-            {
-                if (processIdentifiers.Count == 0)
-                    return false;
-                return processIdentifiers.Take(processIdentifiers.Count - 1).SequenceEqual(currentIdentifiers)
-                        && processIdentifiers.Last().DataType == PropertyDataType.Int;
-            }
-
-            return processIdentifiers.SequenceEqual(currentIdentifiers);
         }
 
         public StartEventConverter GetStartEventConverter(CallActivity callActivity)
@@ -134,7 +109,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             //Convert data model logic
             DataModelConverter.ConvertLogic();
             //Add enum and struct definitions to the main contract
-            mainSolidityContract.AddComponents(DataModelConverter.GetDataStructuresDefinitions());
+            mainSolidityContract.AddComponents(DataModelConverter.GetSolidityComponents());
             //Convert all processes and add their logic to the main contract
             foreach (var processConverter in processConverters.Values)
             {
@@ -161,12 +136,27 @@ namespace DasContract.Blockchain.Solidity.Converters
             return null; //TODO throw exception
         }
 
+        LiquidCollection GetDependencies()
+        {
+            LiquidCollection liquidCol = new LiquidCollection();
+            HashSet<string> dependencies = new HashSet<string>();
+            dependencies.UnionWith(DataModelConverter.GetDependencies());
+
+            foreach (var dependency in dependencies)
+            {
+                var statement = new SolidityStatement($"import {dependency}");
+                liquidCol.Add(statement.ToLiquidString(0));
+            }
+
+            return liquidCol;
+        }
+
         public string GetSolidityCode()
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("maincontract", mainSolidityContract.ToLiquidString(0))
                 .DefineLocalVariable("tokencontracts", DataModelConverter.TokenContractsToLiquid())
-                .DefineLocalVariable("imports", DataModelConverter.GetDependencies().ToLiquidString(0));
+                .DefineLocalVariable("imports", GetDependencies());
             return template.Render(ctx).Result;
         }
 

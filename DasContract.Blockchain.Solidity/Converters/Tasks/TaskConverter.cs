@@ -18,47 +18,26 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             ConvertElementLogic();
         }
 
-        SolidityStatement CreateLoopVariableDefinitionStatement(Task element) 
+        protected string GetCountTarget(Task taskElement)
         {
-            var elementCallName = GetElementCallName(element);
-            if (element.LoopCardinality != 0)
+            if (taskElement.LoopCollection != null)
             {
-                var variableName = ConversionTemplates.MultiInstanceCountVariable(GetElementCallName(element));
-                return new SolidityStatement($"int {variableName}");
+                if (processConverter.Contract.TryGetProperty(taskElement.LoopCollection, out var property, out var entity))
+                {
+                    if (!entity.IsRootEntity)
+                        return null; //TODO Exception
+                    if (property.PropertyType != PropertyType.Collection)
+                        return null; //TODO Exception
+                    return $"{Helpers.ToLowerCamelCase(property.Name)}.length";
+                }
             }
-            else if(element.LoopCollection != null)
+            else if (taskElement.LoopCardinality != 0)
             {
-                var collectionEntity = processConverter.ContractConverter.GetDataTypeOfType<Entity>(element.LoopCollection);
-                var entityName = Helpers.ToUpperCamelCase(collectionEntity.Name);
-                var variableName = ConversionTemplates.MultiInstanceCollectionVariable(GetElementCallName(element));
-
-                return new SolidityStatement($"{entityName}[] {variableName}");
+                return taskElement.LoopCardinality.ToString();
             }
-            else
-            {
-                //TODO: Exception
-                return null;
-            }
+            return null; //TODO exception
         }
 
-        SolidityStatement CreateLoopVariableAssignmentStatement(Task element)
-        {
-            if (element.LoopCardinality != 0)
-            {
-                var variableName = ConversionTemplates.MultiInstanceCountVariable(GetElementCallName(element));
-                return new SolidityStatement($"{variableName} = {element.LoopCardinality}");
-            }
-            else if (element.LoopCollection != null)
-            {
-                var collectionEntity = processConverter.ContractConverter.GetDataTypeOfType<Entity>(element.LoopCollection);
-                var variableName = ConversionTemplates.MultiInstanceCollectionVariable(GetElementCallName(element));
-                return new SolidityStatement($"{Helpers.ToUpperCamelCase(collectionEntity.Name)}[] {variableName} = ");
-            }
-            else
-            {
-                //TODO: Exception
-                return null;
-            }
-        }
+
     }
 }

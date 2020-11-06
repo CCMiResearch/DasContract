@@ -31,19 +31,25 @@ namespace DasContract.Blockchain.Solidity.Converters
         /// <returns>A string specifying how the function/other logic will be named</returns>
         public abstract string GetElementCallName();
 
+        protected SolidityStatement GetChangeActiveStateStatement(bool active)
+        {
+            string statement = $"{ConversionTemplates.ActiveStatesMappingName(processConverter.Id)}";
+            foreach(var identifier in processConverter.InstanceIdentifiers)
+            {
+                statement += $"[{identifier.IdentifierName}]";
+            }
+            statement += $"[\"{GetElementCallName()}\"] = {Helpers.ToLowerCamelCase(active.ToString())}";
+            return new SolidityStatement(statement);
+        }
+
         protected string GetElementCallName<T>(T element) where T: ProcessElement
         {
-            string callName;
-            //TODO: check whether name is unique, short enough, etc...
-            if (element.Name != null && element.Name.Length <= 20)
-                callName = Helpers.ToUpperCamelCase(element.Name);
-            else
-                callName = element.Id;
+            return processConverter.GetElementCallName(element);
+        }
 
-            if (processConverter.CallActivityId != null)
-                callName = $"{processConverter.CallActivityId}_{callName}";
-
-            return callName;
+        protected SolidityStatement GetFunctionCallStatement()
+        {
+            return new SolidityStatement($"{GetElementCallName()}({processConverter.GetIdentifierNames()})");
         }
     }
 }

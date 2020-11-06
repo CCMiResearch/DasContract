@@ -45,7 +45,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            throw new NotImplementedException();
+            return processConverter.GetStatementOfNextElement(startEventElement);
         }
 
         public override string GetElementCallName()

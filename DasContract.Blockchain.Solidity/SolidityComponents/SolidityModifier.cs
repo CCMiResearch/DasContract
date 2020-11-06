@@ -7,9 +7,11 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
     public class SolidityModifier : SolidityComponent
     {
         LiquidString modifierName;
+        List<SolidityParameter> parameters = new List<SolidityParameter>();
         IList<SolidityComponent> body;
 
         static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}modifier {{name}}" +
+            "{% if parameters.size > 0 %}({{parameters}}){% endif %}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}\t_;\n" +
@@ -27,6 +29,30 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             body.Add(component);
         }
 
+        public SolidityModifier AddParameter(SolidityParameter parameter)
+        {
+            parameters.Add(parameter);
+            return this;
+        }
+
+        public SolidityModifier AddParameters(List<SolidityParameter> parameters)
+        {
+            this.parameters.AddRange(parameters);
+            return this;
+        }
+
+        LiquidCollection ParametersToLiquid()
+        {
+            var col = new LiquidCollection();
+            foreach (var par in parameters)
+            {
+                if (par != parameters[parameters.Count - 1])
+                    par.Name = par.Name + ", ";
+                col.Add(par.ToLiquidString());
+            }
+            return col;
+        }
+
         public override LiquidString ToLiquidString(int indent)
         {
             return LiquidString.Create(ToString(indent));
@@ -37,6 +63,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
                 DefineLocalVariable("name", modifierName).
+                DefineLocalVariable("parameters", ParametersToLiquid()).
                 DefineLocalVariable("body", BodyToLiquid(indent));
             return template.Render(ctx).Result;
         }

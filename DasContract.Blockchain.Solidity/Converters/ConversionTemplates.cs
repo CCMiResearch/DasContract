@@ -17,14 +17,9 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"is{elementCallName}Authorized";
         }
 
-        public static string MultiInstanceCollectionVariable(string elementCallName)
+        public static string MultiInstanceCounterVariable(string elementCallName)
         {
-            return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCollection";
-        }
-
-        public static string MultiInstanceCountVariable(string elementCallName)
-        {
-            return $"{Helpers.ToLowerCamelCase(elementCallName)}LoopCount";
+            return $"{Helpers.ToLowerCamelCase(elementCallName)}Counter";
         }
 
         public static string IdentifierVariableName(string identifierPropertyName)
@@ -40,14 +35,24 @@ namespace DasContract.Blockchain.Solidity.Converters
                 return processId;
         }
 
-        public static string CallActivityReturnFunctionName(string callActivityId)
+        public static string CallActivityCounter(string callActivityCallName)
         {
-            return $"{callActivityId}ReturnLogic";
+            return $"{callActivityCallName}Counter";
         }
 
-        public static SolidityStatement ChangeActiveStateStatement(string elementCallName, bool isActive)
+        public static string ActiveStatesMappingName(string processConverterId)
         {
-            return new SolidityStatement($"{ConverterConfig.ACTIVE_STATES_NAME}[\"{elementCallName}\"] = {isActive}");
+            return $"{processConverterId}{ConverterConfig.ACTIVE_STATES_NAME}";
+        }
+
+        public static string CallActivityReturnFunctionName(string callActivityCallname)
+        {
+            return $"{callActivityCallname}ReturnLogic";
+        }
+
+        public static SolidityStatement ChangeActiveStateStatement(string processConverterId, string elementCallName, bool isActive)
+        {
+            return new SolidityStatement($"{ActiveStatesMappingName(processConverterId)}[\"{elementCallName}\"] = {isActive}");
         }
 
         public static SolidityStatement RequireActiveStateStatement(string elementCallName)

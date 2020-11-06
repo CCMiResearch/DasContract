@@ -8,9 +8,9 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityFor: SolidityComponent
     {
-        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}(uint {{varName}} = 0; {{varName}} < {{loopCount}}; {{varName++}}){ \n" +
-            "{{body}} \n" +
-            "{{indent}}}").LiquidTemplate;
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}for(uint {{varName}} = 0; {{varName}} < {{loopCount}}; {{varName}}++){ \n" +
+            "{{body}}" +
+            "{{indent}}}\n").LiquidTemplate;
 
         string loopVariableName;
         string loopCountVariable;

@@ -112,7 +112,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_1",
                     Outgoing = new List<string> { "Sequence_Flow_4" },
                     AttachedTo = "User_Task_1",
-                    TimerDefinition = "2020-10-20", //TODO
+                    TimerDefinition = "${partyRegistrationEnd}", 
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
                 new TimerBoundaryEvent
@@ -120,7 +120,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_2",
                     Outgoing = new List<string> { "Sequence_Flow_6" },
                     AttachedTo = "User_Task_2",
-                    TimerDefinition = "2020-10-21", //TODO
+                    TimerDefinition = "${candidateRegistrationEnd}",
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
                 new TimerBoundaryEvent
@@ -128,7 +128,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Timer_Boundary_Event_3",
                     Outgoing = new List<string> { "Sequence_Flow_8" },
                     AttachedTo = "User_Task_3",
-                    TimerDefinition = "2020-10-22", //TODO
+                    TimerDefinition = "${candidateApprovalEnd}", 
                     TimerDefinitionType = TimerDefinitionType.Date
                 },
             };
@@ -158,8 +158,9 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             return new CallActivity
             {
                 Id = "Call_Activity_1",
-                CalledElement = "Process_2", //TODO called process ID
+                CalledElement = "Process_2",
                 InstanceType = InstanceType.Parallel,
+                LoopCollection = "Property_24",
                 Incoming = new List<string> { "Sequence_Flow_9" },
                 Outgoing = new List<string> { "Sequence_Flow_10" },
                 Name = "Country Elections"
@@ -202,7 +203,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Incoming = new List<string> { "Sequence_Flow_5", "Sequence_Flow_6" },
                 Outgoing = new List<string> { "Sequence_Flow_7" },
                 InstanceType = InstanceType.Parallel,
-                Name = "Approve and Order Candidates",
+                LoopCardinality = 500,
+                Name = "Approve Candidates",
                 Form = form
             };
         }
@@ -244,7 +246,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Incoming = new List<string> { "Sequence_Flow_3", "Sequence_Flow_4" },
                 Outgoing = new List<string> { "Sequence_Flow_5" },
                 InstanceType = InstanceType.Parallel,
-                Name = "Register New Party",
+                LoopCardinality = -1,
+                Name = "Register New Candidate",
                 Form = form
             };
         }
@@ -295,8 +298,10 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Incoming = incoming,
                 Outgoing = outgoing,
                 InstanceType = InstanceType.Parallel,
+                LoopCardinality = -1,
                 Name = "Register New Party",
-                Form = form
+                Form = form,
+                ValidationScript = ""
             };
         }
 

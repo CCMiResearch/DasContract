@@ -1,59 +1,64 @@
 ﻿using DasContract.Abstraction.Data;
-using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using Liquid.NET.Constants;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace DasContract.Blockchain.Solidity
+namespace DasContract.Blockchain.Solidity.Converters
 {
     public class DataModelConverter
     {
         ContractConverter contractConverter;
+        List<TokenConverter> tokenConverters = new List<TokenConverter>();
 
         List<SolidityStatement> rootProperties = new List<SolidityStatement>();
         List<SolidityStruct> structs = new List<SolidityStruct>();
         List<SolidityEnum> enums = new List<SolidityEnum>();
         List<SolidityContract> tokens = new List<SolidityContract>();
 
-        List<string> dependencies = new List<string>();
+        HashSet<string> dependencies = new HashSet<string>();
 
+        public void AddDependency(string dependency)
+        {
+            dependencies.Add(dependency);
+        }
 
         public DataModelConverter(ContractConverter contractConverter)
         {
             this.contractConverter = contractConverter;
+            CreateTokenConverters();
         }
 
         public void ConvertLogic()
         {
             ConvertEntities();
             ConvertEnums();
-            ConvertTokens();
+            foreach(var converter in tokenConverters)
+            {
+                converter.ConvertLogic();
+            }
         }
 
-        public SolidityStatement GetDependencies()
+        void CreateTokenConverters()
         {
-            if (dependencies.Count == 0)
-                return null;
-            return new SolidityStatement(dependencies);
+            foreach(var token in contractConverter.Contract.Tokens)
+            {
+                tokenConverters.Add(new TokenConverter(token, this));
+            }
         }
 
-        public List<SolidityContract> GetTokenContracts()
+        public HashSet<string> GetDependencies()
         {
-            return tokens;
-        }
-
-        public List<SolidityComponent> GetDataStructuresDefinitions()
-        {
-            var structureDefinitions = new List<SolidityComponent>();
-            structureDefinitions.AddRange(enums);
-            structureDefinitions.AddRange(structs);
-            return structureDefinitions;
+            return dependencies;
         }
 
         public LiquidCollection TokenContractsToLiquid()
         {
             var collection = new LiquidCollection();
-            tokens.ForEach(t => collection.Add(t.ToLiquidString(0)));
+            foreach (var tokenConverter in tokenConverters)
+            {
+                collection.Add(tokenConverter.GetTokenContract().ToLiquidString(0));
+            }
             return collection;
         }
 
@@ -91,34 +96,7 @@ namespace DasContract.Blockchain.Solidity
             }
         }
 
-        void ConvertTokens()
-        {
-            //TODO: Create the contract only if custom logic is required
-            foreach (var token in contractConverter.Contract.Tokens)
-            {
-                SolidityContract solidityContract = new SolidityContract(token.Name);
-                if (token.IsFungible)
-                {
-                    solidityContract.AddInheritance(ConverterConfig.FUNGIBLE_TOKEN_NAME);
-                    if (!dependencies.Contains(ConverterConfig.FUNGIBLE_TOKEN_IMPORT))
-                        dependencies.Add(ConverterConfig.FUNGIBLE_TOKEN_IMPORT);
-                }
-                else
-                {
-                    solidityContract.AddInheritance(ConverterConfig.NON_FUNGIBLE_TOKEN_NAME);
-                    if (!dependencies.Contains(ConverterConfig.NON_FUNGIBLE_TOKEN_IMPORT))
-                        dependencies.Add(ConverterConfig.NON_FUNGIBLE_TOKEN_IMPORT);
-                }
-
-                foreach (var property in token.Properties)
-                {
-                    solidityContract.AddComponent(ConvertProperty(property));
-                }
-                tokens.Add(solidityContract);
-            }
-        }
-
-        SolidityStatement ConvertProperty(Property property)
+        public SolidityStatement ConvertProperty(Property property)
         {
             SolidityStatement propertyStatement = new SolidityStatement();
             string propertyType = Helpers.PropertyTypeToString(property, contractConverter);
@@ -143,6 +121,8 @@ namespace DasContract.Blockchain.Solidity
         public IList<SolidityComponent> GetSolidityComponents()
         {
             var components = new List<SolidityComponent>();
+            components.AddRange(rootProperties);
+            components.AddRange(enums);
             components.AddRange(structs);
             return components;
         }

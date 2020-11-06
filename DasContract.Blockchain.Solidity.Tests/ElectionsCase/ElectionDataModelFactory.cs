@@ -37,8 +37,86 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 CreateElectionsEntity(),
                 CreateCountryElectionsEntity(),
                 CreatePoliticalPartyEntity(),
-                CreateCandidateEntity()
+                CreateCandidateEntity(),
+                CreateRootEntity()
             };
+        }
+
+        private static Entity CreateRootEntity()
+        {
+            var entity = new Entity
+            {
+                Id = "Entity_5",
+                Name = "RootEntity",
+                IsRootEntity = true
+            };
+
+            entity.Properties = new List<Property>
+            {
+                new Property
+                {
+                    Id = "Property_24",
+                    Name = "Countries",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Collection,
+                    ReferencedDataType = "Entity_2"
+                },
+                new Property
+                {
+                    Id = "Property_25",
+                    Name = "PoliticalParties",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Collection,
+                    ReferencedDataType = "Entity_3"
+                },
+                new Property
+                {
+                    Id = "Property_26",
+                    Name = "CandidatesMap",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Dictionary,
+                    KeyType = PropertyDataType.Address,
+                    ReferencedDataType = "Entity_4"
+                },
+                new Property
+                {
+                    Id = "Property_26",
+                    Name = "Candidates",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Collection,
+                    ReferencedDataType = "Entity_4"
+                },
+                new Property
+                {
+                    DataType = PropertyDataType.DateTime,
+                    Id = "Property_2",
+                    Name = "startDate",
+                    PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    DataType = PropertyDataType.DateTime,
+                    Id = "Property_3",
+                    Name = "partyRegistrationEnd",
+                    PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    DataType = PropertyDataType.DateTime,
+                    Id = "Property_4",
+                    Name = "candidateRegistrationEnd",
+                    PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    DataType = PropertyDataType.DateTime,
+                    Id = "Property_5",
+                    Name = "candidateApprovalEnd",
+                    PropertyType = PropertyType.Single
+                }
+                };
+
+            return entity;
         }
 
         private static Entity CreateCandidateEntity()
@@ -219,38 +297,6 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Id = "Entity_1",
                 Name = "Elections"
             };
-
-            entity.Properties = new List<Property>
-            {
-            new Property
-            {
-                DataType = PropertyDataType.DateTime,
-                Id = "Property_2",
-                Name = "startDate",
-                PropertyType = PropertyType.Single
-            },
-            new Property
-            {
-                DataType = PropertyDataType.DateTime,
-                Id = "Property_3",
-                Name = "partyRegistrationEnd",
-                PropertyType = PropertyType.Single
-            },
-            new Property
-            {
-                DataType = PropertyDataType.DateTime,
-                Id = "Property_4",
-                Name = "candidateRegistrationEnd",
-                PropertyType = PropertyType.Single
-            },
-            new Property
-            {
-                DataType = PropertyDataType.DateTime,
-                Id = "Property_5",
-                Name = "candidateApprovalEnd",
-                PropertyType = PropertyType.Single
-            }
-        };
 
             return entity;
         }

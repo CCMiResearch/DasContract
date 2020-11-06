@@ -14,10 +14,12 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         public static readonly string ADDRESS_MAPPING_VAR_NAME = "addressMapping";
 
-        public static readonly string FUNGIBLE_TOKEN_IMPORT = "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC20/ERC20.sol";
-        public static readonly string NON_FUNGIBLE_TOKEN_IMPORT = "import https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC721/ERC721.sol";
+        public static readonly string FUNGIBLE_TOKEN_IMPORT = "\"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC20/ERC20.sol\"";
+        public static readonly string NON_FUNGIBLE_TOKEN_IMPORT = "\"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC721/ERC721.sol\"";
+        public static readonly string OWNABLE_IMPORT = "\"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/access/Ownable.sol\"";
 
         public static readonly string FUNGIBLE_TOKEN_NAME = "ERC20";
         public static readonly string NON_FUNGIBLE_TOKEN_NAME = "ERC721";
+        public static readonly string OWNABLE_NAME = "Ownable";
     }
 }

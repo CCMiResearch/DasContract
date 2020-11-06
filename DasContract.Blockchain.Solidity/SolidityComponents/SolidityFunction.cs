@@ -11,9 +11,9 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
         LiquidString visibility;
         LiquidString functionName;
         LiquidString returns;
-        IList<SolidityParameter> parameters;
-        IList<SolidityComponent> body;
-        IList<string> modifiers;
+        List<SolidityParameter> parameters;
+        List<SolidityComponent> body;
+        List<string> modifiers;
 
         static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
             "{{parameters}}) " +
@@ -50,6 +50,12 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             return this;
         }
 
+        public SolidityFunction AddParameters(List<SolidityParameter> parameters)
+        {
+            this.parameters.AddRange(parameters);
+            return this;
+        }
+
         public SolidityFunction AddModifier(string modifier)
         {
             modifiers.Add(modifier);
@@ -58,7 +64,17 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 
         public SolidityFunction AddToBody(SolidityComponent component)
         {
-            body.Add(component);
+            if(component != null)
+                body.Add(component);
+            return this;
+        }
+
+        public SolidityFunction AddToBody(List<SolidityComponent> components)
+        {
+            foreach (var c in components)
+            {
+                AddToBody(c);
+            }
             return this;
         }
 

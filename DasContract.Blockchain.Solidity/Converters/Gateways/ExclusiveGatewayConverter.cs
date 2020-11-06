@@ -28,7 +28,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Gateways
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
-            return new SolidityStatement($"{GetElementCallName()}Logic()");
+            return GetFunctionCallStatement();
         }
 
         public override void ConvertElementLogic()
@@ -38,7 +38,8 @@ namespace DasContract.Blockchain.Solidity.Converters.Gateways
 
         SolidityFunction CreateLogicFunction()
         {
-            var logicFunction = new SolidityFunction($"{GetElementCallName()}Logic", SolidityVisibility.Internal);
+            var logicFunction = new SolidityFunction($"{GetElementCallName()}", SolidityVisibility.Internal);
+            logicFunction.AddParameters(processConverter.GetIdentifiersAsParameters());
             var outgoingSequenceFlows = processConverter.GetOutgoingSequenceFlows(gatewayElement);
             if (outgoingSequenceFlows.Count == 1)
             {
