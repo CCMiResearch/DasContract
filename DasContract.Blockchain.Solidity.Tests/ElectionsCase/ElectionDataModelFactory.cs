@@ -34,7 +34,6 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
         {
             return new List<Entity>
             {
-                CreateElectionsEntity(),
                 CreateCountryElectionsEntity(),
                 CreatePoliticalPartyEntity(),
                 CreateCandidateEntity(),
@@ -63,10 +62,20 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 },
                 new Property
                 {
-                    Id = "Property_25",
-                    Name = "PoliticalParties",
+                    Id = "Property_27",
+                    Name = "CountriesMap",
                     DataType = PropertyDataType.Reference,
-                    PropertyType = PropertyType.Collection,
+                    PropertyType = PropertyType.Dictionary,
+                    KeyType = PropertyDataType.String,
+                    ReferencedDataType = "Entity_2"
+                },
+                new Property
+                {
+                    Id = "Property_25",
+                    Name = "PoliticalPartiesMap",
+                    DataType = PropertyDataType.Reference,
+                    PropertyType = PropertyType.Dictionary,
+                    KeyType = PropertyDataType.Address,
                     ReferencedDataType = "Entity_3"
                 },
                 new Property
@@ -166,6 +175,13 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 },
                 new Property
                 {
+                    Id = "Property_31",
+                    Name = "approved",
+                    DataType = PropertyDataType.Bool,
+                    PropertyType = PropertyType.Single
+                },
+                new Property
+                {
                     Id = "Property_23",
                     Name = "party",
                     DataType = PropertyDataType.Reference,
@@ -252,9 +268,16 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 new Property
                 {
                     Id = "Property_7",
-                    Name = "electionDates",
+                    Name = "electionBeginDate",
                     DataType = PropertyDataType.DateTime,
-                    PropertyType = PropertyType.Collection
+                    PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    Id = "Property_30",
+                    Name = "electionEndDate",
+                    DataType = PropertyDataType.DateTime,
+                    PropertyType = PropertyType.Single
                 },
                 new Property
                 {
@@ -285,17 +308,6 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     DataType = PropertyDataType.Byte,
                     PropertyType = PropertyType.Single
                 }
-            };
-
-            return entity;
-        }
-
-        private static Entity CreateElectionsEntity()
-        {
-            var entity = new Entity
-            {
-                Id = "Entity_1",
-                Name = "Elections"
             };
 
             return entity;

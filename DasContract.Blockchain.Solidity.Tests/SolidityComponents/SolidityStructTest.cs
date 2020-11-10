@@ -42,20 +42,5 @@ namespace DasContractTests.DasContract.Blockchain.Solidity.SolidityComponents
 
         }
 
-        [Fact]
-        public void VariableNameTest()
-        {
-            SolidityStruct st = GetSampleStruct();
-
-            Assert.Equal("foo", st.VariableName().ToString());
-        }
-
-        [Fact]
-        public void TypeNameTest()
-        {
-            SolidityStruct st = GetSampleStruct();
-
-            Assert.Equal("Foo", st.TypeName().ToString());
-        }
     }
 }

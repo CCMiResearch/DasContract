@@ -14,7 +14,6 @@ namespace DasContract.Blockchain.Solidity.Converters
         List<SolidityStatement> rootProperties = new List<SolidityStatement>();
         List<SolidityStruct> structs = new List<SolidityStruct>();
         List<SolidityEnum> enums = new List<SolidityEnum>();
-        List<SolidityContract> tokens = new List<SolidityContract>();
 
         HashSet<string> dependencies = new HashSet<string>();
 
@@ -86,7 +85,7 @@ namespace DasContract.Blockchain.Solidity.Converters
                 }
                 else
                 {
-                    SolidityStruct solidityStruct = new SolidityStruct(entity.Name);
+                    SolidityStruct solidityStruct = new SolidityStruct(entity.ToStructureName());
                     foreach (var property in entity.Properties)
                     {
                         solidityStruct.AddToBody(ConvertProperty(property));
@@ -106,7 +105,7 @@ namespace DasContract.Blockchain.Solidity.Converters
                 propertyStatement.Add($"{propertyType} {propertyName}");
             else if (property.PropertyType == PropertyType.Dictionary)
             {
-                var keyType = Helpers.PropertyTypeToString(property.KeyType);
+                var keyType = Helpers.PrimitivePropertyTypeToString(property.KeyType);
                 propertyStatement.Add(ConversionTemplates.MappingTypeVariableDefinition(propertyName, keyType, propertyType));
             }
             else if (property.PropertyType == PropertyType.Collection)
@@ -117,11 +116,25 @@ namespace DasContract.Blockchain.Solidity.Converters
             //TODO: exception propertytype not defined
         }
 
+        public SolidityStatement GetConstructorStatements()
+        {
+            var statement = new SolidityStatement();
+            foreach (var tokenConverter in tokenConverters)
+            {
+                statement.Add(tokenConverter.GetConstructorStatement());
+            }
+            return statement;
+        }
 
-        public IList<SolidityComponent> GetSolidityComponents()
+
+        public IList<SolidityComponent> GetMainContractComponents()
         {
             var components = new List<SolidityComponent>();
             components.AddRange(rootProperties);
+            foreach (var tokenConverter in tokenConverters)
+            {
+                components.Add(tokenConverter.GetTokenVariableStatement());
+            }
             components.AddRange(enums);
             components.AddRange(structs);
             return components;

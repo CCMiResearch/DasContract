@@ -53,7 +53,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             else
             {
                 var currProperty = properties.First();
-                ctx.DefineLocalVariable("keyType", LiquidString.Create(Helpers.PropertyTypeToString(currProperty.DataType))).
+                ctx.DefineLocalVariable("keyType", LiquidString.Create(Helpers.PrimitivePropertyTypeToString(currProperty.DataType))).
                     DefineLocalVariable("valueType", GetMappingStatement(properties.Skip(1).ToList()));
             }
             return LiquidString.Create(innerTemplate.Render(ctx).Result);

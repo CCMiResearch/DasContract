@@ -37,7 +37,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         public static string CallActivityCounter(string callActivityCallName)
         {
-            return $"{callActivityCallName}Counter";
+            return $"{callActivityCallName.ToLowerCamelCase()}Counter";
         }
 
         public static string ActiveStatesMappingName(string processConverterId)
@@ -45,20 +45,31 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"{processConverterId}{ConverterConfig.ACTIVE_STATES_NAME}";
         }
 
+        public static string ActiveStatesFunctionName(string processConverterId)
+        {
+            return $"{ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME}{processConverterId}";
+        }
+
         public static string CallActivityReturnFunctionName(string callActivityCallname)
         {
             return $"{callActivityCallname}ReturnLogic";
         }
 
-        public static SolidityStatement ChangeActiveStateStatement(string processConverterId, string elementCallName, bool isActive)
+        public static string ActiveStateAssignment(string changedStateName, string converterId, List<ProcessInstanceIdentifier> identifiers, bool isChangedStateParameter = false)
         {
-            return new SolidityStatement($"{ActiveStatesMappingName(processConverterId)}[\"{elementCallName}\"] = {isActive}");
+            var activeState = new StringBuilder();
+            activeState.Append(ActiveStatesMappingName(converterId));
+            foreach (var identifier in identifiers)
+            {
+                activeState.Append($"[{identifier.IdentifierName}]");
+            }
+            if(isChangedStateParameter)
+                activeState.Append($"[{changedStateName}]");
+            else
+                activeState.Append($"[\"{changedStateName}\"]");
+            return activeState.ToString();
         }
 
-        public static SolidityStatement RequireActiveStateStatement(string elementCallName)
-        {
-            return new SolidityStatement($"require({ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME}(\"{elementCallName}\")==true");
-        }
 
         public static SolidityStatement MappingTypeVariableDefinition(string propertyName, string keyType, string valueType)
         {

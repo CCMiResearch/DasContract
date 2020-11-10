@@ -28,7 +28,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                         return null; //TODO Exception
                     if (property.PropertyType != PropertyType.Collection)
                         return null; //TODO Exception
-                    return $"{Helpers.ToLowerCamelCase(property.Name)}.length";
+                    return $"int256({Helpers.ToLowerCamelCase(property.Name)}.length)";
                 }
             }
             else if (taskElement.LoopCardinality != 0)

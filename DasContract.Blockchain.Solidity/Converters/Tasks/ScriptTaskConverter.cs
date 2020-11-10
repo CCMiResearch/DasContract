@@ -37,8 +37,6 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             function.AddParameters(processConverter.GetIdentifiersAsParameters());
             //Add the script logic
             function.AddToBody(new SolidityStatement(scriptTaskElement.Script, false));
-            //Add a statement that disables the current active state
-            function.AddToBody(GetChangeActiveStateStatement(false));
             //Get the delegation logic of the next connected element
             function.AddToBody(processConverter.GetStatementOfNextElement(scriptTaskElement));
             return function;

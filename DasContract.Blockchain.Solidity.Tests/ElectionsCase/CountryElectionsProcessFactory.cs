@@ -175,6 +175,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = new List<string> { "Sequence_Flow_13" },
                 InstanceType = InstanceType.Parallel,
                 Name = "Vote",
+                LoopCardinality = -1,
                 OperationType = TokenOperationType.Send,
                 Form = form
             };

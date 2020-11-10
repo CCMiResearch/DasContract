@@ -8,7 +8,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityStruct : SolidityComponent
     {
-        LiquidString structName;
+        string structName;
         IList<SolidityComponent> body;
 
         static readonly LiquidTemplate template = LiquidTemplate.Create(
@@ -19,7 +19,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 
         public SolidityStruct(string name)
         {
-            structName = LiquidString.Create(name);
+            structName = name;
             body = new List<SolidityComponent>();
         }
 
@@ -34,37 +34,11 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             return LiquidString.Create(ToString(indent));
         }
 
-        public LiquidString TypeName()
-        {
-            var lower = structName.ToString().ToLower();
-            return LiquidString.Create(lower.First().ToString().ToUpper() + lower.Substring(1));
-        }
-
-        public LiquidString VariableName()
-        {
-            return LiquidString.Create(structName.ToString().ToLower());
-        }
-
-        public LiquidString GetParamteres()
-        {
-            string s = "{";
-            /* TODO i guess
-            foreach (var p in Entity.Properties)
-            {
-                if(!p.PropertyType == PropertyType.Single) 
-                    s += (Helpers.PropertyTypeToString(p) + ": " + Helpers.GetDefaultValueString(p) + ", ");
-            }
-            */
-            return LiquidString.Create(s.Trim().Trim(',') + "}");
-        }
-
         public override string ToString(int indent = 0)
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
-                DefineLocalVariable("name", TypeName()).
-                DefineLocalVariable("varName", VariableName()).
-                //DefineLocalVariable("parameters", GetParamteres()).
+                DefineLocalVariable("name", LiquidString.Create(structName)).
                 DefineLocalVariable("body", BodyToLiquid(indent));
             return template.Render(ctx).Result;
         }

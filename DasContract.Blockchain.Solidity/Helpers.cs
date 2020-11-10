@@ -38,7 +38,7 @@ namespace DasContract.Blockchain.Solidity
             "yyyy-MM-ddTHHZ"
         };
 
-        public static string PropertyTypeToString(PropertyDataType propertyType)
+        public static string PrimitivePropertyTypeToString(PropertyDataType propertyType)
         {
             switch (propertyType)
             {
@@ -58,6 +58,8 @@ namespace DasContract.Blockchain.Solidity
                     return "uint";
                 case PropertyDataType.Uint:
                     return "uint256";
+                case PropertyDataType.Byte:
+                    return "uint8";
                 default:
                     return "string";
             }
@@ -69,59 +71,19 @@ namespace DasContract.Blockchain.Solidity
 
             //Get the datatype name if reference
             if (type == PropertyDataType.Reference)
-                return ToUpperCamelCase(contractConverter.GetDataType(property.ReferencedDataType).Name);
+                return contractConverter.GetDataType(property.ReferencedDataType).ToStructureName();
             else
-                return PropertyTypeToString(type);
+                return PrimitivePropertyTypeToString(type);
         }
 
-        public static string GetDefaultValueString(Property property)
-        {
-            var type = property.DataType;
-            switch (type)
-            {
-                case PropertyDataType.Bool:
-                    return "false";
-                case PropertyDataType.String:
-                    return "\"\"";
-                case PropertyDataType.Int:
-                    return "0";
-                case PropertyDataType.Address:
-                    return "address(0x0)";
-                case PropertyDataType.AddressPayable:
-                    return "address(0x0)";
-                case PropertyDataType.Data:
-                    return "\"\"";
-                case PropertyDataType.DateTime:
-                    return "0";
-                case PropertyDataType.Uint:
-                    return "0";
-                case PropertyDataType.Reference:
-                    /*
-                    string s = GetPropertyStructureName(property.ReferencedDataType.Name) + "({";
-                    foreach (var p in property.ReferencedDataType.Properties)
-                    {
-                        if (!p.IsCollection)
-                        {
-                            s += GetPropertyVariableName(p.Name) + ": " + GetDefaultValueString(p) + ", ";
-                        }
-                    }
-                    
-                    return s.Trim().Trim(',') + "})";
-                    */
-                    return "placedholder"; //TODO: needs an update
-                default:
-                    return "\"\"";
-            }
-        }
-
-        public static string ToLowerCamelCase(string name)
+        public static string ToLowerCamelCase(this string name)
         {
             //remove spaces if any are present
             var trimmed = Regex.Replace(name, @"\s+", "");
             return trimmed.First().ToString().ToLower() + trimmed.Substring(1);
         }
 
-        public static string ToUpperCamelCase(string name)
+        public static string ToUpperCamelCase(this string name)
         {
             //remove spaces if any are present
             var trimmed = Regex.Replace(name, @"\s+", "");
@@ -133,6 +95,28 @@ namespace DasContract.Blockchain.Solidity
         {
             return DateTime.ParseExact(str, formats,
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
+        }
+
+        public static string ToVariableName(this DataType dataType)
+        {
+            if(dataType.Name != null)
+            {
+                var lowerCaseAndTrimmed = dataType.Name.ToLowerCamelCase();
+                if (lowerCaseAndTrimmed.Length > 0)
+                    return lowerCaseAndTrimmed;
+            }
+            return dataType.Id.ToLowerCamelCase();
+        }
+
+        public static string ToStructureName(this DataType dataType)
+        {
+            if (dataType.Name != null)
+            {
+                var upperCaseAndTrimmed = dataType.Name.ToUpperCamelCase();
+                if (upperCaseAndTrimmed.Length > 0)
+                    return upperCaseAndTrimmed;
+            }
+            return dataType.Id.ToUpperCamelCase();
         }
 
 

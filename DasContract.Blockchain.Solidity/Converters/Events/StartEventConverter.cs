@@ -21,6 +21,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
         private SolidityConstructor CreateConstructor()
         {
             SolidityConstructor constructor = new SolidityConstructor();
+            constructor.AddToBody(processConverter.ContractConverter.GetConstructorStatements());
             constructor.AddToBody(processConverter.GetStatementOfNextElement(startEventElement));
             return constructor;
         }

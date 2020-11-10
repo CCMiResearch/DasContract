@@ -78,19 +78,28 @@ namespace DasContract.Blockchain.Solidity.Converters
             return new SolidityStatement(mappingStatement.ToString());
         }
 
+        SolidityFunction CreateGetStateFunction()
+        {
+            var functionName = ConversionTemplates.ActiveStatesFunctionName(Id);
+            var getStateFunction = new SolidityFunction(functionName, SolidityVisibility.Public, "bool", true);
+            getStateFunction.AddToBody(new SolidityStatement($"return " +
+                $"{ConversionTemplates.ActiveStateAssignment(ConverterConfig.STATE_PARAMETER_NAME, Id, InstanceIdentifiers, true)}"));
+            //Add the potential process identifiers
+            getStateFunction.AddParameters(GetIdentifiersAsParameters());
+            getStateFunction.AddParameter(new SolidityParameter("string", ConverterConfig.STATE_PARAMETER_NAME));
+            return getStateFunction;
+        }
+
         public void ConvertProcess()
         {
             generalProcessComponents.Clear();
             //Mapping of the current states
             generalProcessComponents.Add(CreateActiveStatesMapping());
             //TODO: this address mapping will not work for roles
-            generalProcessComponents.Add(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
+            //generalProcessComponents.Add(new SolidityStatement("mapping (string => address) public " + ConverterConfig.ADDRESS_MAPPING_VAR_NAME));
 
             //Method for retrieving current state
-            var getStateFunction = new SolidityFunction(ConverterConfig.IS_STATE_ACTIVE_FUNCTION_NAME, SolidityVisibility.Public, "bool");
-            getStateFunction.AddToBody(new SolidityStatement("return " + ConverterConfig.ACTIVE_STATES_NAME + "[" + ConverterConfig.STATE_PARAMETER_NAME + "]"));
-            getStateFunction.AddParameter(new SolidityParameter("string", ConverterConfig.STATE_PARAMETER_NAME));
-            generalProcessComponents.Add(getStateFunction);
+            generalProcessComponents.Add(CreateGetStateFunction());
 
             //Convert process elements
             foreach (var converter in elementConverters.Values)
@@ -203,7 +212,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             var parameters = new List<SolidityParameter>();
             foreach (var identifier in InstanceIdentifiers)
             {
-                parameters.Add(new SolidityParameter(Helpers.PropertyTypeToString(PropertyDataType.Int), identifier.IdentifierName));
+                parameters.Add(new SolidityParameter(Helpers.PrimitivePropertyTypeToString(PropertyDataType.Int), identifier.IdentifierName));
             }
             return parameters;
         }

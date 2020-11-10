@@ -163,7 +163,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 LoopCollection = "Property_24",
                 Incoming = new List<string> { "Sequence_Flow_9" },
                 Outgoing = new List<string> { "Sequence_Flow_10" },
-                Name = "Country Elections"
+                Name = "Country Elections CallActivity"
             };
         }
 
@@ -205,7 +205,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Parallel,
                 LoopCardinality = 500,
                 Name = "Approve Candidates",
-                Form = form
+                Form = form,
+                ValidationScript = ""
             };
         }
 
@@ -221,7 +222,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                         Id = "Form_3_Field_1",
                         DisplayName = "Party Id",
                         Type = FormFieldType.Property,
-                        PropertyExpression = "Property_11",
+                        PropertyExpression = "Property_12",
                         IsReadOnly = true
                     },
                     new FormField
@@ -248,7 +249,25 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Parallel,
                 LoopCardinality = -1,
                 Name = "Register New Candidate",
-                Form = form
+                Form = form,
+                ValidationScript = @"PoliticalParty storage party = politicalPartiesMap[msg.sender];
+        //check whether a party exists
+        require(bytes(party.name).length > 0);
+        //check whether a candidate is not already registered to this address
+        require(candidatesMap[msg.sender].id == address(0));
+        
+        Candidate memory candidate = Candidate({
+            id: msg.sender,
+            name: name,
+            website: website, 
+            voteCount: 0, 
+            hasSeat: false,
+            approved: false,
+            party: party
+        });
+        
+        candidates.push(candidate);
+        candidatesMap[msg.sender] = candidate;"
             };
         }
 
@@ -301,7 +320,17 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 LoopCardinality = -1,
                 Name = "Register New Party",
                 Form = form,
-                ValidationScript = ""
+                ValidationScript = @"require(politicalPartiesMap[msg.sender].id == address(0));
+
+        PoliticalParty memory party = PoliticalParty({
+            id: msg.sender,
+            name: name,
+            code: code,
+            website: website,
+            voteCount: 0,
+            allocatedSeats: 0
+        });
+        politicalPartiesMap[msg.sender] = party; "
             };
         }
 
@@ -324,7 +353,16 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Incoming = incoming,
                 Outgoing = outgoing,
                 InstanceType = InstanceType.Single,
-                Script = "" //TODO
+                Script = @"candidateApprovalEnd = 9598986017;
+	    candidateRegistrationEnd = 9598986017;
+	    partyRegistrationEnd = 9598986017;
+	    
+		CountryElections memory czechElections = CountryElections(""Czech Republic"", 9598986017, 959994017, VotingSystem.OpenList, 10, 20, 18);
+        countriesMap[""Czech Republic""] = czechElections;
+        countries.push(czechElections);
+        CountryElections memory germanElections = CountryElections(""Germany"", 9598986017, 959994017, VotingSystem.ClosedList, 20, 40, 18);
+        countriesMap[""Germany""] = germanElections;
+        countries.push(germanElections);"
             };
         }
 

@@ -17,6 +17,8 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         SolidityStatement multiInstanceCounter;
 
+        bool counterVariablePresent = false;
+
         public UserTaskConverter(UserTask userTaskElement, ProcessConverter converterService)
         {
             this.userTaskElement = userTaskElement;
@@ -25,9 +27,10 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
+            /*
             if (IsAddressGuardRequired())
                 addressGuard = CreateAddressGuard();
-
+            */
             stateGuard = CreateStateGuard();
             mainFunction = CreateElementMainFunction();
 
@@ -51,7 +54,12 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         {
             SolidityModifier stateGuard = new SolidityModifier(ConversionTemplates.StateGuardModifierName(GetElementCallName()));
             stateGuard.AddParameters(processConverter.GetIdentifiersAsParameters());
-            SolidityStatement requireStatement = ConversionTemplates.RequireActiveStateStatement(GetElementCallName());
+            var activeStateFunctionName = ConversionTemplates.ActiveStatesFunctionName(processConverter.Id);
+            var callParameters = processConverter.GetIdentifierNames();
+            if (callParameters.Length > 0)
+                callParameters += ",";
+            callParameters += $"\"{GetElementCallName()}\"";
+            SolidityStatement requireStatement = new SolidityStatement($"require({activeStateFunctionName}({callParameters}) == true)");
             stateGuard.AddToBody(requireStatement);
             return stateGuard;
         }
@@ -89,11 +97,16 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             function.AddModifier($"{ConversionTemplates.StateGuardModifierName(GetElementCallName())}({processConverter.GetIdentifierNames()})");
             function.AddParameters(processConverter.GetIdentifiersAsParameters());
 
+            /*
             if (IsAddressGuardRequired())
                 function.AddModifier($"{ConversionTemplates.AddressGuardModifierName(GetElementCallName())}({processConverter.GetIdentifierNames()})");
+            */
 
             boundaryEventCalls.ForEach(c => function.AddToBody(c));
 
+            function.AddToBody(new SolidityStatement(userTaskElement.ValidationScript, false));
+
+            
             if (userTaskElement.Form.Fields != null)
             {
                 foreach (var field in userTaskElement.Form.Fields)
@@ -105,9 +118,6 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                     var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.DisplayName);
 
                     function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property, processConverter.ContractConverter), formPropertyDisplayName));
-                    var propertySetter = new SolidityStatement($"{Helpers.ToUpperCamelCase(entity.Name)}.{Helpers.ToLowerCamelCase(property.Name)} " +
-                        $"= {formPropertyDisplayName}");
-                    function.AddToBody(propertySetter);
                 }
             }
 
@@ -118,12 +128,13 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         List<SolidityComponent> CreateCallNextBody()
         {
             var components = new List<SolidityComponent>();
-            var callNextStatement = ConversionTemplates.ChangeActiveStateStatement(processConverter.Id, GetElementCallName(), false);
+            var callNextStatement = GetChangeActiveStateStatement(false);
             callNextStatement.Add(processConverter.GetStatementOfNextElement(userTaskElement));
 
             if (userTaskElement.InstanceType != InstanceType.Single)
             {
-                if (userTaskElement.LoopCardinality == -1)
+                //The tasks will run until it gets interrupted by some boundary event
+                if (userTaskElement.LoopCardinality == -1 || (userTaskElement.LoopCardinality == 0 && userTaskElement.LoopCollection == null))
                 {
                     return components;
                 }
@@ -132,6 +143,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                 var counterVariableName = ConversionTemplates.MultiInstanceCounterVariable(GetElementCallName());
                 
                 components.Add(new SolidityStatement($"{counterVariableName}++"));
+                counterVariablePresent = true;
                 if (userTaskElement.LoopCardinality > 0)
                 {
                     ifStatement.AddConditionBlock($"{counterVariableName} >= {userTaskElement.LoopCardinality}", callNextStatement);
@@ -170,9 +182,9 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)
         {
             var statement = new SolidityStatement();
-            if (userTaskElement.InstanceType != InstanceType.Single)
+            if (counterVariablePresent)
                 statement.Add(new SolidityStatement($"{ConversionTemplates.MultiInstanceCounterVariable(GetElementCallName())} = 0"));
-            statement.Add(ConversionTemplates.ChangeActiveStateStatement(processConverter.Id, GetElementCallName(), true));
+            statement.Add(GetChangeActiveStateStatement(true));
             return statement;
         }
 

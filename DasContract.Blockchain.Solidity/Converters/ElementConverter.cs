@@ -33,13 +33,8 @@ namespace DasContract.Blockchain.Solidity.Converters
 
         protected SolidityStatement GetChangeActiveStateStatement(bool active)
         {
-            string statement = $"{ConversionTemplates.ActiveStatesMappingName(processConverter.Id)}";
-            foreach(var identifier in processConverter.InstanceIdentifiers)
-            {
-                statement += $"[{identifier.IdentifierName}]";
-            }
-            statement += $"[\"{GetElementCallName()}\"] = {Helpers.ToLowerCamelCase(active.ToString())}";
-            return new SolidityStatement(statement);
+            var activeStateAssignment = ConversionTemplates.ActiveStateAssignment(GetElementCallName(), processConverter.Id, processConverter.InstanceIdentifiers);
+            return new SolidityStatement($"{activeStateAssignment} = {active.ToString().ToLower()}");
         }
 
         protected string GetElementCallName<T>(T element) where T: ProcessElement

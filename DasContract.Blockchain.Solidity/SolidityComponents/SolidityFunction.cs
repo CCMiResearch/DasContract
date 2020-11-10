@@ -6,32 +6,33 @@ using System.Text;
 
 namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
-    public class SolidityFunction : SolidityComponent
+    public class SolidityFunction : SolidityAbstractMethod
     {
-        LiquidString visibility;
         LiquidString functionName;
+        LiquidString visibility;
         LiquidString returns;
-        List<SolidityParameter> parameters;
-        List<SolidityComponent> body;
+        bool isView;
+        
         List<string> modifiers;
 
         static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
             "{{parameters}}) " +
             "{{modifiers}}" +
             "{{visibility}} " +
+            "{% unless isView == false %}view {% endunless %}" +
             "{% unless returns == ''%}returns({{returns}}){% endunless %}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;
 
-        public SolidityFunction(string functionName, SolidityVisibility visibility, string returns = "") 
+        public SolidityFunction(string functionName, SolidityVisibility visibility, string returns = "", bool isView = false) 
         {
             this.functionName = LiquidString.Create(functionName);
             this.visibility = LiquidString.Create(visibility.ToString().ToLower());
             this.returns = LiquidString.Create(returns);
+            this.isView = isView;
 
-            parameters = new List<SolidityParameter>();
-            body = new List<SolidityComponent>();
+            
             modifiers = new List<string>();
 
             // Has to be payable and has to be public (for now, solidity v0.6.x)
@@ -44,38 +45,9 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             }
         }
 
-        public SolidityFunction AddParameter(SolidityParameter parameter)
-        {
-            parameters.Add(parameter);
-            return this;
-        }
-
-        public SolidityFunction AddParameters(List<SolidityParameter> parameters)
-        {
-            this.parameters.AddRange(parameters);
-            return this;
-        }
-
-        public SolidityFunction AddModifier(string modifier)
+        public void AddModifier(string modifier)
         {
             modifiers.Add(modifier);
-            return this;
-        }
-
-        public SolidityFunction AddToBody(SolidityComponent component)
-        {
-            if(component != null)
-                body.Add(component);
-            return this;
-        }
-
-        public SolidityFunction AddToBody(List<SolidityComponent> components)
-        {
-            foreach (var c in components)
-            {
-                AddToBody(c);
-            }
-            return this;
         }
 
         public override LiquidString ToLiquidString(int indent)
@@ -92,6 +64,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
                 DefineLocalVariable("visibility", visibility).
                 DefineLocalVariable("body", BodyToLiquid(indent)).
                 DefineLocalVariable("modifiers", ModifiersToLiquid()).
+                DefineLocalVariable("isView", new LiquidBoolean(isView)).
                 DefineLocalVariable("returns", returns);
             return template.Render(ctx).Result;
         }
@@ -104,24 +77,6 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             return col;
         }
 
-        LiquidCollection ParametersToLiquid()
-        {
-            var col = new LiquidCollection();
-            foreach (var par in parameters)
-            {
-                if (par != parameters[parameters.Count - 1])
-                    par.Name = par.Name + ", ";
-                col.Add(par.ToLiquidString());
-            }
-            return col;
-        }
-
-        LiquidCollection BodyToLiquid(int indent)
-        {
-            var col = new LiquidCollection();
-            foreach (var b in body)
-                col.Add(b.ToLiquidString(indent + 1));
-            return col;
-        }
+        
     }
 }

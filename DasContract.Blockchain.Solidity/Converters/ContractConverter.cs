@@ -104,12 +104,22 @@ namespace DasContract.Blockchain.Solidity.Converters
             return executable.First();
         }
 
+        /// <summary>
+        /// Provides statements necessary to initialize the main contract in the constructor
+        /// These statements currently only come from the token converters - the token contracts must be initialized
+        /// </summary>
+        /// <returns></returns>
+        public SolidityStatement GetConstructorStatements()
+        {
+            return DataModelConverter.GetConstructorStatements();
+        }
+
         public void ConvertContract()
         {
             //Convert data model logic
             DataModelConverter.ConvertLogic();
             //Add enum and struct definitions to the main contract
-            mainSolidityContract.AddComponents(DataModelConverter.GetSolidityComponents());
+            mainSolidityContract.AddComponents(DataModelConverter.GetMainContractComponents());
             //Convert all processes and add their logic to the main contract
             foreach (var processConverter in processConverters.Values)
             {

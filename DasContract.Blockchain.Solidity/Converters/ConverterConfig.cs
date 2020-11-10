@@ -21,5 +21,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         public static readonly string FUNGIBLE_TOKEN_NAME = "ERC20";
         public static readonly string NON_FUNGIBLE_TOKEN_NAME = "ERC721";
         public static readonly string OWNABLE_NAME = "Ownable";
+
+        public static readonly string OWNABLE_MODIFIER = "onlyOwner";
     }
 }
