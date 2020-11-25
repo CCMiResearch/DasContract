@@ -70,10 +70,15 @@ namespace DasContract.Blockchain.Solidity
             var type = property.DataType;
 
             //Get the datatype name if reference
+            string typeAsString;
             if (type == PropertyDataType.Reference)
-                return contractConverter.GetDataType(property.ReferencedDataType).ToStructureName();
+                typeAsString = contractConverter.GetDataType(property.ReferencedDataType).ToStructureName();
             else
-                return PrimitivePropertyTypeToString(type);
+                typeAsString = PrimitivePropertyTypeToString(type);
+
+            if (property.PropertyType == PropertyType.Collection)
+                typeAsString += "[]";
+            return typeAsString;
         }
 
         public static string ToLowerCamelCase(this string name)

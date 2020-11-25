@@ -89,7 +89,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Outgoing = new List<string> { "Sequence_Flow_14" },
                 TimerDefinitionType = TimerDefinitionType.Date,
                 AttachedTo = "User_Task_4",
-                TimerDefinition = "2020-10-20"
+                TimerDefinition = "${countries[call_Activity_1Identifier].electionEndDate}"
             };
         }
 
@@ -163,7 +163,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                         Id = "Form_1_Field_1",
                         DisplayName = "Voting choices",
                         Type = FormFieldType.Property,
-                        PropertyExpression = "Property_11"
+                        PropertyExpression = "Property_100",
                     }
                 }
             };
@@ -177,7 +177,33 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Name = "Vote",
                 LoopCardinality = -1,
                 OperationType = TokenOperationType.Send,
-                Form = form
+                Form = form,
+                ValidationScript = @"require(votingchoices.length > 0, ""At least one cadidate must be chosen"");
+        //Check whether voting is open
+        CountryElections storage country = countries[call_Activity_1Identifier];
+        require(now > country.electionBeginDate, ""Voting is currently not allowed"");
+
+        //Check the voting choices according to the given voting system
+        if (country.votingSystem == VotingSystem.ClosedList)
+        {
+            checkClosedListVotingChoices(votingchoices, country.id);
+        }
+        else if (country.votingSystem == VotingSystem.OpenList)
+        {
+            checkOpenListVotingChoices(votingchoices, country.id);
+            // incrementCandidatesVotes(votingChoices, country.id);
+        }
+        else if (country.votingSystem == VotingSystem.SingleTransferable)
+        {
+            checkSingleTransferrableVotingChoices(votingchoices, country.id);
+            //incrementCandidatesVotes(votingChoices);
+        }
+        votingToken.transfer(msg.sender, address(this));
+
+        if (country.votingSystem == VotingSystem.ClosedList)
+            incrementPartyVote(votingchoices[0]);
+        else
+            incrementCandidatesVotes(votingchoices); "
             };
         }
 
@@ -191,7 +217,12 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 InstanceType = InstanceType.Single,
                 Name = "Send ballots to the elegible EU Citizens",
                 OperationType = TokenOperationType.Create,
-                Script = "" //TODO
+                Script = @"CountryElections storage country = countries[call_Activity_1Identifier];
+
+        for (uint256 i = 0; i < country.voters.length; i++)
+        {
+           votingToken.mint(country.voters[i]);
+        }"
             };
         }
     }

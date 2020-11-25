@@ -31,7 +31,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         /// <returns>A string specifying how the function/other logic will be named</returns>
         public abstract string GetElementCallName();
 
-        protected SolidityStatement GetChangeActiveStateStatement(bool active)
+        public SolidityStatement GetChangeActiveStateStatement(bool active)
         {
             var activeStateAssignment = ConversionTemplates.ActiveStateAssignment(GetElementCallName(), processConverter.Id, processConverter.InstanceIdentifiers);
             return new SolidityStatement($"{activeStateAssignment} = {active.ToString().ToLower()}");

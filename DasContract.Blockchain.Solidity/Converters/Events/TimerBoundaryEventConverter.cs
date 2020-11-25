@@ -71,7 +71,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Events
         {
             var touchLogic = new SolidityStatement();
             //Disable the current state
-            touchLogic.Add(GetChangeActiveStateStatement(false));
+            touchLogic.Add(attachedToConverter.GetChangeActiveStateStatement(false));
             //place the call statement of the next element
             touchLogic.Add(processConverter.GetStatementOfNextElement(eventElement));
             touchLogic.Add(new SolidityStatement("return false"));

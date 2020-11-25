@@ -53,10 +53,12 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             var generatedComponents = new List<SolidityComponent>();
             generatedComponents.AddRange(generalProcessComponents);
+            
             foreach (var converter in elementConverters.Values)
             {
                 generatedComponents.AddRange(converter.GetGeneratedSolidityComponents());
             }
+            generatedComponents.Add(new SolidityStatement(Process.CustomScript, false));
             return generatedComponents;
         }
 
@@ -74,7 +76,7 @@ namespace DasContract.Blockchain.Solidity.Converters
                 "string",
                 "bool",
                 ConversionTemplates.ActiveStatesMappingName(Id),
-                InstanceIdentifiers.Select(i => new Property { DataType = PropertyDataType.Int }).ToList());
+                InstanceIdentifiers.Select(i => new Property { DataType = PropertyDataType.Uint }).ToList());
             return new SolidityStatement(mappingStatement.ToString());
         }
 
@@ -212,7 +214,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             var parameters = new List<SolidityParameter>();
             foreach (var identifier in InstanceIdentifiers)
             {
-                parameters.Add(new SolidityParameter(Helpers.PrimitivePropertyTypeToString(PropertyDataType.Int), identifier.IdentifierName));
+                parameters.Add(new SolidityParameter(Helpers.PrimitivePropertyTypeToString(PropertyDataType.Uint), identifier.IdentifierName));
             }
             return parameters;
         }

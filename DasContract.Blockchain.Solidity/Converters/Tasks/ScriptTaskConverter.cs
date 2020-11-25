@@ -19,7 +19,6 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
-            //Create main function containing the script logic 
             mainFunction = CreateTaskFunction();
         }
 

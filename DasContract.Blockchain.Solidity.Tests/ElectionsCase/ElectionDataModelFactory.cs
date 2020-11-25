@@ -54,7 +54,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             {
                 new Property
                 {
-                    Id = "Property_24",
+                    Id = "Property_27",
                     Name = "Countries",
                     DataType = PropertyDataType.Reference,
                     PropertyType = PropertyType.Collection,
@@ -62,17 +62,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 },
                 new Property
                 {
-                    Id = "Property_27",
-                    Name = "CountriesMap",
-                    DataType = PropertyDataType.Reference,
-                    PropertyType = PropertyType.Dictionary,
-                    KeyType = PropertyDataType.String,
-                    ReferencedDataType = "Entity_2"
-                },
-                new Property
-                {
                     Id = "Property_25",
-                    Name = "PoliticalPartiesMap",
+                    Name = "PoliticalParties",
                     DataType = PropertyDataType.Reference,
                     PropertyType = PropertyType.Dictionary,
                     KeyType = PropertyDataType.Address,
@@ -81,18 +72,10 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 new Property
                 {
                     Id = "Property_26",
-                    Name = "CandidatesMap",
+                    Name = "Candidates",
                     DataType = PropertyDataType.Reference,
                     PropertyType = PropertyType.Dictionary,
                     KeyType = PropertyDataType.Address,
-                    ReferencedDataType = "Entity_4"
-                },
-                new Property
-                {
-                    Id = "Property_26",
-                    Name = "Candidates",
-                    DataType = PropertyDataType.Reference,
-                    PropertyType = PropertyType.Collection,
                     ReferencedDataType = "Entity_4"
                 },
                 new Property
@@ -122,6 +105,13 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Id = "Property_5",
                     Name = "candidateApprovalEnd",
                     PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    DataType = PropertyDataType.Address,
+                    Id = "Property_100",
+                    Name = "AddressHelper",
+                    PropertyType = PropertyType.Collection
                 }
                 };
 
@@ -183,10 +173,9 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 new Property
                 {
                     Id = "Property_23",
-                    Name = "party",
-                    DataType = PropertyDataType.Reference,
+                    Name = "partyId",
+                    DataType = PropertyDataType.Address,
                     PropertyType = PropertyType.Single,
-                    ReferencedDataType = "Entity_3"
                 }
             };
             return entity;
@@ -243,6 +232,13 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Name = "allocatedSeats",
                     DataType = PropertyDataType.Int,
                     PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    Id = "Property_50",
+                    Name = "countryId",
+                    DataType = PropertyDataType.Uint,
+                    PropertyType = PropertyType.Single
                 }
             };
             return entity;
@@ -258,6 +254,13 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
             entity.Properties = new List<Property>
             {
+                new Property
+                {
+                    Id = "Property_51",
+                    Name = "id",
+                    DataType = PropertyDataType.Uint,
+                    PropertyType = PropertyType.Single
+                },
                 new Property
                 {
                     Id = "Property_6",
@@ -278,6 +281,13 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                     Name = "electionEndDate",
                     DataType = PropertyDataType.DateTime,
                     PropertyType = PropertyType.Single
+                },
+                new Property
+                {
+                    Id = "Property_40",
+                    Name = "voters",
+                    DataType = PropertyDataType.Address,
+                    PropertyType = PropertyType.Collection
                 },
                 new Property
                 {
@@ -323,17 +333,9 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 IsFungible = false,
                 Name = "VotingToken",
                 Symbol = "VOTE",
+                MintScript = "_safeMint(receiver, uint256(receiver));",
+                TransferScript = "_transfer(from, to, uint256(from));"
             };
-
-            var tokenIdCounterProperty = new Property
-            {
-                DataType = PropertyDataType.Uint,
-                Id = "Property_1",
-                Name = "tokenIdCounter",
-                PropertyType = PropertyType.Single
-            };
-
-            token.Properties.Add(tokenIdCounterProperty);
 
             tokens.Add(token);
 

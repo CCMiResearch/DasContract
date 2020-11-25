@@ -77,7 +77,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             mainFunction.AddParameters(processConverter.GetIdentifiersAsParameters());
             var calledStartEventConverter = processConverter.ContractConverter.GetStartEventConverter(callActivity);
             var callSubprocessStatement = calledStartEventConverter.GetStatementForPrevious(callActivity);
-            stateTracker = new SolidityStatement($"int {ConversionTemplates.CallActivityCounter(GetElementCallName())}");
+            stateTracker = new SolidityStatement($"uint256 {ConversionTemplates.CallActivityCounter(GetElementCallName())}");
             switch (callActivity.InstanceType)
             {
                 case InstanceType.Single:

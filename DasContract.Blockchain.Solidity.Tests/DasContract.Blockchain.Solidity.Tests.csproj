@@ -18,4 +18,8 @@
     <ProjectReference Include="..\DasContract.Blockchain.Solidity\DasContract.Blockchain.Solidity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
 </Project>

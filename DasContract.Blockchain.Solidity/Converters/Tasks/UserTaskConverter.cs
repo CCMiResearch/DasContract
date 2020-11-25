@@ -117,6 +117,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                     var entity = propertyAndEntity.Item2;
                     var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.DisplayName);
 
+
                     function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property, processConverter.ContractConverter), formPropertyDisplayName));
                 }
             }
@@ -167,7 +168,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             if (userTaskElement.LoopCardinality != 0 || userTaskElement.LoopCollection != null)
             {
                 var variableName = ConversionTemplates.MultiInstanceCounterVariable(GetElementCallName());
-                return new SolidityStatement($"int {variableName}");
+                return new SolidityStatement($"uint256 {variableName}");
             }
             return null;
         }

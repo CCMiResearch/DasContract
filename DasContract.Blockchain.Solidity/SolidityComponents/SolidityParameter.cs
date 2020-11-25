@@ -21,7 +21,7 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 
         public LiquidString ToLiquidString()
         {
-            if (dataType == "string")
+            if (dataType == "string" || dataType.Contains("[]"))
                 return LiquidString.Create(dataType + " memory " + name);
             return LiquidString.Create(dataType + " " + name);
         }

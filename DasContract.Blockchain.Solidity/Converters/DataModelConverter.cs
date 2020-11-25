@@ -101,16 +101,14 @@ namespace DasContract.Blockchain.Solidity.Converters
             string propertyType = Helpers.PropertyTypeToString(property, contractConverter);
             var propertyName = Helpers.ToLowerCamelCase(property.Name);
 
-            if (property.PropertyType == PropertyType.Single)
+            if (property.PropertyType == PropertyType.Single || property.PropertyType == PropertyType.Collection)
                 propertyStatement.Add($"{propertyType} {propertyName}");
             else if (property.PropertyType == PropertyType.Dictionary)
             {
                 var keyType = Helpers.PrimitivePropertyTypeToString(property.KeyType);
                 propertyStatement.Add(ConversionTemplates.MappingTypeVariableDefinition(propertyName, keyType, propertyType));
-            }
-            else if (property.PropertyType == PropertyType.Collection)
-            {
-                propertyStatement.Add($"{propertyType}[] {propertyName}");
+                //Also an an array to store the key values (used when iteration through the mapping is required)
+                propertyStatement.Add($"{keyType}[] {ConversionTemplates.MappingKeysArrayName(propertyName)}");
             }
             return propertyStatement;
             //TODO: exception propertytype not defined

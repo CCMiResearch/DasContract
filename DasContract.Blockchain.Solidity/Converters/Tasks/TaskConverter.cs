@@ -26,9 +26,11 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                 {
                     if (!entity.IsRootEntity)
                         return null; //TODO Exception
-                    if (property.PropertyType != PropertyType.Collection)
-                        return null; //TODO Exception
-                    return $"int256({Helpers.ToLowerCamelCase(property.Name)}.length)";
+                    if (property.PropertyType == PropertyType.Collection)
+                        return $"{property.Name.ToLowerCamelCase()}.length";
+                    if (property.PropertyType == PropertyType.Dictionary)
+                        return $"{ConversionTemplates.MappingKeysArrayName(property.Name.ToLowerCamelCase())}.length";
+
                 }
             }
             else if (taskElement.LoopCardinality != 0)

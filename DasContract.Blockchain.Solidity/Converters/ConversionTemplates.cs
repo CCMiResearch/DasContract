@@ -27,6 +27,11 @@ namespace DasContract.Blockchain.Solidity.Converters
             return $"{Helpers.ToLowerCamelCase(identifierPropertyName)}Identifier";
         }
 
+        public static string MappingKeysArrayName(string mappingName)
+        {
+            return $"{mappingName}Keys";
+        }
+
         public static string ProcessConverterId(string processId, string callActivityId)
         {
             if (callActivityId != null)
