@@ -12,4 +12,4 @@ This project requieres .NET Core 3.1 installed and works on Windows, Linux and M
 ## Authors
 This project is created as part of Marek Skotnica's PhD thesis and research. 
 
-Contributors: Jan Frait, Jan Klicpera, Martin Drozdík.
+Contributors: Jan Frait, Jan Klicpera, Martin Drozdík, and Ondřej Šelder.
