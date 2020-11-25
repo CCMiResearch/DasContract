@@ -16,10 +16,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             var contractConverter = new ContractConverter(contract);
             contractConverter.ConvertContract();
             var solidityCode = contractConverter.GetSolidityCode();
-            Console.WriteLine(solidityCode);
 
-            System.IO.File.WriteAllText(@"C:\Users\Johny\Desktop\code.txt", solidityCode);
-
+            System.IO.File.WriteAllText(@"../../../../DasContract.CaseStudies/elections/elections.sol", solidityCode);
         }
     }
 }
