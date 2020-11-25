@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
 
     public class SolidityIfElse : SolidityComponent
@@ -48,8 +48,8 @@ namespace DasToSolidity.SolidityConverter
         SolidityComponent blockBody;
         bool isElse;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}{% if isElse == true%}else {% endif%}" +
-            "if({{condition}}){\n" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}{% if isElse == true%}else {% endif%}" +
+            "{% if condition.size > 0 %}if({{condition}}){% endif %}{\n" +
             "{{blockBody}}"+
             "{{indent}}}\n").LiquidTemplate;
 

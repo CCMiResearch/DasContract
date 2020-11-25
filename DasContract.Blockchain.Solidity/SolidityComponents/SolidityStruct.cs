@@ -2,31 +2,24 @@
 using Liquid.NET.Constants;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using DasContract.Abstraction.Data;
-using DasContract.DasContract.Blockchain.Solidity;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityStruct : SolidityComponent
     {
-        LiquidString structName;
+        string structName;
         IList<SolidityComponent> body;
 
-        LiquidTemplate template = LiquidTemplate.Create(
+        static readonly LiquidTemplate template = LiquidTemplate.Create(
             "{{indent}}struct {{name}}" +
             "{\n" +
             "{{body}}" +
-            "{{indent}}}\n"+
-            "{{indent}}{{name}} {{varName}} = {{name}}({{parameters}});\n").LiquidTemplate;
+            "{{indent}}}\n").LiquidTemplate;
 
-        public Entity En { get; set; }
-
-        public SolidityStruct(Entity entity)
+        public SolidityStruct(string name)
         {
-            En = entity;
-
-            structName = LiquidString.Create(entity.Name);
+            structName = name;
             body = new List<SolidityComponent>();
         }
 
@@ -41,35 +34,11 @@ namespace DasToSolidity.SolidityConverter
             return LiquidString.Create(ToString(indent));
         }
 
-        public LiquidString TypeName()
-        {
-            var lower = structName.ToString().ToLower();
-            return LiquidString.Create(lower.First().ToString().ToUpper() + lower.Substring(1));
-        }
-
-        public LiquidString VariableName()
-        {
-            return LiquidString.Create(structName.ToString().ToLower());
-        }
-
-        public LiquidString GetParamteres()
-        {
-            string s = "{";
-            foreach (var p in En.Properties)
-            {
-                if(!p.IsCollection)
-                    s += (Helpers.GetPropertyVariableName(p.Name) + ": " + Helpers.GetDefaultValueString(p) + ", ");
-            }
-            return LiquidString.Create(s.Trim().Trim(',') + "}");
-        }
-
         public override string ToString(int indent = 0)
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
-                DefineLocalVariable("name", TypeName()).
-                DefineLocalVariable("varName", VariableName()).
-                DefineLocalVariable("parameters", GetParamteres()).
+                DefineLocalVariable("name", LiquidString.Create(structName)).
                 DefineLocalVariable("body", BodyToLiquid(indent));
             return template.Render(ctx).Result;
         }

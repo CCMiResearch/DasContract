@@ -4,34 +4,35 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
-    public class SolidityFunction : SolidityComponent
+    public class SolidityFunction : SolidityAbstractMethod
     {
-        LiquidString visibility;
         LiquidString functionName;
+        LiquidString visibility;
         LiquidString returns;
-        IList<SolidityParameter> parameters;
-        IList<SolidityComponent> body;
-        IList<string> modifiers;
+        bool isView;
+        
+        List<string> modifiers;
 
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}function {{name}}(" +
             "{{parameters}}) " +
             "{{modifiers}}" +
             "{{visibility}} " +
+            "{% unless isView == false %}view {% endunless %}" +
             "{% unless returns == ''%}returns({{returns}}){% endunless %}" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;
 
-        public SolidityFunction(string functionName, SolidityVisibility visibility, string returns = "") 
+        public SolidityFunction(string functionName, SolidityVisibility visibility, string returns = "", bool isView = false) 
         {
             this.functionName = LiquidString.Create(functionName);
             this.visibility = LiquidString.Create(visibility.ToString().ToLower());
             this.returns = LiquidString.Create(returns);
+            this.isView = isView;
 
-            parameters = new List<SolidityParameter>();
-            body = new List<SolidityComponent>();
+            
             modifiers = new List<string>();
 
             // Has to be payable and has to be public (for now, solidity v0.6.x)
@@ -44,22 +45,9 @@ namespace DasToSolidity.SolidityConverter
             }
         }
 
-        public SolidityFunction AddParameter(SolidityParameter parameter)
-        {
-            parameters.Add(parameter);
-            return this;
-        }
-
-        public SolidityFunction AddModifier(string modifier)
+        public void AddModifier(string modifier)
         {
             modifiers.Add(modifier);
-            return this;
-        }
-
-        public SolidityFunction AddToBody(SolidityComponent component)
-        {
-            body.Add(component);
-            return this;
         }
 
         public override LiquidString ToLiquidString(int indent)
@@ -76,6 +64,7 @@ namespace DasToSolidity.SolidityConverter
                 DefineLocalVariable("visibility", visibility).
                 DefineLocalVariable("body", BodyToLiquid(indent)).
                 DefineLocalVariable("modifiers", ModifiersToLiquid()).
+                DefineLocalVariable("isView", new LiquidBoolean(isView)).
                 DefineLocalVariable("returns", returns);
             return template.Render(ctx).Result;
         }
@@ -88,24 +77,6 @@ namespace DasToSolidity.SolidityConverter
             return col;
         }
 
-        LiquidCollection ParametersToLiquid()
-        {
-            var col = new LiquidCollection();
-            foreach (var par in parameters)
-            {
-                if (par != parameters[parameters.Count - 1])
-                    par.Name = par.Name + ", ";
-                col.Add(par.ToLiquidString());
-            }
-            return col;
-        }
-
-        LiquidCollection BodyToLiquid(int indent)
-        {
-            var col = new LiquidCollection();
-            foreach (var b in body)
-                col.Add(b.ToLiquidString(indent + 1));
-            return col;
-        }
+        
     }
 }

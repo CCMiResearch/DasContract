@@ -1,27 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DasContract.Abstraction.Data;
 using Liquid.NET;
 using Liquid.NET.Constants;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
-    public class SolidityConstructor : SolidityComponent
+    public class SolidityConstructor : SolidityAbstractMethod
     {
-        List<SolidityComponent> body;
-        LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor () public payable" +
+        List<string> parentCalls = new List<string>();
+
+        static readonly LiquidTemplate template = LiquidTemplate.Create("{{indent}}constructor" +
+            "({{parameters}}) " +
+            "{{parentCalls}}" +
+            "public payable" +
             "{\n" +
             "{{body}}" +
             "{{indent}}}\n").LiquidTemplate;
-        public SolidityConstructor()
+
+        public void AddParentCall(string parentCallName, List<string> propertyNames)
         {
-            body = new List<SolidityComponent>();
+            var joinedPropertyNames = "";
+            if(propertyNames.Count > 0)
+                joinedPropertyNames = string.Join(", ", propertyNames);
+            parentCalls.Add($"{parentCallName}({joinedPropertyNames}) ");
         }
 
-        public SolidityConstructor AddToBody(SolidityComponent component)
+        LiquidCollection ParentCallsToLiquid()
         {
-            body.Add(component);
-            return this;
+            var liquidCollection = new LiquidCollection();
+            foreach (var parentCall in parentCalls)
+            {
+                liquidCollection.Add(LiquidString.Create(parentCall));
+            }
+            return liquidCollection;
         }
 
         public override LiquidString ToLiquidString(int indent)
@@ -33,16 +46,10 @@ namespace DasToSolidity.SolidityConverter
         {
             ITemplateContext ctx = new TemplateContext();
             ctx.DefineLocalVariable("indent", CreateIndent(indent)).
-                DefineLocalVariable("body", bodyToLiquid(indent));
+                DefineLocalVariable("body", BodyToLiquid(indent)).
+                DefineLocalVariable("parameters", ParametersToLiquid()).
+                DefineLocalVariable("parentCalls", ParentCallsToLiquid());
             return template.Render(ctx).Result;
-        }
-
-        LiquidCollection bodyToLiquid(int indent)
-        {
-            var col = new LiquidCollection();
-            foreach (var b in body)
-                col.Add(b.ToLiquidString(indent + 1));
-            return col;
         }
     }
 }

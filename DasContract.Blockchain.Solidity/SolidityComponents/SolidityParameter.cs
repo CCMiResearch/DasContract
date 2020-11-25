@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
 
     public class SolidityParameter
@@ -21,7 +21,7 @@ namespace DasToSolidity.SolidityConverter
 
         public LiquidString ToLiquidString()
         {
-            if (dataType == "string")
+            if (dataType == "string" || dataType.Contains("[]"))
                 return LiquidString.Create(dataType + " memory " + name);
             return LiquidString.Create(dataType + " " + name);
         }

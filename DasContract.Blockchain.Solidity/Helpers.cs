@@ -1,88 +1,129 @@
 ﻿using DasContract.Abstraction.Data;
+using DasContract.Abstraction.Processes;
+using DasContract.Blockchain.Solidity.Converters;
 using System;
+using System.Globalization;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 
-namespace DasContract.DasContract.Blockchain.Solidity
+namespace DasContract.Blockchain.Solidity
 {
-    class Helpers
+    public static class Helpers
     {
-        public static readonly string ADDRESS_MAPPING_VAR_NAME = "addressMapping";
 
-        public static string GetSolidityStringType(Property property)
+        static readonly string[] formats = { 
+            // Basic formats
+            "yyyyMMddTHHmmsszzz",
+            "yyyyMMddTHHmmsszz",
+            "yyyyMMddTHHmmssZ",
+            "yyyyMMdd",
+            "yyyy-MM-dd",
+            // Extended formats
+            "yyyy-MM-ddTHH:mm:sszzz",
+            "yyyy-MM-ddTHH:mm:sszz",
+            "yyyy-MM-ddTHH:mm:ssZ",
+            // All of the above with reduced accuracy
+            "yyyyMMddTHHmmzzz",
+            "yyyyMMddTHHmmzz",
+            "yyyyMMddTHHmmZ",
+            "yyyy-MM-ddTHH:mmzzz",
+            "yyyy-MM-ddTHH:mmzz",
+            "yyyy-MM-ddTHH:mmZ",
+            // Accuracy reduced to hours
+            "yyyyMMddTHHzzz",
+            "yyyyMMddTHHzz",
+            "yyyyMMddTHHZ",
+            "yyyy-MM-ddTHHzzz",
+            "yyyy-MM-ddTHHzz",
+            "yyyy-MM-ddTHHZ"
+        };
+
+        public static string PrimitivePropertyTypeToString(PropertyDataType propertyType)
         {
-            var type = property.Type;
-            switch (type)
+            switch (propertyType)
             {
-                case PropertyType.Bool:
+                case PropertyDataType.Bool:
                     return "bool";
-                case PropertyType.String:
+                case PropertyDataType.String:
                     return "string";
-                case PropertyType.Int:
+                case PropertyDataType.Int:
                     return "int";
-                case PropertyType.Address:
+                case PropertyDataType.Address:
                     return "address";
-                case PropertyType.AddressPayable:
+                case PropertyDataType.AddressPayable:
                     return "address payable";
-                case PropertyType.Data:
+                case PropertyDataType.Data:
                     return "string";
-                case PropertyType.DateTime:
-                    return "string";
-                case PropertyType.Uint:
+                case PropertyDataType.DateTime:
+                    return "uint";
+                case PropertyDataType.Uint:
                     return "uint256";
-                case PropertyType.Entity:
-                    return GetPropertyStructureName(property.Entity.Name);
+                case PropertyDataType.Byte:
+                    return "uint8";
                 default:
                     return "string";
             }
         }
 
-        public static string GetDefaultValueString(Property property)
+        public static string PropertyTypeToString(Property property, ContractConverter contractConverter)
         {
-            var type = property.Type;
-            switch (type)
+            var type = property.DataType;
+
+            //Get the datatype name if reference
+            string typeAsString;
+            if (type == PropertyDataType.Reference)
+                typeAsString = contractConverter.GetDataType(property.ReferencedDataType).ToStructureName();
+            else
+                typeAsString = PrimitivePropertyTypeToString(type);
+
+            if (property.PropertyType == PropertyType.Collection)
+                typeAsString += "[]";
+            return typeAsString;
+        }
+
+        public static string ToLowerCamelCase(this string name)
+        {
+            //remove spaces if any are present
+            var trimmed = Regex.Replace(name, @"\s+", "");
+            return trimmed.First().ToString().ToLower() + trimmed.Substring(1);
+        }
+
+        public static string ToUpperCamelCase(this string name)
+        {
+            //remove spaces if any are present
+            var trimmed = Regex.Replace(name, @"\s+", "");
+            return trimmed.First().ToString().ToUpper() + trimmed.Substring(1);
+        }
+
+
+        public static DateTime ParseISO8601String(this string str)
+        {
+            return DateTime.ParseExact(str, formats,
+                CultureInfo.InvariantCulture, DateTimeStyles.None);
+        }
+
+        public static string ToVariableName(this DataType dataType)
+        {
+            if(dataType.Name != null)
             {
-                case PropertyType.Bool:
-                    return "false";
-                case PropertyType.String:
-                    return "\"\"";
-                case PropertyType.Int:
-                    return "0";
-                case PropertyType.Address:
-                    return "address(0x0)";
-                case PropertyType.AddressPayable:
-                    return "address(0x0)";
-                case PropertyType.Data:
-                    return "\"\"";
-                case PropertyType.DateTime:
-                    return "\"\"";
-                case PropertyType.Uint:
-                    return "0";
-                case PropertyType.Entity:
-                    string s = GetPropertyStructureName(property.Entity.Name) + "({";
-                    foreach (var p in property.Entity.Properties)
-                    {
-                        if (!p.IsCollection)
-                        {
-                            s += GetPropertyVariableName(p.Name) + ": " + GetDefaultValueString(p) + ", ";
-                        }
-                    }
-                    return s.Trim().Trim(',') + "})";
-                default:
-                    return "\"\"";
+                var lowerCaseAndTrimmed = dataType.Name.ToLowerCamelCase();
+                if (lowerCaseAndTrimmed.Length > 0)
+                    return lowerCaseAndTrimmed;
             }
+            return dataType.Id.ToLowerCamelCase();
         }
 
-        public static string GetPropertyVariableName(string name)
+        public static string ToStructureName(this DataType dataType)
         {
-            return name.First().ToString().ToLower() + name.Substring(1);
+            if (dataType.Name != null)
+            {
+                var upperCaseAndTrimmed = dataType.Name.ToUpperCamelCase();
+                if (upperCaseAndTrimmed.Length > 0)
+                    return upperCaseAndTrimmed;
+            }
+            return dataType.Id.ToUpperCamelCase();
         }
 
-        public static string GetPropertyStructureName(string name)
-        {
-            return name.First().ToString().ToUpper() + name.Substring(1);
-        }
 
     }
 }

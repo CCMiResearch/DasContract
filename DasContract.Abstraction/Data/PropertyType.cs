@@ -1,15 +1,13 @@
-﻿namespace DasContract.Abstraction.Data
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DasContract.Abstraction.Data
 {
     public enum PropertyType
     {
-        Int, 
-        Uint, 
-        Bool, 
-        String, 
-        DateTime, 
-        Address, 
-        AddressPayable,
-        Data, //Byte array
-        Entity
+        Single,
+        Collection,
+        Dictionary
     }
 }

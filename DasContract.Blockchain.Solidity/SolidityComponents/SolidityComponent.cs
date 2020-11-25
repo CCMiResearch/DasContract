@@ -1,9 +1,7 @@
 ﻿using Liquid.NET.Constants;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     /// <summary>
     /// All of the needed Solidity constructs inherit from this class, which provides

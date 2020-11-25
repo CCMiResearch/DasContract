@@ -16,7 +16,8 @@ namespace DasContract.Abstraction
             var process = xDoc.Descendants("Main").First();
             var dataModel = xDoc.Descendants("DataModel").First();
             contract.Process = ProcessFactory.FromDasFile(process);
-            contract.Entities = EntityFactory.FromDasFile(dataModel);
+            //TODO: Refactor entity factory
+            //contract.DataTypes = DataTypeFactory.FromDasFile(dataModel);
             return contract;
         }
     }

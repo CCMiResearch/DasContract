@@ -1,27 +1,33 @@
-﻿using DasToSolidity.SolidityConverter;
-using Liquid.NET;
+﻿using Liquid.NET;
 using Liquid.NET.Constants;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
-namespace DasContract.Abstraction.Solidity
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityContract : SolidityComponent
     {
         string name;
 
+        List<string> inheritance;
         List<SolidityComponent> components;
 
-        LiquidTemplate template = LiquidTemplate.Create(
-            "contract {{name}} { \n" +
-            "{{components}} " +
-            "}").LiquidTemplate;
+        static readonly LiquidTemplate template = LiquidTemplate.Create(
+            "contract {{name}} " +
+            "{% unless inherits == '' %}is {{inherits}}{%endunless%}{ \n" +
+            "{{components}}" +
+            " }").LiquidTemplate;
 
         public SolidityContract(string name)
         {
             this.name = name;
             components = new List<SolidityComponent>();
+            inheritance = new List<string>();
+        }
+
+        public void AddInheritance(string inheritance)
+        {
+            this.inheritance.Add(inheritance);
         }
 
         public void AddComponent(SolidityComponent component)
@@ -47,9 +53,17 @@ namespace DasContract.Abstraction.Solidity
         {
             var ctx = new TemplateContext();
             ctx.DefineLocalVariable("components", FunctionsToLiquid(indent)).
-                DefineLocalVariable("name",LiquidString.Create(name));
+                DefineLocalVariable("name",LiquidString.Create(name)).
+                DefineLocalVariable("inherits", InheritanceToLiquid());
 
             return template.Render(ctx).Result;
+        }
+
+        LiquidString InheritanceToLiquid()
+        {
+            if (inheritance.Count == 0)
+                return LiquidString.Create("");
+            return LiquidString.Create(string.Join(", ", inheritance));
         }
 
         LiquidCollection FunctionsToLiquid(int indent)

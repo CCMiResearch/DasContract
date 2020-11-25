@@ -6,9 +6,7 @@ using DasContract.Abstraction.UserInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Channels;
 using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes
@@ -127,6 +125,13 @@ namespace DasContract.Abstraction.Processes
 
             return processElement;
         }
+
+        /*
+        static TaskInstanceType GetTaskInstanceType(XElement xElement)
+        {
+            
+        }
+        */
 
         static IList<string> GetDescendantList(XElement xElement, string descendantName)
         {
@@ -261,7 +266,7 @@ namespace DasContract.Abstraction.Processes
             var processName = GetProcessName(xElement, true);
             if (processName.Contains("[") && processName.Contains("]"))
             {
-                string address = processName.Split("[")[1].Split("]")[0];
+                string address = processName.Split('[')[1].Split(']')[0];
                 if (address.StartsWith("0x"))
                     user.Address = address;
                 else

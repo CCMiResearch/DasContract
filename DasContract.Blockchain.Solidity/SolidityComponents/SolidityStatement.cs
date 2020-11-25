@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DasToSolidity.SolidityConverter
+namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
     public class SolidityStatement : SolidityComponent
     {
@@ -36,6 +36,12 @@ namespace DasToSolidity.SolidityConverter
         {
             Add(statement, true);
         }
+
+        public void Add(SolidityStatement statement)
+        {
+            Statements.AddRange(statement.Statements);
+        }
+
         public override LiquidString ToLiquidString(int indent)
         {
             return LiquidString.Create(ToString(indent));

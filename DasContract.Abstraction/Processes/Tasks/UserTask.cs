@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public class UserTask : Task
+    public class UserTask : PayableTask
     {
         public UserForm Form { get; set; }
 
@@ -26,5 +26,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// Process roles allowed to execute this task. 
         /// </summary>
         public IEnumerable<ProcessRole> CandidateRoles { get; set; }
+
+        public string ValidationScript { get; set; }
     }
 }
