@@ -2,7 +2,7 @@
 A visual language allowing to define blockchain smart contracts between people. It is based on the extended combination of DEMO modeling language, BPMN and UML.
 
 ## Getting started
-We recommend to first read our article published on Medium, which summarizes the underlying technology and showcases DasContract on a case study.
+We recommend to first read our [article](https://janklicpera.medium.com/a-novel-way-of-conducting-legal-contracts-be54ceda39ad) published on Medium, which summarizes the underlying technology and showcases DasContract on a case study.
 
 ## Supported BPMN elements
 The modelling part of DasContract is mainly an extension of the [BPMN](https://camunda.com/bpmn). The capabilities of the language are mostly demonstrated in the provided case studies. The following BPMN elements are supported in DasContract v2.0:
