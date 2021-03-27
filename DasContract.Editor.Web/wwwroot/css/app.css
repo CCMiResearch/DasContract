@@ -30,6 +30,10 @@ a, .btn-link {
     color: red;
 }
 
+#canvas {
+    height: 1000px;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

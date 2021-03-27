@@ -1,0 +1,28 @@
+﻿@page "/editor"
+@inject IJSRuntime JSRunTime
+
+
+
+<div id="canvas"></div>
+
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            CreateEditor();
+        }
+
+    }
+    async void CreateEditor()
+    {
+        await JSRunTime.InvokeVoidAsync("MyLib.createModeler");
+    }
+
+    async void ExportXML()
+    {
+        var xml = await JSRunTime.InvokeAsync<string>("MyLib.getDiagramXML");
+        Console.WriteLine(xml);
+    }
+}
