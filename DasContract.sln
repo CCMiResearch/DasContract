@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Web", "DasContract.Editor.Web\DasContract.Editor.Web.csproj", "{14098705-16C9-4CE3-9351-37A72E4AC118}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Abstraction", "DasContract.Abstraction\DasContract.Abstraction.csproj", "{F5F23CE2-0628-4661-AFE9-71730A23469F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor", "DasContract.Editor\DasContract.Editor.csproj", "{6FF7C7C6-0F8D-4BE6-A44E-359D13831321}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Solidity", "DasContract.Blockchain.Solidity\DasContract.Blockchain.Solidity.csproj", "{26A15B6E-356B-4AF5-B216-2E9E8AACD45C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Blockchain.Solidity.Tests", "DasContract.Blockchain.Solidity.Tests\DasContract.Blockchain.Solidity.Tests.csproj", "{27574493-3663-4E25-B3B4-D720213E035D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Solidity.Tests", "DasContract.Blockchain.Solidity.Tests\DasContract.Blockchain.Solidity.Tests.csproj", "{27574493-3663-4E25-B3B4-D720213E035D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Web", "DasContract.Editor.Web\DasContract.Editor.Web.csproj", "{700942B3-D21C-43C0-92D0-22C9B0B5696B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{14098705-16C9-4CE3-9351-37A72E4AC118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14098705-16C9-4CE3-9351-37A72E4AC118}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14098705-16C9-4CE3-9351-37A72E4AC118}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14098705-16C9-4CE3-9351-37A72E4AC118}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5F23CE2-0628-4661-AFE9-71730A23469F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5F23CE2-0628-4661-AFE9-71730A23469F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5F23CE2-0628-4661-AFE9-71730A23469F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{27574493-3663-4E25-B3B4-D720213E035D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27574493-3663-4E25-B3B4-D720213E035D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27574493-3663-4E25-B3B4-D720213E035D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
