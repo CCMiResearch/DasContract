@@ -9,9 +9,12 @@
   },
   "keywords": [],
   "author": "",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "bpmn-js": "^7.3.0",
+    "split-grid": "^1.0.9",
+    "split-js": "^1.0.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },

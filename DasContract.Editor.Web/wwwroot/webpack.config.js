@@ -1,8 +1,12 @@
 ﻿const path = require("path");
 
 module.exports = {
+    entry: {
+        splitter: './js/splitter.js',
+        modeller: './js/modeller.js'
+    },
     module: {
-        rules: [
+        rules: [ 
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -13,9 +17,9 @@ module.exports = {
         ]
     },
     output: {
-        path: path.resolve(__dirname, '../js'),
-        filename: "my_lib.js",
-        library: "MyLib"
+        path: path.resolve(__dirname, 'dist'),
+        filename: "[name]_bundle.js",
+        library: "[name]Lib"
     },
     watch: true
 };
