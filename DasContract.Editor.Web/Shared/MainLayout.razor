@@ -1,13 +1,26 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MatThemeProvider Theme="@matTheme">
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
 
-    <div class="main">
-        <div class="content px-4">
-            @Body
+        <div class="main">
+            <div class="content px-4">
+                @Body
+            </div>
         </div>
     </div>
-</div>
+</MatThemeProvider>
+
+@code
+{
+        MatTheme matTheme = new MatTheme()
+        {
+            Primary = "#3949ab",
+            Background = "#eceff1",
+            Secondary = MatThemeColors.BlueGrey._500.Value,
+            OnSurface = MatThemeColors.LightBlue._500.Value
+    };
+}

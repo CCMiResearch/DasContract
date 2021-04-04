@@ -2,8 +2,11 @@
 @inject IJSRuntime JSRunTime
 
 
-
-<div id="canvas"></div>
+<div class="grid" style="height:800px">
+    <div id="canvas"></div>
+    <div class="gutter-col gutter-col-1"></div>
+    <div><button onclick="window.test()">Hello</button></div>
+</div>
 
 
 @code {
@@ -12,12 +15,20 @@
         if (firstRender)
         {
             CreateEditor();
+            InitializeSplitGutter();
+
         }
 
     }
+
     async void CreateEditor()
     {
-        await JSRunTime.InvokeVoidAsync("MyLib.createModeler");
+        await JSRunTime.InvokeVoidAsync("modellerLib.createModeler");
+    }
+
+    async void InitializeSplitGutter()
+    {
+        await JSRunTime.InvokeVoidAsync("splitterLib.createSplit", ".gutter-col-1");
     }
 
     async void ExportXML()
