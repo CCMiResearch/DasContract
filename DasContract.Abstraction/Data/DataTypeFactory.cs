@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using DasContract.Abstraction.Data;
 
-namespace DasContract.DasContract.Abstraction.Data
+namespace DasContract.Abstraction.Data
 {
     public class DataTypeFactory
     {

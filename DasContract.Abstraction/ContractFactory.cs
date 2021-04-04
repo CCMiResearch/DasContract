@@ -1,6 +1,6 @@
 ﻿using DasContract.Abstraction.Exceptions;
 using DasContract.Abstraction.Processes;
-using DasContract.DasContract.Abstraction.Data;
+using DasContract.Abstraction.Data;
 using System;
 using System.Linq;
 using System.Xml.Linq;
