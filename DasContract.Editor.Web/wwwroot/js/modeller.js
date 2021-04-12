@@ -6,15 +6,16 @@ export function hookEvents() {
 
     // you may hook into any of the following events
     var events = [
-        'element.hover',
-        'element.out',
+        'element.changed',
         'element.click',
         'element.dblclick',
         'element.mousedown',
         'element.mouseup',
-        'create.ended',
-        'commandStack.elements.create.postExecute',
-        'shape.added'
+        'shape.added',
+        'shape.removed',
+        'shape.changed',
+        'element.updateId',
+        'connection.added'
     ];
 
     events.forEach(function (event) {
@@ -22,21 +23,38 @@ export function hookEvents() {
         eventBus.on(event, function (e) {
             // e.element = the model element
             // e.gfx = the graphical element
-
+            if (modellerLib.eventHandlerInstanceRef != null) {
+                let eventObj = { type: e.type };
+                if (e.newId != null)
+                    eventObj.newId = e.newId;
+                if (e.element != null) {
+                    eventObj.element = {
+                        id: e.element.id,
+                        type: e.element.type
+                    }
+                }
+                modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleCamundaEvent", eventObj);
+            }
             console.log(event, 'on', e);
         });
     });
 }
 // create a modeler
 export function createModeler() {
-
-    console.log("hello 2");
     window.modeler = new Modeler({
-        container: document.getElementById('canvas')
+        container: document.getElementById('canvas'),
+        keyboard: {
+            bindTo: document
+        }
     });
-
-    window.modeler.createDiagram();
     hookEvents();
+    window.modeler.createDiagram();
+}
+
+
+
+export function setEventHandlerInstance(dotNetObjectRef) {
+    modellerLib.eventHandlerInstanceRef = dotNetObjectRef;
 }
 
 

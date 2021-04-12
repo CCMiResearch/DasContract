@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services;
 
 namespace DasContract.Editor.Web
 {
@@ -19,7 +21,16 @@ namespace DasContract.Editor.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
+            builder.Services.AddScoped<IBpmnEventHandler, BpmnEventHandler>();
+            builder.Services.AddScoped<IContractManager, ContractManager>();
+            builder.Services.AddScoped<IProcessManager, ProcessManager>();
+            builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
+
+            var host =  builder.Build();
+            var synchronizerService = host.Services.GetRequiredService<IBpmnSynchronizer>();
+            synchronizerService.Initiliaze();
+
+            await host.RunAsync();
         }
     }
 }

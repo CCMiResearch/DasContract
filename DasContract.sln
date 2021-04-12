@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Soli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Solidity.Tests", "DasContract.Blockchain.Solidity.Tests\DasContract.Blockchain.Solidity.Tests.csproj", "{27574493-3663-4E25-B3B4-D720213E035D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.Editor.Web", "DasContract.Editor.Web\DasContract.Editor.Web.csproj", "{700942B3-D21C-43C0-92D0-22C9B0B5696B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Web", "DasContract.Editor.Web\DasContract.Editor.Web.csproj", "{700942B3-D21C-43C0-92D0-22C9B0B5696B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

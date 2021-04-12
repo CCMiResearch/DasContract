@@ -1,39 +1,9 @@
 ﻿@page "/editor"
-@inject IJSRuntime JSRunTime
 
 
-<div class="grid" style="height:800px">
+<div class="grid">
     <div id="canvas"></div>
     <div class="gutter-col gutter-col-1"></div>
     <div><button onclick="window.test()">Hello</button></div>
 </div>
 
-
-@code {
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            CreateEditor();
-            InitializeSplitGutter();
-
-        }
-
-    }
-
-    async void CreateEditor()
-    {
-        await JSRunTime.InvokeVoidAsync("modellerLib.createModeler");
-    }
-
-    async void InitializeSplitGutter()
-    {
-        await JSRunTime.InvokeVoidAsync("splitterLib.createSplit", ".gutter-col-1");
-    }
-
-    async void ExportXML()
-    {
-        var xml = await JSRunTime.InvokeAsync<string>("MyLib.getDiagramXML");
-        Console.WriteLine(xml);
-    }
-}
