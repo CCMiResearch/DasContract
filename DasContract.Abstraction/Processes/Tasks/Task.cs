@@ -2,7 +2,7 @@
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public abstract class Task : ProcessElement
+    public class Task : ProcessElement
     {
         public InstanceType InstanceType { get; set; }
         /// <summary>
