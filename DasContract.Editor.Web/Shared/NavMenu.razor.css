@@ -7,6 +7,20 @@
     background-color: rgba(0,0,0,0.4);
 }
 
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.dascontract-navbar {
+    border-bottom: 1px solid grey;
+    background-color: #f5f5f2;
+    position: relative;
+}
+
 .navbar-brand {
     font-size: 1.1rem;
 }
