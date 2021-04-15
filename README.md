@@ -31,6 +31,9 @@ Another tool that can be used is [Ganache](https://www.trufflesuite.com/ganache)
 ## Case Studies
 This repository contains two exemplar case studies, one for each version of the DasContract language. The diagrams and the converted code can be found in the DasContract.CaseStudies folder.
 
+### Mortgage Case Study
+[Video walkthrough](https://www.youtube.com/watch?v=Z3dTFiMwZTU)
+
 ## Published research articles
 - [Exploring a Role of Blockchain Smart Contracts in Enterprise Engineering](https://link.springer.com/chapter/10.1007/978-3-030-06097-8_7) (2018)
 - [Das Contract – A Visual Domain Specific Language for Modeling Blockchain Smart Contracts](https://link.springer.com/chapter/10.1007/978-3-030-37933-9_10) (2020)
