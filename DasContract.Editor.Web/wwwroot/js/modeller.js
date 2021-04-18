@@ -6,14 +6,14 @@ export function hookEvents() {
 
     // you may hook into any of the following events
     var events = [
-        'element.changed',
-        'element.click',
-        'element.dblclick',
-        'element.mousedown',
-        'element.mouseup',
+        //'element.changed',
+        //'element.click',
+        //'element.dblclick',
+        //'element.mousedown',
+        //'element.mouseup',
         'shape.added',
         'shape.removed',
-        'shape.changed',
+        //'shape.changed',
         'element.updateId',
         'connection.added'
     ];
@@ -35,7 +35,7 @@ export function hookEvents() {
                 }
                 modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleCamundaEvent", eventObj);
             }
-            console.log(event, 'on', e);
+            console.log(event, 'on', e, ' element id: ', e.element.id);
         });
     });
 }

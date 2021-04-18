@@ -13,6 +13,8 @@ namespace DasContract.Editor.Web.Services
     {
         IContractManager contractManager;
 
+        private Dictionary<string, Stack<ProcessElement>> _deletedElements = new Dictionary<string, Stack<ProcessElement>>();
+
         public ProcessManager(IContractManager contractManager)
         {
             this.contractManager = contractManager;
@@ -63,8 +65,15 @@ namespace DasContract.Editor.Web.Services
             if (process.ProcessElements.ContainsKey(id))
                 throw new DuplicateIdException($"Process already contains id {id}");
 
-            var newElement = CreateElementFromType(type);
-            process.ProcessElements.Add(id, newElement);
+            ProcessElement element;
+            //Check if the element is not stored in the deletion buffer
+            if(!TryGetElementFromDeletedBuffer(id, out element))
+            {
+                element = CreateElementFromType(type);
+                element.Id = id;
+            }
+            
+            process.ProcessElements.Add(id, element);
             Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
         }
 
@@ -74,6 +83,11 @@ namespace DasContract.Editor.Web.Services
 
             if (!process.ProcessElements.ContainsKey(id))
                 throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
+
+            //Store the deleted element in the deletion buffer
+            var element = process.ProcessElements[id];
+            AddElementToDeletedBuffer(element);
+
             process.ProcessElements.Remove(id);
             Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
         }
@@ -91,6 +105,33 @@ namespace DasContract.Editor.Web.Services
             process.ProcessElements.Remove(prevId);
             element.Id = newId;
             process.ProcessElements.Add(newId, element);
+        }
+
+        private void AddElementToDeletedBuffer(ProcessElement e)
+        {
+            if (!_deletedElements.ContainsKey(e.Id))
+            { 
+                _deletedElements.Add(e.Id, new Stack<ProcessElement>());
+            }
+
+            var deletedStack = _deletedElements.GetValueOrDefault(e.Id);
+
+            deletedStack.Push(e);
+            Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
+        }
+
+        private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element) {
+            var deletedStack = _deletedElements.GetValueOrDefault(elementId);
+
+            if(deletedStack == null || deletedStack.Count == 0)
+            {
+                element = null;
+                return false;
+            }
+
+            element = deletedStack.Pop();
+            Console.WriteLine($"Retrieved id {element.Id} from deletion buffer, it contains {deletedStack.Count} elements");
+            return true;
         }
 
         private ProcessElement CreateElementFromType(string type)
