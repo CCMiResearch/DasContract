@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DasContract.Editor.Web.Services.CamundaEvents;
 using DasContract.Editor.Web.Services;
+using DasContract.Editor.Web.Services.EditElement;
 
 namespace DasContract.Editor.Web
 {
@@ -25,6 +26,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IContractManager, ContractManager>();
             builder.Services.AddScoped<IProcessManager, ProcessManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
+            builder.Services.AddScoped<EditElementService>();
 
             var host =  builder.Build();
             var synchronizerService = host.Services.GetRequiredService<IBpmnSynchronizer>();

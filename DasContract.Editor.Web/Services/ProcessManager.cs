@@ -1,5 +1,6 @@
 ﻿using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
+using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Editor.Web.Services.CamundaEvents.Exceptions;
 using System;
@@ -65,14 +66,13 @@ namespace DasContract.Editor.Web.Services
             if (process.ProcessElements.ContainsKey(id))
                 throw new DuplicateIdException($"Process already contains id {id}");
 
-            ProcessElement element;
             //Check if the element is not stored in the deletion buffer
-            if(!TryGetElementFromDeletedBuffer(id, out element))
+            if (!TryGetElementFromDeletedBuffer(id, out ProcessElement element))
             {
                 element = CreateElementFromType(type);
                 element.Id = id;
             }
-            
+
             process.ProcessElements.Add(id, element);
             Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
         }
@@ -146,6 +146,18 @@ namespace DasContract.Editor.Web.Services
                     return new Abstraction.Processes.Tasks.Task();
                 case "bpmn:UserTask":
                     return new UserTask();
+                case "bpmn:ScriptTask":
+                    return new ScriptTask();
+                case "bpmn:ServiceTask":
+                    return new ServiceTask();
+                case "bpmn:BusinessRuleTask":
+                    return new BusinessRuleTask();
+                case "bpmn:CallActivity":
+                    return new CallActivity();
+                case "bpmn:ParallelGateway":
+                    return new ParallelGateway();
+                case "bpmn:ExclusiveGateway":
+                    return new ExclusiveGateway();
                 default:
                     throw new InvalidCamundaElementTypeException($"{type} is not a valid element type");
             }

@@ -7,7 +7,7 @@ export function hookEvents() {
     // you may hook into any of the following events
     var events = [
         //'element.changed',
-        //'element.click',
+        'element.click',
         //'element.dblclick',
         //'element.mousedown',
         //'element.mouseup',
