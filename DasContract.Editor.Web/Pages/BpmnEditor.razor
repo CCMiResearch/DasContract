@@ -1,9 +1,12 @@
 ﻿@page "/editor"
 
 
-<div class="grid">
+<div class="@(ShowDetailBar ? "grid" : "") main-container">
     <div id="canvas"></div>
-    <div class="gutter-col gutter-col-1"></div>
-    <div><DasContract.Editor.Web.Components.ProcessDetailBar/></div>
+    @if (ShowDetailBar)
+    {
+        <div class="gutter-col gutter-col-1"></div>
+        <div><DasContract.Editor.Web.Components.ProcessDetailBar/></div>
+    }
 </div>
 

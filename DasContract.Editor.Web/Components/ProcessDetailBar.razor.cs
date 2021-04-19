@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DasContract.Abstraction.Processes.Tasks;
 
 namespace DasContract.Editor.Web.Components
 {
@@ -19,16 +20,24 @@ namespace DasContract.Editor.Web.Components
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditedElementChanged;
+            EditElementService.EditElementModified += HandleEditedElementModified;
+            EditedElement = EditElementService.EditElement;
         }
 
         public void Dispose()
         {
             EditElementService.EditElementChanged -= HandleEditedElementChanged;
+            EditElementService.EditElementModified -= HandleEditedElementModified;
         }
 
         private void HandleEditedElementChanged(object sender, EditElementEventArgs e)
         {
             EditedElement = e.processElement;
+            StateHasChanged();
+        }
+
+        private void HandleEditedElementModified(object sender, EventArgs e)
+        {
             StateHasChanged();
         }
     }

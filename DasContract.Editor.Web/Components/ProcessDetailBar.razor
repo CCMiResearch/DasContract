@@ -1,2 +1,12 @@
-﻿<h5>@EditedElement?.Id</h5>
-<input type="text">
+﻿@using DasContract.Abstraction.Processes.Tasks 
+
+<div>
+    <h5>@EditedElement?.Id</h5>
+
+    @switch (EditedElement)
+    {
+        case ScriptTask scriptTask:
+            <input type="text" @bind-value="@scriptTask.Script">
+            break;
+    }
+</div>

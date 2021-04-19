@@ -10,6 +10,7 @@ namespace DasContract.Editor.Web.Services.EditElement
     public class EditElementService: IDisposable
     {
         public event EventHandler<EditElementEventArgs> EditElementChanged;
+        public event EventHandler EditElementModified;
 
         private ProcessElement _editElement;
 
@@ -27,6 +28,11 @@ namespace DasContract.Editor.Web.Services.EditElement
                 var args = new EditElementEventArgs { processElement = _editElement };
                 OnEditElementChanged(args);
             }
+        }
+
+        public void EditedElementModified()
+        {
+            EditElementModified?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnEditElementChanged(EditElementEventArgs args)

@@ -1,5 +1,6 @@
 ﻿using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services.EditElement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -21,7 +22,12 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         [Inject]
+        private EditElementService EditElementService { get; set; }
+
+        [Inject]
         private IJSRuntime JSRunTime { get; set; }
+
+        private bool ShowDetailBar { get; set; } = false;
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -29,9 +35,23 @@ namespace DasContract.Editor.Web.Pages
             {
                 ContractManager.InitializeNewContract();
                 CreateEditor();
-                InitializeSplitGutter();
             }
 
+            if (ShowDetailBar)
+                InitializeSplitGutter();
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            EditElementService.EditElementChanged += HandleEditElementChanged;
+        }
+
+        private void HandleEditElementChanged(object sender, EditElementEventArgs args)
+        {
+            ShowDetailBar = args.processElement != null;
+
+            StateHasChanged();
         }
 
         async void CreateEditor()

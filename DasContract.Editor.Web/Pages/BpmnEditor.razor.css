@@ -1,5 +1,8 @@
 ﻿.grid {
     display: grid;
-    grid-template-columns: 2fr 10px 2fr;
+    grid-template-columns: 3.25fr 10px 0.75fr;
+}
+
+.main-container {
     height: 100%;
 }
