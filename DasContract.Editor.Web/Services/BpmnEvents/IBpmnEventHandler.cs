@@ -12,6 +12,8 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public event EventHandler<BpmnInternalEvent> ShapeAdded;
         public event EventHandler<BpmnInternalEvent> ShapeRemoved;
         public event EventHandler<BpmnInternalEvent> ElementIdUpdated;
+        public event EventHandler<BpmnInternalEvent> ConnectionAdded;
+        public event EventHandler<BpmnInternalEvent> ConnectionRemoved;
 
         public Task InitializeHandler();
     }

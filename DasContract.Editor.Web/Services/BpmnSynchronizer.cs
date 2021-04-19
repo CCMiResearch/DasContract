@@ -1,5 +1,6 @@
 ﻿using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.BpmnEvents;
+using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
@@ -13,38 +14,51 @@ namespace DasContract.Editor.Web.Services
     public class BpmnSynchronizer : IBpmnSynchronizer, IDisposable
     {
 
-        private IBpmnEventHandler _camundaEventHandler;
+        private IBpmnEventHandler _bpmnEventHandler;
         private IProcessManager _processManager;
         private EditElementService _editElementService;
 
         public BpmnSynchronizer(IBpmnEventHandler camundaEventHandler, IProcessManager processManager, EditElementService editElementService)
         {
-            _camundaEventHandler = camundaEventHandler;
+            _bpmnEventHandler = camundaEventHandler;
             _processManager = processManager;
             _editElementService = editElementService;
         }
 
         public void Initiliaze()
         {
-            _camundaEventHandler.ShapeAdded += ShapeAdded;
-            _camundaEventHandler.ShapeRemoved += ShapeRemoved;
-            _camundaEventHandler.ElementIdUpdated += ElementIdUpdated;
-            _camundaEventHandler.ElementClick += ElementClicked;
-            _camundaEventHandler.ElementChanged += ElementChanged;
+            _bpmnEventHandler.ShapeAdded += ShapeAdded;
+            _bpmnEventHandler.ShapeRemoved += ShapeRemoved;
+            _bpmnEventHandler.ElementIdUpdated += ElementIdUpdated;
+            _bpmnEventHandler.ElementClick += ElementClicked;
+            _bpmnEventHandler.ElementChanged += ElementChanged;
+            _bpmnEventHandler.ConnectionAdded += ConnectionAdded;
+            _bpmnEventHandler.ConnectionRemoved += ConnectionRemoved;
         }
 
         public void Dispose()
         {
-            _camundaEventHandler.ShapeAdded -= ShapeAdded;
-            _camundaEventHandler.ShapeRemoved -= ShapeRemoved;
-            _camundaEventHandler.ElementIdUpdated -= ElementIdUpdated;
-            _camundaEventHandler.ElementClick -= ElementClicked;
-            _camundaEventHandler.ElementChanged -= ElementChanged;
+            _bpmnEventHandler.ShapeAdded -= ShapeAdded;
+            _bpmnEventHandler.ShapeRemoved -= ShapeRemoved;
+            _bpmnEventHandler.ElementIdUpdated -= ElementIdUpdated;
+            _bpmnEventHandler.ElementClick -= ElementClicked;
+            _bpmnEventHandler.ElementChanged -= ElementChanged;
+            _bpmnEventHandler.ConnectionAdded -= ConnectionAdded;
+            _bpmnEventHandler.ConnectionRemoved -= ConnectionRemoved;
         }
 
         private void ShapeAdded(object sender, BpmnInternalEvent e)
         {
-            var element = ProcessElementFactory.CreateElementFromType(e.Element.Type);
+            ProcessElement element;
+            try
+            {
+                element = ProcessElementFactory.CreateElementFromType(e.Element.Type);
+            }
+            catch (InvalidCamundaElementTypeException _)
+            {
+                return;
+            }
+
             element.Id = e.Element.Id;
             _processManager.AddElement(element);
             if (_processManager.TryRetrieveElementById(e.Element.Id, out element))
@@ -55,6 +69,9 @@ namespace DasContract.Editor.Web.Services
 
         private void ShapeRemoved(object sender, BpmnInternalEvent e)
         {
+            if (e.Element.Type == "label")
+                return;
+
             if (_processManager.TryRetrieveElementById<ProcessElement>(e.Element?.Id, out var element))
             {
                 if (_editElementService.EditElement == element)
@@ -76,7 +93,7 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementChanged(object sender, BpmnInternalEvent e)
         {
-            if (_processManager.TryRetrieveElementById<ProcessElement>(e.Element?.Id, out var element))
+            if (_processManager.TryRetrieveIElementById(e.Element?.Id, out var element))
             {
                 //Parse element name
                 element.Name = e.Element.Name;
@@ -104,7 +121,7 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementClicked(object sender, BpmnInternalEvent e)
         {
-            if(_processManager.TryRetrieveElementById<ProcessElement>(e.Element?.Id, out var element))
+            if(_processManager.TryRetrieveIElementById(e.Element?.Id, out var element))
             {
                 _editElementService.EditElement = element;
             }
@@ -116,7 +133,23 @@ namespace DasContract.Editor.Web.Services
 
         private void ConnectionAdded(object sender, BpmnInternalEvent e)
         {
-            
+            var sequenceFlow = new SequenceFlow { Id = e.Element.Id };
+            _processManager.AddSequenceFlow(sequenceFlow);
+
+            if (_processManager.TryRetrieveSequenceFlowById(e.Element?.Id, out sequenceFlow))
+            {
+                _editElementService.EditElement = sequenceFlow;
+            }
+        }
+
+        private void ConnectionRemoved(object sender, BpmnInternalEvent e)
+        {
+            if (_processManager.TryRetrieveSequenceFlowById(e.Element?.Id, out var sequenceFlow))
+            {
+                if (_editElementService.EditElement == sequenceFlow)
+                    _editElementService.EditElement = null;
+            }
+            _processManager.RemoveSequenceFlow(e.Element.Id);
         }
     }
 }

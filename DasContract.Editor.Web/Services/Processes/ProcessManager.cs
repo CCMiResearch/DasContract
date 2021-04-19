@@ -15,10 +15,32 @@ namespace DasContract.Editor.Web.Services.Processes
         IContractManager contractManager;
 
         private Dictionary<string, Stack<ProcessElement>> _deletedElements = new Dictionary<string, Stack<ProcessElement>>();
+        private Dictionary<string, SequenceFlow> _deletedSequenceFlows = new Dictionary<string, SequenceFlow>();
 
         public ProcessManager(IContractManager contractManager)
         {
             this.contractManager = contractManager;
+        }
+
+        public bool TryRetrieveIElementById(string elementId, out IProcessElement element)
+        {
+            var found = TryRetrieveElementById(elementId, out ProcessElement processElement);
+
+            if (found)
+            {
+                element = processElement;
+                return true;
+            }
+
+            found = TryRetrieveSequenceFlowById(elementId, out SequenceFlow sequenceFlow);
+
+            if (found)
+            {
+                element = sequenceFlow;
+                return true;
+            }
+            element = null;
+            return false;
         }
 
         public bool TryRetrieveElementById<T>(string elementId, out T element) where T : ProcessElement
@@ -109,12 +131,48 @@ namespace DasContract.Editor.Web.Services.Processes
             }
 
             element = deletedStack.Pop();
-            Console.WriteLine($"Retrieved id {element.Id} from deletion buffer, it contains {deletedStack.Count} elements");
             return true;
         }
 
-        
+        public void AddSequenceFlow(SequenceFlow addedSequenceFlow)
+        {
+            var process = contractManager.GetProcess();
+            var id = addedSequenceFlow.Id;
 
+            if (process.SequenceFlows.ContainsKey(id))
+                throw new DuplicateIdException($"Process already contains id {id}");
 
+            //Check if the element is not stored in the deletion buffer
+            if(_deletedSequenceFlows.TryGetValue(id, out var deletedSequenceFlow)) 
+            { 
+                addedSequenceFlow = deletedSequenceFlow;
+                _deletedSequenceFlows.Remove(id);
+            }
+
+            process.SequenceFlows.Add(id, addedSequenceFlow);
+            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+        }
+
+        public void RemoveSequenceFlow(string id)
+        {
+            var process = contractManager.GetProcess();
+
+            if (!process.SequenceFlows.ContainsKey(id))
+                throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
+
+            //Store the deleted element in the deletion buffer
+            var sequenceFlow = process.SequenceFlows[id];
+            _deletedSequenceFlows.Add(id, sequenceFlow);
+
+            process.SequenceFlows.Remove(id);
+            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+        }
+
+        public bool TryRetrieveSequenceFlowById(string sequenceFlowId, out SequenceFlow sequenceFlow)
+        {
+            var process = contractManager.GetProcess();
+
+            return process.SequenceFlows.TryGetValue(sequenceFlowId, out sequenceFlow);
+        }
     }
 }
