@@ -29,6 +29,7 @@ namespace DasContract.Editor.Web.Services
             _camundaEventHandler.ShapeRemoved += ShapeRemoved;
             _camundaEventHandler.ElementIdUpdated += ElementIdUpdated;
             _camundaEventHandler.ElementClick += ElementClicked;
+            _camundaEventHandler.ElementChanged += ElementChanged;
         }
 
         public void Dispose()
@@ -37,6 +38,7 @@ namespace DasContract.Editor.Web.Services
             _camundaEventHandler.ShapeRemoved -= ShapeRemoved;
             _camundaEventHandler.ElementIdUpdated -= ElementIdUpdated;
             _camundaEventHandler.ElementClick -= ElementClicked;
+            _camundaEventHandler.ElementChanged -= ElementChanged;
         }
 
         private void ShapeAdded(object sender, BpmnInternalEvent e)
@@ -69,16 +71,42 @@ namespace DasContract.Editor.Web.Services
 
         }
 
+        private void ElementChanged(object sender, BpmnInternalEvent e)
+        {
+            if (_processManager.TryRetrieveElementById<ProcessElement>(e.Element?.Id, out var element))
+            {
+                //Parse element name
+                element.Name = e.Element.Name;
+                //Parse element loop type
+                if (element is Abstraction.Processes.Tasks.Task)
+                {
+                    var taskElement = element as Abstraction.Processes.Tasks.Task;
+                    if (e.Element.LoopType == "bpmn:MultiInstanceLoopCharacteristics")
+                    {
+                        if (e.Element.IsSequential)
+                            taskElement.InstanceType = Abstraction.Processes.Tasks.InstanceType.Sequential;
+                        else
+                            taskElement.InstanceType = Abstraction.Processes.Tasks.InstanceType.Parallel;
+                    }
+                    else
+                    {
+                        taskElement.InstanceType = Abstraction.Processes.Tasks.InstanceType.Single;
+                    }
+                }
+                //Notify about element modification if currently selected
+                if (_editElementService.EditElement == element)
+                    _editElementService.EditedElementModified();
+            }
+        }
+
         private void ElementClicked(object sender, BpmnInternalEvent e)
         {
             if(_processManager.TryRetrieveElementById<ProcessElement>(e.Element?.Id, out var element))
             {
-                Console.WriteLine($"Settings edit element {element == null}");
                 _editElementService.EditElement = element;
             }
             else
             {
-                Console.WriteLine("Bahh");
                 _editElementService.EditElement = null;
             }
         }

@@ -9,5 +9,8 @@ namespace DasContract.Editor.Web.Services.CamundaEvents
     {
         public string Id { get; set; }
         public string Type { get; set; }
+        public string Name { get; set; }
+        public bool IsSequential { get; set; }
+        public string LoopType { get; set; }
     }
 }

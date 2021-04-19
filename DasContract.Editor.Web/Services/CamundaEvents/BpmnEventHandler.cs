@@ -37,7 +37,7 @@ namespace DasContract.Editor.Web.Services.CamundaEvents
                 case "element.click":
                     ElementClick?.Invoke(this, e);
                     break;
-                case "shape.changed":
+                case "element.changed":
                     ElementChanged?.Invoke(this, e);
                     break;
                 case "shape.added":

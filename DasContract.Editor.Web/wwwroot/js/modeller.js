@@ -6,7 +6,7 @@ export function hookEvents() {
 
     // you may hook into any of the following events
     var events = [
-        //'element.changed',
+        'element.changed',
         'element.click',
         //'element.dblclick',
         //'element.mousedown',
@@ -24,20 +24,33 @@ export function hookEvents() {
             // e.element = the model element
             // e.gfx = the graphical element
             if (modellerLib.eventHandlerInstanceRef != null) {
-                let eventObj = { type: e.type };
-                if (e.newId != null)
-                    eventObj.newId = e.newId;
-                if (e.element != null) {
-                    eventObj.element = {
-                        id: e.element.id,
-                        type: e.element.type
-                    }
-                }
+                let eventObj = copyEventInformation(e);
                 modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleCamundaEvent", eventObj);
             }
             console.log(event, 'on', e, ' element id: ', e.element.id);
         });
     });
+}
+
+function copyEventInformation(e) {
+    let eventObj = { type: e.type };
+    if (e.newId != null)
+        eventObj.newId = e.newId;
+    if (e.element != null) {
+        eventObj.element = {
+            id: e.element.id,
+            type: e.element.type
+        }
+        let businessObject = e.element.businessObject;
+        if (businessObject != null) {
+            eventObj.element.name = businessObject.name;
+            if (businessObject.loopCharacteristics != null) {
+                eventObj.element.isSequential = businessObject.loopCharacteristics.isSequential;
+                eventObj.element.loopType = businessObject.loopCharacteristics.$type;
+            }
+        }
+    }
+    return eventObj;
 }
 // create a modeler
 export function createModeler() {
