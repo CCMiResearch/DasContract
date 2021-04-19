@@ -8,6 +8,6 @@ namespace DasContract.Editor.Web.Services.EditElement
 {
     public class EditElementEventArgs : EventArgs
     {
-        public ProcessElement processElement;
+        public IProcessElement processElement;
     }
 }

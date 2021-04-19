@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace DasContract.Editor.Web.Services.CamundaEvents
+namespace DasContract.Editor.Web.Services.BpmnEvents
 {
     public class BpmnEventHandler : IBpmnEventHandler
     {
@@ -15,9 +15,11 @@ namespace DasContract.Editor.Web.Services.CamundaEvents
 
         public event EventHandler<BpmnInternalEvent> ElementClick;
         public event EventHandler<BpmnInternalEvent> ElementChanged;
+        public event EventHandler<BpmnInternalEvent> ElementIdUpdated;
         public event EventHandler<BpmnInternalEvent> ShapeAdded;
         public event EventHandler<BpmnInternalEvent> ShapeRemoved;
-        public event EventHandler<BpmnInternalEvent> ElementIdUpdated;
+        public event EventHandler<BpmnInternalEvent> ConnectionAdded;
+        public event EventHandler<BpmnInternalEvent> ConnectionRemoved;
 
         public BpmnEventHandler(IJSRuntime jsRuntime)
         {
@@ -48,6 +50,12 @@ namespace DasContract.Editor.Web.Services.CamundaEvents
                     break;
                 case "element.updateId":
                     ElementIdUpdated?.Invoke(this, e);
+                    break;
+                case "connection.removed":
+                    ConnectionRemoved?.Invoke(this, e);
+                    break;
+                case "connection.added":
+                    ConnectionAdded?.Invoke(this, e);
                     break;
             }
         }

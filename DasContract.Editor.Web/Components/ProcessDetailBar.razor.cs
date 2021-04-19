@@ -14,7 +14,7 @@ namespace DasContract.Editor.Web.Components
         [Inject]
         private EditElementService EditElementService { get; set; }
 
-        private ProcessElement EditedElement { get; set; }
+        private IProcessElement EditedElement { get; set; }
 
         protected override void OnInitialized()
         {

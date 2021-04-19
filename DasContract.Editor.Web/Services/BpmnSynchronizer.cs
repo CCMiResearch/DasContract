@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
+using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -43,8 +44,10 @@ namespace DasContract.Editor.Web.Services
 
         private void ShapeAdded(object sender, BpmnInternalEvent e)
         {
-            _processManager.AddElement(e.Element.Id, e.Element.Type);
-            if (_processManager.TryRetrieveElementById<ProcessElement>(e.Element.Id, out var element))
+            var element = ProcessElementFactory.CreateElementFromType(e.Element.Type);
+            element.Id = e.Element.Id;
+            _processManager.AddElement(element);
+            if (_processManager.TryRetrieveElementById(e.Element.Id, out element))
             {
                 _editElementService.EditElement = element;
             }
@@ -109,6 +112,11 @@ namespace DasContract.Editor.Web.Services
             {
                 _editElementService.EditElement = null;
             }
+        }
+
+        private void ConnectionAdded(object sender, BpmnInternalEvent e)
+        {
+            
         }
     }
 }

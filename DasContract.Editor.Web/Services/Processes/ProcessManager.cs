@@ -2,13 +2,13 @@
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
-using DasContract.Editor.Web.Services.CamundaEvents.Exceptions;
+using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services
+namespace DasContract.Editor.Web.Services.Processes
 {
     public class ProcessManager : IProcessManager
     {
@@ -24,9 +24,9 @@ namespace DasContract.Editor.Web.Services
         public bool TryRetrieveElementById<T>(string elementId, out T element) where T : ProcessElement
         {
             var process = contractManager.GetProcess();
-            ProcessElement processElement; 
-            var found =  process.ProcessElements.TryGetValue(elementId, out processElement);
-            if(found)
+            ProcessElement processElement;
+            var found = process.ProcessElements.TryGetValue(elementId, out processElement);
+            if (found)
             {
                 element = processElement as T;
             }
@@ -37,43 +37,21 @@ namespace DasContract.Editor.Web.Services
             return found;
         }
 
-        public void AddElement<T>(T addedElement) where T : ProcessElement
+        public void AddElement(ProcessElement addedElement)
         {
             var process = contractManager.GetProcess();
-            process.ProcessElements.Add(addedElement.Id, addedElement);
-        }
+            var id = addedElement.Id;
 
-        public void AddOrReplaceElement(string id, string type)
-        {
-            var process = contractManager.GetProcess();
-            var newElement = CreateElementFromType(type);
+            if (process.ProcessElements.ContainsKey(addedElement.Id))
+                throw new DuplicateIdException($"Process already contains id {addedElement.Id}");
 
-            ProcessElement existingElement;
-            if (process.ProcessElements.TryGetValue(id, out existingElement))
+             //Check if the element is not stored in the deletion buffer
+            if (TryGetElementFromDeletedBuffer(id, out ProcessElement element))
             {
-                //TODO: Copy general values
-                process.ProcessElements.Remove(id);
-            }
-            process.ProcessElements.Add(id, newElement);
-
-            Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
-        }
-
-        public void AddElement(string id, string type)
-        {
-            var process = contractManager.GetProcess();
-
-            if (process.ProcessElements.ContainsKey(id))
-                throw new DuplicateIdException($"Process already contains id {id}");
-
-            //Check if the element is not stored in the deletion buffer
-            if (!TryGetElementFromDeletedBuffer(id, out ProcessElement element))
-            {
-                element = CreateElementFromType(type);
-                element.Id = id;
+                addedElement = element;
             }
 
-            process.ProcessElements.Add(id, element);
+            process.ProcessElements.Add(id, addedElement);
             Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
         }
 
@@ -110,7 +88,7 @@ namespace DasContract.Editor.Web.Services
         private void AddElementToDeletedBuffer(ProcessElement e)
         {
             if (!_deletedElements.ContainsKey(e.Id))
-            { 
+            {
                 _deletedElements.Add(e.Id, new Stack<ProcessElement>());
             }
 
@@ -120,10 +98,11 @@ namespace DasContract.Editor.Web.Services
             Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
         }
 
-        private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element) {
+        private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element)
+        {
             var deletedStack = _deletedElements.GetValueOrDefault(elementId);
 
-            if(deletedStack == null || deletedStack.Count == 0)
+            if (deletedStack == null || deletedStack.Count == 0)
             {
                 element = null;
                 return false;
@@ -134,34 +113,7 @@ namespace DasContract.Editor.Web.Services
             return true;
         }
 
-        private ProcessElement CreateElementFromType(string type)
-        {
-            switch(type)
-            {
-                case "bpmn:StartEvent":
-                    return new StartEvent();
-                case "bpmn:EndEvent":
-                    return new EndEvent();
-                case "bpmn:Task":
-                    return new Abstraction.Processes.Tasks.Task();
-                case "bpmn:UserTask":
-                    return new UserTask();
-                case "bpmn:ScriptTask":
-                    return new ScriptTask();
-                case "bpmn:ServiceTask":
-                    return new ServiceTask();
-                case "bpmn:BusinessRuleTask":
-                    return new BusinessRuleTask();
-                case "bpmn:CallActivity":
-                    return new CallActivity();
-                case "bpmn:ParallelGateway":
-                    return new ParallelGateway();
-                case "bpmn:ExclusiveGateway":
-                    return new ExclusiveGateway();
-                default:
-                    throw new InvalidCamundaElementTypeException($"{type} is not a valid element type");
-            }
-        }
+        
 
 
     }

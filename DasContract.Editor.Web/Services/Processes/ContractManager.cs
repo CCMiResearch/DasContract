@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services
+namespace DasContract.Editor.Web.Services.Processes
 {
-    public class ContractManager: IContractManager
+    public class ContractManager : IContractManager
     {
         private Contract contract;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services.CamundaEvents
+namespace DasContract.Editor.Web.Services.BpmnEvents
 {
     public interface IBpmnEventHandler
     {

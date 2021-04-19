@@ -1,5 +1,5 @@
 ﻿using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services.BpmnEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,9 @@ namespace DasContract.Editor.Web.Services.EditElement
         public event EventHandler<EditElementEventArgs> EditElementChanged;
         public event EventHandler EditElementModified;
 
-        private ProcessElement _editElement;
+        private IProcessElement _editElement;
 
-        public ProcessElement EditElement
+        public IProcessElement EditElement
         {
             get { return _editElement; }
             set

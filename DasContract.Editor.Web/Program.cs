@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.EditElement;
+using DasContract.Editor.Web.Services.Processes;
 
 namespace DasContract.Editor.Web
 {

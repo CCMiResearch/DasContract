@@ -15,7 +15,8 @@ export function hookEvents() {
         'shape.removed',
         //'shape.changed',
         'element.updateId',
-        'connection.added'
+        'connection.added',
+        'connection.removed'
     ];
 
     events.forEach(function (event) {

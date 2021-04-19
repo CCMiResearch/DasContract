@@ -1,13 +1,16 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks 
 
-<div>
-    <h5>@EditedElement?.Id</h5>
+<div class="detail-bar">
+    <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
     <h5>@EditedElement?.Name</h5>
 
     @switch (EditedElement)
     {
         case ScriptTask scriptTask:
-            <input type="text" @bind-value="@scriptTask.Script">
+            <MatTextField @bind-Value="@scriptTask.Script" Label="Script" FullWidth="true"></MatTextField>
+            break;
+        case Abstraction.Processes.Tasks.Task task:
+            <h5>@task.InstanceType</h5>
             break;
     }
 </div>

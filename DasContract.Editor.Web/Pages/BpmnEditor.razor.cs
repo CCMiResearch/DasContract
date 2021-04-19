@@ -1,6 +1,7 @@
 ﻿using DasContract.Editor.Web.Services;
-using DasContract.Editor.Web.Services.CamundaEvents;
+using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
+using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
