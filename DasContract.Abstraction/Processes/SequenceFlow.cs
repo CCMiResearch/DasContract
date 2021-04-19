@@ -3,7 +3,7 @@
     /// <summary>
     /// An arrow between process elements. 
     /// </summary>
-    public class SequenceFlow
+    public class SequenceFlow: IProcessElement
     {
         public string Id { get; set; }
         /// <summary>

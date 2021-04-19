@@ -2,7 +2,7 @@
 
 namespace DasContract.Abstraction.Processes
 {
-    public abstract class ProcessElement
+    public abstract class ProcessElement: IProcessElement
     {
         public string Id { get; set; }
         public string Name { get; set; }
