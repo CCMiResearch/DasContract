@@ -4,6 +4,20 @@
     <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
     <h5>@EditedElement?.Name</h5>
 
+    @*Generate tab buttons*@
+    @foreach (var tab in _tabs)
+    {
+        <button @onclick="() => SwitchActive(tab)">@tab</button>
+    }
+
+
+    @*General tab is generated for every element*@
+    @if (_activeTab == "General")
+    {
+
+    }
+
+    @*Additional tabs can be added for certain elements*@
     @switch (EditedElement)
     {
         case ScriptTask scriptTask:
