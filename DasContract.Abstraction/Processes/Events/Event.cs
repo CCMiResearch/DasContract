@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DasContract.Abstraction.Processes.Events
 {
-    public abstract class Event : ProcessElement
+    public class Event : ProcessElement
     {
     }
 }

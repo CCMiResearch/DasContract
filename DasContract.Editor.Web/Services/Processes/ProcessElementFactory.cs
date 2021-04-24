@@ -36,6 +36,12 @@ namespace DasContract.Editor.Web.Services.Processes
                     return new ParallelGateway();
                 case "bpmn:ExclusiveGateway":
                     return new ExclusiveGateway();
+                case "bpmn:IntermediateThrowEvent":
+                    return new Event();
+                case "bpmn:BoundaryEvent":
+                    return new BoundaryEvent();
+                case "bpmn:TimerBoundaryEvent":
+                    return new TimerBoundaryEvent();
                 default:
                     throw new InvalidCamundaElementTypeException($"{type} is not a valid element type");
             }
