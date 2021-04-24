@@ -121,7 +121,14 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementClicked(object sender, BpmnInternalEvent e)
         {
-            if(_processManager.TryRetrieveIElementById(e.Element?.Id, out var element))
+            string elementId;
+            //Extract the represented element id if the element is of type label 
+            if (e.Element?.Type == "label")
+                elementId = e.Element.Id.Substring(0, e.Element.Id.Length - "_label".Length);
+            else
+                elementId = e.Element.Id;
+
+            if(_processManager.TryRetrieveIElementById(elementId, out var element))
             {
                 _editElementService.EditElement = element;
             }
@@ -135,11 +142,6 @@ namespace DasContract.Editor.Web.Services
         {
             var sequenceFlow = new SequenceFlow { Id = e.Element.Id };
             _processManager.AddSequenceFlow(sequenceFlow);
-
-            if (_processManager.TryRetrieveSequenceFlowById(e.Element?.Id, out sequenceFlow))
-            {
-                _editElementService.EditElement = sequenceFlow;
-            }
         }
 
         private void ConnectionRemoved(object sender, BpmnInternalEvent e)

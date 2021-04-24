@@ -95,7 +95,7 @@ var splitterLib =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createSplit\", function() { return createSplit; });\n/* harmony import */ var split_grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! split-grid */ \"./node_modules/split-grid/dist/split-grid.es.js\");\n\nfunction createSplit(gutterSelector) {\n  console.log(\"Split has been called\");\n  Object(split_grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n    columnGutters: [{\n      track: 1,\n      element: document.querySelector(gutterSelector)\n    }]\n  });\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/splitter.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createSplit\", function() { return createSplit; });\n/* harmony import */ var split_grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! split-grid */ \"./node_modules/split-grid/dist/split-grid.es.js\");\n\nfunction createSplit(gutterSelector) {\n  Object(split_grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n    columnGutters: [{\n      track: 1,\n      element: document.querySelector(gutterSelector)\n    }]\n  });\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/splitter.js?");
 
 /***/ }),
 

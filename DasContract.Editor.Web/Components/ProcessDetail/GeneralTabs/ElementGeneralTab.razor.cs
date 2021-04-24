@@ -19,7 +19,6 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
 
         protected async void NameInput(FocusEventArgs args)
         {
-            Console.WriteLine($"changed input");
             await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", ProcessElement.Id, ProcessElement.Name);
         }
     }

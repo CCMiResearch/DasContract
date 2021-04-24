@@ -117,7 +117,7 @@ namespace DasContract.Editor.Web.Services.Processes
             var deletedStack = _deletedElements.GetValueOrDefault(e.Id);
 
             deletedStack.Push(e);
-            Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
+            //Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
         }
 
         private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element)

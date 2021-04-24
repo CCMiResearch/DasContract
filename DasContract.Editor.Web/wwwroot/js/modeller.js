@@ -13,7 +13,6 @@ import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProv
 
 
 export function hookEvents() {
-    console.log("Hooking events");
     var eventBus = window.modeler.get('eventBus');
 
     // you may hook into any of the following events
@@ -94,7 +93,6 @@ export function createModeler() {
 var _getPaletteEntries = PaletteProvider.prototype.getPaletteEntries;
 PaletteProvider.prototype.getPaletteEntries = function (element) {
     var entries = _getPaletteEntries.call(this, element);
-    console.log(entries);
     delete entries['create.data-store'];
     delete entries['create.subprocess-expanded'];
     delete entries['create.group'];
