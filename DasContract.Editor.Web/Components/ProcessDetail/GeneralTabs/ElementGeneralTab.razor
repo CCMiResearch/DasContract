@@ -1,5 +1,8 @@
-﻿<h3>ElementGeneralTab</h3>
+﻿<MatTextField @bind-Value="@ProcessElement.Name" Label="Name" FullWidth="true" OnFocusOut="NameInput"></MatTextField>
 
-@code {
-
+@switch(ProcessElement)
+{
+    case DasContract.Abstraction.Processes.Tasks.Task task:
+        <TaskGeneralTab Task="task"/>
+        break;
 }

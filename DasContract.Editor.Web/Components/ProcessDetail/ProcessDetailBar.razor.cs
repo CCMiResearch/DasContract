@@ -48,6 +48,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         private void CreateTabsList()
         {
+            Console.WriteLine("Creating tabs");
             _tabs = new List<string>();
             _tabs.Add("General");
             switch(EditedElement)
@@ -60,7 +61,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                     break;
 
             }
-            _activeTab = "General";
+            SwitchActive("General");
         }
 
         protected void SwitchActive(string newActive)

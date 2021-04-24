@@ -33,6 +33,16 @@ export function hookEvents() {
     });
 }
 
+export function updateElementName(elementId, elementName) {
+    const elementRegistry = window.modeler.get('elementRegistry'),
+        modeling = window.modeler.get('modeling');
+
+    const element = elementRegistry.get(elementId);
+
+    modeling.updateProperties(element, { name: elementName});
+}
+
+
 function copyEventInformation(e) {
     let eventObj = { type: e.type };
     if (e.newId != null)

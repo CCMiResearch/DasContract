@@ -1,4 +1,5 @@
-﻿@using DasContract.Abstraction.Processes.Tasks 
+﻿@using DasContract.Abstraction.Processes.Tasks
+
 
 <div class="detail-bar">
     <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
@@ -14,17 +15,17 @@
     @*General tab is generated for every element*@
     @if (_activeTab == "General")
     {
-
+        <ElementGeneralTab ProcessElement="EditedElement"></ElementGeneralTab>
     }
 
     @*Additional tabs can be added for certain elements*@
     @switch (EditedElement)
     {
         case ScriptTask scriptTask:
-            <MatTextField @bind-Value="@scriptTask.Script" Label="Script" FullWidth="true"></MatTextField>
-            break;
-        case Abstraction.Processes.Tasks.Task task:
-            <h5>@task.InstanceType</h5>
+            @if (_activeTab == "Script")
+            {
+                <ScriptTab @bind-Script="@scriptTask.Script"/>
+            }
             break;
     }
 </div>
