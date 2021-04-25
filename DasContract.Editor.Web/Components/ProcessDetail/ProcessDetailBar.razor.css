@@ -9,7 +9,19 @@
 
 .id-attribute{
     margin: auto;
-    width:min-content
+    width: min-content;
+    margin-bottom: 10px;
+}
+
+.element-type-attribute{
+    margin: auto;
+    width: max-content;
+    color: dimgrey;
+    font-family: Verdana;
+}
+
+.main-info {
+    margin-bottom: 15px;
 }
 
 .tab-buttons {

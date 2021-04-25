@@ -1,11 +1,14 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
 @using DasContract.Editor.Web.Components.Common 
+@using DasContract.Editor.Web.Extensions
 
 
 <div class="detail-bar">
     <div class="detail-bar-header">
-        <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
-        <h5>@EditedElement?.Name</h5>
+        <div class="main-info">
+            <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
+            <h6 class="element-type-attribute">@EditedElement.GetType().Name.SplitCamelCase()</h6>
+        </div>
 
         <div class="tab-buttons">
             @*Generate tab buttons*@

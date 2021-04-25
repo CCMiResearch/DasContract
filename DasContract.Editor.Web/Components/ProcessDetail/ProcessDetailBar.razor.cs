@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Abstraction.Processes.Tasks;
+using System.Text.RegularExpressions;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
@@ -56,7 +57,11 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                     _tabs.Add(new ProcessDetailTab { TabName = "Script", TabType = ProcessDetailTabType.Script });
                     break;
                 case UserTask:
-                    _tabs.Add(new ProcessDetailTab { TabName = "Validation", TabType = ProcessDetailTabType.UserValidation });
+                    _tabs.Add(new ProcessDetailTab { TabName = "Validation", TabType = ProcessDetailTabType.UserValidation});
+                    _tabs.Add(new ProcessDetailTab { TabName = "Forms", TabType = ProcessDetailTabType.UserForm});
+                    break;
+                case BusinessRuleTask:
+                    _tabs.Add(new ProcessDetailTab { TabName = "Rules", TabType = ProcessDetailTabType.BusinessRules });
                     break;
 
             }
