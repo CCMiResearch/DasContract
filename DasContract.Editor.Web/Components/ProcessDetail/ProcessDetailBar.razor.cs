@@ -14,10 +14,10 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         [Inject]
         private EditElementService EditElementService { get; set; }
 
-        private IList<string> _tabs { get; set; }
-        private string _activeTab { get; set; }
+        private IList<ProcessDetailTab> _tabs;
+        private ProcessDetailTab _activeTab;
 
-        private IProcessElement EditedElement { get; set; }
+        private IProcessElement EditedElement;
 
         protected override void OnInitialized()
         {
@@ -48,22 +48,22 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         private void CreateTabsList()
         {
-            _tabs = new List<string>();
-            _tabs.Add("General");
+            _tabs = new List<ProcessDetailTab>();
+            _tabs.Add(new ProcessDetailTab {TabName = "General" , TabType = ProcessDetailTabType.General});
             switch(EditedElement)
             {
                 case ScriptTask:
-                    _tabs.Add("Script");
+                    _tabs.Add(new ProcessDetailTab { TabName = "Script", TabType = ProcessDetailTabType.Script });
                     break;
                 case UserTask:
-                    _tabs.Add("Validation");
+                    _tabs.Add(new ProcessDetailTab { TabName = "Validation", TabType = ProcessDetailTabType.UserValidation });
                     break;
 
             }
-            SwitchActive("General");
+            SwitchActive(_tabs.First());
         }
 
-        protected void SwitchActive(string newActive)
+        protected void SwitchActive(ProcessDetailTab newActive)
         {
             _activeTab = newActive;
         }

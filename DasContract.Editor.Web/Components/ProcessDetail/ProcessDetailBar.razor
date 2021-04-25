@@ -1,31 +1,43 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
+@using DasContract.Editor.Web.Components.Common 
 
 
 <div class="detail-bar">
-    <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
-    <h5>@EditedElement?.Name</h5>
+    <div class="detail-bar-header">
+        <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
+        <h5>@EditedElement?.Name</h5>
 
-    @*Generate tab buttons*@
-    @foreach (var tab in _tabs)
-    {
-        <button @onclick="() => SwitchActive(tab)">@tab</button>
-    }
-
-
-    @*General tab is generated for every element*@
-    @if (_activeTab == "General")
-    {
-        <ElementGeneralTab ProcessElement="EditedElement"></ElementGeneralTab>
-    }
-
-    @*Additional tabs can be added for certain elements*@
-    @switch (EditedElement)
-    {
-        case ScriptTask scriptTask:
-            @if (_activeTab == "Script")
+        <div class="tab-buttons">
+            @*Generate tab buttons*@
+            @foreach (var tab in _tabs)
             {
-                <ScriptTab @bind-Script="@scriptTask.Script"/>
+                <TabButton @onclick="(args) => SwitchActive(tab)" Active="_activeTab == tab">@tab.TabName</TabButton>
             }
-            break;
-    }
+        </div>
+    </div>
+
+    <div class="edit-tab">
+        @*General tab is generated for every element*@
+        @if (_activeTab.TabType == ProcessDetailTabType.General)
+        {
+            <ElementGeneralTab ProcessElement="EditedElement"></ElementGeneralTab>
+        }
+
+        @*Additional tabs can be added for certain elements*@
+        @switch (EditedElement)
+        {
+            case ScriptTask scriptTask:
+                @if (_activeTab.TabType == ProcessDetailTabType.Script)
+                {
+                    <ScriptTab @bind-Script="@scriptTask.Script" />
+                }
+                break;
+            case UserTask userTask:
+                @if (_activeTab.TabType == ProcessDetailTabType.UserValidation)
+                {
+                    <ScriptTab @bind-Script="@userTask.ValidationScript" />
+                }
+                break;
+        }
+    </div>
 </div>

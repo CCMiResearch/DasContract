@@ -1,9 +1,23 @@
 ﻿.detail-bar {
-    padding: 20px 7px 20px 7px;
-    background-color: #f5f5f2;
+    background-color: white;
+}
+
+.detail-bar-header {
+    background-color: #f7f7f8;
+    padding: 20px 8px 0px;
 }
 
 .id-attribute{
     margin: auto;
     width:min-content
+}
+
+.tab-buttons {
+    display: flex;
+}
+
+.edit-tab{
+    border-top: 1px solid gray;
+    height: max-content;
+    padding: 0px 8px;
 }
