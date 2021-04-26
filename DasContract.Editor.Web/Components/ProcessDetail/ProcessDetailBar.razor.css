@@ -1,5 +1,7 @@
 ﻿.detail-bar {
     background-color: white;
+    overflow-y: auto;
+    min-width: max-content;
 }
 
 .detail-bar-header {
