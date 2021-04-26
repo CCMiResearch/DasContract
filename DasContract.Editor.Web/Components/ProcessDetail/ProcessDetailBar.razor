@@ -11,7 +11,7 @@
         </div>
 
         <div class="tab-buttons">
-            @*Generate tab buttons*@
+            @*Render tab buttons*@
             @foreach (var tab in _tabs)
             {
                 <TabButton @onclick="(args) => SwitchActive(tab)" Active="_activeTab == tab">@tab.TabName</TabButton>
@@ -20,26 +20,17 @@
     </div>
 
     <div class="edit-tab">
-        @*General tab is generated for every element*@
-        @if (_activeTab.TabType == ProcessDetailTabType.General)
+        @*Render the active tab*@
+        @switch (_activeTab.TabType)
         {
-            <ElementGeneralTab ProcessElement="EditedElement"></ElementGeneralTab>
-        }
-
-        @*Additional tabs can be added for certain elements*@
-        @switch (EditedElement)
-        {
-            case ScriptTask scriptTask:
-                @if (_activeTab.TabType == ProcessDetailTabType.Script)
-                {
-                    <ScriptTab @bind-Script="@scriptTask.Script" />
-                }
+            case ProcessDetailTabType.General:
+                <ElementGeneralTab ProcessElement="EditedElement" />
                 break;
-            case UserTask userTask:
-                @if (_activeTab.TabType == ProcessDetailTabType.UserValidation)
-                {
-                    <ScriptTab @bind-Script="@userTask.ValidationScript" />
-                }
+            case ProcessDetailTabType.Script:
+                <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" />
+                break;
+            case ProcessDetailTabType.UserValidation:
+                <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" />
                 break;
         }
     </div>
