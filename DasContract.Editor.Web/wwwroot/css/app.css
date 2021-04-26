@@ -53,10 +53,6 @@ a, .btn-link {
     height: 100%;
 }
 
-
-
-
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -76,10 +72,6 @@ a, .btn-link {
         top: 0.5rem;
     }
 
-.mdc-floating-label {
-    left: 2px !important;
-}
-
-label.mdc-text-field.mdc-text-field--fullwidth:not(.mdc-text-field--textarea) > input.mdc-text-field__input {
-    padding: 24px 2px 0px !important;
+.full-width-textfield > .mat-text-field {
+    width: 100%;
 }

@@ -1,4 +1,5 @@
 ﻿@if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
 {
-    <MatTextField @bind-Value="@Task.LoopCollection" Label="Loop Collection" FullWidth="true"></MatTextField>
+    <TextFieldFullWidth @bind-Value="Task.LoopCollection" Label="Loop Collection" />
+    <TextFieldFullWidth @bind-Value="Task.LoopCardinality" Label="Loop Cardinality" />
 }
