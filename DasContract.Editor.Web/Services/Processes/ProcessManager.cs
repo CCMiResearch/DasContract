@@ -12,56 +12,56 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public class ProcessManager : IProcessManager
     {
-        IContractManager contractManager;
+        private IContractManager _contractManager;
 
         private Dictionary<string, Stack<ProcessElement>> _deletedElements = new Dictionary<string, Stack<ProcessElement>>();
         private Dictionary<string, SequenceFlow> _deletedSequenceFlows = new Dictionary<string, SequenceFlow>();
 
         public ProcessManager(IContractManager contractManager)
         {
-            this.contractManager = contractManager;
+            _contractManager = contractManager;
         }
 
-        public bool TryRetrieveIElementById(string elementId, out IProcessElement element)
+        public bool TryRetrieveIElementById(string elementId, string processId, out IProcessElement element)
         {
-            var found = TryRetrieveElementById(elementId, out ProcessElement processElement);
-
-            if (found)
+            if (TryRetrieveElementById(elementId, processId, out var processElement))
             {
                 element = processElement;
                 return true;
             }
 
-            found = TryRetrieveSequenceFlowById(elementId, out SequenceFlow sequenceFlow);
-
-            if (found)
+            if (TryRetrieveSequenceFlowById(elementId, processId, out var sequenceFlow))
             {
                 element = sequenceFlow;
                 return true;
+            }
+
+            if (TryRetrieveParticipantById(elementId, out var participant))
+            {
+                element = participant;
+                return true;
+            }
+
+            element = null;
+            return false;
+        }
+
+        public bool TryRetrieveIElementById(string elementId, out IProcessElement element)
+        {
+            foreach(var process in _contractManager.GetAllProcesses())
+            {
+                if (TryRetrieveIElementById(elementId, process.Id, out element))
+                    return true;
             }
             element = null;
             return false;
         }
 
-        public bool TryRetrieveElementById<T>(string elementId, out T element) where T : ProcessElement
-        {
-            var process = contractManager.GetProcess();
-            ProcessElement processElement;
-            var found = process.ProcessElements.TryGetValue(elementId, out processElement);
-            if (found)
-            {
-                element = processElement as T;
-            }
-            else
-            {
-                element = null;
-            }
-            return found;
-        }
 
-        public void AddElement(ProcessElement addedElement)
+
+        public void AddElement(ProcessElement addedElement, string processId)
         {
-            var process = contractManager.GetProcess();
+            var process = GetProcess(processId);
             var id = addedElement.Id;
 
             if (process.ProcessElements.ContainsKey(addedElement.Id))
@@ -79,22 +79,25 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public void RemoveElement(string id)
         {
-            var process = contractManager.GetProcess();
+            foreach(var process in _contractManager.GetAllProcesses())
+            {
+                if (process.ProcessElements.ContainsKey(id))
+                {
+                    //Store the deleted element in the deletion buffer
+                    var element = process.ProcessElements[id];
+                    AddElementToDeletedBuffer(element);
 
-            if (!process.ProcessElements.ContainsKey(id))
-                throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
-
-            //Store the deleted element in the deletion buffer
-            var element = process.ProcessElements[id];
-            AddElementToDeletedBuffer(element);
-
-            process.ProcessElements.Remove(id);
-            Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
+                    process.ProcessElements.Remove(id);
+                    Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
+                    return;
+                }
+            }
+            throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
         }
 
-        public void UpdateId(string prevId, string newId)
+        public void UpdateId(string prevId, string newId, string processId)
         {
-            var process = contractManager.GetProcess();
+            var process = GetProcess(processId);
 
             if (!process.ProcessElements.ContainsKey(prevId))
                 throw new InvalidIdException($"Process element cannot be updated, because id {prevId} does not exist");
@@ -105,6 +108,78 @@ namespace DasContract.Editor.Web.Services.Processes
             process.ProcessElements.Remove(prevId);
             element.Id = newId;
             process.ProcessElements.Add(newId, element);
+        }
+
+        public void AddSequenceFlow(SequenceFlow addedSequenceFlow, string processId)
+        {
+            var process = GetProcess(processId);
+            var id = addedSequenceFlow.Id;
+
+            if (process.SequenceFlows.ContainsKey(id))
+                throw new DuplicateIdException($"Process already contains id {id}");
+
+            //Check if the element is not stored in the deletion buffer
+            if (_deletedSequenceFlows.TryGetValue(id, out var deletedSequenceFlow))
+            {
+                addedSequenceFlow = deletedSequenceFlow;
+                _deletedSequenceFlows.Remove(id);
+            }
+
+            process.SequenceFlows.Add(id, addedSequenceFlow);
+            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+        }
+
+        public void RemoveSequenceFlow(string id)
+        {
+            foreach (var process in _contractManager.GetAllProcesses())
+            {
+                if (process.SequenceFlows.ContainsKey(id))
+                {
+                    //Store the deleted element in the deletion buffer
+                    var sequenceFlow = process.SequenceFlows[id];
+                    _deletedSequenceFlows.Add(id, sequenceFlow);
+
+                    process.SequenceFlows.Remove(id);
+                    Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+                    return;
+                }
+            }
+            throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
+        }
+
+        public bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow)
+        {
+            var process = GetProcess(processId);
+
+            return process.SequenceFlows.TryGetValue(sequenceFlowId, out sequenceFlow);
+        }
+
+        public bool TryRetrieveElementById(string elementId, string processId, out ProcessElement element)
+        {
+            var process = GetProcess(processId);
+
+            if (process.ProcessElements.TryGetValue(elementId, out var processElement))
+            {
+                element = processElement;
+                return true;
+            }
+            else
+            {
+                element = null;
+                return false;
+            }
+        }
+
+        public bool TryRetrieveParticipantById(string participantId, out ProcessParticipant participant)
+        {
+            return _contractManager.TryGetParticipant(participantId, out participant);
+        }
+
+        private Process GetProcess(string processId)
+        {
+            if (!_contractManager.TryGetProcess(processId, out var process))
+                throw new InvalidIdException($"Process id {processId} does not exist");
+            return process;
         }
 
         private void AddElementToDeletedBuffer(ProcessElement e)
@@ -134,45 +209,43 @@ namespace DasContract.Editor.Web.Services.Processes
             return true;
         }
 
-        public void AddSequenceFlow(SequenceFlow addedSequenceFlow)
+        public bool ProcessExists(string processId)
         {
-            var process = contractManager.GetProcess();
-            var id = addedSequenceFlow.Id;
+            return _contractManager.GetAllProcesses().Any(p => p.Id == processId);
+        }
 
-            if (process.SequenceFlows.ContainsKey(id))
-                throw new DuplicateIdException($"Process already contains id {id}");
-
-            //Check if the element is not stored in the deletion buffer
-            if(_deletedSequenceFlows.TryGetValue(id, out var deletedSequenceFlow)) 
-            { 
-                addedSequenceFlow = deletedSequenceFlow;
-                _deletedSequenceFlows.Remove(id);
+        public bool TryGetProcessOfElement(string elementId, out Process process)
+        {
+            foreach (var p in _contractManager.GetAllProcesses())
+            {
+                if(p.ProcessElements.ContainsKey(elementId) || p.SequenceFlows.ContainsKey(elementId))
+                {
+                    process = p;
+                    return true;
+                }
             }
-
-            process.SequenceFlows.Add(id, addedSequenceFlow);
-            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+            process = null;
+            return false;
         }
 
-        public void RemoveSequenceFlow(string id)
+        public void ChangeProcessOfElement(IProcessElement element, string prevProcessId, string newProcessId)
         {
-            var process = contractManager.GetProcess();
+            if (!_contractManager.TryGetProcess(prevProcessId, out var prevProcess))
+                throw new InvalidIdException($"Process id {prevProcessId} does not exist");
+            if (!_contractManager.TryGetProcess(newProcessId, out var newProcess))
+                throw new InvalidIdException($"Process id {newProcessId} does not exist");
 
-            if (!process.SequenceFlows.ContainsKey(id))
-                throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
-
-            //Store the deleted element in the deletion buffer
-            var sequenceFlow = process.SequenceFlows[id];
-            _deletedSequenceFlows.Add(id, sequenceFlow);
-
-            process.SequenceFlows.Remove(id);
-            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+            if (element is ProcessElement)
+            {
+                prevProcess.ProcessElements.Remove(element.Id);
+                newProcess.ProcessElements.Add(element.Id, element as ProcessElement);
+            }
+            else
+            {
+                prevProcess.SequenceFlows.Remove(element.Id);
+                newProcess.SequenceFlows.Add(element.Id, element as SequenceFlow);
+            }
         }
 
-        public bool TryRetrieveSequenceFlowById(string sequenceFlowId, out SequenceFlow sequenceFlow)
-        {
-            var process = contractManager.GetProcess();
-
-            return process.SequenceFlows.TryGetValue(sequenceFlowId, out sequenceFlow);
-        }
     }
 }

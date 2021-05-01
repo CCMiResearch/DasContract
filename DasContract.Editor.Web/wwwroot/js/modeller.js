@@ -10,38 +10,55 @@ import {
     PARTICIPANT 
 } from 'bpmn-js/lib/features/replace/ReplaceOptions';
 import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProvider';
+import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
 
 export function hookEvents() {
     var eventBus = window.modeler.get('eventBus');
 
     // you may hook into any of the following events
-    var events = [
+    var elementEvents = [
         'element.changed',
         'element.click',
-        //'element.dblclick',
-        //'element.mousedown',
-        //'element.mouseup',
         'shape.added',
         'shape.removed',
-        //'shape.changed',
         'element.updateId',
         'connection.added',
-        'connection.removed'
+        'connection.removed',
+        'root.added',
+        'root.removed'
     ];
+    eventBus.on('copyPaste.elementsPasted', function (e) {
+        console.log(e);
 
-    events.forEach(function (event) {
+    });
+    eventBus.on('copyPaste.elementsCopied', function (e) {
+        console.log(e);
+    });
+
+    elementEvents.forEach(function (event) {
 
         eventBus.on(event, function (e) {
             // e.element = the model element
             // e.gfx = the graphical element
             if (modellerLib.eventHandlerInstanceRef != null) {
                 let eventObj = copyEventInformation(e);
-                modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleCamundaEvent", eventObj);
+                modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
+            }
+            if (e.type === "shape.added") {
+                if (e.element.businessObject.mamaMia == null) {
+                    e.element.businessObject.mamaMia = "yooo";
+                    console.log("adding mama mia");
+                }
+                else {
+                    console.log(e.element.businessObject.mamaMia);
+                }
+
             }
             console.log(event, 'on', e, ' element id: ', e.element.id);
         });
     });
+
 }
 
 export function updateElementName(elementId, elementName) {
@@ -60,7 +77,8 @@ function copyEventInformation(e) {
     if (e.element != null) {
         eventObj.element = {
             id: e.element.id,
-            type: e.element.type
+            type: e.element.type,
+            processId: getElementProcessRef(e.element)
         }
         let businessObject = e.element.businessObject;
         if (businessObject != null) {
@@ -72,6 +90,32 @@ function copyEventInformation(e) {
         }
     }
     return eventObj;
+}
+
+//Newly added shapes do not yet have parent process id estabilished in their businessObject.
+//The shape does however point to a participant that contains this reference
+function getElementProcessRef(element) {
+    let businessObject = element.businessObject;
+    if (businessObject != null) {
+        let businessObjectParent = businessObject.$parent;
+        if (businessObject.processRef != null)
+            return businessObject.processRef.id;
+        if (businessObjectParent != null) {
+            if (businessObjectParent.type == "bpmn:Process")
+                return businessObjectParent.id;
+        }
+        
+    }
+    let elementParent = element.parent;
+    if (elementParent != null) {
+        if (elementParent.type == "bpmn:Process")
+            return elementParent.id;
+        if (elementParent.type == "bpmn:Participant") {
+            return elementParent.businessObject.processRef.id;
+        }
+    }
+
+    return "";
 }
 
 // create a modeler
@@ -100,6 +144,17 @@ PaletteProvider.prototype.getPaletteEntries = function (element) {
     return entries;
 }
 
+//Removes unused context pad entries for pool object
+var _getContextPadEntries = ContextPadProvider.prototype.getContextPadEntries;
+ContextPadProvider.prototype.getContextPadEntries = function (element) {
+    var entries = _getContextPadEntries.call(this, element);
+    delete entries['lane-divide-three'];
+    delete entries['lane-divide-two'];
+    delete entries['lane-insert-above'];
+    delete entries['lane-insert-below'];
+    return entries;
+}
+
 //Removes unused loop entry
 var _getLoopEntries = ReplaceMenuProvider.prototype._getLoopEntries;
 ReplaceMenuProvider.prototype._getLoopEntries = function (element) {  
@@ -111,6 +166,8 @@ ReplaceMenuProvider.prototype._getLoopEntries = function (element) {
     }
     return loopEntries;
 }
+
+
 
 function removeUnusedReplaceMenuItems() {
     removeUnusedReplaceMenuItem(TASK, UsedReplaceTaskItems);

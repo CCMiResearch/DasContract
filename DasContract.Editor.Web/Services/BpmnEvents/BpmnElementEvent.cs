@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.BpmnEvents
 {
-    public class BpmnInternalEvent
+    public class BpmnElementEvent
     {
         public string Type { get; set; }
         public BpmnElement Element { get; set; }

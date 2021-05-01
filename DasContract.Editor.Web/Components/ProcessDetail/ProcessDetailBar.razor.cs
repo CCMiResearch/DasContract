@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Abstraction.Processes.Tasks;
 using System.Text.RegularExpressions;
+using DasContract.Editor.Web.Services.Processes;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
@@ -14,6 +15,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
     {
         [Inject]
         private EditElementService EditElementService { get; set; }
+
+        [Inject]
+        protected IProcessManager ProcessManager { get; set; }
 
         private IList<ProcessDetailTab> _tabs;
         private ProcessDetailTab _activeTab;

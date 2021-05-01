@@ -8,7 +8,11 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public interface IContractManager
     {
-        public void InitializeNewContract();
-        public Process GetProcess();
+        void AddNewProcess(string processId, string participantId = null);
+        void RemoveProcess(string processId, string participantId = null);
+        void InitializeNewContract();
+        bool TryGetProcess(string id, out Process process);
+        bool TryGetParticipant(string id, out ProcessParticipant participant);
+        IList<Process> GetAllProcesses();
     }
 }

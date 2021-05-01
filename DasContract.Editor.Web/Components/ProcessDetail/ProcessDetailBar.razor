@@ -8,6 +8,7 @@
         <div class="main-info">
             <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
             <h6 class="element-type-attribute">@EditedElement.GetType().Name.SplitCamelCase()</h6>
+            <h6 class="element-type-attribute">Process Id: @(ProcessManager.TryGetProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "") </h6>
         </div>
 
         <div class="tab-buttons">

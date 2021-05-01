@@ -12,5 +12,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public string Name { get; set; }
         public bool IsSequential { get; set; }
         public string LoopType { get; set; }
+        public string ProcessId { get; set; }
+        public string ParentType { get; set; }
     }
 }

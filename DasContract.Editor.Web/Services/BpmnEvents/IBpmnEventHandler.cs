@@ -7,13 +7,15 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
 {
     public interface IBpmnEventHandler
     {
-        public event EventHandler<BpmnInternalEvent> ElementClick;
-        public event EventHandler<BpmnInternalEvent> ElementChanged;
-        public event EventHandler<BpmnInternalEvent> ShapeAdded;
-        public event EventHandler<BpmnInternalEvent> ShapeRemoved;
-        public event EventHandler<BpmnInternalEvent> ElementIdUpdated;
-        public event EventHandler<BpmnInternalEvent> ConnectionAdded;
-        public event EventHandler<BpmnInternalEvent> ConnectionRemoved;
+        public event EventHandler<BpmnElementEvent> ElementClick;
+        public event EventHandler<BpmnElementEvent> ElementChanged;
+        public event EventHandler<BpmnElementEvent> ShapeAdded;
+        public event EventHandler<BpmnElementEvent> ShapeRemoved;
+        public event EventHandler<BpmnElementEvent> ElementIdUpdated;
+        public event EventHandler<BpmnElementEvent> ConnectionAdded;
+        public event EventHandler<BpmnElementEvent> ConnectionRemoved;
+        public event EventHandler<BpmnElementEvent> RootAdded;
+        public event EventHandler<BpmnElementEvent> RootRemoved;
 
         public Task InitializeHandler();
     }
