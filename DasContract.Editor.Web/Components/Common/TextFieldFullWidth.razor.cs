@@ -12,6 +12,9 @@ namespace DasContract.Editor.Web.Components.Common
         [Parameter]
         public EventCallback<FocusEventArgs> OnFocusOut { get; set; }
 
+        [Parameter]
+        public bool Disabled { get; set; } = false;
+
         private TValue _value;
 
         [Parameter]
