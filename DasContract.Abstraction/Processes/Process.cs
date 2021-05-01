@@ -10,6 +10,7 @@ namespace DasContract.Abstraction.Processes
     public class Process
     {
         public string Id { get; set; }
+        public string Name { get; set; }
 
         public bool IsExecutable { get; set; }
 
