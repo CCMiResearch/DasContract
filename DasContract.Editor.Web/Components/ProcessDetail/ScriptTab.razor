@@ -1,1 +1,5 @@
-﻿<MatTextField @bind-Value="@Script" Label="Script" FullWidth="true"></MatTextField>
+﻿<div class="padded">
+    <div class="editor-container">
+        <MonacoEditor OnDidChangeModelContent="OnEditorInput" @ref="MonacoEditor" ConstructionOptions="EditorConstructionOptions"/>
+    </div>
+</div>

@@ -26,6 +26,9 @@ namespace DasContract.Editor.Web.Pages
         private EditElementService EditElementService { get; set; }
 
         [Inject]
+        protected ResizeHandler ResizeHandler { get; set; }
+
+        [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
         private bool ShowDetailBar { get; set; } = false;
@@ -35,6 +38,7 @@ namespace DasContract.Editor.Web.Pages
             if (firstRender)
             {
                 ContractManager.InitializeNewContract();
+                
                 CreateEditor();
             }
 
@@ -42,7 +46,7 @@ namespace DasContract.Editor.Web.Pages
                 InitializeSplitGutter();
         }
 
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditElementChanged;
@@ -64,6 +68,7 @@ namespace DasContract.Editor.Web.Pages
         async void InitializeSplitGutter()
         {
             await JSRunTime.InvokeVoidAsync("splitterLib.createSplit", ".gutter-col-1");
+            await ResizeHandler.InitializeHandler();
         }
 
         async void ExportXML()

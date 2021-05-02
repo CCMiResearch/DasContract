@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorMonaco;
+using DasContract.Editor.Web.Services;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
-    public partial class ScriptTab: ComponentBase
+    public partial class ScriptTab: ComponentBase, IDisposable
     {
+        [Inject]
+        private ResizeHandler ResizeHandler { get; set; }
+
         private string _script;
 
         [Parameter]
@@ -25,5 +30,44 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         [Parameter]
         public EventCallback<string> ScriptChanged { get; set; }
+
+        protected MonacoEditor MonacoEditor { get; set; }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            ResizeHandler.OnMainGutterResize += ResizeLayout;
+            ResizeHandler.OnBodyResize += ResizeLayout;
+        }
+
+        public void Dispose()
+        {
+            Console.WriteLine("Disposing");
+            ResizeHandler.OnMainGutterResize -= ResizeLayout;
+            ResizeHandler.OnBodyResize -= ResizeLayout;
+        }
+
+        protected StandaloneEditorConstructionOptions EditorConstructionOptions(MonacoEditor editor)
+        {
+            return new StandaloneEditorConstructionOptions
+            {
+                Language = "xml",
+                Value = _script,
+                ScrollBeyondLastLine = false
+            };
+        }
+
+        protected async void OnEditorInput()
+        {
+            Script = await MonacoEditor.GetValue();
+        }
+
+
+        protected void ResizeLayout(object sender, EventArgs args)
+        {
+            Console.WriteLine("Resizing layout");
+            MonacoEditor.Layout();
+        }
+
     }
 }

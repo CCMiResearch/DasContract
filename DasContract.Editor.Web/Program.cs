@@ -11,6 +11,7 @@ using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
+using BlazorPro.BlazorSize;
 
 namespace DasContract.Editor.Web
 {
@@ -28,6 +29,8 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IProcessManager, ProcessManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
             builder.Services.AddScoped<EditElementService>();
+            builder.Services.AddScoped<ResizeHandler>();
+            builder.Services.AddScoped<ResizeListener>();
 
             var host =  builder.Build();
             var synchronizerService = host.Services.GetRequiredService<IBpmnSynchronizer>();

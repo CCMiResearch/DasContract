@@ -91,11 +91,11 @@ var splitterLib =
 /*!************************!*\
   !*** ./js/splitter.js ***!
   \************************/
-/*! exports provided: createSplit */
+/*! exports provided: createSplit, setResizeHandlerInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createSplit\", function() { return createSplit; });\n/* harmony import */ var split_grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! split-grid */ \"./node_modules/split-grid/dist/split-grid.mjs\");\n\nfunction createSplit(gutterSelector) {\n  Object(split_grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n    columnGutters: [{\n      track: 1,\n      element: document.querySelector(gutterSelector)\n    }]\n  });\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/splitter.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createSplit\", function() { return createSplit; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"setResizeHandlerInstance\", function() { return setResizeHandlerInstance; });\n/* harmony import */ var split_grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! split-grid */ \"./node_modules/split-grid/dist/split-grid.mjs\");\n\nfunction createSplit(gutterSelector) {\n  Object(split_grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n    columnGutters: [{\n      track: 1,\n      element: document.querySelector(gutterSelector)\n    }],\n    onDrag: debounce(handleOnDrag, 30)\n  });\n}\n\nfunction debounce(func, timeout = 300) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => {\n      func.apply(this, args);\n    }, timeout);\n  };\n}\n\nfunction setResizeHandlerInstance(dotNetObjectRef) {\n  splitterLib.resizeHandlerRef = dotNetObjectRef;\n}\n\nfunction handleOnDrag() {\n  console.log(\"c\");\n\n  if (splitterLib.resizeHandlerRef != null) {\n    splitterLib.resizeHandlerRef.invokeMethodAsync(\"MainGutterResized\");\n  }\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/splitter.js?");
 
 /***/ }),
 

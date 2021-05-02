@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+
+body{
+    overflow: hidden;
+}
+
 html, body, app {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     height: 100%;
@@ -18,7 +23,7 @@ a, .btn-link {
 .page {
     height: 100%;
     display: grid;
-    grid-template-rows: minmax(60px, auto) minmax(0, 100%);
+    grid-template-rows: minmax(60px, auto) minmax(0, 1fr);
 }
 
 
@@ -49,10 +54,6 @@ a, .btn-link {
     color: red;
 }
 
-#canvas {
-    height: 100%;
-}
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -75,3 +76,12 @@ a, .btn-link {
 .full-width-textfield > .mat-text-field {
     width: 100%;
 }
+
+.monaco-editor-container {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+}
+
+
