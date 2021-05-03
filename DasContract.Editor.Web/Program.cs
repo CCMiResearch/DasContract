@@ -12,6 +12,7 @@ using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using BlazorPro.BlazorSize;
+using DasContract.Editor.Web.Services.Converter;
 
 namespace DasContract.Editor.Web
 {
@@ -31,6 +32,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
+            builder.Services.AddScoped<IConverterService, ConverterService>();
 
             var host =  builder.Build();
             var synchronizerService = host.Services.GetRequiredService<IBpmnSynchronizer>();

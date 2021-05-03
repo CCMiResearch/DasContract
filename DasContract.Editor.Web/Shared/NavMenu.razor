@@ -2,10 +2,15 @@
     <div class="app-title">
         <MatAppBarTitle>DasContract</MatAppBarTitle>
     </div>
-    <div class="nav-buttons">
-        <MatButtonLink Href="/" Outlined="true">Process</MatButtonLink>
-        <MatButtonLink Href="/data" Outlined="true">Data model</MatButtonLink>
-        <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
-    </div>
+    @*
+        <div class="nav-buttons">
+            <MatButtonLink Href="/" Outlined="true">Process</MatButtonLink>
+            <MatButtonLink Href="/data" Outlined="true">Data model</MatButtonLink>
+            <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
+        </div>
+    *@
+ <div class="generate-button">
+     <MatButton OnClick="@GenerateContract" Label="Generate"></MatButton>
+ </div>
 </div>
 
