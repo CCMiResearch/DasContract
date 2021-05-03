@@ -126,6 +126,9 @@ namespace DasContract.Editor.Web.Services.Processes
             }
 
             process.SequenceFlows.Add(id, addedSequenceFlow);
+            //Add sequence flow references to the source and target elements
+            UpdateIncomingOfElement(addedSequenceFlow.TargetId, addedSequenceFlow.Id, processId, true);
+            UpdateOutgoingOfElement(addedSequenceFlow.SourceId, addedSequenceFlow.Id, processId, true);
             Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
         }
 
@@ -138,13 +141,35 @@ namespace DasContract.Editor.Web.Services.Processes
                     //Store the deleted element in the deletion buffer
                     var sequenceFlow = process.SequenceFlows[id];
                     _deletedSequenceFlows.Add(id, sequenceFlow);
-
+                    //Remove sequence flow references in the source and target elements
+                    UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, process.Id, false);
+                    UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, process.Id, false);
                     process.SequenceFlows.Remove(id);
                     Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
                     return;
                 }
             }
             throw new InvalidIdException($"Process element cannot be deleted, because id {id} does not exist");
+        }
+
+        public void UpdateSequenceFlowSourceAndTarget(SequenceFlow sequenceFlow, string newSource, string newTarget, string processId)
+        {
+            if(sequenceFlow.SourceId != newSource)
+            {
+                //Remove the reference about the sequence flow in the old source
+                UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, processId, false);
+                //Add the reference about the sequence flow to the new source
+                UpdateOutgoingOfElement(newSource, sequenceFlow.Id, processId, true);
+                sequenceFlow.SourceId = newSource;
+            }
+            if (sequenceFlow.TargetId != newTarget)
+            {
+                //Remove the reference about the sequence flow in the old target
+                UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, processId, false);
+                //Add the reference about the sequence flow to the new target
+                UpdateIncomingOfElement(newTarget, sequenceFlow.Id, processId, true);
+                sequenceFlow.TargetId = newTarget;
+            }
         }
 
         public bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow)
@@ -244,6 +269,36 @@ namespace DasContract.Editor.Web.Services.Processes
             {
                 prevProcess.SequenceFlows.Remove(element.Id);
                 newProcess.SequenceFlows.Add(element.Id, element as SequenceFlow);
+            }
+        }
+
+        private void UpdateIncomingOfElement(string elementId, string flowId, string processId, bool add)
+        {
+            if (!TryRetrieveElementById(elementId, processId, out var element))
+                throw new InvalidIdException($"Element id {elementId} does not exist");
+
+            UpdateSeqFlowList(element.Incoming, flowId, add);
+        }
+
+        private void UpdateOutgoingOfElement(string elementId, string flowId, string processId, bool add)
+        {
+            if (!TryRetrieveElementById(elementId, processId, out var element))
+                throw new InvalidIdException($"Element id {elementId} does not exist");
+
+            UpdateSeqFlowList(element.Outgoing, flowId, add);
+        }
+
+        private void UpdateSeqFlowList(IList<string> seqFlowList, string flowId, bool add)
+        {
+            if(seqFlowList.Contains(flowId))
+            {
+                if (!add)
+                    seqFlowList.Remove(flowId);
+            }
+            else
+            {
+                if (add)
+                    seqFlowList.Add(flowId);
             }
         }
 

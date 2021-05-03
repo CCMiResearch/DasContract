@@ -80,6 +80,8 @@ function copyEventInformation(e) {
             type: e.element.type,
             processId: getElementProcessRef(e.element)
         }
+        copyIncomingAndOutgoing(e, eventObj.element);
+        copySourceAndTarget(e, eventObj.element);
         let businessObject = e.element.businessObject;
         if (businessObject != null) {
             eventObj.element.name = businessObject.name;
@@ -89,7 +91,33 @@ function copyEventInformation(e) {
             }
         }
     }
+    console.log(eventObj);
     return eventObj;
+}
+
+function copySourceAndTarget(event, newElement) {
+    if (event.element.source != null) {
+        newElement.source = event.element.source.id;
+    }
+    if (event.element.source != null) {
+        newElement.target = event.element.target.id;
+    }
+
+}
+
+function copyIncomingAndOutgoing(event, newElement) {
+    if (event.element.incoming != null) {
+        newElement.incoming = [];
+        event.element.incoming.forEach((inc) => {
+            newElement.incoming.push(inc.id);
+        })
+    }
+    if (event.element.outgoing != null) {
+        newElement.outgoing = [];
+        event.element.outgoing.forEach((outg) => {
+            newElement.outgoing.push(outg.id);
+        })
+    }
 }
 
 //Newly added shapes do not yet have parent process id estabilished in their businessObject.

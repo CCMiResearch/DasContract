@@ -10,17 +10,17 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public class ContractManager : IContractManager
     {
-        private Contract _contract;
+        public Contract Contract { get; set; }
         private IDictionary<string, ProcessParticipant> _processParticipants = new Dictionary<string, ProcessParticipant>();
 
         public void InitializeNewContract()
         {
-            _contract = new Contract();
+            Contract = new Contract();
         }
 
         public bool TryGetProcess(string id, out Process process)
         {
-            return _contract.TryGetProcess(id, out process);
+            return Contract.TryGetProcess(id, out process);
         }
 
         public bool TryGetParticipant(string id, out ProcessParticipant participant)
@@ -35,18 +35,18 @@ namespace DasContract.Editor.Web.Services.Processes
             //and a process already exists (this happens when the last participant is removed),
             //or when an input participant is defined and no other participants are yet present in the model
             //(this happens when the first participant is added)
-            if (_processParticipants.Count == 0 && participantId != null || (participantId == null && _contract.Processes.Count > 0))
+            if (_processParticipants.Count == 0 && participantId != null || (participantId == null && Contract.Processes.Count > 0))
             {
-                process = _contract.Processes.First();
+                process = Contract.Processes.First();
                 //The id needs to be updated due to a bug in the bpmn modeller
                 process.Id = processId;
             }
             else 
             {
-                if (_contract.Processes.Any(p => p.Id == processId))
+                if (Contract.Processes.Any(p => p.Id == processId))
                     throw new DuplicateIdException($"Could not add new process, contract already contains process id {processId}");
                 process = new Process { Id = processId };
-                _contract.Processes.Add(process);
+                Contract.Processes.Add(process);
             }
 
             //Create a participant if it is associated with the process
@@ -54,6 +54,11 @@ namespace DasContract.Editor.Web.Services.Processes
             {
                 var participant = new ProcessParticipant { Id = participantId, ReferencedProcess = process };
                 _processParticipants.Add(participantId, participant);
+            }
+
+            if(Contract.Processes.Count == 1)
+            {
+                process.IsExecutable = true;
             }
         }
 
@@ -73,12 +78,12 @@ namespace DasContract.Editor.Web.Services.Processes
             }
 
             if(_processParticipants.Count > 0)
-                _contract.Processes.Remove(process);
+                Contract.Processes.Remove(process);
         }
 
         public IList<Process> GetAllProcesses()
         {
-            return _contract.Processes;
+            return Contract.Processes;
         }
     }
 }

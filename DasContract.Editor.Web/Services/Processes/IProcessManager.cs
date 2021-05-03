@@ -14,6 +14,7 @@ namespace DasContract.Editor.Web.Services.Processes
         void RemoveElement(string id);
         bool ProcessExists(string processId);
         void UpdateId(string prevId, string newId, string processId);
+        void UpdateSequenceFlowSourceAndTarget(SequenceFlow sequenceFlow, string newSource, string newTarget, string processId);
         void AddSequenceFlow(SequenceFlow addedSequenceFlow, string processId);
         void RemoveSequenceFlow(string id);
         bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow);

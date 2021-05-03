@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public interface IContractManager
     {
+        Contract Contract { get; set; }
+
         void AddNewProcess(string processId, string participantId = null);
         void RemoveProcess(string processId, string participantId = null);
         void InitializeNewContract();

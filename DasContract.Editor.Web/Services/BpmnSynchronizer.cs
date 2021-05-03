@@ -173,6 +173,20 @@ namespace DasContract.Editor.Web.Services
                         taskElement.InstanceType = Abstraction.Processes.Tasks.InstanceType.Single;
                     }
                 }
+                //Parse incoming and outgoing if processElement
+                if (element is ProcessElement)
+                {
+                    var processElement = element as ProcessElement;
+                    processElement.Incoming = new List<string>(e.Element.Incoming);
+                    processElement.Outgoing = new List<string>(e.Element.Outgoing);
+                }
+
+                //Parse sequence flow information
+                if (element is SequenceFlow)
+                {
+                    var sequenceFlow = element as SequenceFlow;
+                    _processManager.UpdateSequenceFlowSourceAndTarget(sequenceFlow, e.Element.Source, e.Element.Target, e.Element.ProcessId);
+                }    
 
                 //Check if parent process of the element has changed
                 if (_processManager.TryGetProcessOfElement(element.Id, out var process))
@@ -214,7 +228,12 @@ namespace DasContract.Editor.Web.Services
 
         private void ConnectionAdded(object sender, BpmnElementEvent e)
         {
-            var sequenceFlow = new SequenceFlow { Id = e.Element.Id };
+            var sequenceFlow = new SequenceFlow { 
+                Id = e.Element.Id, 
+                Name = e.Element.Name, 
+                SourceId = e.Element.Source, 
+                TargetId = e.Element.Target
+            };
             _processManager.AddSequenceFlow(sequenceFlow, e.Element.ProcessId);
         }
 
