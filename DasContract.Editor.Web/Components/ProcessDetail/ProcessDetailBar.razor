@@ -13,11 +13,15 @@
 
         <div class="tab-buttons">
             @*Render tab buttons*@
-            @foreach (var tab in _tabs)
-            {
-                <TabButton @onclick="(args) => SwitchActive(tab)" Active="_activeTab == tab">@tab.TabName</TabButton>
-            }
-        </div>
+            <MatTabGroup ActiveIndexChanged="SwitchActive">
+                @foreach (var tab in _tabs)
+                {
+                    <MatTab>
+                        <LabelContent> @tab.TabName </LabelContent>
+                    </MatTab>
+                }
+            </MatTabGroup>
+</div>
     </div>
 
     <div class="edit-tab">

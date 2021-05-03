@@ -69,12 +69,12 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                     break;
 
             }
-            SwitchActive(_tabs.First());
+            SwitchActive(0);
         }
 
-        protected void SwitchActive(ProcessDetailTab newActive)
+        protected void SwitchActive(int newActiveIndex)
         {
-            _activeTab = newActive;
+            _activeTab = _tabs.ElementAt(newActiveIndex);
         }
     }
 }

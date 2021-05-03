@@ -1,20 +1,11 @@
 ﻿ <div class="dascontract-navbar">
-     <div class="vertical-center">
-         <MatAppBarTitle>DasContract</MatAppBarTitle>
-         <MatButtonLink Href="editor" Outlined="true">Process</MatButtonLink>
-         <MatButtonLink Href="/data" Outlined="true">Data model</MatButtonLink>
-         <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
-     </div>
+    <div class="app-title">
+        <MatAppBarTitle>DasContract</MatAppBarTitle>
+    </div>
+    <div class="nav-buttons">
+        <MatButtonLink Href="/" Outlined="true">Process</MatButtonLink>
+        <MatButtonLink Href="/data" Outlined="true">Data model</MatButtonLink>
+        <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
+    </div>
 </div>
 
-
-         @code {
-             private bool collapseNavMenu = true;
-
-             private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-             private void ToggleNavMenu()
-             {
-                 collapseNavMenu = !collapseNavMenu;
-             }
-         }

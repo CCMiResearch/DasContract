@@ -1,11 +1,11 @@
-﻿@page "/editor"
+﻿@page "/"
 
 
 <div class="@(ShowDetailBar ? "grid" : "") main-container">
     <div id="canvas"></div>
     @if (ShowDetailBar)
     {
-        <div class="gutter-col gutter-col-1" @on="ResizeHandler.MainGutterResized"></div>
+        <div class="gutter-col gutter-col-1"></div>
         <ProcessDetailBar/>
     }
 </div>

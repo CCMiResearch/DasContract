@@ -73,8 +73,13 @@ a, .btn-link {
         top: 0.5rem;
     }
 
+
 .full-width-textfield > .mat-text-field {
     width: 100%;
+}
+
+.mdc-tab__ripple {
+    z-index: 10;
 }
 
 .monaco-editor-container {
