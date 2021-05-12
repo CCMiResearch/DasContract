@@ -1,6 +1,8 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.JSON;
+using DasContract.XML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +21,13 @@ namespace DasContract.Editor.Web.Services.Converter
 
         public void ConvertContract()
         {
-            Contract c = _contractManager.Contract;
+
+            /*
             ContractConverter converter = new ContractConverter(_contractManager.Contract);
             Console.WriteLine(_contractManager.Contract);
             converter.ConvertContract();
             Console.WriteLine(converter.GetSolidityCode());
+            */
         }
     }
 }

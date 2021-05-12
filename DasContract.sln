@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Blockchain.Soli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Web", "DasContract.Editor.Web\DasContract.Editor.Web.csproj", "{700942B3-D21C-43C0-92D0-22C9B0B5696B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.JSON", "DasContract.JSON\DasContract.JSON.csproj", "{95C8670D-DB17-4536-BCE1-2004B02F98F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.XML", "DasContract.XML\DasContract.XML.csproj", "{7A1847F5-880C-45F4-978C-D73A4CE0917C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{700942B3-D21C-43C0-92D0-22C9B0B5696B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C8670D-DB17-4536-BCE1-2004B02F98F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C8670D-DB17-4536-BCE1-2004B02F98F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C8670D-DB17-4536-BCE1-2004B02F98F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C8670D-DB17-4536-BCE1-2004B02F98F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A1847F5-880C-45F4-978C-D73A4CE0917C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A1847F5-880C-45F4-978C-D73A4CE0917C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A1847F5-880C-45F4-978C-D73A4CE0917C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A1847F5-880C-45F4-978C-D73A4CE0917C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

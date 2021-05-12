@@ -16,6 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DasContract.Abstraction\DasContract.Abstraction.csproj" />
     <ProjectReference Include="..\DasContract.Blockchain.Solidity\DasContract.Blockchain.Solidity.csproj" />
+    <ProjectReference Include="..\DasContract.JSON\DasContract.JSON.csproj" />
+    <ProjectReference Include="..\DasContract.XML\DasContract.XML.csproj" />
   </ItemGroup>
 
   <ItemGroup>
