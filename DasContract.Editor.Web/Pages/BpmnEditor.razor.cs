@@ -2,7 +2,10 @@
 using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Shared;
+using DasContract.JSON;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -46,10 +49,25 @@ namespace DasContract.Editor.Web.Pages
                 InitializeSplitGutter();
         }
 
-        protected override async void OnInitialized()
+        protected override void OnInitialized()
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditElementChanged;
+        }
+
+        protected IList<ToolBarItem> CreateToolBarItems()
+        {
+            var downloadItem = new ToolBarItem { IconPath = "icons/download.svg", Tooltip = "Save as .dascontract" };
+            downloadItem.OnClick += HandleSaveContractClicked;
+            return new List<ToolBarItem>
+            {
+               downloadItem
+            };
+        }
+
+        protected async void HandleSaveContractClicked(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", await ContractManager.SerializeContract());
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
@@ -71,10 +89,5 @@ namespace DasContract.Editor.Web.Pages
             await ResizeHandler.InitializeHandler();
         }
 
-        async void ExportXML()
-        {
-            var xml = await JSRunTime.InvokeAsync<string>("MyLib.getDiagramXML");
-            Console.WriteLine(xml);
-        }
     }
 }

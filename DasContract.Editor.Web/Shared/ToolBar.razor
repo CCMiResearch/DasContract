@@ -1,0 +1,6 @@
+﻿<div class="toolbar">
+    @foreach (var toolBarItem in ToolBarItems)
+    {
+        <img class="toolbar-icon" @onclick="@((args) => toolBarItem.OnToolBarItemClick(this, args))" src="@toolBarItem.IconPath" width="20" height="20">
+    }
+</div>

@@ -7,6 +7,12 @@
     height: 100%;
 }
 
+.editor-main {
+    height: 100%;
+    display: grid;
+    grid-template-rows: max-content 1fr;
+}
+
 #canvas {
     height: 100%;
     min-width: 300px;

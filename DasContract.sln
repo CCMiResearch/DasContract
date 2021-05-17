@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.Editor.Web", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.JSON", "DasContract.JSON\DasContract.JSON.csproj", "{95C8670D-DB17-4536-BCE1-2004B02F98F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasContract.XML", "DasContract.XML\DasContract.XML.csproj", "{7A1847F5-880C-45F4-978C-D73A4CE0917C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasContract.XML", "DasContract.XML\DasContract.XML.csproj", "{7A1847F5-880C-45F4-978C-D73A4CE0917C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

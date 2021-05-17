@@ -1,6 +1,8 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
+using DasContract.JSON;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,13 @@ namespace DasContract.Editor.Web.Services.Processes
     {
         public Contract Contract { get; set; }
         private IDictionary<string, ProcessParticipant> _processParticipants = new Dictionary<string, ProcessParticipant>();
+
+        private IJSRuntime _jsRuntime;
+
+        public ContractManager(IJSRuntime jsRuntime)
+        {
+            _jsRuntime = jsRuntime;
+        }
 
         public void InitializeNewContract()
         {
@@ -84,6 +93,13 @@ namespace DasContract.Editor.Web.Services.Processes
         public IList<Process> GetAllProcesses()
         {
             return Contract.Processes;
+        }
+
+        public async Task<string> SerializeContract()
+        {
+            var diagramXml = await _jsRuntime.InvokeAsync<string>("modellerLib.getDiagramXML");
+            Contract.ProcessDiagram = diagramXml;
+            return DasContractJSON.Serialize(Contract);
         }
     }
 }
