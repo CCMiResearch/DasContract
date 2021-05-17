@@ -254,7 +254,6 @@ export function setEventHandlerInstance(dotNetObjectRef) {
 }
 
 export async function getDiagramXML() {
-    var xml = (await window.modeler.saveXML({ format: true })).xml;
-    debugger
+    var xml = (await window.modeler.saveXML()).xml;
     return xml;
 }
