@@ -2,7 +2,8 @@
     height: 30px;
     width: 100%;
     border-bottom: 1px solid gray;
-    padding-left: 10px;
+    padding-left: 20px;
+    background: #f7f7f8;
 }
 
 .toolbar-icon{
