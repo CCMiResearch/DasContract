@@ -11,6 +11,7 @@ namespace DasContract.Editor.Web.Services.Processes
     {
         Contract Contract { get; set; }
 
+        bool IsContractInitialized();
         void AddNewProcess(string processId, string participantId = null);
         void RemoveProcess(string processId, string participantId = null);
         void InitializeNewContract();
@@ -18,5 +19,6 @@ namespace DasContract.Editor.Web.Services.Processes
         bool TryGetParticipant(string id, out ProcessParticipant participant);
         IList<Process> GetAllProcesses();
         Task<string> SerializeContract();
+        void RestoreContract(string contractJSON);
     }
 }

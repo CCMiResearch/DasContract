@@ -22,6 +22,11 @@ namespace DasContract.Editor.Web.Services.Processes
             _jsRuntime = jsRuntime;
         }
 
+        public bool IsContractInitialized()
+        {
+            return Contract != null;
+        }
+
         public void InitializeNewContract()
         {
             Contract = new Contract();
@@ -100,6 +105,11 @@ namespace DasContract.Editor.Web.Services.Processes
             var diagramXml = await _jsRuntime.InvokeAsync<string>("modellerLib.getDiagramXML");
             Contract.ProcessDiagram = diagramXml;
             return DasContractJSON.Serialize(Contract);
+        }
+
+        public void RestoreContract(string contractJSON)
+        {
+            Contract = DasContractJSON.Deserialize(contractJSON);
         }
     }
 }

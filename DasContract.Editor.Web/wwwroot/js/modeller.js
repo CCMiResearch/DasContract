@@ -147,15 +147,22 @@ function getElementProcessRef(element) {
 }
 
 // create a modeler
-export function createModeler() {
+export async function createModeler(modelerXml) {
     window.modeler = new Modeler({
         container: document.getElementById('canvas'),
         keyboard: {
             bindTo: document
         }
     });
-    hookEvents();
-    window.modeler.createDiagram();
+    
+    if (modelerXml !== '') {
+        await window.modeler.importXML(modelerXml);
+        hookEvents(); //Hook events after the import is done
+    }
+    else {
+        hookEvents(); //Fresh diagram, the events must be hooked right away to register the default start event
+        window.modeler.createDiagram(modelerXml); 
+    }
 
     removeUnusedReplaceMenuItems();
 }

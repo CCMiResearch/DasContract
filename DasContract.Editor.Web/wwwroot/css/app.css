@@ -89,4 +89,6 @@ a, .btn-link {
     overflow: hidden;
 }
 
-
+#input-file {
+    display: none !important;
+}

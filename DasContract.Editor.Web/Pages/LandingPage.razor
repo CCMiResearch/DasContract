@@ -1,0 +1,18 @@
+﻿@page "/"
+@layout LandingPageLayout
+
+<h1><strong>DasContract</strong></h1>
+
+<InputFile OnChange="OnInputFileProvided" AdditionalAttributes="@(
+    new Dictionary<string, object> {
+        { "id", "input-file"} ,
+        { "accept", ".dascontract" }
+    })" />
+
+<p>
+    <strong>
+        <label for="input-file">Open </label>
+        or
+        <label @onclick="OnCreateNewClicked">create </label>
+        a new contract
+    </strong></p>

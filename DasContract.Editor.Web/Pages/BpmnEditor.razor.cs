@@ -40,9 +40,9 @@ namespace DasContract.Editor.Web.Pages
         {
             if (firstRender)
             {
-                ContractManager.InitializeNewContract();
-                
-                CreateEditor();
+                if(!ContractManager.IsContractInitialized())
+                    ContractManager.InitializeNewContract();
+                InitializeBpmnEditor();
             }
 
             if (ShowDetailBar)
@@ -77,10 +77,11 @@ namespace DasContract.Editor.Web.Pages
             StateHasChanged();
         }
 
-        async void CreateEditor()
+        async void InitializeBpmnEditor()
         {
+            var bpmnEditorDiagram = ContractManager.Contract.ProcessDiagram;
             await CamundaEventHandler.InitializeHandler();
-            await JSRunTime.InvokeVoidAsync("modellerLib.createModeler");   
+            await JSRunTime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "");   
         }
 
         async void InitializeSplitGutter()
