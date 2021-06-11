@@ -30,6 +30,7 @@ namespace DasContract.Editor.Web.Services.Processes
         public void InitializeNewContract()
         {
             Contract = new Contract();
+            Contract.Id = Guid.NewGuid().ToString();
         }
 
         public bool TryGetProcess(string id, out Process process)
@@ -104,7 +105,7 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             var diagramXml = await _jsRuntime.InvokeAsync<string>("modellerLib.getDiagramXML");
             Contract.ProcessDiagram = diagramXml;
-            return DasContractJSON.Serialize(Contract);
+            return Contract.ToXElement().ToString();
         }
 
         public void RestoreContract(string contractJSON)
