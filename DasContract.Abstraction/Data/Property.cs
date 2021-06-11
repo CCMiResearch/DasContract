@@ -1,4 +1,6 @@
-﻿namespace DasContract.Abstraction.Data
+﻿using System.Xml.Linq;
+
+namespace DasContract.Abstraction.Data
 {
     public class Property
     {
@@ -17,5 +19,18 @@
         /// A linked entity's id in case of Type=PropertyDataType.Entity. 
         /// </summary>
         public string ReferencedDataType { get; set; }
+
+        public XElement ToXElement()
+        {
+            return new XElement("DataType",
+                new XAttribute("Id", Id),
+                new XElement("Name", Name),
+                new XElement("IsMandatory", IsMandatory),
+                new XElement("PropertyType", PropertyType),
+                new XElement("KeyType", KeyType),
+                new XElement("DataType", DataType),
+                new XElement("ReferencedDataType", ReferencedDataType)
+            );
+        }
     }
 }

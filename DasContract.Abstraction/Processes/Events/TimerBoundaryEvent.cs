@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes.Events
 {
@@ -22,5 +23,15 @@ namespace DasContract.Abstraction.Processes.Events
         ///     or as a reference to a contract variable in the following format: ${variableName}.
         /// </summary>
         public string TimerDefinition { get; set; }
+
+        public override XElement ToXElement()
+        {
+            var xElement = base.ToXElement();
+            xElement.Name = "TimerBoundaryEvent";
+            xElement.Add(
+                new XElement("TimerDefinitionType", TimerDefinitionType),
+                new XElement("TimerDefinition", TimerDefinition));
+            return xElement;
+        }
     }
 }

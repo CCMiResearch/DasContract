@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction.Processes.Tasks;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
@@ -13,5 +14,16 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// ID of the referenced collection entity (must be an entity that is saved inside of the contract)
         /// </summary>
         public string LoopCollection { get; set; }
+
+        public override XElement ToXElement()
+        {
+            var xElement = base.ToXElement();
+            xElement.Name = "Task";
+            xElement.Add(
+                new XElement("InstanceType", InstanceType),
+                new XElement("LoopCardinality", LoopCardinality),
+                new XElement("LoopCollection", LoopCollection));
+            return xElement;
+        }
     }
 }

@@ -3,6 +3,7 @@ using DasContract.Abstraction.Processes;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction
 {
@@ -68,13 +69,21 @@ namespace DasContract.Abstraction
         /// </summary>
         public IDictionary<string, DataType> DataTypes { get; set; } = new Dictionary<string, DataType>();
 
-        [JsonIgnore]
         public IEnumerable<Token> Tokens { get { return DataTypes.Values.OfType<Token>(); } }
-        [JsonIgnore]
         public IEnumerable<Enum> Enums { get { return DataTypes.Values.OfType<Enum>(); } }
-        [JsonIgnore]
         public IEnumerable<Entity> Entities { get { return DataTypes.Values.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
+
+        public XElement ToXElement()
+        {
+            return new XElement("Contract",
+                new XAttribute("Id", Id),
+                new XElement("ProcessDiagram", ProcessDiagram),
+                new XElement("Processes", Processes.Select(p => p.ToXElement()).ToList()),
+                new XElement("DataTypes", DataTypes.Select(d => d.Value.ToXElement()).ToList()),
+                new XElement("Roles", Roles.Select(r => r.ToXElement()))
+            );
+        }
     }
 }

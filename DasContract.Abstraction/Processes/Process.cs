@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes
 {
@@ -33,9 +34,16 @@ namespace DasContract.Abstraction.Processes
             throw new NotImplementedException();
         }
 
-        public string ToBpmnXml()
+        public XElement ToXElement()
         {
-            throw new NotImplementedException(); 
+            return new XElement("Process",
+                new XAttribute("Id", Id),
+                new XElement("Name", Name),
+                new XElement("IsExecutable", IsExecutable),
+                new XElement("CustomScript", CustomScript),
+                new XElement("SequenceFlows", SequenceFlows.Select(s => s.Value.ToXElement()).ToList()),
+                new XElement("ProcessElements", ProcessElements.Select(e => e.Value.ToXElement()).ToList())
+            );
         }
     }
 }

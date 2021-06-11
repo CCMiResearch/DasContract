@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction.Data;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.UserInterface
 {
@@ -21,5 +22,18 @@ namespace DasContract.Abstraction.UserInterface
         public string PropertyExpression { get; set; }
 
         public string CustomConfiguration { get; set; }
+
+        public XElement ToXElement()
+        {
+            return new XElement("FormField",
+                new XAttribute("Id", Id),
+                new XAttribute("Type", Type),
+                new XElement("Order", Order),
+                new XElement("DisplayName", DisplayName),
+                new XElement("IsReadOnly", IsReadOnly),
+                new XElement("PropertyExpression", PropertyExpression),
+                new XElement("CustomConfiguration", CustomConfiguration)
+            );
+        }
     }
 }
