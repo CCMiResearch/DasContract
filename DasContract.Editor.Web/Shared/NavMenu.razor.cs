@@ -13,6 +13,9 @@ namespace DasContract.Editor.Web.Shared
         [Inject]
         private IConverterService ConverterService { get; set; }
 
+        [CascadingParameter]
+        protected MainLayout Layout { get; set; }
+
         public void GenerateContract()
         {
             ConverterService.ConvertContract();

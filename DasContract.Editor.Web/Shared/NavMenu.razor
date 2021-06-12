@@ -1,5 +1,5 @@
-﻿ <div class="dascontract-navbar">
-    <div class="app-title ml-3">
+﻿<div class="dascontract-navbar">
+    <div class="app-title">
         <h4><strong>DasContract</strong></h4>
     </div>
     @*
@@ -9,6 +9,12 @@
             <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
         </div>
     *@
+    <div class="toolbar">
+        @foreach (var toolBarItem in Layout.ToolBarItems)
+        {
+            <ToolBarButton ToolBarItem="toolBarItem"/>
+        }
+    </div>
     <div class="generate-button">
         <button @onclick="GenerateContract" class="btn btn-primary">Generate</button>
     </div>

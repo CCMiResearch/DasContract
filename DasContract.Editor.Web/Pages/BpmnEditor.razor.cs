@@ -33,6 +33,9 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
+        [CascadingParameter]
+        protected MainLayout Layout { get; set; }
+
         private bool ShowDetailBar { get; set; } = false;
 
         protected override void OnAfterRender(bool firstRender)
@@ -52,11 +55,12 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditElementChanged;
+            Layout.ToolBarItems = CreateToolBarItems();
         }
 
         protected IList<ToolBarItem> CreateToolBarItems()
         {
-            var downloadItem = new ToolBarItem { IconPath = "icons/download.svg", Tooltip = "Save as .dascontract" };
+            var downloadItem = new ToolBarItem { IconPath = "icons/download.svg", Description = "Save as .dascontract", Name="Save as" };
             downloadItem.OnClick += HandleSaveContractClicked;
             return new List<ToolBarItem>
             {

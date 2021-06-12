@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Shared
 {
-    public partial class ToolBar: ComponentBase
+    public partial class MainLayout : LayoutComponentBase
     {
         [Parameter]
         public IList<ToolBarItem> ToolBarItems { get; set; } = new List<ToolBarItem>();

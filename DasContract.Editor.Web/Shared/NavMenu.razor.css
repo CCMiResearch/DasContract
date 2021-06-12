@@ -11,7 +11,12 @@
     border-bottom: 1px solid grey;
     background: #f7f7f8;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 0.4em;
+}
+
+.toolbar {
 }
 
 .nav-buttons {
@@ -20,8 +25,7 @@
 .app-title {
 }
 
-.generate-button{
-    margin-left:auto;
-    margin-right: 50px;
+h4 {
+    margin: 0;
 }
 

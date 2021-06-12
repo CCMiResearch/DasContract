@@ -1,10 +1,12 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <NavMenu />
-    <div class="main">
-        <div class="content">
-            @Body
+<CascadingValue Value="this">
+    <div class="page">
+        <NavMenu />
+        <div class="main">
+            <div class="content">
+                @Body
+            </div>
         </div>
     </div>
-</div>
+</CascadingValue>

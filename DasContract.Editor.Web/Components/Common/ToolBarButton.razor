@@ -1,0 +1,6 @@
+﻿<div class="toolbar-item-container">
+    <button class="btn btn-outline-primary toolbar-button" id="toolbar-button-@(ToolBarItem.Name)" @onclick="@((args) => ToolBarItem.OnToolBarItemClick(this, args))">
+        <img class="toolbar-icon" src="@ToolBarItem.IconPath" width="20" height="20">
+    </button>
+    <label for="toolbar-button-@(ToolBarItem.Name)">@ToolBarItem.Name</label>
+</div>
