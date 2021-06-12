@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Services.Processes
 {
@@ -108,9 +109,10 @@ namespace DasContract.Editor.Web.Services.Processes
             return Contract.ToXElement().ToString();
         }
 
-        public void RestoreContract(string contractJSON)
+        public void RestoreContract(string contractXML)
         {
-            Contract = DasContractJSON.Deserialize(contractJSON);
+            var xElement = XElement.Parse(contractXML);
+            Contract = new Contract(xElement);
         }
     }
 }
