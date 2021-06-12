@@ -3,7 +3,6 @@ using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using DasContract.Editor.Web.Shared;
-using DasContract.JSON;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;

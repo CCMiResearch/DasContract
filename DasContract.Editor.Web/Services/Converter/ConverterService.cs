@@ -1,8 +1,6 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Editor.Web.Services.Processes;
-using DasContract.JSON;
-using DasContract.XML;
 using System;
 using System.Collections.Generic;
 using System.Linq;

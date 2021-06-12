@@ -1,5 +1,12 @@
 ﻿@if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
 {
-    <TextFieldFullWidth @bind-Value="Task.LoopCollection" Label="Loop Collection" />
-    <TextFieldFullWidth @bind-Value="Task.LoopCardinality" Label="Loop Cardinality" />
+    <div class="mb-3">
+        <label for="@($"loop-collection-{Task.Id}")" class="form-label">Loop Collection</label>
+        <input class="form-control" id="@($"loop-collection-{Task.Id}")" @bind-value="Task.LoopCollection">
+    </div>
+
+    <div class="mb-3">
+        <label for="@($"loop-cardinality-{Task.Id}")" class="form-label">Loop Cardinality</label>
+        <input class="form-control" id="@($"loop-cardinality-{Task.Id}")" @bind-value="Task.LoopCardinality">
+    </div>
 }

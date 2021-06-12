@@ -1,5 +1,5 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
-@using DasContract.Editor.Web.Components.Common 
+@using DasContract.Editor.Web.Components.Common
 @using DasContract.Editor.Web.Extensions
 
 
@@ -11,17 +11,15 @@
             <h6 class="element-type-attribute">Process Id: @(ProcessManager.TryGetProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "") </h6>
         </div>
 
-        <div class="tab-buttons">
+        <div class="tab-buttons btn-group" role="group">
             @*Render tab buttons*@
-            <MatTabGroup ActiveIndexChanged="SwitchActive">
-                @foreach (var tab in _tabs)
-                {
-                    <MatTab>
-                        <LabelContent> @tab.TabName </LabelContent>
-                    </MatTab>
-                }
-            </MatTabGroup>
-</div>
+            @foreach (var tab in _tabs)
+            {
+                <button @onclick="e => _activeTab = tab" type="button" class="btn btn-outline-primary shadow-none @(tab == _activeTab ? "active" : "")">
+                    @tab.TabName
+                </button>
+            }
+        </div>
     </div>
 
     <div class="edit-tab">

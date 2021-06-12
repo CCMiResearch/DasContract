@@ -1,4 +1,7 @@
-﻿<TextFieldFullWidth @bind-Value="ProcessElement.Name" Label="Name" OnFocusOut="NameInput"/>
+﻿<div class="mb-3">
+    <label for="@($"name-input-{ProcessElement.Id}")" class="form-label">Name</label>
+    <input class="form-control" id="@($"name-input-{ProcessElement.Id}")" @bind-value="ProcessElement.Name" @onfocusout="NameInput">
+</div>
 
 @switch(ProcessElement)
 {

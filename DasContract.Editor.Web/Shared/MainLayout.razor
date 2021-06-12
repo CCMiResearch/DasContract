@@ -1,20 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-    <MatThemeProvider Theme="@matTheme">
-        <div class="page">
-            <NavMenu />
-            <div class="main">
-                <div class="content">
-                    @Body
-                </div>
-            </div>
+<div class="page">
+    <NavMenu />
+    <div class="main">
+        <div class="content">
+            @Body
         </div>
-    </MatThemeProvider>
-    @code
-{
-        MatTheme matTheme = new MatTheme()
-        {
-            Primary = "#0f52ba",
-            Secondary = "#0080ff"
-        };
-    }
+    </div>
+</div>
