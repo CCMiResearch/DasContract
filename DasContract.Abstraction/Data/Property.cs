@@ -20,6 +20,24 @@ namespace DasContract.Abstraction.Data
         /// </summary>
         public string ReferencedDataType { get; set; }
 
+        public Property() { }
+        public Property(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
+            ReferencedDataType = xElement.Element("ReferencedDataType")?.Value;
+
+            if (bool.TryParse(xElement.Element("IsMandatory")?.Value, out var isMandatory))
+                IsMandatory = isMandatory;
+            if (System.Enum.TryParse<PropertyType>(xElement.Element("PropertyType")?.Value, out var propertyType))
+                PropertyType = propertyType;
+            if (System.Enum.TryParse<PropertyDataType>(xElement.Element("KeyType")?.Value, out var keyType))
+                KeyType = keyType;
+            if (System.Enum.TryParse<PropertyDataType>(xElement.Element("DataType")?.Value, out var dataType))
+                DataType = dataType;
+
+        }
+
         public XElement ToXElement()
         {
             return new XElement("DataType",

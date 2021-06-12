@@ -5,9 +5,15 @@ using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
-    public class CallActivity: Task
+    public class CallActivity : Task
     {
         public string CalledElement { get; set; }
+
+        public CallActivity() { }
+        public CallActivity(XElement xElement) : base(xElement)
+        {
+            CalledElement = xElement.Element("CalledElement")?.Value;
+        }
 
         public override XElement ToXElement()
         {

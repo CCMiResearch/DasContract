@@ -8,6 +8,14 @@ namespace DasContract.Abstraction.Processes
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public ProcessRole() { }
+        public ProcessRole(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
+            Description = xElement.Element("Description")?.Value;
+        }
+
         public XElement ToXElement()
         {
             return new XElement("ProcessRole",

@@ -7,6 +7,12 @@ namespace DasContract.Abstraction.Processes.Gateways
     {
         public string DefaultSequenceFlowId { get; set; }
 
+        public Gateway() { }
+        public Gateway(XElement xElement) : base(xElement)
+        {
+            DefaultSequenceFlowId = xElement.Element("DefaultSequenceFlowId")?.Value;
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

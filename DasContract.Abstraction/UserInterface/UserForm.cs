@@ -11,11 +11,18 @@ namespace DasContract.Abstraction.UserInterface
         public string Id { get; set; }
         public IList<FormField> Fields { get; set; }
 
+        public UserForm() { }
+        public UserForm(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Fields = xElement.Element("FormFields")?.Elements("FormField")?.Select(e => new FormField(e)).ToList();
+        }
+
         public XElement ToXElement()
         {
             return new XElement("UserForm",
                 new XAttribute("Id", Id),
-                new XElement("Fields", Fields.Select(f => f.ToXElement()).ToList())
+                new XElement("FormFields", Fields.Select(f => f.ToXElement()).ToList())
             );
         }
     }

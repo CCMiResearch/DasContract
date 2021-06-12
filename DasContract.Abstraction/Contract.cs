@@ -19,16 +19,18 @@ namespace DasContract.Abstraction
         /// Currently used for backwards compatibility, when only one 
         /// process was allowed.
         /// </summary>
-        [JsonIgnore]
-        public Process Process { 
-            get { return Processes.ElementAtOrDefault(0); } 
-            set { Processes[0] = value; } 
+        public Process Process
+        {
+            get { return Processes.ElementAtOrDefault(0); }
+            set { Processes[0] = value; }
         }
+
+
 
         public bool TryGetProcess(string processId, out Process process)
         {
             var search = Processes.Where(p => p.Id == processId);
-            if(search.Count() == 0)
+            if (search.Count() == 0)
             {
                 process = null;
                 return false;
@@ -74,6 +76,33 @@ namespace DasContract.Abstraction
         public IEnumerable<Entity> Entities { get { return DataTypes.Values.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
+
+        public Contract() { }
+        public Contract(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            ProcessDiagram = xElement.Element("ProcessDiagram")?.Value;
+            Processes = xElement.Element("Processes")?.Elements("Process")?.Select(e => new Process(e)).ToList();
+            DataTypes = CreateDataTypes(xElement.Element("DataTypes"));
+        }
+
+        private IDictionary<string, DataType> CreateDataTypes(XElement xElement)
+        {
+            IEnumerable<DataType> dataTypes = new List<DataType>();
+            if (xElement != null)
+            {
+                var tokens = xElement.Elements("Token")?.Select(e => new Token(e));
+                var enums = xElement.Elements("Enum")?.Select(e => new Enum(e));
+                var entities = xElement.Elements("Entity")?.Select(e => new Entity(e));
+                if (tokens != null)
+                    dataTypes = dataTypes.Concat(tokens);
+                if (enums != null)
+                    dataTypes = dataTypes.Concat(enums);
+                if (entities != null)
+                    dataTypes = dataTypes.Concat(entities);
+            }
+            return dataTypes.ToDictionary(d => d.Id);
+        }
 
         public XElement ToXElement()
         {

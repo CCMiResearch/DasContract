@@ -9,6 +9,12 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// </summary>
         public string BusinessRuleDefinitionXml { get; set; }
 
+        public BusinessRuleTask() { }
+        public BusinessRuleTask(XElement xElement) : base(xElement)
+        {
+            BusinessRuleDefinitionXml = xElement.Element("BusinessRuleDefinition")?.Value;
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

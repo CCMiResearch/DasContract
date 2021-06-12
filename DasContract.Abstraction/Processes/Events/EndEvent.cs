@@ -7,6 +7,12 @@ namespace DasContract.Abstraction.Processes.Events
 {
     public class EndEvent : Event
     {
+        public EndEvent() { }
+        public EndEvent(XElement xElement) : base(xElement)
+        {
+
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

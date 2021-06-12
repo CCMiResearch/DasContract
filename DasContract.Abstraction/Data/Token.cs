@@ -14,6 +14,20 @@ namespace DasContract.Abstraction.Data
         public string MintScript { get; set; }
         public string TransferScript { get; set; }
 
+        public Token() { }
+        public Token(XElement xElement) : base(xElement)
+        {
+
+            Symbol = xElement.Element("Symbol")?.Value;
+            MintScript = xElement.Element("MintScript")?.Value;
+            TransferScript = xElement.Element("TransferScript")?.Value;
+
+            if (bool.TryParse(xElement.Element("IsFungible")?.Value, out var isFungible))
+                IsFungible = isFungible;
+            if (bool.TryParse(xElement.Element("IsIssued")?.Value, out var isIssued))
+                IsIssued = isIssued;
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

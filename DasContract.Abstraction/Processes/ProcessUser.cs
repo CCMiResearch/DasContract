@@ -12,6 +12,17 @@ namespace DasContract.Abstraction.Processes
         public string Address { get; set; }
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
 
+        public ProcessUser() { }
+        public ProcessUser(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
+            Description = xElement.Element("Description")?.Value;
+            Address = xElement.Element("Address")?.Value;
+            Roles = xElement.Element("Roles")?.Elements("ProcessRole")?.Select(e => new ProcessRole(e)).ToList()
+                ?? Roles;
+        }
+
         public XElement ToXElement()
         {
             return new XElement("ProcessUser",

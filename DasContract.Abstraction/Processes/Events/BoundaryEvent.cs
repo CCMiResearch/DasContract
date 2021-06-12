@@ -9,6 +9,12 @@ namespace DasContract.Abstraction.Processes.Events
     {
         public string AttachedTo { get; set; }
 
+        public BoundaryEvent() { }
+        public BoundaryEvent(XElement xElement) : base(xElement)
+        {
+            AttachedTo = xElement.Element("AttachedTo")?.Value;
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

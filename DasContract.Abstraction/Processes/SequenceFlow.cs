@@ -5,7 +5,7 @@ namespace DasContract.Abstraction.Processes
     /// <summary>
     /// An arrow between process elements. 
     /// </summary>
-    public class SequenceFlow: IProcessElement
+    public class SequenceFlow : IProcessElement
     {
         public string Id { get; set; }
         /// <summary>
@@ -25,6 +25,16 @@ namespace DasContract.Abstraction.Processes
         /// Condition in solidity under which the sequence flow can be traversed
         /// </summary>
         public string Condition { get; set; }
+
+        public SequenceFlow() { }
+        public SequenceFlow(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
+            SourceId = xElement.Element("SourceId")?.Value;
+            TargetId = xElement.Element("TargetId")?.Value;
+            Condition = xElement.Element("Condition")?.Value;
+        }
 
         public XElement ToXElement()
         {

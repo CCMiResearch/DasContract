@@ -15,6 +15,16 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// </summary>
         public string LoopCollection { get; set; }
 
+        public Task() { }
+        public Task(XElement xElement) : base(xElement)
+        {
+            LoopCollection = xElement.Element("LoopCollection")?.Value;
+            if (int.TryParse(xElement.Element("LoopCardinality")?.Value, out var loopCardinality))
+                LoopCardinality = loopCardinality;
+            if (System.Enum.TryParse<InstanceType>(xElement.Element("InstanceType")?.Value, out var type))
+                InstanceType = type;
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();

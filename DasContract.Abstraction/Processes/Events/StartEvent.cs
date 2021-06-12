@@ -7,11 +7,26 @@ namespace DasContract.Abstraction.Processes.Events
     {
         public UserForm StartForm { get; set; }
 
+        public StartEvent() { }
+        public StartEvent(XElement xElement) : base(xElement)
+        {
+            var xStartForm = xElement.Element("StartForm");
+            if (xStartForm != null)
+                StartForm = new UserForm(xStartForm);
+        }
+
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
             xElement.Name = "StartEvent";
-            xElement.Add(StartForm?.ToXElement());
+
+            var xStartForm = StartForm?.ToXElement();
+            if (xStartForm != null)
+            {
+                xStartForm.Name = "StartForm";
+                xElement.Add(xStartForm);
+            }
+            
             return xElement;
         }
     }

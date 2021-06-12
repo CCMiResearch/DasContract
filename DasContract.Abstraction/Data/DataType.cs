@@ -10,6 +10,13 @@ namespace DasContract.Abstraction.Data
         public string Id { get; set; }
         public string Name { get; set; }
 
+        public DataType() { }
+        public DataType(XElement xElement)
+        {
+            Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
+        }
+
         public virtual XElement ToXElement()
         {
             return new XElement("DataType",
