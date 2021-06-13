@@ -1,8 +1,7 @@
 ﻿namespace DasContract.Abstraction.Processes
 {
-    public interface IProcessElement
+    public interface IProcessElement : IContractElement
     {
-        string Id { get; set; }
-        string Name { get; set; }
+        
     }
 }
