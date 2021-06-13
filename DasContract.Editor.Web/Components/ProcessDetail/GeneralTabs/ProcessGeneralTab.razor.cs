@@ -11,6 +11,6 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
     public partial class ProcessGeneralTab: ComponentBase
     {
         [Parameter]
-        public Process Process{ get; set; }
+        public Process Process {get; set; }
     }
 }

@@ -68,6 +68,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                 case BusinessRuleTask:
                     _tabs.Add(new ProcessDetailTab { TabName = "Rules", TabType = ProcessDetailTabType.BusinessRules });
                     break;
+                case Process:
+                    _tabs.Add(new ProcessDetailTab { TabName = "Custom script", TabType = ProcessDetailTabType.ProcessScript });
+                    break;
 
             }
             _activeTab = _tabs.First();

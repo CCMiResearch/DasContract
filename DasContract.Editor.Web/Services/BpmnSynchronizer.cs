@@ -246,7 +246,7 @@ namespace DasContract.Editor.Web.Services
 
         private void ConnectionAdded(object sender, BpmnElementEvent e)
         {
-            if (e.Element.Type == "SequenceFlow")
+            if (e.Element.Type == "bpmn:SequenceFlow")
             {
                 var sequenceFlow = new SequenceFlow
                 {
@@ -261,7 +261,7 @@ namespace DasContract.Editor.Web.Services
 
         private void ConnectionRemoved(object sender, BpmnElementEvent e)
         {
-            if (e.Element.Type == "SequenceFlow")
+            if (e.Element.Type == "bpmn:SequenceFlow")
             {
                 if (_editElementService.EditElement?.Id == e.Element.Id)
                     _editElementService.EditElement = null;

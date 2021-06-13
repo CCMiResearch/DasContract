@@ -121,8 +121,8 @@ namespace DasContract.Editor.Web.Services.Processes
 
             process.SequenceFlows.Add(id, addedSequenceFlow);
             //Add sequence flow references to the source and target elements
-            UpdateIncomingOfElement(addedSequenceFlow.TargetId, addedSequenceFlow.Id, processId, true);
-            UpdateOutgoingOfElement(addedSequenceFlow.SourceId, addedSequenceFlow.Id, processId, true);
+            UpdateIncomingOfElement(addedSequenceFlow.TargetId, addedSequenceFlow.Id, true);
+            UpdateOutgoingOfElement(addedSequenceFlow.SourceId, addedSequenceFlow.Id, true);
             Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
         }
 
@@ -136,8 +136,8 @@ namespace DasContract.Editor.Web.Services.Processes
                     var sequenceFlow = process.SequenceFlows[id];
                     _deletedSequenceFlows.Add(id, sequenceFlow);
                     //Remove sequence flow references in the source and target elements
-                    UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, process.Id, false);
-                    UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, process.Id, false);
+                    UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, false);
+                    UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, false);
                     process.SequenceFlows.Remove(id);
                     Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
                     return;
@@ -151,17 +151,17 @@ namespace DasContract.Editor.Web.Services.Processes
             if(sequenceFlow.SourceId != newSource)
             {
                 //Remove the reference about the sequence flow in the old source
-                UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, processId, false);
+                UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, false);
                 //Add the reference about the sequence flow to the new source
-                UpdateOutgoingOfElement(newSource, sequenceFlow.Id, processId, true);
+                UpdateOutgoingOfElement(newSource, sequenceFlow.Id, true);
                 sequenceFlow.SourceId = newSource;
             }
             if (sequenceFlow.TargetId != newTarget)
             {
                 //Remove the reference about the sequence flow in the old target
-                UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, processId, false);
+                UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, false);
                 //Add the reference about the sequence flow to the new target
-                UpdateIncomingOfElement(newTarget, sequenceFlow.Id, processId, true);
+                UpdateIncomingOfElement(newTarget, sequenceFlow.Id, true);
                 sequenceFlow.TargetId = newTarget;
             }
         }
@@ -261,17 +261,25 @@ namespace DasContract.Editor.Web.Services.Processes
             }
         }
 
-        private void UpdateIncomingOfElement(string elementId, string flowId, string processId, bool add)
+        private void UpdateIncomingOfElement(string elementId, string flowId, bool add)
         {
-            if (!TryRetrieveElementById(elementId, processId, out var element))
+            //The source element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
+            //For that reason, the process of the element must be first retrieved
+            if (!TryGetProcessOfElement(elementId, out var process))
+                throw new InvalidIdException($"Element id {elementId} is not located in any process");
+            if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");
 
             UpdateSeqFlowList(element.Incoming, flowId, add);
         }
 
-        private void UpdateOutgoingOfElement(string elementId, string flowId, string processId, bool add)
+        private void UpdateOutgoingOfElement(string elementId, string flowId, bool add)
         {
-            if (!TryRetrieveElementById(elementId, processId, out var element))
+            //The target element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
+            //For that reason, the process of the element must be first retrieved
+            if (!TryGetProcessOfElement(elementId, out var process))
+                throw new InvalidIdException($"Element id {elementId} is not located in any process");
+            if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");
 
             UpdateSeqFlowList(element.Outgoing, flowId, add);

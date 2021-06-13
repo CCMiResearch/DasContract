@@ -1,6 +1,7 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
 @using DasContract.Editor.Web.Components.Common
 @using DasContract.Editor.Web.Extensions
+@using DasContract.Abstraction.Processes
 
 
 <div class="detail-bar">
@@ -34,6 +35,9 @@
                 break;
             case ProcessDetailTabType.UserValidation:
                 <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" />
+                break;
+            case ProcessDetailTabType.ProcessScript:
+                <ScriptTab @bind-Script="((Process) EditedElement).CustomScript"/>
                 break;
         }
     </div>

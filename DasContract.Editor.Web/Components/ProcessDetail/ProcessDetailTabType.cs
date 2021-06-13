@@ -11,6 +11,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         UserValidation,
         Script,
         BusinessRules,
-        UserForm
+        UserForm,
+        ProcessScript
     }
 }
