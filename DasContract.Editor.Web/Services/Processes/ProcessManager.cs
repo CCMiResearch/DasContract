@@ -36,12 +36,6 @@ namespace DasContract.Editor.Web.Services.Processes
                 return true;
             }
 
-            if (TryRetrieveParticipantById(elementId, out var participant))
-            {
-                element = participant;
-                return true;
-            }
-
             element = null;
             return false;
         }
@@ -193,11 +187,6 @@ namespace DasContract.Editor.Web.Services.Processes
                 element = null;
                 return false;
             }
-        }
-
-        public bool TryRetrieveParticipantById(string participantId, out ProcessParticipant participant)
-        {
-            return _contractManager.TryGetParticipant(participantId, out participant);
         }
 
         private Process GetProcess(string processId)

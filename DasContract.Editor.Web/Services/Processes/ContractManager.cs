@@ -13,7 +13,6 @@ namespace DasContract.Editor.Web.Services.Processes
     public class ContractManager : IContractManager
     {
         public Contract Contract { get; set; }
-        private IDictionary<string, ProcessParticipant> _processParticipants = new Dictionary<string, ProcessParticipant>();
 
         private IJSRuntime _jsRuntime;
 
@@ -38,9 +37,12 @@ namespace DasContract.Editor.Web.Services.Processes
             return Contract.TryGetProcess(id, out process);
         }
 
-        public bool TryGetParticipant(string id, out ProcessParticipant participant)
+        public string GetProcessIdFromParticipantId(string participantId)
         {
-            return _processParticipants.TryGetValue(id, out participant);
+            var proc = Contract.Processes.Where(p => p.ParticipantId == participantId);
+            if (proc.Count() != 1)
+                throw new InvalidIdException($"Participant id {participantId} could not be found");
+            return proc.First().Id;
         }
         //A participant might be associated with the process (but not always)
         public void AddNewProcess(string processId, string participantId = null)
@@ -50,9 +52,11 @@ namespace DasContract.Editor.Web.Services.Processes
             //and a process already exists (this happens when the last participant is removed),
             //or when an input participant is defined and no other participants are yet present in the model
             //(this happens when the first participant is added)
-            if (_processParticipants.Count == 0 && participantId != null || (participantId == null && Contract.Processes.Count > 0))
+            if (Contract.Processes.Count == 1 && Contract.Processes.First().ParticipantId == null && participantId != null 
+                || (participantId == null && Contract.Processes.Count > 0))
             {
                 process = Contract.Processes.First();
+                process.ParticipantId = participantId;
                 //The id needs to be updated due to a bug in the bpmn modeller
                 process.Id = processId;
             }
@@ -60,15 +64,8 @@ namespace DasContract.Editor.Web.Services.Processes
             {
                 if (Contract.Processes.Any(p => p.Id == processId))
                     throw new DuplicateIdException($"Could not add new process, contract already contains process id {processId}");
-                process = new Process { Id = processId };
+                process = new Process { Id = processId, ParticipantId = participantId};
                 Contract.Processes.Add(process);
-            }
-
-            //Create a participant if it is associated with the process
-            if (participantId != null)
-            {
-                var participant = new ProcessParticipant { Id = participantId, ReferencedProcess = process };
-                _processParticipants.Add(participantId, participant);
             }
 
             if(Contract.Processes.Count == 1)
@@ -77,22 +74,21 @@ namespace DasContract.Editor.Web.Services.Processes
             }
         }
 
-        public void RemoveProcess(string processId, string participantId = null)
+        public void RemoveProcess(string processId)
         {
             if (!TryGetProcess(processId, out var process))
                 throw new InvalidIdException($"Could not delete process, contract does not contain process id {processId}");
 
-            if (participantId != null)
-            {
-                if (!_processParticipants.TryGetValue(participantId, out _))
-                {
-                    throw new InvalidIdException($"Could not delete participant, contract does not contain participant id {participantId}");
-                }
-                //_deletedParticipants[participantId] = participant;
-                _processParticipants.Remove(participantId);
-            }
-
-            if(_processParticipants.Count > 0)
+            //if (participantId != null)
+            //{
+            //    if (!_processParticipants.TryGetValue(participantId, out _))
+            //    {
+            //        throw new InvalidIdException($"Could not delete participant, contract does not contain participant id {participantId}");
+            //    }
+            //    //_deletedParticipants[participantId] = participant;
+            //    _processParticipants.Remove(participantId);
+            //}
+            if(Contract.Processes.Count > 1)
                 Contract.Processes.Remove(process);
         }
 

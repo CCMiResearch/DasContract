@@ -88,6 +88,14 @@ namespace DasContract.Editor.Web.Services
             if (e.Element.Type == "bpmn:Participant")
             {
                 _contractManager.AddNewProcess(e.Element.ProcessId, e.Element.Id);
+                
+                if (_contractManager.TryGetProcess(e.Element.ProcessId, out var process))
+                {
+                    if (_editElementService.EditElement == process)
+                        _editElementService.EditedElementModified();
+                    else
+                        _editElementService.EditElement = process;
+                }
             }
             //Process element is being added
             else
@@ -118,14 +126,14 @@ namespace DasContract.Editor.Web.Services
 
         private void ShapeRemoved(object sender, BpmnElementEvent e)
         {
-            if (e.Element.Type == "label")
+            if (e.Element.Type == "label" || e.Element.Type == "bpmn:TextAnnotation")
                 return;
 
             //Process is being removed
             if (e.Element.Type == "bpmn:Participant")
             {
-                _contractManager.TryGetParticipant(e.Element.Id, out var participant);
-                _contractManager.RemoveProcess(participant.ReferencedProcess.Id, participant.Id);
+                var processId = _contractManager.GetProcessIdFromParticipantId(e.Element.Id);
+                _contractManager.RemoveProcess(processId);
             }
             //Process element is being removed
             else
@@ -133,7 +141,7 @@ namespace DasContract.Editor.Web.Services
                 _processManager.RemoveElement(e.Element?.Id);
             }
             //Close the sidebar if the deleted element is currently selected
-            if (_editElementService.EditElement?.Id == e.Element.Id)
+            if (_editElementService.EditElement?.Id == e.Element.Id || _editElementService.EditElement?.Id == e.Element.ProcessId)
                 _editElementService.EditElement = null;
         }
 
@@ -206,7 +214,7 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementClicked(object sender, BpmnElementEvent e)
         {
-            if (e.Element.Type == "bpmn:Process" || e.Element.Type == "bpmn:Collaboration")
+            if (e.Element.Type == "bpmn:Collaboration" || e.Element.Type == "bpmn:Association" || e.Element.Type == "bpmn:TextAnnotation")
                 return;
 
             string elementId;
@@ -216,7 +224,17 @@ namespace DasContract.Editor.Web.Services
             else
                 elementId = e.Element.Id;
 
-            if(_processManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
+            if(e.Element.Type == "bpmn:Process")
+            {
+                _contractManager.TryGetProcess(e.Element.Id, out var process);
+                _editElementService.EditElement = process;
+            }
+            else if(e.Element.Type == "bpmn:Participant")
+            {
+                _contractManager.TryGetProcess(e.Element.ProcessId, out var process);
+                _editElementService.EditElement = process;
+            }
+            else if(_processManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
             {
                 _editElementService.EditElement = element;
             }
@@ -228,20 +246,27 @@ namespace DasContract.Editor.Web.Services
 
         private void ConnectionAdded(object sender, BpmnElementEvent e)
         {
-            var sequenceFlow = new SequenceFlow { 
-                Id = e.Element.Id, 
-                Name = e.Element.Name, 
-                SourceId = e.Element.Source, 
-                TargetId = e.Element.Target
-            };
-            _processManager.AddSequenceFlow(sequenceFlow, e.Element.ProcessId);
+            if (e.Element.Type == "SequenceFlow")
+            {
+                var sequenceFlow = new SequenceFlow
+                {
+                    Id = e.Element.Id,
+                    Name = e.Element.Name,
+                    SourceId = e.Element.Source,
+                    TargetId = e.Element.Target
+                };
+                _processManager.AddSequenceFlow(sequenceFlow, e.Element.ProcessId);
+            }
         }
 
         private void ConnectionRemoved(object sender, BpmnElementEvent e)
         {
-            if (_editElementService.EditElement?.Id == e.Element.Id)
-                _editElementService.EditElement = null;
-            _processManager.RemoveSequenceFlow(e.Element.Id);
+            if (e.Element.Type == "SequenceFlow")
+            {
+                if (_editElementService.EditElement?.Id == e.Element.Id)
+                    _editElementService.EditElement = null;
+                _processManager.RemoveSequenceFlow(e.Element.Id);
+            }
         }
     }
 }

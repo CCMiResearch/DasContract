@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DasContract.Abstraction.Processes.Tasks;
 using System.Text.RegularExpressions;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Abstraction;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
@@ -22,7 +23,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         private IList<ProcessDetailTab> _tabs;
         private ProcessDetailTab _activeTab;
 
-        private IProcessElement EditedElement;
+        private IContractElement EditedElement;
 
         protected override void OnInitialized()
         {
@@ -69,12 +70,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                     break;
 
             }
-            SwitchActive(0);
-        }
-
-        protected void SwitchActive(int newActiveIndex)
-        {
-            _activeTab = _tabs.ElementAt(newActiveIndex);
+            _activeTab = _tabs.First();
         }
     }
 }

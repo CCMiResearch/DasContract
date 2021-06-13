@@ -1,4 +1,5 @@
-﻿using DasContract.Editor.Web.Services.Processes;
+﻿using DasContract.Abstraction.Processes;
+using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
 {
-    public partial class ParticipantGeneralTab: ComponentBase
+    public partial class ProcessGeneralTab: ComponentBase
     {
         [Parameter]
-        public ProcessParticipant Participant { get; set; }
+        public Process Process{ get; set; }
     }
 }

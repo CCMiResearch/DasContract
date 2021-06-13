@@ -1,14 +1,16 @@
-﻿<div class="mb-3">
-    <label for="@($"name-input-{ProcessElement.Id}")" class="form-label">Name</label>
-    <input class="form-control" id="@($"name-input-{ProcessElement.Id}")" @bind-value="ProcessElement.Name" @onfocusout="NameInput">
+﻿@using DasContract.Abstraction.Processes
+
+<div class="mb-3">
+    <label for="@($"name-input-{ContractElement.Id}")" class="form-label">Name</label>
+    <input class="form-control" id="@($"name-input-{ContractElement.Id}")" @bind-value="ContractElement.Name" @onfocusout="NameInput">
 </div>
 
-@switch(ProcessElement)
+@switch(ContractElement)
 {
     case DasContract.Abstraction.Processes.Tasks.Task task:
         <TaskGeneralTab Task="task"/>
         break;
-    case ProcessParticipant participant:
-        <ParticipantGeneralTab Participant="participant"/>
+    case Process process:
+        <ProcessGeneralTab Process="process"/>
         break;
 }

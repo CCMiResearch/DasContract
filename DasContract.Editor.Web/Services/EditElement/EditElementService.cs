@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.BpmnEvents;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace DasContract.Editor.Web.Services.EditElement
         public event EventHandler<EditElementEventArgs> EditElementChanged;
         public event EventHandler EditElementModified;
 
-        private IProcessElement _editElement;
+        private IContractElement _editElement;
 
-        public IProcessElement EditElement
+        public IContractElement EditElement
         {
             get { return _editElement; }
             set

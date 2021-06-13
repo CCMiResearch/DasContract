@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -12,14 +13,14 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
     public partial class ElementGeneralTab: ComponentBase
     {
         [Parameter]
-        public IProcessElement ProcessElement { get; set; }
+        public IContractElement ContractElement { get; set; }
 
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
         protected async void NameInput(FocusEventArgs args)
         {
-            await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", ProcessElement.Id, ProcessElement.Name);
+            await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", ContractElement.Id, ContractElement.Name);
         }
     }
 }

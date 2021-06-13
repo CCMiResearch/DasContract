@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace DasContract.Editor.Web.Services.EditElement
 {
     public class EditElementEventArgs : EventArgs
     {
-        public IProcessElement processElement;
+        public IContractElement processElement;
     }
 }

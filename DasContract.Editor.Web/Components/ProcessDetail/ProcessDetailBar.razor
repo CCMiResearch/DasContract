@@ -27,7 +27,7 @@
         @switch (_activeTab.TabType)
         {
             case ProcessDetailTabType.General:
-                <ElementGeneralTab ProcessElement="EditedElement" />
+                <ElementGeneralTab ContractElement="EditedElement" />
                 break;
             case ProcessDetailTabType.Script:
                 <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" />
