@@ -1,4 +1,4 @@
 ﻿<div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="@($"isExecutable-{Process.Id}")" @bind-value="Process.IsExecutable">
+    <input class="form-check-input" type="checkbox" id="@($"isExecutable-{Process.Id}")" checked="@Process.IsExecutable" @bind-value="Process.IsExecutable" >
     <label class="form-check-label" for="@($"isExecutable-{Process.Id}")">Is Executable</label>
 </div>

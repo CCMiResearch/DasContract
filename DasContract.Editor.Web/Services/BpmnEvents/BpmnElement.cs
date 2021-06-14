@@ -14,6 +14,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public string LoopType { get; set; }
         public string ProcessId { get; set; }
         public string ParentType { get; set; }
+        public string AttachedTo { get; set; }
 
         public IList<string> Incoming { get; set; }
         public IList<string> Outgoing { get; set; }

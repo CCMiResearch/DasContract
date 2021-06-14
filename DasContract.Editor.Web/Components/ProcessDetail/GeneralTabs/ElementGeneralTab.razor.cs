@@ -20,7 +20,17 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
 
         protected async void NameInput(FocusEventArgs args)
         {
-            await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", ContractElement.Id, ContractElement.Name);
+            string elementId;
+            if (ContractElement is Process)
+            {
+                var process = ContractElement as Process;
+                elementId = process.ParticipantId;
+            }
+            else
+                elementId = ContractElement.Id;
+
+            if(elementId != null)
+                await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", elementId, ContractElement.Name);
         }
     }
 }

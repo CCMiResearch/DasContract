@@ -16,6 +16,8 @@ namespace DasContract.Editor.Web.Services.Processes
 
         private IJSRuntime _jsRuntime;
 
+        private Dictionary<string, Process> _deletedProcesses = new Dictionary<string, Process>();
+
         public ContractManager(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
@@ -64,7 +66,15 @@ namespace DasContract.Editor.Web.Services.Processes
             {
                 if (Contract.Processes.Any(p => p.Id == processId))
                     throw new DuplicateIdException($"Could not add new process, contract already contains process id {processId}");
-                process = new Process { Id = processId, ParticipantId = participantId};
+
+                if (_deletedProcesses.TryGetValue(processId, out process))
+                {
+                    _deletedProcesses.Remove(processId);
+                }
+                else
+                {
+                    process = new Process { Id = processId, ParticipantId = participantId };
+                }
                 Contract.Processes.Add(process);
             }
 
@@ -88,8 +98,11 @@ namespace DasContract.Editor.Web.Services.Processes
             //    //_deletedParticipants[participantId] = participant;
             //    _processParticipants.Remove(participantId);
             //}
-            if(Contract.Processes.Count > 1)
+            if (Contract.Processes.Count > 1)
+            {
+                _deletedProcesses.Add(processId, process);
                 Contract.Processes.Remove(process);
+            }
         }
 
         public IList<Process> GetAllProcesses()

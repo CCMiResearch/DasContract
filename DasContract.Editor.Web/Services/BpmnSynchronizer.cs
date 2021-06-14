@@ -1,4 +1,6 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
+using DasContract.Abstraction.Processes.Events;
 using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.EditElement;
@@ -161,6 +163,15 @@ namespace DasContract.Editor.Web.Services
             if (string.IsNullOrEmpty(e.Element.ProcessId) || !_processManager.ProcessExists(e.Element.ProcessId))
                 return;
 
+            IContractElement contractElement = null;
+
+            if (e.Element.Type == "bpmn:Participant")
+            {
+                _contractManager.TryGetProcess(e.Element.ProcessId, out var process);
+                process.Name = e.Element.Name;
+                contractElement = process;
+            }
+
             if (_processManager.TryRetrieveIElementById(e.Element.Id, out var element))
             {
                 //Parse element name
@@ -181,6 +192,13 @@ namespace DasContract.Editor.Web.Services
                         taskElement.InstanceType = Abstraction.Processes.Tasks.InstanceType.Single;
                     }
                 }
+                if (element is BoundaryEvent)
+                {
+                    Console.WriteLine($"Attached to: {e.Element.AttachedTo}");
+                    var boundaryEvent = element as BoundaryEvent;
+                    boundaryEvent.AttachedTo = e.Element.AttachedTo;
+                }
+
                 //Parse incoming and outgoing if processElement
                 if (element is ProcessElement)
                 {
@@ -205,11 +223,11 @@ namespace DasContract.Editor.Web.Services
                         _processManager.ChangeProcessOfElement(element, process.Id, e.Element.ProcessId);
                     }
                 }
-
-                //Notify about element modification if currently selected
-                if (_editElementService.EditElement == element)
-                    _editElementService.EditedElementModified();
+                contractElement = element;
             }
+            //Notify about element modification if currently selected
+            if (_editElementService.EditElement == contractElement)
+                _editElementService.EditedElementModified();
         }
 
         private void ElementClicked(object sender, BpmnElementEvent e)
