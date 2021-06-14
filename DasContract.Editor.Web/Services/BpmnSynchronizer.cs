@@ -108,19 +108,8 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementAdded(BpmnElementEvent e)
         {
-            ProcessElement element;
-            try
-            {
-                element = ProcessElementFactory.CreateElementFromType(e.Element.Type);
-            }
-            catch (InvalidCamundaElementTypeException)
-            {
-                return;
-            }
-
-            element.Id = e.Element.Id;
-            _processManager.AddElement(element, e.Element.ProcessId);
-            if (_processManager.TryRetrieveElementById(e.Element.Id, e.Element.ProcessId, out element))
+            var element = _processManager.AddElement(e.Element.Type, e.Element.Id, e.Element.ProcessId);
+            if (element != null)
             {
                 _editElementService.EditElement = element;
             }
@@ -266,14 +255,7 @@ namespace DasContract.Editor.Web.Services
         {
             if (e.Element.Type == "bpmn:SequenceFlow")
             {
-                var sequenceFlow = new SequenceFlow
-                {
-                    Id = e.Element.Id,
-                    Name = e.Element.Name,
-                    SourceId = e.Element.Source,
-                    TargetId = e.Element.Target
-                };
-                _processManager.AddSequenceFlow(sequenceFlow, e.Element.ProcessId);
+                _processManager.AddSequenceFlow(e.Element.Id, e.Element.Target, e.Element.Source, e.Element.ProcessId);
             }
         }
 

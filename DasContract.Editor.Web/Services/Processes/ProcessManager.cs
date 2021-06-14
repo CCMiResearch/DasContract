@@ -42,7 +42,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public bool TryRetrieveIElementById(string elementId, out IProcessElement element)
         {
-            foreach(var process in _contractManager.GetAllProcesses())
+            foreach (var process in _contractManager.GetAllProcesses())
             {
                 if (TryRetrieveIElementById(elementId, process.Id, out element))
                     return true;
@@ -53,27 +53,37 @@ namespace DasContract.Editor.Web.Services.Processes
 
 
 
-        public void AddElement(ProcessElement addedElement, string processId)
+        public ProcessElement AddElement(string elementType, string elementId, string processId)
         {
-            var process = GetProcess(processId);
-            var id = addedElement.Id;
-
-            if (process.ProcessElements.ContainsKey(addedElement.Id))
-                throw new DuplicateIdException($"Process already contains id {addedElement.Id}");
-
-             //Check if the element is not stored in the deletion buffer
-            if (TryGetElementFromDeletedBuffer(id, out ProcessElement element))
+            //Try to retrieve element from the deletion buffer (the re-adding of an element might be an undo operation)
+            if (!TryGetElementFromDeletedBuffer(elementId, out ProcessElement element))
             {
-                addedElement = element;
+                //Create a new element, if it is not in the deletion buffer
+                try
+                {
+                    element = ProcessElementFactory.CreateElementFromType(elementType);
+                    element.Id = elementId;
+                }
+                //Invalid element type is ignored (the element is not defined in the dascontract model, for example labels)
+                catch (InvalidCamundaElementTypeException)
+                {
+                    return null;
+                }
             }
 
-            process.ProcessElements.Add(id, addedElement);
+            var process = GetProcess(processId);
+
+            if (process.ProcessElements.ContainsKey(elementId))
+                throw new DuplicateIdException($"Process already contains id {elementId}");
+
+            process.ProcessElements.Add(elementId, element);
             Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
+            return element;
         }
 
         public void RemoveElement(string id)
         {
-            foreach(var process in _contractManager.GetAllProcesses())
+            foreach (var process in _contractManager.GetAllProcesses())
             {
                 if (process.ProcessElements.ContainsKey(id))
                 {
@@ -104,26 +114,34 @@ namespace DasContract.Editor.Web.Services.Processes
             process.ProcessElements.Add(newId, element);
         }
 
-        public void AddSequenceFlow(SequenceFlow addedSequenceFlow, string processId)
+        public SequenceFlow AddSequenceFlow(string id, string target, string source, string processId)
         {
             var process = GetProcess(processId);
-            var id = addedSequenceFlow.Id;
 
             if (process.SequenceFlows.ContainsKey(id))
                 throw new DuplicateIdException($"Process already contains id {id}");
 
             //Check if the element is not stored in the deletion buffer
-            if (_deletedSequenceFlows.TryGetValue(id, out var deletedSequenceFlow))
+            if (_deletedSequenceFlows.TryGetValue(id, out var sequenceFlow))
             {
-                addedSequenceFlow = deletedSequenceFlow;
                 _deletedSequenceFlows.Remove(id);
             }
+            else
+            {
+                sequenceFlow = new SequenceFlow
+                {
+                    Id = id,
+                    SourceId = source,
+                    TargetId = target
+                };
+            }
 
-            process.SequenceFlows.Add(id, addedSequenceFlow);
+            process.SequenceFlows.Add(id, sequenceFlow);
             //Add sequence flow references to the source and target elements
-            UpdateIncomingOfElement(addedSequenceFlow.TargetId, addedSequenceFlow.Id, true);
-            UpdateOutgoingOfElement(addedSequenceFlow.SourceId, addedSequenceFlow.Id, true);
+            UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, true);
+            UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, true);
             Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
+            return sequenceFlow;
         }
 
         public void RemoveSequenceFlow(string id)
@@ -148,7 +166,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public void UpdateSequenceFlowSourceAndTarget(SequenceFlow sequenceFlow, string newSource, string newTarget, string processId)
         {
-            if(sequenceFlow.SourceId != newSource)
+            if (sequenceFlow.SourceId != newSource)
             {
                 //Remove the reference about the sequence flow in the old source
                 UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, false);
@@ -232,7 +250,7 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             foreach (var p in _contractManager.GetAllProcesses())
             {
-                if(p.ProcessElements.ContainsKey(elementId) || p.SequenceFlows.ContainsKey(elementId))
+                if (p.ProcessElements.ContainsKey(elementId) || p.SequenceFlows.ContainsKey(elementId))
                 {
                     process = p;
                     return true;
@@ -287,7 +305,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         private void UpdateSeqFlowList(IList<string> seqFlowList, string flowId, bool add)
         {
-            if(seqFlowList.Contains(flowId))
+            if (seqFlowList.Contains(flowId))
             {
                 if (!add)
                     seqFlowList.Remove(flowId);
