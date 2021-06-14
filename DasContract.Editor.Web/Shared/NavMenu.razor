@@ -1,18 +1,29 @@
 ﻿<div class="dascontract-navbar">
     <div class="app-title">
-        <h4><strong>DasContract</strong></h4>
+        <h4><strong>DasContract </strong></h4>
     </div>
-    @*
-        <div class="nav-buttons">
-            <MatButtonLink Href="/" Outlined="true">Process</MatButtonLink>
-            <MatButtonLink Href="/data" Outlined="true">Data model</MatButtonLink>
-            <MatButtonLink Href="/users" Outlined="true">Users</MatButtonLink>
-        </div>
-    *@
+
+    <div class="tab-buttons btn-group" role="group">
+        <NavLink href="/process" Match="NavLinkMatch.All">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "process" ? "active": "")">
+                Process
+            </button>
+        </NavLink>
+        <NavLink href="/data">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "data" ? "active": "")">
+                Data
+            </button>
+        </NavLink>
+        <NavLink href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "users" ? "active": "")">
+                Users
+            </button>
+        </NavLink>
+    </div>
     <div class="toolbar">
         @foreach (var toolBarItem in Layout.ToolBarItems)
         {
-            <ToolBarButton ToolBarItem="toolBarItem"/>
+            <ToolBarButton ToolBarItem="toolBarItem" />
         }
     </div>
     <div class="generate-button">

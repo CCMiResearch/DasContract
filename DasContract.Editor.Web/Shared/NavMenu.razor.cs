@@ -13,12 +13,20 @@ namespace DasContract.Editor.Web.Shared
         [Inject]
         private IConverterService ConverterService { get; set; }
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
 
         public void GenerateContract()
         {
             ConverterService.ConvertContract();
+        }
+
+        protected string BaseRelativePath()
+        {
+            return NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         }
     }
 }
