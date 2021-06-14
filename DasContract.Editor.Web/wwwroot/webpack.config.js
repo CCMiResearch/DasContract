@@ -4,7 +4,8 @@ module.exports = {
     entry: {
         splitter: './js/splitter.js',
         modeller: './js/modeller.js',
-        fileSaver: './js/fileSaver.js'
+        fileSaver: './js/fileSaver.js',
+        modellerCustomRules: './js/modellerCustomRules.js',
     },
     module: {
         rules: [ 

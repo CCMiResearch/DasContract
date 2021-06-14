@@ -12,15 +12,17 @@ import {
 import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProvider';
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
+import customRules from "./modellerCustomRules";
+
 
 export function hookEvents() {
     var eventBus = window.modeler.get('eventBus');
 
-    // you may hook into any of the following events
     var elementEvents = [
         'element.changed',
         'element.click',
         'shape.added',
+        'shape.create',
         'shape.removed',
         'element.updateId',
         'connection.added',
@@ -45,6 +47,7 @@ export function hookEvents() {
                 let eventObj = copyEventInformation(e);
                 modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
             }
+            /*
             if (e.type === "shape.added") {
                 if (e.element.businessObject.mamaMia == null) {
                     e.element.businessObject.mamaMia = "yooo";
@@ -55,6 +58,7 @@ export function hookEvents() {
                 }
 
             }
+            */
             console.log(event, 'on', e, ' element id: ', e.element.id);
         });
     });
@@ -85,9 +89,21 @@ function copyEventInformation(e) {
         let businessObject = e.element.businessObject;
         if (businessObject != null) {
             eventObj.element.name = businessObject.name;
+            //Copy loop information about a task element
             if (businessObject.loopCharacteristics != null) {
                 eventObj.element.isSequential = businessObject.loopCharacteristics.isSequential;
                 eventObj.element.loopType = businessObject.loopCharacteristics.$type;
+            }
+            //Copy attached to information about a boundary event
+            if (businessObject.attachedToRef != null) {
+                eventObj.element.attachedTo = businessObject.attachedToRef.id;
+            }
+            //Copy additional informations about an event element
+            if (businessObject.eventDefinitions != null) {
+                if (businessObject.eventDefinitions[0] != null) {
+                    if (e.element.type == "bpmn:BoundaryEvent" && businessObject.eventDefinitions[0].$type == "bpmn:TimerEventDefinition")
+                        eventObj.element.type = "bpmn:TimerBoundaryEvent";
+                }
             }
         }
     }
@@ -152,7 +168,8 @@ export async function createModeler(modelerXml) {
         container: document.getElementById('canvas'),
         keyboard: {
             bindTo: document
-        }
+        },
+        additionalModules: [customRules]
     });
     
     if (modelerXml !== '') {
