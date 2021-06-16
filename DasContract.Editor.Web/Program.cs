@@ -32,6 +32,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
+            builder.Services.AddScoped<SaveManager>();
             builder.Services.AddScoped<IConverterService, ConverterService>();
 
             var host =  builder.Build();

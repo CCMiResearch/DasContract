@@ -1,0 +1,12 @@
+﻿#dmnCanvas{
+    height:100%;
+    position:absolute;
+    width:100%;
+}
+
+.outer-canvas {
+    position: relative;
+    overflow-x: auto;
+    min-width: 600px;
+    height:100%;
+}

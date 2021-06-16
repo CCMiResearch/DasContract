@@ -31,6 +31,9 @@ namespace DasContract.Editor.Web.Pages
         protected ResizeHandler ResizeHandler { get; set; }
 
         [Inject]
+        private SaveManager SaveManager { get; set; }
+
+        [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
         [CascadingParameter]
@@ -70,6 +73,9 @@ namespace DasContract.Editor.Web.Pages
 
         protected async void HandleSaveContractClicked(object sender, MouseEventArgs args)
         {
+            //Request a force save
+            SaveManager.RequestSave();
+            //
             await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", await ContractManager.SerializeContract());
         }
 

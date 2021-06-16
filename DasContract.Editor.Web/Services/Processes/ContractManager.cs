@@ -89,15 +89,6 @@ namespace DasContract.Editor.Web.Services.Processes
             if (!TryGetProcess(processId, out var process))
                 throw new InvalidIdException($"Could not delete process, contract does not contain process id {processId}");
 
-            //if (participantId != null)
-            //{
-            //    if (!_processParticipants.TryGetValue(participantId, out _))
-            //    {
-            //        throw new InvalidIdException($"Could not delete participant, contract does not contain participant id {participantId}");
-            //    }
-            //    //_deletedParticipants[participantId] = participant;
-            //    _processParticipants.Remove(participantId);
-            //}
             if (Contract.Processes.Count > 1)
             {
                 _deletedProcesses.Add(processId, process);

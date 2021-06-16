@@ -39,6 +39,9 @@
             case ProcessDetailTabType.ProcessScript:
                 <ScriptTab @bind-Script="((Process) EditedElement).CustomScript"/>
                 break;
+            case ProcessDetailTabType.BusinessRules:
+                <BusinessRulesTab BusinessRuleTask="(BusinessRuleTask) EditedElement"/>
+                break;
         }
     </div>
 </div>

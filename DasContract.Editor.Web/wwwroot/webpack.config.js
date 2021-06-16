@@ -6,6 +6,7 @@ module.exports = {
         modeller: './js/modeller.js',
         fileSaver: './js/fileSaver.js',
         modellerCustomRules: './js/modellerCustomRules.js',
+        dmnModeller: './js/dmnModeller.js'
     },
     module: {
         rules: [ 
