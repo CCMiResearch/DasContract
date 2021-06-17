@@ -106,7 +106,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
             function.AddToBody(new SolidityStatement(userTaskElement.ValidationScript, false));
 
-            
+            /* TODO reimplement for new forms definitions
             if (userTaskElement.Form.Fields != null)
             {
                 foreach (var field in userTaskElement.Form.Fields)
@@ -121,6 +121,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                     function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property, processConverter.ContractConverter), formPropertyDisplayName));
                 }
             }
+            */
 
             function.AddToBody(CreateCallNextBody());
             return function;
