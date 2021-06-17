@@ -101,10 +101,9 @@ namespace DasContract.Editor.Web.Services.Processes
             return Contract.Processes;
         }
 
-        public async Task<string> SerializeContract()
+        public string SerializeContract()
         {
-            var diagramXml = await _jsRuntime.InvokeAsync<string>("modellerLib.getDiagramXML");
-            Contract.ProcessDiagram = diagramXml;
+            
             return Contract.ToXElement().ToString();
         }
 

@@ -1,5 +1,4 @@
-﻿using DasContract.Abstraction.Processes.Tasks;
-using DasContract.Editor.Web.Services;
+﻿using DasContract.Editor.Web.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -18,7 +17,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         private IJSRuntime JSRunTime { get; set; }
 
         [Parameter]
-        public BusinessRuleTask BusinessRuleTask { get; set; }
+        public Abstraction.Processes.Tasks.BusinessRuleTask BusinessRuleTask { get; set; }
 
         protected async override void OnAfterRender(bool firstRender)
         {
@@ -37,12 +36,12 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             await SaveModel();
         }
 
-        private async void HandleSaveRequested(object sender, EventArgs e)
+        private async Task HandleSaveRequested(object sender, EventArgs e)
         {
             await SaveModel();
         }
 
-        private async System.Threading.Tasks.Task SaveModel()
+        private async Task SaveModel()
         {
             var dmnXml = await JSRunTime.InvokeAsync<string>("dmnModellerLib.saveXml");
             BusinessRuleTask.BusinessRuleDefinitionXml = dmnXml;

@@ -18,7 +18,6 @@ export default {
  * @param {EventBus} eventBus
  */
 function CustomRules(eventBus, elementRegistry) {
-    console.log("adding custom rules");
     RuleProvider.call(this, eventBus);
     this._elementRegistry = elementRegistry;
 }
@@ -34,13 +33,13 @@ CustomRules.prototype.init = function () {
     // can hook into each one of them and make sure
     // they are only allowed if we say so
     this.addRule('elements.move', 2000, function (context) {
-        console.log("thats it");
-        console.log(context);
         let ruleFlag = true;
         let target = context.target;
         context.shapes.forEach(function (shape) {
             let shapeBo = shape.businessObject;
-            if (target != null && (shapeBo.$type == 'bpmn:IntermediateThrowEvent' || shapeBo.$type == 'bpmn:BoundaryEvent') && (target.type == 'bpmn:Process' || target.type == 'bpmn:Participant')) {
+            if (target != null
+                && (shapeBo.$type == 'bpmn:IntermediateThrowEvent' || shapeBo.$type == 'bpmn:BoundaryEvent')
+                && (target.type == 'bpmn:Process' || target.type == 'bpmn:Participant')) {
                 console.log(shapeBo);
                 console.log(target);
                 ruleFlag = false;
@@ -66,8 +65,9 @@ CustomRules.prototype.init = function () {
         // types, ...
         var shapeBo = shape.businessObject,
             targetBo = target.businessObject;
-        console.log(shapeBo);
-        if ((shapeBo.$type == 'bpmn:IntermediateThrowEvent' || shapeBo.$type == 'bpmn:BoundaryEvent') &&(target.type == 'bpmn:Process' || target.type == 'bpmn:Participant')) {
+
+        if ((shapeBo.$type == 'bpmn:IntermediateThrowEvent' || shapeBo.$type == 'bpmn:BoundaryEvent')
+            && (target.type == 'bpmn:Process' || target.type == 'bpmn:Participant')) {
             console.log(shapeBo);
             console.log(target);
             return false;

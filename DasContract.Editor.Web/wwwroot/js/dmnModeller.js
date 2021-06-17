@@ -13,7 +13,7 @@ export async function createModeler(modelerXml) {
     });
 
     if (modelerXml === '') {
-        modelerXml = defaultDmn;    
+        modelerXml = defaultDmn;
     }
 
     await window.dmnModeler.importXML(modelerXml, function (err) {
@@ -30,7 +30,7 @@ export async function createModeler(modelerXml) {
 
 export async function saveXml() {
     let savedXml;
-    window.dmnModeler.saveXML({ format: true }, function (err, xml) {
+    window.dmnModeler.saveXML({ format: false }, function (err, xml) {
 
         if (err) {
             return console.error('could not save DMN diagram', err);

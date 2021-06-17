@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DasContract.Editor.Web.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,11 +8,11 @@ namespace DasContract.Editor.Web.Services
 {
     public class SaveManager
     {
-        public event EventHandler SaveRequested;
+        public AsyncEvent<EventArgs> SaveRequested = new AsyncEvent<EventArgs>();
 
-        public void RequestSave()
+        public async Task RequestSave()
         {
-            SaveRequested?.Invoke(this, EventArgs.Empty);
+            await SaveRequested.InvokeAsync(this, EventArgs.Empty);
         }
     }
 }

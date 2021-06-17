@@ -351,4 +351,3 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-/DasContract.Editor.Web/wwwroot/dist

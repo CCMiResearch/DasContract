@@ -18,7 +18,7 @@ namespace DasContract.Editor.Web.Services.Processes
         bool TryGetProcess(string id, out Process process);
         string GetProcessIdFromParticipantId(string participantId);
         IList<Process> GetAllProcesses();
-        Task<string> SerializeContract();
+        string SerializeContract();
         void RestoreContract(string contractJSON);
     }
 }

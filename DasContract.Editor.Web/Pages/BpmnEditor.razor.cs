@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class BpmnEditor: ComponentBase
+    public partial class BpmnEditor: ComponentBase, IDisposable
     {
         [Inject]
         private IBpmnEventHandler CamundaEventHandler { get; set; }
@@ -45,6 +45,7 @@ namespace DasContract.Editor.Web.Pages
         {
             if (firstRender)
             {
+                Console.WriteLine("First render!");
                 if(!ContractManager.IsContractInitialized())
                     ContractManager.InitializeNewContract();
                 InitializeBpmnEditor();
@@ -74,15 +75,13 @@ namespace DasContract.Editor.Web.Pages
         protected async void HandleSaveContractClicked(object sender, MouseEventArgs args)
         {
             //Request a force save
-            SaveManager.RequestSave();
-            //
-            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", await ContractManager.SerializeContract());
+            await SaveManager.RequestSave();
+            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", ContractManager.SerializeContract());
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
         {
             ShowDetailBar = args.processElement != null;
-
             StateHasChanged();
         }
 
@@ -90,7 +89,8 @@ namespace DasContract.Editor.Web.Pages
         {
             var bpmnEditorDiagram = ContractManager.Contract.ProcessDiagram;
             await CamundaEventHandler.InitializeHandler();
-            await JSRunTime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "");   
+            await JSRunTime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "");
+            SaveManager.SaveRequested += SaveDiagramXml;
         }
 
         async void InitializeSplitGutter()
@@ -99,5 +99,16 @@ namespace DasContract.Editor.Web.Pages
             await ResizeHandler.InitializeHandler();
         }
 
+        private async Task SaveDiagramXml(object sender, EventArgs e)
+        {
+            var diagramXml = await JSRunTime.InvokeAsync<string>("modellerLib.getDiagramXML");
+            ContractManager.Contract.ProcessDiagram = diagramXml;
+        }
+
+        public async void Dispose()
+        {
+            await SaveManager.RequestSave();
+            SaveManager.SaveRequested -= SaveDiagramXml;
+        }
     }
 }
