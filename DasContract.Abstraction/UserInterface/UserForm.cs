@@ -3,27 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface
 {
     public class UserForm
     {
-        public string Id { get; set; }
-        public IList<FormField> Fields { get; set; }
+        [XmlAttribute("Label")]
+        public string Label { get; set; } = "";
+        [XmlAttribute("FuncBind")]
+        public string FuncBind { get; set; } = "";
+        [XmlAttribute("StateMachine")]
+        public string StateMachine { get; set; } = "";
+        [XmlAttribute("Role")]
+        public string Role { get; set; } = "";
+        [XmlAttribute("RoleMachine")]
+        public string RoleMachine { get; set; } = "";
 
+        [XmlElement("FieldGroup")]
+        public List<FieldGroup> FieldGroups { get; set; } = new List<FieldGroup>();
         public UserForm() { }
         public UserForm(XElement xElement)
         {
-            Id = xElement.Attribute("Id").Value;
-            Fields = xElement.Element("FormFields")?.Elements("FormField")?.Select(e => new FormField(e)).ToList();
+
         }
 
         public XElement ToXElement()
         {
-            return new XElement("UserForm",
-                new XAttribute("Id", Id),
-                new XElement("FormFields", Fields.Select(f => f.ToXElement()).ToList())
-            );
+            return new XElement("UserForm");
         }
     }
 }
