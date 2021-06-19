@@ -121,6 +121,22 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.Users.Remove(user);
         }
 
+        public ProcessRole AddNewRole()
+        {
+            var role = new ProcessRole { Id = Guid.NewGuid().ToString() };
+            Contract.Roles.Add(role);
+            return role;
+        }
+
+        public void AddRole(ProcessRole role)
+        {
+            Contract.Roles.Add(role);
+        }
+        public void RemoveRole(ProcessRole role)
+        {
+            Contract.Roles.Remove(role);
+        }
+
         public void RemoveProcess(string processId)
         {
             if (!TryGetProcess(processId, out var process))

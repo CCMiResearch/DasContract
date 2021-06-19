@@ -10,7 +10,6 @@
                 <div class="accordion-item">
                     
                     <h2 class="accordion-header">
-                        
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(user.Id)">
                             <strong>@(user.Name == null ? "Unnamed user" : user.Name)</strong>
                         </button>
@@ -43,6 +42,36 @@
     </div>
     <div class="roles">
         <h2>Roles</h2>
+        @foreach (var role in ContractManager.GetProcessRoles())
+        {
+            <div class="accordion" id="role-@(role.Id)-accordion">
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(role.Id)">
+                            <strong>@(role.Name == null ? "Unnamed role" : role.Name)</strong>
+                        </button>
+                    </h2>
+
+                    <div id="collapse-@(role.Id)" class="accordion-collapse collapse show" data-bs-parent="#role-@(role.Id)-accordion">
+                        <div class="accordion-body">
+                            <div class="input long">
+                                <label for="@($"role-name-{role.Id}")" class="form-label">Name</label>
+                                <input class="form-control" id="@($"role-name-{role.Id}")" @bind-value="role.Name">
+                            </div>
+
+                            <div class="input long">
+                                <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
+                                <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
+                            </div>
+                            <button @onclick="() => UsersRolesManager.RemoveRole(role)" class="btn btn-danger">Remove Role</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <button @onclick="() => UsersRolesManager.AddRole()" class="btn btn-primary">Add Role</button>
     </div>
 </div>
 

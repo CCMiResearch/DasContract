@@ -14,6 +14,9 @@ namespace DasContract.Editor.Web.Services.Processes
         ProcessUser AddNewUser();
         void AddUser(ProcessUser user);
         void RemoveUser(ProcessUser user);
+        ProcessRole AddNewRole();
+        void AddRole(ProcessRole role);
+        void RemoveRole(ProcessRole role);
         void RemoveProcess(string processId);
         IList<ProcessUser> GetProcessUsers();
         IList<ProcessRole> GetProcessRoles();

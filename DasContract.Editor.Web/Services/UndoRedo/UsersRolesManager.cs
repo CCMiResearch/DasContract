@@ -37,6 +37,22 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(removeCommand);
         }
 
+        public void AddRole()
+        {
+            RedoableCommands.Clear();
+            var addCommand = new AddRoleCommand(_contractManager);
+            addCommand.Execute();
+            UndoableCommands.Push(addCommand);
+        }
+
+        public void RemoveRole(ProcessRole removedRole)
+        {
+            RedoableCommands.Clear();
+            var removeCommand = new RemoveRoleCommand(_contractManager, removedRole);
+            removeCommand.Execute();
+            UndoableCommands.Push(removeCommand);
+        }
+
         public void Undo() 
         {
             if(UndoableCommands.Count > 0)
