@@ -76,6 +76,7 @@ namespace DasContract.Abstraction
         public IEnumerable<Entity> Entities { get { return DataTypes.Values.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
+        public IList<ProcessUser> Users { get; set; } = new List<ProcessUser>();
 
         public Contract() { }
         public Contract(XElement xElement)

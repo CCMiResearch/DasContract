@@ -87,7 +87,7 @@ namespace DasContract.Editor.Web.Pages
 
         async void InitializeBpmnEditor()
         {
-            var bpmnEditorDiagram = ContractManager.Contract.ProcessDiagram;
+            var bpmnEditorDiagram = ContractManager.GetProcessDiagram();
             await CamundaEventHandler.InitializeHandler();
             await JSRunTime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "");
             SaveManager.SaveRequested += SaveDiagramXml;
@@ -102,7 +102,7 @@ namespace DasContract.Editor.Web.Pages
         private async Task SaveDiagramXml(object sender, EventArgs e)
         {
             var diagramXml = await JSRunTime.InvokeAsync<string>("modellerLib.getDiagramXML");
-            ContractManager.Contract.ProcessDiagram = diagramXml;
+            ContractManager.SetProcessDiagram(diagramXml);
         }
 
         public async void Dispose()

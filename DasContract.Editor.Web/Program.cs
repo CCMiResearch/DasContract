@@ -13,6 +13,7 @@ using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using BlazorPro.BlazorSize;
 using DasContract.Editor.Web.Services.Converter;
+using DasContract.Editor.Web.Services.UndoRedo;
 
 namespace DasContract.Editor.Web
 {
@@ -33,6 +34,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
             builder.Services.AddScoped<SaveManager>();
+            builder.Services.AddScoped<UsersRolesManager>();
             builder.Services.AddScoped<IConverterService, ConverterService>();
 
             var host =  builder.Build();

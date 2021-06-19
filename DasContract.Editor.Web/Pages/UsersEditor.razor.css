@@ -1,0 +1,41 @@
+﻿.users-roles-editor{
+    display:grid;
+    height:100%;
+    grid-template-columns: 1fr 1fr;
+}
+
+.users {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.accordion-body{
+    
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-between;
+}
+
+.accordion {
+    width: 90%;
+    min-width: min-content;
+}
+
+.short {
+    width: 45%;
+    min-width: 200px;
+}
+
+.long {
+    width: 100%;
+}
+
+.input {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
