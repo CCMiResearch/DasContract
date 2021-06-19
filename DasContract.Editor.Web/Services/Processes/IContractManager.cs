@@ -9,16 +9,21 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public interface IContractManager
     {
-        Contract Contract { get; set; }
-
         bool IsContractInitialized();
         void AddNewProcess(string processId, string participantId = null);
+        ProcessUser AddNewUser();
+        void AddUser(ProcessUser user);
+        void RemoveUser(ProcessUser user);
         void RemoveProcess(string processId);
+        IList<ProcessUser> GetProcessUsers();
+        IList<ProcessRole> GetProcessRoles();
         void InitializeNewContract();
         bool TryGetProcess(string id, out Process process);
         string GetProcessIdFromParticipantId(string participantId);
         IList<Process> GetAllProcesses();
         string SerializeContract();
         void RestoreContract(string contractJSON);
+        string GetProcessDiagram();
+        void SetProcessDiagram(string diagramXml);
     }
 }

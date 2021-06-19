@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
+using DasContract.Editor.Web.Services.UndoRedo;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public class ContractManager : IContractManager
     {
-        public Contract Contract { get; set; }
+        protected Contract Contract { get; set; }
 
         private IJSRuntime _jsRuntime;
 
@@ -21,6 +22,7 @@ namespace DasContract.Editor.Web.Services.Processes
         public ContractManager(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
+            InitializeNewContract(); //DEBUG
         }
 
         public bool IsContractInitialized()
@@ -84,6 +86,41 @@ namespace DasContract.Editor.Web.Services.Processes
             }
         }
 
+        public IList<ProcessUser> GetProcessUsers()
+        {
+            return Contract.Users;
+        }
+
+        public IList<ProcessRole> GetProcessRoles()
+        {
+            return Contract.Roles;
+        }
+
+        public ProcessUser AddNewUser()
+        {
+            var user = new ProcessUser { Id = Guid.NewGuid().ToString() };
+            Contract.Users.Add(user);
+            return user;
+        }
+
+        public void AddUser(ProcessUser user)
+        {
+            if(Contract.Users.Any(u => user.Id == u.Id))
+            {
+                throw new DuplicateIdException($"Contract already contains user id {user.Id}");
+            }
+            Contract.Users.Add(user);
+        }
+
+        public void RemoveUser(ProcessUser user)
+        {
+            if(!Contract.Users.Contains(user))
+            {
+                throw new InvalidIdException($"User id {user.Id} could not be removed, contract does not contain user");
+            }
+            Contract.Users.Remove(user);
+        }
+
         public void RemoveProcess(string processId)
         {
             if (!TryGetProcess(processId, out var process))
@@ -111,6 +148,16 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             var xElement = XElement.Parse(contractXML);
             Contract = new Contract(xElement);
+        }
+
+        public string GetProcessDiagram()
+        {
+            return Contract.ProcessDiagram;
+        }
+
+        public void SetProcessDiagram(string diagramXml)
+        {
+            Contract.ProcessDiagram = diagramXml;
         }
     }
 }
