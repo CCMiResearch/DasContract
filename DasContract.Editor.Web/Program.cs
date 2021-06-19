@@ -14,6 +14,7 @@ using DasContract.Editor.Web.Services.Processes;
 using BlazorPro.BlazorSize;
 using DasContract.Editor.Web.Services.Converter;
 using DasContract.Editor.Web.Services.UndoRedo;
+using DasContract.Editor.Web.Services.UserInput;
 
 namespace DasContract.Editor.Web
 {
@@ -30,6 +31,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IContractManager, ContractManager>();
             builder.Services.AddScoped<IProcessManager, ProcessManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
+            builder.Services.AddScoped<UserInputHandler>();
             builder.Services.AddScoped<EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
