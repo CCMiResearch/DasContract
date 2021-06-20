@@ -1,28 +1,33 @@
-﻿.users-roles-editor{
-    display:grid;
-    height:100%;
+﻿.users-roles-editor {
+    display: grid;
+    height: 100%;
     grid-template-columns: 1fr 1fr;
 }
 
-.users,.roles {
+.add-button {
+    align-self: flex-end;
+    margin-top: 1em;
+}
+
+.users, .roles {
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: scroll;
+    padding: 0px 20px;
 }
 
-.accordion-body{
-    
+.accordion-body {
     padding: 15px;
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 .accordion {
-    width: 90%;
+    width: 100%;
     min-width: min-content;
 }
 
@@ -38,4 +43,10 @@
 .input {
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+.divider {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    background: #f7f7f8;
 }

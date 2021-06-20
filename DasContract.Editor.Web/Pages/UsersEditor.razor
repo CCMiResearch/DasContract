@@ -2,7 +2,7 @@
 
 <div class="users-roles-editor">
     <div class="users">
-        <h2>Users</h2>
+        <h2 class="mt-2">Users</h2>
 
         @foreach (var user in ContractManager.GetProcessUsers())
         {
@@ -38,10 +38,10 @@
             </div>
         }
 
-        <button @onclick="() => UsersRolesManager.AddUser()" class="btn btn-primary">Add User</button>
+        <button @onclick="() => UsersRolesManager.AddUser()" class="btn btn-primary add-button">Add User</button>
     </div>
     <div class="roles">
-        <h2>Roles</h2>
+        <h2 class="mt-2">Roles</h2>
         @foreach (var role in ContractManager.GetProcessRoles())
         {
             <div class="accordion" id="role-@(role.Id)-accordion">
@@ -71,7 +71,7 @@
             </div>
         }
 
-        <button @onclick="() => UsersRolesManager.AddRole()" class="btn btn-primary">Add Role</button>
+        <button @onclick="() => UsersRolesManager.AddRole()" class="btn btn-primary add-button">Add Role</button>
     </div>
 </div>
 
