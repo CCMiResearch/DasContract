@@ -8,9 +8,9 @@
         {
             <div class="accordion" id="user-@(user.Id)-accordion">
                 <div class="accordion-item">
-                    
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(user.Id)">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(user.Id)" aria-expanded="true" aria-controls="collapse-@(user.Id)">
                             <strong>@(user.Name == null ? "Unnamed user" : user.Name)</strong>
                         </button>
                     </h2>
@@ -31,14 +31,40 @@
                                 <label for="@($"user-description-{user.Id}")" class="form-label">Description</label>
                                 <input class="form-control" id="@($"user-description-{user.Id}")" @bind-value="user.Description">
                             </div>
-                            <button @onclick="() => UsersRolesManager.RemoveUser(user)" class="btn btn-danger">Remove User</button>
+                            <label for="user-@(user.Id)-roles-card" class="form-label">Roles</label>
+                            <div id="user-@(user.Id)-roles-card" class="input card long p-3">
+                                @foreach (var userRole in user.Roles)
+                                {
+                                    <EditForm Model="@userRole" class="mb-2">
+                                        <div class="role-row">
+                                            <InputSelect @bind-Value="@userRole.Id" class="role-select form-control">
+                                                @if (userRole.Id == null)
+                                                        {
+                                                    <option value="">Select a role</option>
+                                                        }
+                                                @foreach (var role in ContractManager.GetProcessRoles())
+                                                        {
+                                                    <option value="@role.Id">@(role.Name == null ? "Unnamed role" : $"{role.Name};{role.Id}")</option>
+                                                        }
+                                                @if (!ContractManager.GetProcessRoles().Any(r => userRole.Id == r.Id) && userRole.Id != null && userRole.Id != "")
+                                                        {
+                                                    <option value="@userRole.Id">Deleted Role!</option>
+                                                        }
+                                            </InputSelect>
+                                            <button type="button" @onclick="() => user.Roles.Remove(userRole)" class="ml-4 btn-close" aria-label="Close"></button>
+                                        </div>
+                                    </EditForm>
+                                }
+                                <button @onclick="() => user.Roles.Add(new Abstraction.Processes.ProcessRole())" class="btn btn-outline-primary">Add Role</button>
+                            </div>
+                            <button @onclick="() => UsersRolesManager.RemoveUser(user)" class="btn btn-outline-danger">Remove User</button>
                         </div>
                     </div>
                 </div>
             </div>
         }
 
-        <button @onclick="() => UsersRolesManager.AddUser()" class="btn btn-primary add-button">Add User</button>
+        <button @onclick="() => UsersRolesManager.AddUser()" class="btn btn-primary btn-circle btn-sm add-button">+</button>
     </div>
     <div class="roles">
         <h2 class="mt-2">Roles</h2>
@@ -64,14 +90,14 @@
                                 <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
                                 <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
                             </div>
-                            <button @onclick="() => UsersRolesManager.RemoveRole(role)" class="btn btn-danger">Remove Role</button>
+                            <button @onclick="() => UsersRolesManager.RemoveRole(role)" class="btn btn-outline-danger">Remove Role</button>
                         </div>
                     </div>
                 </div>
             </div>
         }
 
-        <button @onclick="() => UsersRolesManager.AddRole()" class="btn btn-primary add-button">Add Role</button>
+        <button @onclick="() => UsersRolesManager.AddRole()" class="btn btn-primary btn-circle btn-sm add-button">+</button>
     </div>
 </div>
 

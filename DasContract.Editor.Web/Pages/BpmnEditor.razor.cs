@@ -59,24 +59,6 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditElementChanged;
-            Layout.ToolBarItems = CreateToolBarItems();
-        }
-
-        protected IList<ToolBarItem> CreateToolBarItems()
-        {
-            var downloadItem = new ToolBarItem { IconPath = "icons/download.svg", Description = "Save as .dascontract", Name="Save as" };
-            downloadItem.OnClick += HandleSaveContractClicked;
-            return new List<ToolBarItem>
-            {
-               downloadItem
-            };
-        }
-
-        protected async void HandleSaveContractClicked(object sender, MouseEventArgs args)
-        {
-            //Request a force save
-            await SaveManager.RequestSave();
-            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", ContractManager.SerializeContract());
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)

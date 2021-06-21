@@ -50,6 +50,7 @@ a, .btn-link {
     outline: 1px solid red;
 }
 
+
 .validation-message {
     color: red;
 }
@@ -91,4 +92,13 @@ a, .btn-link {
 
 #input-file {
     display: none !important;
+}
+
+.btn-circle.btn-sm {
+    width: 40px;
+    height: 40px;
+    padding: 3px 0px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
 }
