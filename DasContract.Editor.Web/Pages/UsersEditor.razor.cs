@@ -24,8 +24,6 @@ namespace DasContract.Editor.Web.Pages
 
         protected IJSRuntime JSRuntime { get; set; }
 
-        private int currentId = 0;
-
         protected override void OnInitialized()
         {
             UserInputHandler.KeyDown += HandleKeyDown;
