@@ -17,6 +17,7 @@
     "dmn-js": "^10.2.1",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
+    "mermaid": "^8.10.2",
     "split-grid": "^1.0.11",
     "split-js": "^1.0.1",
     "webpack": "^4.46.0",

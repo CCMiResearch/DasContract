@@ -53,7 +53,8 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             {
                 Language = "xml",
                 Value = _script,
-                ScrollBeyondLastLine = false
+                ScrollBeyondLastLine = false,
+                Minimap = new EditorMinimapOptions { Enabled = false}
             };
         }
 
@@ -61,7 +62,6 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         {
             Script = await MonacoEditor.GetValue();
         }
-
 
         protected void ResizeLayout(object sender, EventArgs args)
         {

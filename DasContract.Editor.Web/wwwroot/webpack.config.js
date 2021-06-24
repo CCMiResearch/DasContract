@@ -7,7 +7,8 @@ module.exports = {
         fileSaver: './js/fileSaver.js',
         modellerCustomRules: './js/modellerCustomRules.js',
         dmnModeller: './js/dmnModeller.js',
-        keyCapture: './js/keyCapture.js'    
+        keyCapture: './js/keyCapture.js',
+        mermaid: './js/mermaid.js'
     },
     module: {
         rules: [ 

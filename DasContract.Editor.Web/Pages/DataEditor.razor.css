@@ -1,0 +1,5 @@
+﻿.data-editor {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 10px 0.5fr;
+}

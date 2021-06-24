@@ -1,7 +1,7 @@
 ﻿@page "/data"
 
-<h3>DataEditor</h3>
-
-@code {
-
-}
+<div class="data-editor">
+    <ScriptTab Script="@MermaidScript" ScriptChanged="MermaidScriptChanged"></ScriptTab>
+    <div class="gutter-col gutter-col-1"></div>
+    <div id="mermaid-canvas"></div>
+</div>
