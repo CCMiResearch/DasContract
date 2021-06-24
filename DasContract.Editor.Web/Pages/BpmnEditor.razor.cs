@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class BpmnEditor: ComponentBase, IDisposable
+    public partial class BpmnEditor: ComponentBase, IAsyncDisposable
     {
         [Inject]
         private IBpmnEventHandler CamundaEventHandler { get; set; }
@@ -87,7 +87,7 @@ namespace DasContract.Editor.Web.Pages
             ContractManager.SetProcessDiagram(diagramXml);
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
