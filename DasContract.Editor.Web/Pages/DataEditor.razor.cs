@@ -19,6 +19,8 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
+        protected bool AutoRefresh { get; set; } = true;
+
         protected string MermaidScript { get; set; } = @"classDiagram
       Animal <|-- Duck
       Animal <|-- Fish
@@ -57,12 +59,18 @@ namespace DasContract.Editor.Web.Pages
             await ResizeHandler.InitializeHandler();
         }
 
-        protected async void MermaidScriptChanged(string script)
+        protected void MermaidScriptChanged(string script)
         {
             MermaidScript = script;
+            if (AutoRefresh)
+                RefreshDiagram();
+        }
+
+        private async void RefreshDiagram()
+        {
             try
             {
-                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", script);
+                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", MermaidScript);
             }
             catch (JSException)
             {
