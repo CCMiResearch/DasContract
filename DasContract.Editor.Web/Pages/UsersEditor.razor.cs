@@ -22,11 +22,19 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         protected UserInputHandler UserInputHandler { get; set; }
 
+        [Inject]
         protected IJSRuntime JSRuntime { get; set; }
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
             UserInputHandler.KeyDown += HandleKeyDown;
+        }
+
+        protected override async void OnAfterRender(bool firstRender)
+        {
+            base.OnAfterRender(firstRender);
+            await JSRuntime.InvokeVoidAsync("select2Lib.initializeSelect2", "select2");
         }
 
         public void Dispose()

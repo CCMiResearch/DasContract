@@ -8,6 +8,7 @@ module.exports = {
         modellerCustomRules: './js/modellerCustomRules.js',
         dmnModeller: './js/dmnModeller.js',
         keyCapture: './js/keyCapture.js',
+        select2: './js/select2.js',
         mermaid: './js/mermaid.js'
     },
     module: {

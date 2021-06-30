@@ -41,7 +41,6 @@
 }
 
 .input {
-    margin-right: 10px;
     margin-bottom: 10px;
 }
 
@@ -64,4 +63,8 @@
 .btn-close {
     margin-left: 2em;
     align-self: center;
+}
+
+.select2-outerr {
+    margin-bottom: 1em;
 }

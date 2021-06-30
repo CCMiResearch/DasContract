@@ -4,6 +4,8 @@
     <div class="users">
         <h2 class="mt-2">Users</h2>
 
+
+
         @foreach (var user in ContractManager.GetProcessUsers())
         {
             <div class="accordion" id="user-@(user.Id)-accordion">
@@ -31,31 +33,14 @@
                                 <label for="@($"user-description-{user.Id}")" class="form-label">Description</label>
                                 <input class="form-control" id="@($"user-description-{user.Id}")" @bind-value="user.Description">
                             </div>
-                            <label for="user-@(user.Id)-roles-card" class="form-label">Roles</label>
-                            <div id="user-@(user.Id)-roles-card" class="input card long p-3">
-                                @foreach (var userRole in user.Roles)
-                                {
-                                    <EditForm Model="@userRole" class="mb-2">
-                                        <div class="role-row">
-                                            <InputSelect @bind-Value="@userRole.Id" class="role-select form-control">
-                                                @if (userRole.Id == null)
-                                                        {
-                                                    <option value="">Select a role</option>
-                                                        }
-                                                @foreach (var role in ContractManager.GetProcessRoles())
-                                                        {
-                                                    <option value="@role.Id">@(role.Name == null ? "Unnamed role" : $"{role.Name};{role.Id}")</option>
-                                                        }
-                                                @if (!ContractManager.GetProcessRoles().Any(r => userRole.Id == r.Id) && userRole.Id != null && userRole.Id != "")
-                                                        {
-                                                    <option value="@userRole.Id">Deleted Role!</option>
-                                                        }
-                                            </InputSelect>
-                                            <button type="button" @onclick="() => user.Roles.Remove(userRole)" class="ml-4 btn-close" aria-label="Close"></button>
-                                        </div>
-                                    </EditForm>
-                                }
-                                <button @onclick="() => user.Roles.Add(new Abstraction.Processes.ProcessRole())" class="btn btn-outline-primary">Add Role</button>
+                            <label for=@($"role-select2-{user.Id}") class="form-label">Roles</label>
+                            <div class="select2-outerr long">
+                                <select class="select2 long" id=@($"role-select2-{user.Id}") name="states[]" multiple="multiple">
+                                    @foreach (var role in ContractManager.GetProcessRoles())
+                                    {
+                                        <option value="@role.Id">@role.Name</option>
+                                    }
+                                </select>
                             </div>
                             <button @onclick="() => UsersRolesManager.RemoveUser(user)" class="btn btn-outline-danger">Remove User</button>
                         </div>
