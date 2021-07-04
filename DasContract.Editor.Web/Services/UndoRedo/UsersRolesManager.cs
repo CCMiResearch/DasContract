@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction.Processes;
+using DasContract.Editor.Web.Components.Common;
 using DasContract.Editor.Web.Services.Processes;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,25 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public UsersRolesManager(IContractManager contractManager)
         {
             _contractManager = contractManager;
+        }
+
+        public void UserRoleAssigned(Select2<ProcessRole> select, string roleId)
+        {
+            Console.WriteLine("Assigned user role");
+            RedoableCommands.Clear();
+            var assignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
+            var assignedCommand = new AssignRoleCommand(_contractManager, assignedRole, select);
+            UndoableCommands.Push(assignedCommand);
+        }
+
+        public void UserRoleUnassigned(Select2<ProcessRole> select, string roleId)
+        {
+            Console.WriteLine("Unassigned user role");
+            RedoableCommands.Clear();
+            var unassignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
+            var unassignedCommand = new UnassignRoleCommand(_contractManager, unassignedRole, select);
+            UndoableCommands.Push(unassignedCommand);
+
         }
 
         public void AddUser()
@@ -45,10 +65,11 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(addCommand);
         }
 
-        public void RemoveRole(ProcessRole removedRole)
+        public void RemoveRole(ProcessRole removedRole, IDictionary<string, Select2<ProcessRole>> select2Components)
         {
             RedoableCommands.Clear();
-            var removeCommand = new RemoveRoleCommand(_contractManager, removedRole);
+            var filteredSelect2Components = select2Components.Values.Where(s => s.Selected.Contains(removedRole)).ToList();
+            var removeCommand = new RemoveRoleCommand(_contractManager, removedRole, filteredSelect2Components);
             removeCommand.Execute();
             UndoableCommands.Push(removeCommand);
         }

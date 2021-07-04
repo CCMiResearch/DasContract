@@ -19,6 +19,11 @@ namespace DasContract.Editor.Web.Services.Processes
 
         private Dictionary<string, Process> _deletedProcesses = new Dictionary<string, Process>();
 
+        public event EventHandler<ProcessUser> UserRemoved;
+        public event EventHandler<ProcessRole> RoleRemoved;
+        public event EventHandler<ProcessUser> UserAdded;
+        public event EventHandler<ProcessRole> RoleAdded;
+
         public ContractManager(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
@@ -100,6 +105,7 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             var user = new ProcessUser { Id = Guid.NewGuid().ToString() };
             Contract.Users.Add(user);
+            UserAdded?.Invoke(this, user);
             return user;
         }
 
@@ -110,6 +116,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 throw new DuplicateIdException($"Contract already contains user id {user.Id}");
             }
             Contract.Users.Add(user);
+            UserAdded?.Invoke(this, user);
         }
 
         public void RemoveUser(ProcessUser user)
@@ -119,22 +126,30 @@ namespace DasContract.Editor.Web.Services.Processes
                 throw new InvalidIdException($"User id {user.Id} could not be removed, contract does not contain user");
             }
             Contract.Users.Remove(user);
+            UserRemoved?.Invoke(this, user);
         }
 
         public ProcessRole AddNewRole()
         {
             var role = new ProcessRole { Id = Guid.NewGuid().ToString() };
             Contract.Roles.Add(role);
+            RoleAdded?.Invoke(this, role);
             return role;
         }
 
         public void AddRole(ProcessRole role)
         {
+            RoleAdded?.Invoke(this, role);
             Contract.Roles.Add(role);
         }
         public void RemoveRole(ProcessRole role)
         {
+            if (!Contract.Roles.Contains(role))
+            {
+                throw new InvalidIdException($"User id {role.Id} could not be removed, contract does not contain user");
+            }
             Contract.Roles.Remove(role);
+            RoleRemoved?.Invoke(this, role);
         }
 
         public void RemoveProcess(string processId)

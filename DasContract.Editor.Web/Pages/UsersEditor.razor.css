@@ -65,6 +65,7 @@
     align-self: center;
 }
 
-.select2-outerr {
-    margin-bottom: 1em;
+.select2-outer {
+    margin-bottom: 2em;
+    width:100%;
 }

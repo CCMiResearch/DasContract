@@ -9,6 +9,11 @@ namespace DasContract.Editor.Web.Services.Processes
 {
     public interface IContractManager
     {
+        event EventHandler<ProcessUser> UserRemoved;
+        event EventHandler<ProcessRole> RoleRemoved;
+        event EventHandler<ProcessUser> UserAdded;
+        event EventHandler<ProcessRole> RoleAdded;
+
         bool IsContractInitialized();
         void AddNewProcess(string processId, string participantId = null);
         ProcessUser AddNewUser();

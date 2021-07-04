@@ -85,6 +85,8 @@ namespace DasContract.Abstraction
             ProcessDiagram = xElement.Element("ProcessDiagram")?.Value;
             Processes = xElement.Element("Processes")?.Elements("Process")?.Select(e => new Process(e)).ToList();
             DataTypes = CreateDataTypes(xElement.Element("DataTypes"));
+            Users = xElement.Element("Users")?.Elements("User")?.Select(u => new ProcessUser(u)).ToList();
+            Roles = xElement.Element("Roles")?.Elements("Role")?.Select(r => new ProcessRole(r)).ToList();
         }
 
         private IDictionary<string, DataType> CreateDataTypes(XElement xElement)
@@ -112,7 +114,8 @@ namespace DasContract.Abstraction
                 new XElement("ProcessDiagram", ProcessDiagram),
                 new XElement("Processes", Processes.Select(p => p.ToXElement()).ToList()),
                 new XElement("DataTypes", DataTypes.Select(d => d.Value.ToXElement()).ToList()),
-                new XElement("Roles", Roles.Select(r => r.ToXElement()))
+                new XElement("Roles", Roles.Select(r => r.ToXElement())),
+                new XElement("Users", Users.Select(u => u.ToXElement()))
             );
         }
     }

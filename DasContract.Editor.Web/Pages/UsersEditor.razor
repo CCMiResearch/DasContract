@@ -1,4 +1,5 @@
-﻿@page "/users"
+﻿@using DasContract.Abstraction.Processes
+@page "/users"
 
 <div class="users-roles-editor">
     <div class="users">
@@ -34,13 +35,17 @@
                                 <input class="form-control" id="@($"user-description-{user.Id}")" @bind-value="user.Description">
                             </div>
                             <label for=@($"role-select2-{user.Id}") class="form-label">Roles</label>
-                            <div class="select2-outerr long">
-                                <select class="select2 long" id=@($"role-select2-{user.Id}") name="states[]" multiple="multiple">
-                                    @foreach (var role in ContractManager.GetProcessRoles())
-                                    {
-                                        <option value="@role.Id">@role.Name</option>
-                                    }
-                                </select>
+                            <div class="select2-outer">
+                                <Select2 Id="@user.Id"
+                                         @ref="_select2Components[user.Id]"
+                                         TItem="ProcessRole"
+                                         @bind-Selected="user.Roles"
+                                         Options="ContractManager.GetProcessRoles()"
+                                         ItemSelected="((roleId) => OnRoleAssigned(roleId, user.Id))"
+                                         ItemUnselected="((roleId) => OnRoleUnassigned(roleId, user.Id))"
+                                         ContentSelector="(r) => r.Name"
+                                         ValueSelector="(r) => r.Id">
+                                </Select2>
                             </div>
                             <button @onclick="() => UsersRolesManager.RemoveUser(user)" class="btn btn-outline-danger">Remove User</button>
                         </div>
@@ -68,14 +73,14 @@
                         <div class="accordion-body">
                             <div class="input long">
                                 <label for="@($"role-name-{role.Id}")" class="form-label">Name</label>
-                                <input class="form-control" id="@($"role-name-{role.Id}")" @bind-value="role.Name">
+                                <input class="form-control" id="@($"role-name-{role.Id}")" @bind-value="role.Name" @onfocusout="() => StateHasChanged()">
                             </div>
 
                             <div class="input long">
                                 <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
                                 <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
                             </div>
-                            <button @onclick="() => UsersRolesManager.RemoveRole(role)" class="btn btn-outline-danger">Remove Role</button>
+                            <button @onclick="() => UsersRolesManager.RemoveRole(role, _select2Components)" class="btn btn-outline-danger">Remove Role</button>
                         </div>
                     </div>
                 </div>
