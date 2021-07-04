@@ -7,6 +7,11 @@
             "CtrlKey": event.ctrlKey
         };
         console.log(event);
+
+        if (event.ctrlKey && (event.key === "z" || event.key === "y")) {
+            event.preventDefault();
+        }
+
         dotNetObjectRef.invokeMethodAsync("HandleKeyInputEvent", eventObj);
     });
 }

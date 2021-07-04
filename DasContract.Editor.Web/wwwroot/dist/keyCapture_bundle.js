@@ -95,7 +95,7 @@ var keyCaptureLib =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"setEventHandlerInstance\", function() { return setEventHandlerInstance; });\nfunction setEventHandlerInstance(dotNetObjectRef) {\n  document.addEventListener('keydown', function (event) {\n    let eventObj = {\n      \"Type\": event.type,\n      \"AltKey\": event.altKey,\n      \"Key\": event.key,\n      \"CtrlKey\": event.ctrlKey\n    };\n    console.log(event);\n    dotNetObjectRef.invokeMethodAsync(\"HandleKeyInputEvent\", eventObj);\n  });\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/keyCapture.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"setEventHandlerInstance\", function() { return setEventHandlerInstance; });\nfunction setEventHandlerInstance(dotNetObjectRef) {\n  document.addEventListener('keydown', function (event) {\n    let eventObj = {\n      \"Type\": event.type,\n      \"AltKey\": event.altKey,\n      \"Key\": event.key,\n      \"CtrlKey\": event.ctrlKey\n    };\n    console.log(event);\n\n    if (event.ctrlKey && (event.key === \"z\" || event.key === \"y\")) {\n      event.preventDefault();\n    }\n\n    dotNetObjectRef.invokeMethodAsync(\"HandleKeyInputEvent\", eventObj);\n  });\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/keyCapture.js?");
 
 /***/ })
 
