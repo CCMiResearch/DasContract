@@ -5,19 +5,24 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class MultiFormLineField: FormField
+    public class DecimalField : Field
     {
+        [XmlAttribute("Currency")]
+        public new bool Currency { get; set; } = false;
         [XmlIgnoreAttribute]
-        public string Data { get; set; }
+        public decimal Data { get; set; }
 
         public override void SetData(string data)
         {
-            Data = data;
+            Data = Convert.ToDecimal(data);
         }
 
         public override void SetDataList(List<string> data)
         {
-            Data = string.Join(Environment.NewLine, data);
+            if (data.Count > 0)
+            {
+                Data = Convert.ToDecimal(data[0]);
+            }
         }
 
         public override object GetData()

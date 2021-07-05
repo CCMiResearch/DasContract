@@ -5,22 +5,19 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class IntFormField: FormField
+    public class MultiLineField : Field
     {
         [XmlIgnoreAttribute]
-        public long Data { get; set; }
+        public string Data { get; set; }
 
         public override void SetData(string data)
         {
-            Data = Convert.ToInt64(data);
+            Data = data;
         }
 
         public override void SetDataList(List<string> data)
         {
-            if (data.Count > 0)
-            {
-                Data = Convert.ToInt64(data[0]);
-            }
+            Data = string.Join(Environment.NewLine, data);
         }
 
         public override object GetData()

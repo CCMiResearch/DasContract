@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class DateFormField: FormField
+    public class AddressField : Field
     {
         [XmlIgnoreAttribute]
-        public DateTime Data { get; set; }
+        public string Data { get; set; }
 
         public override void SetData(string data)
         {
-            Data = DateTime.Parse(data);
+            Data = data;
         }
 
         public override void SetDataList(List<string> data)
         {
-            if (data.Count > 0)
-            {
-                Data = DateTime.Parse(data[0]);
-            }
+            Data = string.Join(",", data);
         }
 
         public override object GetData()

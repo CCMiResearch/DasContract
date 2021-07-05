@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class EnumFormField: FormField
+    public class EnumField : Field
     {
         [XmlAttribute("Vertical")]
         public bool Vertical { get; set; } = false;

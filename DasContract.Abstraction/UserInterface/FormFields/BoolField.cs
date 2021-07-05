@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class BoolFormField: FormField
+    public class BoolField : Field
     {
         [XmlIgnoreAttribute]
         public bool Data { get; set; }

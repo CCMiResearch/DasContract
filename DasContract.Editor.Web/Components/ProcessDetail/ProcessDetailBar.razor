@@ -33,6 +33,9 @@
             case ProcessDetailTabType.Script:
                 <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" />
                 break;
+            case ProcessDetailTabType.UserForm:
+                <UserFormsTab UserForm="((UserTask) EditedElement).Form"/>
+                break;
             case ProcessDetailTabType.UserValidation:
                 <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" />
                 break;

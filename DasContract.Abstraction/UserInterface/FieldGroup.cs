@@ -15,15 +15,15 @@ namespace DasContract.Abstraction.UserInterface
         [XmlAttribute("Displayed")]
         public bool Displayed { get; set; } = true;
 
-        [XmlElement("DateField", typeof(DateFormField))]
-        [XmlElement("AddressField", typeof(AddressFormField))]
-        [XmlElement("SingleLineField", typeof(SingleLineFormField))]
-        [XmlElement("MultiLineField", typeof(MultiFormLineField))]
-        [XmlElement("IntField", typeof(IntFormField))]
-        [XmlElement("DecimalField", typeof(DecimalFormField))]
-        [XmlElement("BoolField", typeof(BoolFormField))]
-        [XmlElement("EnumField", typeof(EnumFormField))]
-        [XmlElement("DropdownField", typeof(DropdownFormField))]
-        public List<FormField> Fields { get; set; } = new List<FormField>();
+        [XmlElement("DateField", typeof(DateField))]
+        [XmlElement("AddressField", typeof(AddressField))]
+        [XmlElement("SingleLineField", typeof(SingleLineField))]
+        [XmlElement("MultiLineField", typeof(MultiLineField))]
+        [XmlElement("IntField", typeof(IntField))]
+        [XmlElement("DecimalField", typeof(DecimalField))]
+        [XmlElement("BoolField", typeof(BoolField))]
+        [XmlElement("EnumField", typeof(EnumField))]
+        [XmlElement("DropdownField", typeof(DropdownField))]
+        public List<Field> Fields { get; set; } = new List<Field>();
     }
 }

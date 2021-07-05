@@ -5,22 +5,22 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class SingleLineFormField : FormField
+    public class IntField : Field
     {
-        [XmlAttribute("Currency")]
-        public new bool Currency { get; set; } = false;
-
         [XmlIgnoreAttribute]
-        public string Data { get; set; }
+        public long Data { get; set; }
 
         public override void SetData(string data)
         {
-            Data = data;
+            Data = Convert.ToInt64(data);
         }
 
         public override void SetDataList(List<string> data)
         {
-            Data = string.Join(",", data);
+            if (data.Count > 0)
+            {
+                Data = Convert.ToInt64(data[0]);
+            }
         }
 
         public override object GetData()

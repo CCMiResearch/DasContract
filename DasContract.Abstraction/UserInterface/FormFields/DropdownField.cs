@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface.FormFields
 {
-    public class DropdownFormField: FormField
+    public class DropdownField : Field
     {
         [XmlIgnoreAttribute]
         public int? Data { get; set; } = null;
@@ -43,6 +43,5 @@ namespace DasContract.Abstraction.UserInterface.FormFields
                 return Options[(int)Data];
             }
         }
-
     }
 }
