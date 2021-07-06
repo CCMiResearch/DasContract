@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\UserForms\" />
     <Folder Include="wwwroot\dist\dist_node\" />
   </ItemGroup>
 

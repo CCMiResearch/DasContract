@@ -1,7 +1,16 @@
 ﻿@page "/process"
 <div class="editor-main">
     <div class="@(ShowDetailBar ? "grid" : "") main-container">
-        <div id="canvas"></div>
+        @if (UserFormService.IsPreviewOpen)
+        {
+            <div class="user-form-preview">
+                Hello there
+            </div>
+        }
+        else
+        {
+            <div id="canvas"></div>
+        }
         @if (ShowDetailBar)
         {
             <div class="gutter-col gutter-col-1"></div>

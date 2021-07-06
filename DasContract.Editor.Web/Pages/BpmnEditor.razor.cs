@@ -2,6 +2,7 @@
 using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.UserForm;
 using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -31,6 +32,9 @@ namespace DasContract.Editor.Web.Pages
         protected ResizeHandler ResizeHandler { get; set; }
 
         [Inject]
+        protected UserFormService UserFormService { get; set; }
+
+        [Inject]
         private SaveManager SaveManager { get; set; }
 
         [Inject]
@@ -45,7 +49,6 @@ namespace DasContract.Editor.Web.Pages
         {
             if (firstRender)
             {
-                Console.WriteLine("First render!");
                 if(!ContractManager.IsContractInitialized())
                     ContractManager.InitializeNewContract();
                 InitializeBpmnEditor();
@@ -59,6 +62,7 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
             EditElementService.EditElementChanged += HandleEditElementChanged;
+            UserFormService.IsPreviewOpenChanged += () => StateHasChanged();
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
@@ -91,6 +95,7 @@ namespace DasContract.Editor.Web.Pages
         {
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
+            UserFormService.IsPreviewOpenChanged -= () => StateHasChanged();
         }
     }
 }

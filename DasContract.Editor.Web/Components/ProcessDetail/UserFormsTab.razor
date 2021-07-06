@@ -1,1 +1,4 @@
-﻿<ScriptTab></ScriptTab>
+﻿<button class="btn btn-outline-dark btn-sm" @onclick="() => { UserFormService.IsPreviewOpen = !UserFormService.IsPreviewOpen; StateHasChanged(); }">
+    @(UserFormService.IsPreviewOpen ? "Close preview" : "Show preview")
+</button>
+<ScriptTab></ScriptTab>
