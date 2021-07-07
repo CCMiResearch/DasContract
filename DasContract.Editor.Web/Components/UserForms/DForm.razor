@@ -1,0 +1,16 @@
+﻿@using DasContract.Abstraction.UserInterface
+
+<div class="card">
+    <div class="card-body">
+        @if (!String.IsNullOrEmpty(UserForm.Label))
+        {
+            <h2>
+                @UserForm.Label
+            </h2>
+        }
+        @foreach (FieldGroup group in UserForm.FieldGroups)
+        {
+            <DFieldGroup FieldGroup="group"/>
+        }
+    </div>
+</div>

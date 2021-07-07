@@ -1,0 +1,7 @@
+﻿<div class="mb-3">
+    @if (!String.IsNullOrWhiteSpace(Field.Label))
+    {
+        <label class="form-label">@Field.Label</label>
+    }
+    <input class="form-control" @bind-value="Field.Data" disabled="@(Field.ReadOnly ? "true": "")">
+</div>

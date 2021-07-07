@@ -8,7 +8,7 @@ namespace DasContract.Abstraction.Processes.Tasks
 {
     public class UserTask : PayableTask
     {
-        public UserForm Form { get; set; }
+        public UserForm Form { get; set; } = new UserForm();
 
         /// <summary>
         /// A due date expression such as $(someDate) or an ISO date. 

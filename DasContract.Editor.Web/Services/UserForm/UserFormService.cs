@@ -20,6 +20,8 @@ namespace DasContract.Editor.Web.Services.UserForm
             } 
         }
 
+        public Abstraction.UserInterface.UserForm CurrentUserForm { get; set; }
+
         public event Action IsPreviewOpenChanged;
     }
 }

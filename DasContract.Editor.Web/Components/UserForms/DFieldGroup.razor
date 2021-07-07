@@ -1,0 +1,19 @@
+﻿@using DasContract.Editor.Web.Components.UserForms.Fields
+
+@if (FieldGroup.Displayed)
+{
+    @if (!String.IsNullOrEmpty(FieldGroup.Label))
+    {
+        <h2>
+            @FieldGroup.Label
+        </h2>
+    }
+
+    <div class="d-flex @(FieldGroup.Vertical ? "flex-column" : "flex-row")">
+        @foreach (var field in FieldGroup.Fields)
+        {
+            <DField Field="field" />
+        }
+    </div>
+}
+

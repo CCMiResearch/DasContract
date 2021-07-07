@@ -1,0 +1,32 @@
+﻿@using DasContract.Abstraction.UserInterface.FormFields
+
+@switch (Field)
+{
+    case DateField tField:
+        <DDateField Field="tField" />
+        break;
+    case AddressField tField:
+        <DAddressField Field="tField" />
+        break;
+    case SingleLineField tField:
+        <DSingleLineField Field="tField" />
+        break;
+    case MultiLineField tField:
+        <DMultiLineField Field="tField" />
+        break;
+    case IntField tField:
+        <DIntField Field="tField" />
+        break;
+    case DecimalField tField:
+        <DDecimalField Field="tField" />
+        break;
+    case BoolField tField:
+        <DBoolField Field="tField" />
+        break;
+    case EnumField tField:
+        <DEnumField Field="tField" />
+        break;
+    case DropdownField tField:
+        <DDropdownField Field="tField"/>
+        break;
+}

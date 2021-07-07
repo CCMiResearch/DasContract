@@ -4,7 +4,7 @@
         @if (UserFormService.IsPreviewOpen)
         {
             <div class="user-form-preview">
-                Hello there
+                <DasContract.Editor.Web.Components.UserForms.DForm UserForm="UserFormService.CurrentUserForm"/>
             </div>
         }
         else

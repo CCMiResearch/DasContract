@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 
 namespace DasContract.Abstraction.UserInterface
 {
+    [XmlRoot("Form")]
     public class UserForm
     {
         [XmlAttribute("Label")]
@@ -19,6 +20,7 @@ namespace DasContract.Abstraction.UserInterface
         public string Role { get; set; } = "";
         [XmlAttribute("RoleMachine")]
         public string RoleMachine { get; set; } = "";
+        
 
         [XmlElement("FieldGroup")]
         public List<FieldGroup> FieldGroups { get; set; } = new List<FieldGroup>();
