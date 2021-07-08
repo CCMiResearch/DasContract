@@ -4,12 +4,14 @@
         @if (UserFormService.IsPreviewOpen)
         {
             <div class="user-form-preview">
-                <DasContract.Editor.Web.Components.UserForms.DForm UserForm="UserFormService.CurrentUserForm"/>
+                <DasContract.Editor.Web.Components.UserForms.DForm UserForm="UserFormService.CurrentUserForm" />
             </div>
         }
         else
         {
-            <div id="canvas"></div>
+            <div class="outer-canvas">
+                <div id="canvas"></div>
+            </div>
         }
         @if (ShowDetailBar)
         {

@@ -19,3 +19,7 @@
 h5 {
     font-family: Verdana;
 }
+
+.outer-canvas {
+    height: 100%;
+}

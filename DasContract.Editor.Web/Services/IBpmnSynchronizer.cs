@@ -7,6 +7,6 @@ namespace DasContract.Editor.Web.Services
 {
     public interface IBpmnSynchronizer
     {
-        public void Initiliaze();
+        public void InitializeOrRestoreBpmnEditor(string canvasElementId);
     }
 }

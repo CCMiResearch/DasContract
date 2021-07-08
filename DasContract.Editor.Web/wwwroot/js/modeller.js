@@ -163,14 +163,16 @@ function getElementProcessRef(element) {
 }
 
 // create a modeler
-export async function createModeler(modelerXml) {
+export async function createModeler(modelerXml, canvasId) {
     window.modeler = new Modeler({
-        container: document.getElementById('canvas'),
+        container: document.getElementById(canvasId),
         keyboard: {
             bindTo: document
         },
         additionalModules: [customRules]
     });
+
+    
     
     if (modelerXml !== '') {
         await window.modeler.importXML(modelerXml);
@@ -181,7 +183,13 @@ export async function createModeler(modelerXml) {
         window.modeler.createDiagram(modelerXml); 
     }
 
+    window.modelerElement = document.getElementById(canvasId);
     removeUnusedReplaceMenuItems();
+}
+
+export function restoreModelerElement(canvasId) {
+    let canvasElement = document.getElementById(canvasId);
+    canvasElement.parentNode.replaceChild(window.modelerElement, canvasElement);
 }
 
 

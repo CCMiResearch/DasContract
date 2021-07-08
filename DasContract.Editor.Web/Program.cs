@@ -42,8 +42,6 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IConverterService, ConverterService>();
 
             var host =  builder.Build();
-            var synchronizerService = host.Services.GetRequiredService<IBpmnSynchronizer>();
-            synchronizerService.Initiliaze();
 
             await host.RunAsync();
         }

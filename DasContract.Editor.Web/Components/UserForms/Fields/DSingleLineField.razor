@@ -3,5 +3,5 @@
     {
         <label class="form-label">@Field.Label</label>
     }
-    <input class="form-control" @bind-value="Field.Data" disabled="@(Field.ReadOnly ? "true": "")">
+    <input class="form-control" @bind-value="Field.Data" disabled="@(Field.ReadOnly ? true : false)">
 </div>

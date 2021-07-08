@@ -17,10 +17,10 @@ namespace DasContract.Editor.Web.Pages
     public partial class BpmnEditor: ComponentBase, IAsyncDisposable
     {
         [Inject]
-        private IBpmnEventHandler CamundaEventHandler { get; set; }
+        private IBpmnEventHandler BpmnEventHandler { get; set; }
 
         [Inject]
-        private IBpmnSynchronizer CamundaSynchronizer { get; set; }
+        private IBpmnSynchronizer BpmnSynchronizer { get; set; }
 
         [Inject]
         private IContractManager ContractManager { get; set; }
@@ -45,38 +45,42 @@ namespace DasContract.Editor.Web.Pages
 
         private bool ShowDetailBar { get; set; } = false;
 
+        private bool _restoreBpmnElement = false;
+
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
-                if(!ContractManager.IsContractInitialized())
-                    ContractManager.InitializeNewContract();
-                InitializeBpmnEditor();
+                BpmnSynchronizer.InitializeOrRestoreBpmnEditor("canvas");
+            }
+
+            if (_restoreBpmnElement)
+            {
+                BpmnSynchronizer.InitializeOrRestoreBpmnEditor("canvas");
+                _restoreBpmnElement = false;
             }
 
             if (ShowDetailBar)
+            {
                 InitializeSplitGutter();
+            }
         }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            if (!ContractManager.IsContractInitialized())
+                ContractManager.InitializeNewContract();
+
             EditElementService.EditElementChanged += HandleEditElementChanged;
-            UserFormService.IsPreviewOpenChanged += () => StateHasChanged();
+            SaveManager.SaveRequested += SaveDiagramXml;
+            UserFormService.IsPreviewOpenChanged += HandleUserFormPreviewChanged;
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
         {
             ShowDetailBar = args.processElement != null;
             StateHasChanged();
-        }
-
-        async void InitializeBpmnEditor()
-        {
-            var bpmnEditorDiagram = ContractManager.GetProcessDiagram();
-            await CamundaEventHandler.InitializeHandler();
-            await JSRunTime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "");
-            SaveManager.SaveRequested += SaveDiagramXml;
         }
 
         async void InitializeSplitGutter()
@@ -91,11 +95,18 @@ namespace DasContract.Editor.Web.Pages
             ContractManager.SetProcessDiagram(diagramXml);
         }
 
+        private void HandleUserFormPreviewChanged()
+        {
+            if(!UserFormService.IsPreviewOpen)
+                _restoreBpmnElement = true;
+            StateHasChanged();
+        }
+
         public async ValueTask DisposeAsync()
         {
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
-            UserFormService.IsPreviewOpenChanged -= () => StateHasChanged();
+            UserFormService.IsPreviewOpenChanged -= HandleUserFormPreviewChanged;
         }
     }
 }

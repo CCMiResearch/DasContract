@@ -6,6 +6,7 @@ using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,25 @@ namespace DasContract.Editor.Web.Services
         private IProcessManager _processManager;
         private IContractManager _contractManager;
         private EditElementService _editElementService;
+        private IJSRuntime _jsRuntime;
+
+        private bool IsBpmnEditorInitialized { get; set; } = false;
 
         public BpmnSynchronizer(
-            IBpmnEventHandler camundaEventHandler, 
+            IBpmnEventHandler bpmnEventHandler, 
             IProcessManager processManager,
             IContractManager contractManager, 
-            EditElementService editElementService)
+            EditElementService editElementService,
+            IJSRuntime jsRuntime)
         {
-            _bpmnEventHandler = camundaEventHandler;
+            _bpmnEventHandler = bpmnEventHandler;
             _processManager = processManager;
             _editElementService = editElementService;
             _contractManager = contractManager;
+            _jsRuntime = jsRuntime;
         }
 
-        public void Initiliaze()
+        private void InitiliazeEventHandlers()
         {
             _bpmnEventHandler.ShapeAdded += ShapeAdded;
             _bpmnEventHandler.ShapeRemoved += ShapeRemoved;
@@ -46,7 +52,25 @@ namespace DasContract.Editor.Web.Services
             _bpmnEventHandler.RootRemoved += RootRemoved;
         }
 
-        public void Dispose()
+        public async void InitializeOrRestoreBpmnEditor(string canvasElementId)
+        {
+            //Initial configuration and startup of the bpmn js component and its services
+            if(!IsBpmnEditorInitialized)
+            {
+                var bpmnEditorDiagram = _contractManager.GetProcessDiagram();
+                await _bpmnEventHandler.InitializeHandler();
+                InitiliazeEventHandlers();
+                await _jsRuntime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "", canvasElementId);
+                IsBpmnEditorInitialized = true;
+            }
+            //If the modeler has been already initialized in the current session, then it is just reinjected into the canvas element
+            else
+            {
+                await _jsRuntime.InvokeVoidAsync("modellerLib.restoreModelerElement", canvasElementId);
+            }
+        }
+
+    public void Dispose()
         {
             _bpmnEventHandler.ShapeAdded -= ShapeAdded;
             _bpmnEventHandler.ShapeRemoved -= ShapeRemoved;
