@@ -11,9 +11,9 @@ using System.Xml.Serialization;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
-    public partial class UserFormsTab: ComponentBase
+    public partial class UserFormsTab: ComponentBase, IDisposable
     {
-        protected string UserFormScript { get; set; } = "<Form Label=\"My first form\">\n        <FieldGroup>\n            <SingleLineField Label=\"Hello world\" />\n        </FieldGroup>\n    </Form>";
+        protected string UserFormScript { get; set; } = "<Form Label=\"My first form\">\n        <FieldGroup>\n            <SingleLineField Description=\"Very good description mate\" Label=\"Hello world\" />\n        </FieldGroup>\n    </Form>";
 
         [Inject]
         public UserFormService UserFormService { get; set; }
@@ -95,6 +95,11 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             serializer.UnknownElement += new XmlElementEventHandler(Serializer_Throw);
             serializer.UnknownNode += new XmlNodeEventHandler(Serializer_Throw);
             return serializer;
+        }
+
+        public void Dispose()
+        {
+            UserFormService.IsPreviewOpen = false;
         }
     }
 

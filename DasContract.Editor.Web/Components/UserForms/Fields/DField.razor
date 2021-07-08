@@ -1,32 +1,46 @@
 ﻿@using DasContract.Abstraction.UserInterface.FormFields
 
-@switch (Field)
-{
-    case DateField tField:
-        <DDateField Field="tField" />
-        break;
-    case AddressField tField:
-        <DAddressField Field="tField" />
-        break;
-    case SingleLineField tField:
-        <DSingleLineField Field="tField" />
-        break;
-    case MultiLineField tField:
-        <DMultiLineField Field="tField" />
-        break;
-    case IntField tField:
-        <DIntField Field="tField" />
-        break;
-    case DecimalField tField:
-        <DDecimalField Field="tField" />
-        break;
-    case BoolField tField:
-        <DBoolField Field="tField" />
-        break;
-    case EnumField tField:
-        <DEnumField Field="tField" />
-        break;
-    case DropdownField tField:
-        <DDropdownField Field="tField"/>
-        break;
-}
+<div class="mb-2 d-flex flex-column">
+    <div class="field-info">
+        @if (!String.IsNullOrWhiteSpace(Field.Label))
+        {
+            <label class="form-label">@Field.Label</label>
+        }
+        @if (!String.IsNullOrWhiteSpace(Field.Description))
+        {
+            <img src="icons/info-circle.svg" class="ms-2" width="17" height="17" data-bs-toggle="tooltip" data-bs-placement="top" title="@Field.Description">
+        }
+    </div>
+    <div class="field-input">
+        @switch (Field)
+        {
+            case DateField tField:
+                <DDateField Field="tField" />
+                break;
+            case AddressField tField:
+                <DAddressField Field="tField" />
+                break;
+            case SingleLineField tField:
+                <DSingleLineField Field="tField" />
+                break;
+            case MultiLineField tField:
+                <DMultiLineField Field="tField" />
+                break;
+            case IntField tField:
+                <DIntField Field="tField" />
+                break;
+            case DecimalField tField:
+                <DDecimalField Field="tField" />
+                break;
+            case BoolField tField:
+                <DBoolField Field="tField" />
+                break;
+            case EnumField tField:
+                <DEnumField Field="tField" />
+                break;
+            case DropdownField tField:
+                <DDropdownField Field="tField" />
+                break;
+        }
+    </div>
+</div>
