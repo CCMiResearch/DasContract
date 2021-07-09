@@ -1,4 +1,5 @@
-﻿using DasContract.Editor.Web.Services;
+﻿using DasContract.Editor.Web.Components.Common;
+using DasContract.Editor.Web.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -19,7 +20,7 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
 
-        protected bool AutoRefresh { get; set; } = true;
+        protected Refresh Refresh { get; set; }
 
         protected string MermaidScript { get; set; } = @"classDiagram
       Animal <|-- Duck
@@ -62,7 +63,7 @@ namespace DasContract.Editor.Web.Pages
         protected void MermaidScriptChanged(string script)
         {
             MermaidScript = script;
-            if (AutoRefresh)
+            if (Refresh.AutoRefresh)
                 RefreshDiagram();
         }
 

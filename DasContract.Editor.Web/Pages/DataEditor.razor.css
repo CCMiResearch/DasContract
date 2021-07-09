@@ -17,11 +17,3 @@
     display: flex;
     align-items: center;
 }
-
-.form-check {
-    margin-right: 1em;
-}
-
-.refresh-button {
-    cursor: pointer;
-}

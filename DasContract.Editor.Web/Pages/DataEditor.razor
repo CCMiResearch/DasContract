@@ -3,14 +3,7 @@
 <div class="data-editor">
     <div class="script-canvas">
         <div class="script-toolbar">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="data-script-refresh-checkbox" checked="@AutoRefresh" @bind-value="AutoRefresh">
-                <label class="form-check-label" for="data-script-refresh-checkbox">Auto refresh</label>
-            </div>
-            @if (!AutoRefresh)
-            {
-                <img @onclick="RefreshDiagram" src="icons/arrow-repeat.svg" alt="Bootstrap" width="20" height="20" class="refresh-button">
-            }
+            <Refresh @ref=Refresh RefreshRequested="RefreshDiagram" />
         </div>
         <ScriptTab Script="@MermaidScript" ScriptChanged="MermaidScriptChanged"></ScriptTab>
     </div>
