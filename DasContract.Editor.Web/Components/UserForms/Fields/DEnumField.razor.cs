@@ -10,5 +10,7 @@ namespace DasContract.Editor.Web.Components.UserForms.Fields
     {
         [Parameter]
         public EnumField Field { get; set; }
+
+        protected Guid FieldGuid { get; set; } = Guid.NewGuid();
     }
 }

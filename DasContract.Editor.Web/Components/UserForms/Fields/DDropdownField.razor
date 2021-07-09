@@ -1,1 +1,8 @@
-﻿
+﻿<EditForm Model="@Field">
+        <InputSelect @bind-Value="@Field.Data" class="role-select form-control">
+            @for (int i = 0; i < Field.Options.Count; i++)
+            {
+                <option value="@i">@Field.Options[i]</option>
+            }
+        </InputSelect>
+</EditForm>

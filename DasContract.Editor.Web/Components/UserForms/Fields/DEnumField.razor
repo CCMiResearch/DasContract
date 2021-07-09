@@ -1,5 +1,9 @@
-﻿<h3>DEnumField</h3>
-
-@code {
-
+﻿@for (int i = 0; i < Field.Options.Count; i++)
+{
+    <div class="form-check">
+        <input class="form-check-input" name="field-input-@FieldGuid.ToString())" type="radio">
+        <label class="form-check-label">
+            @Field.Options[i]
+        </label>
+    </div>
 }
