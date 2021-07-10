@@ -189,7 +189,9 @@ export async function createModeler(modelerXml, canvasId) {
 
 export function restoreModelerElement(canvasId) {
     let canvasElement = document.getElementById(canvasId);
-    canvasElement.parentNode.replaceChild(window.modelerElement, canvasElement);
+    if (canvasElement != null) {                
+        canvasElement.parentNode.replaceChild(window.modelerElement, canvasElement);
+    }
 }
 
 

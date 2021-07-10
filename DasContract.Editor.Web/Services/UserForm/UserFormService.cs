@@ -15,13 +15,18 @@ namespace DasContract.Editor.Web.Services.UserForm
                 if(_isPreviewOpen != value)
                 {
                     _isPreviewOpen = value;
-                    IsPreviewOpenChanged?.Invoke();
+                    RefreshRequested?.Invoke();
                 }
             } 
         }
 
+        public void RequestRefresh()
+        {
+            RefreshRequested?.Invoke();
+        }
+
         public Abstraction.UserInterface.UserForm CurrentUserForm { get; set; }
 
-        public event Action IsPreviewOpenChanged;
+        public event Action RefreshRequested;
     }
 }

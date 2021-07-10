@@ -1,4 +1,6 @@
-﻿using DasContract.Abstraction.UserInterface;
+﻿using DasContract.Abstraction.Processes.Tasks;
+using DasContract.Abstraction.UserInterface;
+using DasContract.Editor.Web.Components.Common;
 using DasContract.Editor.Web.Services.UserForm;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -13,29 +15,31 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 {
     public partial class UserFormsTab: ComponentBase, IDisposable
     {
-        protected string UserFormScript { get; set; } = "<Form Label=\"My first form\">\n        <FieldGroup>\n            <SingleLineField Description=\"Very good description mate\" Label=\"Hello world\" />\n        </FieldGroup>\n    </Form>";
+        //protected string UserFormScript { get; set; } = "<Form Label=\"My first form\">\n        <FieldGroup>\n            <SingleLineField Description=\"Very good description mate\" Label=\"Hello world\" />\n        </FieldGroup>\n    </Form>";
 
         [Inject]
         public UserFormService UserFormService { get; set; }
 
-        private UserForm _userForm;
+        protected Refresh Refresh { get; set; }
+
+        private UserTask _userTask;
 
         [Parameter]
-        public UserForm UserForm
+        public UserTask UserTask
         {
-            get => _userForm;
+            get => _userTask;
             set
             {
-                if (_userForm == value)
+                if (_userTask == value)
                     return;
 
-                _userForm = value;
-                UserFormChanged.InvokeAsync(value);
+                _userTask = value;
+                UserTaskChanged.InvokeAsync(value);
             }
         }
 
         [Parameter]
-        public EventCallback<UserForm> UserFormChanged { get; set; }
+        public EventCallback<UserTask> UserTaskChanged { get; set; }
 
         protected void SwitchPreview()
         {
@@ -43,7 +47,6 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             {
                 if (TryRefreshUserForm())
                 {
-                    UserFormService.CurrentUserForm = UserForm;
                     UserFormService.IsPreviewOpen = true;
                 }
             }
@@ -57,7 +60,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         {
             try
             {
-                UserForm = DeserializeFormScript(UserFormScript);
+                UserTask.Form = DeserializeFormScript(UserTask.FormScript);
+                UserFormService.CurrentUserForm = UserTask.Form;
+                UserFormService.RequestRefresh();
                 return true;
             }
             catch (Exception e)
@@ -65,6 +70,15 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                 Console.WriteLine("Error parsing XML!\n" + $"Error:\n{e.Message}\n{e.StackTrace}");
             }
             return false;
+        }
+
+        protected void OnUserFormScriptChange(string script)
+        {
+            UserTask.FormScript = script;
+            if(Refresh.AutoRefresh)
+            {
+                TryRefreshUserForm();
+            }
         }
 
         public UserForm DeserializeFormScript(string formScript)
@@ -100,6 +114,13 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         public void Dispose()
         {
             UserFormService.IsPreviewOpen = false;
+        }
+
+        protected void OnScriptChanged(string script)
+        {
+            UserTask.FormScript = script;
+            if (Refresh.AutoRefresh)
+                TryRefreshUserForm();
         }
     }
 

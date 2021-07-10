@@ -74,7 +74,7 @@ namespace DasContract.Editor.Web.Pages
 
             EditElementService.EditElementChanged += HandleEditElementChanged;
             SaveManager.SaveRequested += SaveDiagramXml;
-            UserFormService.IsPreviewOpenChanged += HandleUserFormPreviewChanged;
+            UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
@@ -106,7 +106,7 @@ namespace DasContract.Editor.Web.Pages
         {
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
-            UserFormService.IsPreviewOpenChanged -= HandleUserFormPreviewChanged;
+            UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
         }
     }
 }

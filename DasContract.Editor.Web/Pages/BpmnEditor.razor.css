@@ -23,3 +23,7 @@ h5 {
 .outer-canvas {
     height: 100%;
 }
+
+.user-form-preview {
+    overflow-y: auto;
+}

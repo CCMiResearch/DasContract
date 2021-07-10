@@ -10,6 +10,8 @@ namespace DasContract.Abstraction.Processes.Tasks
     {
         public UserForm Form { get; set; } = new UserForm();
 
+        public string FormScript { get; set; }
+
         /// <summary>
         /// A due date expression such as $(someDate) or an ISO date. 
         /// </summary>
@@ -36,10 +38,12 @@ namespace DasContract.Abstraction.Processes.Tasks
         {
             DueDateExpression = xElement.Element("DueDateExpression")?.Value;
             ValidationScript = xElement.Element("ValidationScript")?.Value;
+            FormScript = xElement.Element("FormScript")?.Value;
 
             var xUserForm = xElement.Element("UserForm");
             if (xUserForm != null)
                 Form = new UserForm(xUserForm);
+
 
             var xAssignee = xElement.Element("Assignee");
             if (xAssignee != null)
@@ -64,6 +68,7 @@ namespace DasContract.Abstraction.Processes.Tasks
                 Form?.ToXElement(),
                 xAssignee,
                 new XElement("DueDateExpression", DueDateExpression),
+                new XElement("FormScript", FormScript),
                 new XElement("ValidationScript", ValidationScript),
                 new XElement("CandidateUsers", CandidateUsers?.Select(u => u.ToXElement()).ToList()),
                 new XElement("CandidateRoles", CandidateRoles?.Select(r => r.ToXElement()).ToList()));

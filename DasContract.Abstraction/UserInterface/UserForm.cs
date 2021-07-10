@@ -21,6 +21,7 @@ namespace DasContract.Abstraction.UserInterface
         [XmlAttribute("RoleMachine")]
         public string RoleMachine { get; set; } = "";
         
+        
 
         [XmlElement("FieldGroup")]
         public List<FieldGroup> FieldGroups { get; set; } = new List<FieldGroup>();
