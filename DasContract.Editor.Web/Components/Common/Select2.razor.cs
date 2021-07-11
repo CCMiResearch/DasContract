@@ -19,6 +19,9 @@ namespace DasContract.Editor.Web.Components.Common
         [Parameter]
         public IList<TItem> Selected { get; set; }
 
+        [Parameter]
+        public bool Multiple { get; set; }
+
         [Parameter] 
         public EventCallback<IList<TItem>> SelectedChanged { get; set; }
 
@@ -58,6 +61,7 @@ namespace DasContract.Editor.Web.Components.Common
                 await JSRuntime.InvokeVoidAsync("select2Lib.initializeSelect2", $"select2-{Id}",
                     Selected.Select(s => ValueSelector(s)),
                     Options.Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o)}),
+                    Multiple,
                     dotnetRef);
             }
             await RefreshJsComponent();
