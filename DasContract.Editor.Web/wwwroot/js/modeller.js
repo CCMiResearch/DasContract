@@ -214,6 +214,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
     delete entries['lane-divide-two'];
     delete entries['lane-insert-above'];
     delete entries['lane-insert-below'];
+    delete entries['append.intermediate-event'];
     return entries;
 }
 
