@@ -1,11 +1,10 @@
-﻿export function initializeSelect2(componentId, selectedItems, options, dotnetRef) {
-    $(document).ready(function () {
-        $(`#${componentId}`).select2({
-            theme: "bootstrap-5",
-            width: '100%'
-        });
+﻿export function initializeSelect2(componentId, selectedItems, options, multiple, dotnetRef) {
+    $(`#${componentId}`).select2({
+        theme: "bootstrap-5",
+        width: '100%',
+        multiple: multiple
     });
-    console.log("created" + componentId);
+
     options.forEach((option) => {
         var addedOption = new Option(option.text, option.value, false, false);
         $('#' + componentId).append(addedOption);
