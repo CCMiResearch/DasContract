@@ -60,7 +60,8 @@ namespace DasContract.Editor.Web.Components.Common
                 var dotnetRef = DotNetObjectReference.Create(this);
                 await JSRuntime.InvokeVoidAsync("select2Lib.initializeSelect2", $"select2-{Id}",
                     Selected.Select(s => ValueSelector(s)),
-                    Options.Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o)}),
+                    Options.Where(o => !string.IsNullOrWhiteSpace(ContentSelector(o)))
+                        .Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o)}).ToList(),
                     Multiple,
                     dotnetRef);
             }
@@ -70,7 +71,8 @@ namespace DasContract.Editor.Web.Components.Common
         private async Task RefreshJsComponent()
         {
             await JSRuntime.InvokeVoidAsync("select2Lib.refreshOptions", $"select2-{Id}",
-                Options.Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o) }),
+                Options.Where(o => !string.IsNullOrWhiteSpace(ContentSelector(o)))
+                        .Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o) }).ToList(),
                 Selected.Select(s => ValueSelector(s)));
         }
 
