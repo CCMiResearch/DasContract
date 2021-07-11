@@ -71,6 +71,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
                 case Process:
                     _tabs.Add(new ProcessDetailTab { TabName = "Custom script", TabType = ProcessDetailTabType.ProcessScript });
                     break;
+                case SequenceFlow:
+                    _tabs.Add(new ProcessDetailTab { TabName = "Condition", TabType = ProcessDetailTabType.SequenceFlowCondition });
+                    break;
 
             }
             _activeTab = _tabs.First();

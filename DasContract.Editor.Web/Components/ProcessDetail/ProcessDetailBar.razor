@@ -45,6 +45,9 @@
             case ProcessDetailTabType.BusinessRules:
                 <BusinessRulesTab BusinessRuleTask="(BusinessRuleTask) EditedElement"/>
                 break;
+            case ProcessDetailTabType.SequenceFlowCondition:
+                <ScriptTab @bind-Script="((SequenceFlow) EditedElement).Condition" />
+                break;
         }
     </div>
 </div>
