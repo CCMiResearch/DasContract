@@ -210,10 +210,12 @@ PaletteProvider.prototype.getPaletteEntries = function (element) {
 var _getContextPadEntries = ContextPadProvider.prototype.getContextPadEntries;
 ContextPadProvider.prototype.getContextPadEntries = function (element) {
     var entries = _getContextPadEntries.call(this, element);
+    console.log(entries);
     delete entries['lane-divide-three'];
     delete entries['lane-divide-two'];
     delete entries['lane-insert-above'];
     delete entries['lane-insert-below'];
+    delete entries['append.intermediate-event'];
     return entries;
 }
 
