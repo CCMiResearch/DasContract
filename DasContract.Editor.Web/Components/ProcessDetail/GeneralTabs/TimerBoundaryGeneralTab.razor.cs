@@ -11,6 +11,5 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
     {
         [Parameter]
         public TimerBoundaryEvent TimerBoundaryEvent { get; set; }
-
     }
 }

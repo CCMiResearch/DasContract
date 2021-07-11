@@ -1,18 +1,1 @@
-﻿@using DasContract.Abstraction.Processes.Events 
-
-<div class="mb-3">
-    <label class="form-label">Timer type</label>
-    <Select2 TItem="TimerDefinitionType"
-             Options="@(new List<TimerDefinitionType>{ TimerDefinitionType.Date, TimerDefinitionType.Duration })"
-             ContentSelector="(o) => o.ToString()"
-             ValueSelector="(o) => o.ToString()"
-             Id="@($"{TimerBoundaryEvent.Id}-timer-type")"
-             Selected="@(new List<TimerDefinitionType> { TimerBoundaryEvent.TimerDefinitionType })"
-             SelectedChanged="@((selected) => TimerBoundaryEvent.TimerDefinitionType = selected.FirstOrDefault())"
-             Multiple="false" />
-</div>
-
-<div class="mb-3">
-    <label class="form-label">Timer definition</label>
-    <input class="form-control" @bind-value="TimerBoundaryEvent.TimerDefinition">
-</div>
+﻿<h3>Attached to @TimerBoundaryEvent.AttachedTo</h3>
