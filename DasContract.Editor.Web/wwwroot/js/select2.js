@@ -17,6 +17,7 @@
     });
 
     $('#' + componentId).on('select2:unselect', function (e) {
+        console.log(e);
         dotnetRef.invokeMethodAsync('OnUnselect', e.params.data.id);
     });
 

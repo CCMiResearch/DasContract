@@ -72,6 +72,11 @@ namespace DasContract.Editor.Web.Pages
             if (!ContractManager.IsContractInitialized())
                 ContractManager.InitializeNewContract();
 
+            if(EditElementService.EditElement != null)
+            {
+                ShowDetailBar = true;
+            }
+
             EditElementService.EditElementChanged += HandleEditElementChanged;
             SaveManager.SaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
