@@ -1,4 +1,6 @@
-﻿@if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
+﻿@using DasContract.Abstraction.Processes.Tasks
+
+@if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
 {
     <div class="mb-3">
         <label for="@($"loop-collection-{Task.Id}")" class="form-label">Loop Collection</label>
@@ -9,4 +11,11 @@
         <label for="@($"loop-cardinality-{Task.Id}")" class="form-label">Loop Cardinality</label>
         <input class="form-control" id="@($"loop-cardinality-{Task.Id}")" @bind-value="Task.LoopCardinality">
     </div>
+}
+
+@switch (Task)
+{
+    case UserTask userTask:
+        <UserTaskGeneralTab UserTask="userTask" />
+        break;
 }

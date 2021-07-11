@@ -44,6 +44,7 @@
                                          ItemSelected="((roleId) => OnRoleAssigned(roleId, user.Id))"
                                          ItemUnselected="((roleId) => OnRoleUnassigned(roleId, user.Id))"
                                          ContentSelector="(r) => r.Name"
+                                         Multiple="true"
                                          ValueSelector="(r) => r.Id">
                                 </Select2>
                             </div>

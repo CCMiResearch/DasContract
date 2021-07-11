@@ -25,11 +25,11 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// <summary>
         /// Process users which are selected to perform this task. 
         /// </summary>
-        public IEnumerable<ProcessUser> CandidateUsers { get; set; } = new List<ProcessUser>();
+        public IList<ProcessUser> CandidateUsers { get; set; } = new List<ProcessUser>();
         /// <summary>
         /// Process roles allowed to execute this task. 
         /// </summary>
-        public IEnumerable<ProcessRole> CandidateRoles { get; set; } = new List<ProcessRole>();
+        public IList<ProcessRole> CandidateRoles { get; set; } = new List<ProcessRole>();
 
         public string ValidationScript { get; set; }
 
