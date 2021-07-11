@@ -8,6 +8,6 @@
              ValueSelector="(p) => p.CalledElementId"
              Id="@($"{CallActivity.Id}-called-process")"
              Selected="@(CreateSelectedProcessList())"
-             SelectedChanged="@((selected) => { Console.WriteLine("select changed"); CallActivity.CalledElement = selected.FirstOrDefault()?.CalledElementId; })"
+             SelectedChanged="@((selected) => CallActivity.CalledElement = selected.FirstOrDefault()?.CalledElementId)"
              Multiple="false" />
 </div>
