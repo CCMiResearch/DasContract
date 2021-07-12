@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <TrimmerRootAssembly Include="System.Private.Xml" />
-    <TrimmerRootDescriptor Include="LinkerWorkaround.xml" />
+    <TrimmerRootDescriptor Include="LinkerWorkAround.xml" />
   </ItemGroup>
 
   <ItemGroup>
