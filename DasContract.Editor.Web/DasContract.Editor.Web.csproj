@@ -13,6 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TrimmerRootAssembly Include="System.Private.Xml" />
+    <TrimmerRootDescriptor Include="LinkerWorkaround.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DasContract.Abstraction\DasContract.Abstraction.csproj" />
     <ProjectReference Include="..\DasContract.Blockchain.Solidity\DasContract.Blockchain.Solidity.csproj" />
   </ItemGroup>
