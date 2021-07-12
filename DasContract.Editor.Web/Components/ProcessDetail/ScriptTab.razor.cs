@@ -31,6 +31,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         [Parameter]
         public EventCallback<string> ScriptChanged { get; set; }
 
+        [Parameter]
+        public string Language { get; set; }
+
         protected MonacoEditor MonacoEditor { get; set; }
 
         protected override void OnInitialized()
@@ -51,7 +54,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         {
             return new StandaloneEditorConstructionOptions
             {
-                Language = "xml",
+                Language = Language,
                 Value = _script,
                 ScrollBeyondLastLine = false,
                 Minimap = new EditorMinimapOptions { Enabled = false}

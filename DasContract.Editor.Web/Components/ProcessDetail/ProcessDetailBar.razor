@@ -31,22 +31,22 @@
                 <ElementGeneralTab ContractElement="EditedElement" />
                 break;
             case ProcessDetailTabType.Script:
-                <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" />
+                <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" Language="sol" />
                 break;
             case ProcessDetailTabType.UserForm:
                 <UserFormsTab UserTask="((UserTask) EditedElement)" />
                 break;
             case ProcessDetailTabType.UserValidation:
-                <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" />
+                <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" Language="sol" />
                 break;
             case ProcessDetailTabType.ProcessScript:
-                <ScriptTab @bind-Script="((Process) EditedElement).CustomScript"/>
+                <ScriptTab @bind-Script="((Process) EditedElement).CustomScript" Language="sol"/>
                 break;
             case ProcessDetailTabType.BusinessRules:
                 <BusinessRulesTab BusinessRuleTask="(BusinessRuleTask) EditedElement"/>
                 break;
             case ProcessDetailTabType.SequenceFlowCondition:
-                <ScriptTab @bind-Script="((SequenceFlow) EditedElement).Condition" />
+                <ScriptTab @bind-Script="((SequenceFlow) EditedElement).Condition" Language="sol"/>
                 break;
         }
     </div>
