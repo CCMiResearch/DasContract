@@ -12,6 +12,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlIgnoreAttribute]
         public decimal Data { get; set; }
 
+        public DecimalField() { }
+
         public override void SetData(string data)
         {
             Data = Convert.ToDecimal(data);

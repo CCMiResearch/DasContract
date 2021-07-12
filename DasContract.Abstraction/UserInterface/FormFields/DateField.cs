@@ -10,6 +10,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlIgnoreAttribute]
         public DateTime Data { get; set; }
 
+        public DateField() { }
+
         public override void SetData(string data)
         {
             Data = DateTime.Parse(data);

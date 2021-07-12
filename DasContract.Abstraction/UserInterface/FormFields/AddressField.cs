@@ -8,6 +8,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
 {
     public class AddressField : Field
     {
+        public AddressField() { }
+
         [XmlIgnoreAttribute]
         public string Data { get; set; }
 

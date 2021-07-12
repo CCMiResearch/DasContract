@@ -8,6 +8,8 @@ namespace DasContract.Abstraction.UserInterface
 {
     public class FieldGroup
     {
+        public FieldGroup() { }
+
         [XmlAttribute("Label")]
         public string Label { get; set; } = "";
         [XmlAttribute("Vertical")]

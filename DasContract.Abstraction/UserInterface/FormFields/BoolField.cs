@@ -10,6 +10,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlIgnoreAttribute]
         public bool Data { get; set; }
 
+        public BoolField( ) { }
+
         public override void SetData(string data)
         {
             Data = Convert.ToBoolean(data);

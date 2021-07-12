@@ -13,6 +13,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlIgnoreAttribute]
         public string Data { get; set; }
 
+        public SingleLineField() { }
+
         public override void SetData(string data)
         {
             Data = data;

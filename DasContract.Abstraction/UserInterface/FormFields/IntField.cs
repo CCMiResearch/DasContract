@@ -10,6 +10,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlIgnoreAttribute]
         public long Data { get; set; }
 
+        public IntField() { }
+
         public override void SetData(string data)
         {
             Data = Convert.ToInt64(data);

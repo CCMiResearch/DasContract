@@ -14,6 +14,8 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         [XmlAttribute("Indexed")]
         public bool Indexed { get; set; } = false;
 
+        public DropdownField() { }
+
         public override void SetData(string data)
         {
             for (int i = 0; i < Options.Count; ++i)
