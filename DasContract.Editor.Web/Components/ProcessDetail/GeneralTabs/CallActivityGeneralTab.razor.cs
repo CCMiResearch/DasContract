@@ -21,7 +21,8 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
             var selectedList = new List<CallActivityOption>();
             if (CallActivity.CalledElement != null) {
                 var selectedProcess = ContractManager.GetAllProcesses().Where(p => p.Id == CallActivity.CalledElement).FirstOrDefault();
-                selectedList.Add(new CallActivityOption { CalledElementId = selectedProcess.Id, CalledElementName = (selectedProcess.Name ?? selectedProcess.Id)});
+                if(selectedProcess != null)
+                    selectedList.Add(new CallActivityOption { CalledElementId = selectedProcess.Id, CalledElementName = (selectedProcess.Name ?? selectedProcess.Id)});
             }
             return selectedList;
         }

@@ -12,6 +12,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         Script,
         BusinessRules,
         UserForm,
-        ProcessScript
+        ProcessScript,
+        SequenceFlowCondition
     }
 }

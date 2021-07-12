@@ -23,7 +23,6 @@ export function setResizeHandlerInstance(dotNetObjectRef) {
 }
 
 function handleOnDrag() {
-    console.log("c");
     if (splitterLib.resizeHandlerRef != null) {
         splitterLib.resizeHandlerRef.invokeMethodAsync("MainGutterResized");
     }
