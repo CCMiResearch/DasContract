@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.UndoRedo;
@@ -61,7 +62,7 @@ namespace DasContract.Editor.Web.Services.Processes
             //and a process already exists (this happens when the last participant is removed),
             //or when an input participant is defined and no other participants are yet present in the model
             //(this happens when the first participant is added)
-            if (Contract.Processes.Count == 1 && Contract.Processes.First().ParticipantId == null && participantId != null 
+            if (Contract.Processes.Count == 1 && Contract.Processes.First().ParticipantId == null && participantId != null
                 || (participantId == null && Contract.Processes.Count > 0))
             {
                 process = Contract.Processes.First();
@@ -69,7 +70,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 //The id needs to be updated due to a bug in the bpmn modeller
                 process.Id = processId;
             }
-            else 
+            else
             {
                 if (Contract.Processes.Any(p => p.Id == processId))
                     throw new DuplicateIdException($"Could not add new process, contract already contains process id {processId}");
@@ -85,7 +86,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 Contract.Processes.Add(process);
             }
 
-            if(Contract.Processes.Count == 1)
+            if (Contract.Processes.Count == 1)
             {
                 process.IsExecutable = true;
             }
@@ -111,7 +112,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public void AddUser(ProcessUser user)
         {
-            if(Contract.Users.Any(u => user.Id == u.Id))
+            if (Contract.Users.Any(u => user.Id == u.Id))
             {
                 throw new DuplicateIdException($"Contract already contains user id {user.Id}");
             }
@@ -121,7 +122,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public void RemoveUser(ProcessUser user)
         {
-            if(!Contract.Users.Contains(user))
+            if (!Contract.Users.Contains(user))
             {
                 throw new InvalidIdException($"User id {user.Id} could not be removed, contract does not contain user");
             }
@@ -171,7 +172,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public string SerializeContract()
         {
-            
+
             return Contract.ToXElement().ToString();
         }
 
@@ -189,6 +190,17 @@ namespace DasContract.Editor.Web.Services.Processes
         public void SetProcessDiagram(string diagramXml)
         {
             Contract.ProcessDiagram = diagramXml;
+        }
+
+        public void SetDataModel(string dataModelXml)
+        {
+            var xElement = XElement.Parse(dataModelXml);
+            var dataTypes = new List<DataType>();
+            dataTypes.AddRange(xElement.Elements("Token").Select(e => new Token(e)).ToList());
+            dataTypes.AddRange(xElement.Elements("Entity").Select(e => new Entity(e)).ToList());
+            dataTypes.AddRange(xElement.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
+
+            Contract.DataTypes = dataTypes.ToDictionary(d => d.Id);
         }
     }
 }

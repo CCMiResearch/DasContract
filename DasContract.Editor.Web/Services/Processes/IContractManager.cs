@@ -30,8 +30,9 @@ namespace DasContract.Editor.Web.Services.Processes
         string GetProcessIdFromParticipantId(string participantId);
         IList<Process> GetAllProcesses();
         string SerializeContract();
-        void RestoreContract(string contractJSON);
+        void RestoreContract(string contractXML);
         string GetProcessDiagram();
+        void SetDataModel(string dataModelXml);
         void SetProcessDiagram(string diagramXml);
     }
 }

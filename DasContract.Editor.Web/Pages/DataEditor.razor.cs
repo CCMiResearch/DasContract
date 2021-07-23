@@ -1,11 +1,14 @@
-﻿using DasContract.Editor.Web.Components.Common;
+﻿using DasContract.Abstraction.Data;
+using DasContract.Editor.Web.Components.Common;
 using DasContract.Editor.Web.Services;
+using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Pages
 {
@@ -19,6 +22,9 @@ namespace DasContract.Editor.Web.Pages
 
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
+
+        [Inject]
+        private IContractManager ContractManager { get; set; }
 
         protected Refresh Refresh { get; set; }
 
@@ -64,7 +70,10 @@ namespace DasContract.Editor.Web.Pages
         {
             MermaidScript = script;
             if (Refresh.AutoRefresh)
+            {
+                ContractManager.SetDataModel(MermaidScript);
                 RefreshDiagram();
+            }
         }
 
         private async void RefreshDiagram()
