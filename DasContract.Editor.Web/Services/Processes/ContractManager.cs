@@ -192,15 +192,33 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.ProcessDiagram = diagramXml;
         }
 
+        public string GetDataModelXml()
+        {
+            var xRoot = new XElement("DataModel");
+            foreach (var dataType in Contract.DataTypes)
+            {
+                xRoot.Add(dataType.Value.ToXElement());
+            }
+            return xRoot.ToString();
+        }
+
+        public IDictionary<string, DataType> GetDataTypes()
+        {
+            return Contract.DataTypes;
+        }
+
         public void SetDataModel(string dataModelXml)
         {
-            var xElement = XElement.Parse(dataModelXml);
+            Console.WriteLine("Trying to set data model");
+            var xRoot = XElement.Parse(dataModelXml);
             var dataTypes = new List<DataType>();
-            dataTypes.AddRange(xElement.Elements("Token").Select(e => new Token(e)).ToList());
-            dataTypes.AddRange(xElement.Elements("Entity").Select(e => new Entity(e)).ToList());
-            dataTypes.AddRange(xElement.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
+            dataTypes.AddRange(xRoot.Elements("Token").Select(e => new Token(e)).ToList());
+            dataTypes.AddRange(xRoot.Elements("Entity").Select(e => new Entity(e)).ToList());
+            dataTypes.AddRange(xRoot.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
+            Console.WriteLine(dataTypes.Count);
 
             Contract.DataTypes = dataTypes.ToDictionary(d => d.Id);
         }
     }
 }
+     

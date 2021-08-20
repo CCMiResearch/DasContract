@@ -40,7 +40,7 @@ namespace DasContract.Abstraction.Data
 
         public XElement ToXElement()
         {
-            return new XElement("DataType",
+            return new XElement("Property",
                 new XAttribute("Id", Id),
                 new XElement("Name", Name),
                 new XElement("IsMandatory", IsMandatory),

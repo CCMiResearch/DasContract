@@ -4,6 +4,7 @@ using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Scriban;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class DataEditor: ComponentBase
+    public partial class DataEditor : ComponentBase
     {
         [Inject]
         protected ResizeHandler ResizeHandler { get; set; }
@@ -28,35 +29,76 @@ namespace DasContract.Editor.Web.Pages
 
         protected Refresh Refresh { get; set; }
 
-        protected string MermaidScript { get; set; } = @"classDiagram
-      Animal <|-- Duck
-      Animal <|-- Fish
-      Animal <|-- Zebra
-      Animal: +int age
-      Animal: +String gender
-      Animal: +isMammal()
-      Animal: +mate()
-      class Duck{
-          +String beakColor
-          +swim()
-          +quack()
-      }
-        class Fish{
-          -int sizeInFeet
-          -canEat()
-        }
-        class Zebra{
-          +bool is_wild
-          +run()
-        }";
+        //  protected string MermaidScript { get; set; } = @"classDiagram
+        //Animal <|-- Duck
+        //Animal <|-- Fish
+        //Animal <|-- Zebra
+        //Animal: +int age
+        //Animal: +String gender
+        //Animal: +isMammal()
+        //Animal: +mate()
+        //class Duck{
+        //    +String beakColor
+        //    +swim()
+        //    +quack()
+        //}
+        //  class Fish{
+        //    -int sizeInFeet
+        //    -canEat()
+        //  }
+        //  class Zebra{
+        //    +bool is_wild
+        //    +run()
+        //  }";
 
+        protected string DataModelXml { get; set; }
+
+        private Template _mermaidTemplate = Template.Parse(@"classDiagram
+{{for enum in enums}}
+class {{enum.name}} { {{for value in enum.values}}
+{{value}}
+{{end}}
+}
+
+<<enum>> {{enum.name}}
+{{end}}
+
+{{for entity in entities}}
+class {{entity.name}} {
+{{for property in entity.properties}}
+{{property.data_type}} {{property.name}}
+{{end}}
+}
+<<entity>> {{entity.name}}
+{{end}}
+
+{{for token in tokens}}
+class {{token.name}} {
+{{for property in token.properties}}
+{{property.data_type}} {{property.name}}
+{{end}}
+}
+<<token>> {{token.name}}
+{{end}}
+
+{{for relationship in relationships}}
+{{relationship.item1}} -- {{relationship.item2}}
+{{end}}
+");
+
+
+        protected override Task OnInitializedAsync()
+        {
+            DataModelXml = ContractManager.GetDataModelXml();
+            return base.OnInitializedAsync();
+        }
 
         protected override void OnAfterRender(bool firstRender)
         {
-            if(firstRender)
+            if (firstRender)
             {
                 InitializeSplitGutter();
-                MermaidScriptChanged(MermaidScript);
+                DataModelXmlChanged(DataModelXml);
             }
         }
 
@@ -66,21 +108,49 @@ namespace DasContract.Editor.Web.Pages
             await ResizeHandler.InitializeHandler();
         }
 
-        protected void MermaidScriptChanged(string script)
+        protected void DataModelXmlChanged(string script)
         {
-            MermaidScript = script;
-            if (Refresh.AutoRefresh)
+            DataModelXml = script;
+            if (Refresh.AutoRefresh && !string.IsNullOrEmpty(script))
             {
-                ContractManager.SetDataModel(MermaidScript);
+                ContractManager.SetDataModel(DataModelXml);
                 RefreshDiagram();
             }
+        }
+
+        private IList<Tuple<string, string>> GetModelRelationships(IDictionary<string, DataType> dataTypes)
+        {
+            var entities = dataTypes.Values.OfType<Entity>();
+            var relationships = new List<Tuple<string, string>>();
+            foreach (var entity in entities)
+            {
+                foreach (var property in entity.Properties)
+                {
+                    if (property.DataType == PropertyDataType.Reference
+                        && dataTypes.TryGetValue(property.ReferencedDataType, out var referenced))
+                    {
+                        relationships.Add(new Tuple<string, string>(entity.Name, referenced.Name));
+                    }
+                }
+            }
+            return relationships;
         }
 
         private async void RefreshDiagram()
         {
             try
             {
-                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", MermaidScript);
+                var dataTypes = ContractManager.GetDataTypes();
+                var mermaidScript = _mermaidTemplate.Render(new
+                {
+                    Relationships = GetModelRelationships(dataTypes),
+                    Enums = dataTypes.Values.OfType<Abstraction.Data.Enum>(),
+                    Entities = dataTypes.Values.OfType<Entity>().Where(e => e.GetType() == typeof(Entity)),
+                    Tokens = dataTypes.Values.OfType<Token>().Where(e => e.GetType() == typeof(Token))
+                });
+
+                Console.WriteLine($"Mermaid script:{mermaidScript}");
+                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", mermaidScript);
             }
             catch (JSException)
             {

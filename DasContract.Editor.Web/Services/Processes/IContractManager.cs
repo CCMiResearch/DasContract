@@ -1,4 +1,5 @@
 ﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace DasContract.Editor.Web.Services.Processes
         string SerializeContract();
         void RestoreContract(string contractXML);
         string GetProcessDiagram();
+        string GetDataModelXml();
+        IDictionary<string, DataType> GetDataTypes();
         void SetDataModel(string dataModelXml);
         void SetProcessDiagram(string diagramXml);
     }
