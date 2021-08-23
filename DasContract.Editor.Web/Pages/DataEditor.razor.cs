@@ -55,30 +55,30 @@ namespace DasContract.Editor.Web.Pages
 
         private Template _mermaidTemplate = Template.Parse(@"classDiagram
 {{for enum in enums}}
-class {{enum.name}} { {{for value in enum.values}}
+class {{enum.name}} { 
+<<enum>>
+{{for value in enum.values}}
 {{value}}
 {{end}}
 }
-
-<<enum>> {{enum.name}}
 {{end}}
 
 {{for entity in entities}}
 class {{entity.name}} {
+<<entity>>
 {{for property in entity.properties}}
-{{property.data_type}} {{property.name}}
+{{property.data_type}}{{if property.property_type == 'Collection'}}[]{{else if property.property_type == 'Dictionary'}}<{{property.key_type}}>{{end}} {{property.name}}
 {{end}}
 }
-<<entity>> {{entity.name}}
 {{end}}
 
 {{for token in tokens}}
 class {{token.name}} {
+<<token>>
 {{for property in token.properties}}
-{{property.data_type}} {{property.name}}
+{{property.data_type}}{{if property.property_type == 'Collection'}}[]{{else if property.property_type == 'Dictionary'}}<{{property.key_type}}>{{end}} {{property.name}}
 {{end}}
 }
-<<token>> {{token.name}}
 {{end}}
 
 {{for relationship in relationships}}
@@ -126,7 +126,7 @@ class {{token.name}} {
             {
                 foreach (var property in entity.Properties)
                 {
-                    if (property.DataType == PropertyDataType.Reference
+                    if (property.DataType == PropertyDataType.Reference && property.ReferencedDataType != null
                         && dataTypes.TryGetValue(property.ReferencedDataType, out var referenced))
                     {
                         relationships.Add(new Tuple<string, string>(entity.Name, referenced.Name));
