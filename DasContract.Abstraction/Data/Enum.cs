@@ -13,7 +13,7 @@ namespace DasContract.Abstraction.Data
         public Enum() { }
         public Enum(XElement xElement) : base(xElement)
         {
-            Values = xElement.Element("Values")?.Elements("Value")?.Select(e => e.Value).ToList()
+            Values = xElement.Elements("Value")?.Select(e => e.Value).ToList()
                 ?? Values;
         }
 
@@ -21,9 +21,11 @@ namespace DasContract.Abstraction.Data
         {
             var xElement = base.ToXElement();
             xElement.Name = "Enum";
-            xElement.Add(
-                new XElement("Values", Values.Select(v => new XElement("Value", v)).ToList())
-            );
+            foreach (var value in Values.Select(v => new XElement("Value", v)).ToList())
+            {
+                xElement.Add(value);
+            }
+
             return xElement;
         }
     }

@@ -38,10 +38,12 @@ namespace DasContract.Blockchain.Solidity
             "yyyy-MM-ddTHHZ"
         };
 
-        public static string PrimitivePropertyTypeToString(PropertyDataType propertyType)
+        public static string PrimitivePropertyTypeToString(PropertyDataType? propertyType)
         {
             switch (propertyType)
             {
+                case null:
+                    return "";
                 case PropertyDataType.Bool:
                     return "bool";
                 case PropertyDataType.String:

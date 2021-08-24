@@ -18,13 +18,13 @@ namespace DasContract.Abstraction.Data
         public Token(XElement xElement) : base(xElement)
         {
 
-            Symbol = xElement.Element("Symbol")?.Value;
+            Symbol = xElement.Attribute("Symbol")?.Value;
             MintScript = xElement.Element("MintScript")?.Value;
             TransferScript = xElement.Element("TransferScript")?.Value;
 
-            if (bool.TryParse(xElement.Element("IsFungible")?.Value, out var isFungible))
+            if (bool.TryParse(xElement.Attribute("IsFungible")?.Value, out var isFungible))
                 IsFungible = isFungible;
-            if (bool.TryParse(xElement.Element("IsIssued")?.Value, out var isIssued))
+            if (bool.TryParse(xElement.Attribute("IsIssued")?.Value, out var isIssued))
                 IsIssued = isIssued;
         }
 
@@ -33,12 +33,15 @@ namespace DasContract.Abstraction.Data
             var xElement = base.ToXElement();
             xElement.Name = "Token";
             xElement.Add(
-                new XElement("Symbol", Symbol),
-                new XElement("IsFungible", IsFungible),
-                new XElement("IsIssued", IsIssued),
+                new XAttribute("IsFungible", IsFungible),
+                new XAttribute("IsIssued", IsIssued),
                 new XElement("MintScript", MintScript),
                 new XElement("TransferScript", TransferScript)
                 );
+
+            if (Symbol != null)
+                xElement.Add(new XAttribute("Symbol", Symbol));
+
             return xElement;
         }
     }

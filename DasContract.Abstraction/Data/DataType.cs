@@ -14,14 +14,14 @@ namespace DasContract.Abstraction.Data
         public DataType(XElement xElement)
         {
             Id = xElement.Attribute("Id").Value;
-            Name = xElement.Element("Name")?.Value;
+            Name = xElement.Attribute("Name").Value;
         }
 
         public virtual XElement ToXElement()
         {
             return new XElement("DataType",
                 new XAttribute("Id", Id),
-                new XElement("Name", Name)
+                new XAttribute("Name", Name)
             );
         }
     }

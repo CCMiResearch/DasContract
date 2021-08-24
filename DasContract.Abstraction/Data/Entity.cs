@@ -13,9 +13,9 @@ namespace DasContract.Abstraction.Data
         public Entity() { }
         public Entity(XElement xElement) : base(xElement)
         {
-            if (bool.TryParse(xElement.Element("IsRootEntity")?.Value, out var isRootEntity))
+            if (bool.TryParse(xElement.Attribute("IsRootEntity")?.Value, out var isRootEntity))
                 IsRootEntity = isRootEntity;
-            Properties = xElement.Element("Properties")?.Elements("Property")?.Select(e => new Property(e)).ToList()
+            Properties = xElement.Elements("Property")?.Select(e => new Property(e)).ToList()
                 ?? Properties;
         }
 
@@ -24,9 +24,14 @@ namespace DasContract.Abstraction.Data
             var xElement = base.ToXElement();
             xElement.Name = "Entity";
             xElement.Add(
-                new XElement("IsRootEntity", IsRootEntity),
-                new XElement("Properties", Properties.Select(p => p.ToXElement()).ToList())
+                new XAttribute("IsRootEntity", IsRootEntity)
             );
+
+            foreach (var property in Properties.Select(p => p.ToXElement()).ToList())
+            {
+                xElement.Add(property);
+            }
+
             return xElement;
         }
     }
