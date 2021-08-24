@@ -35,6 +35,8 @@ namespace DasContract.Editor.Web.Services.Processes
         string GetProcessDiagram();
         string GetDataModelXml();
         IDictionary<string, DataType> GetDataTypes();
+        Property GetPropertyById(string propertyId);
+        IList<Property> GetCollectionProperties();
         void SetDataModel(string dataModelXml);
         void SetProcessDiagram(string diagramXml);
     }

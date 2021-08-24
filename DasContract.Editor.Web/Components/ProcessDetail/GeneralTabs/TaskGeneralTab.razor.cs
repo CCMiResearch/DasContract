@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DasContract.Abstraction.Data;
+using DasContract.Editor.Web.Services.Processes;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,20 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
     {
         [Parameter]
         public Abstraction.Processes.Tasks.Task Task { get; set; }
+
+        [Inject]
+        public IContractManager ContractManager { get; set; }
+
+        protected IList<Property> GetSelectedCollectionList()
+        {
+            var selected = new List<Property>();
+            if(Task.LoopCollection != null)
+            {
+                var selectedCollection = ContractManager.GetPropertyById(Task.LoopCollection);
+                if (selectedCollection != null)
+                    selected.Add(selectedCollection);
+            }
+            return selected;
+        }
     }
 }

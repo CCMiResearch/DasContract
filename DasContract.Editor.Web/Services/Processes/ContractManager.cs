@@ -192,6 +192,31 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.ProcessDiagram = diagramXml;
         }
 
+        public IList<Property> GetCollectionProperties()
+        {
+            var collectionProperties = new List<Property>();
+            foreach (var entity in Contract.Entities)
+            {
+                collectionProperties.AddRange(entity.Properties
+                    .Where(p => p.PropertyType == PropertyType.Collection || p.PropertyType == PropertyType.Dictionary).ToList());
+            }
+
+            return collectionProperties;
+        }
+
+        public Property GetPropertyById(string propertyId)
+        {
+            foreach (var entity in Contract.Entities)
+            {
+                foreach (var property in entity.Properties)
+                {
+                    if (property.Id == propertyId)
+                        return property;
+                }
+            }
+            return null;
+        }
+
         public string GetDataModelXml()
         {
             var xRoot = new XElement("DataModel");

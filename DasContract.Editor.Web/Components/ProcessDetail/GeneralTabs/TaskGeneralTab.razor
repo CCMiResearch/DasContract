@@ -1,10 +1,18 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
+@using DasContract.Abstraction.Data
 
 @if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
 {
     <div class="mb-3">
-        <label for="@($"loop-collection-{Task.Id}")" class="form-label">Loop Collection</label>
-        <input class="form-control" id="@($"loop-collection-{Task.Id}")" @bind-value="Task.LoopCollection">
+        <label class="form-label">Loop Collection</label>
+        <Select2 TItem="Property"
+                 Options="ContractManager.GetCollectionProperties()"
+                 ContentSelector="(p) => p.Name"
+                 ValueSelector="(p) => p.Id"
+                 Id="@($"{Task.Id}-loop-collection")"
+                 Selected="@(GetSelectedCollectionList())"
+                 SelectedChanged="@((selected) => Task.LoopCollection = selected.FirstOrDefault()?.Id)"
+                 Multiple="false" />
     </div>
 
     <div class="mb-3">
