@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Components\Converter\" />
-    <Folder Include="wwwroot\dist\dist_node\" />
   </ItemGroup>
 
 </Project>
