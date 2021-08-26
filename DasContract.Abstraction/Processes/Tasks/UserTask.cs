@@ -34,7 +34,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public string ValidationScript { get; set; }
 
         public UserTask() { }
-        public UserTask(XElement xElement) : base(xElement)
+        public UserTask(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users) : base(xElement)
         {
             DueDateExpression = xElement.Element("DueDateExpression")?.Value;
             ValidationScript = xElement.Element("ValidationScript")?.Value;
@@ -47,11 +47,11 @@ namespace DasContract.Abstraction.Processes.Tasks
 
             var xAssignee = xElement.Element("Assignee");
             if (xAssignee != null)
-                Assignee = new ProcessUser(xAssignee);
+                Assignee = users[xAssignee.Value];
 
-            CandidateUsers = xElement.Element("CandidateUsers")?.Elements("ProcessUser")?.Select(e => new ProcessUser(e)).ToList()
+            CandidateUsers = xElement.Element("CandidateUsers")?.Elements("ProcessUser")?.Select(e => users[e.Value]).ToList()
                 ?? CandidateUsers;
-            CandidateRoles = xElement.Element("CandidateRoles")?.Elements("ProcessRole")?.Select(e => new ProcessRole(e)).ToList()
+            CandidateRoles = xElement.Element("CandidateRoles")?.Elements("ProcessRole")?.Select(e => roles[e.Value]).ToList()
                 ?? CandidateRoles;
         }
 
@@ -60,18 +60,18 @@ namespace DasContract.Abstraction.Processes.Tasks
             var xElement = base.ToXElement();
             xElement.Name = "UserTask";
 
-            var xAssignee = Assignee?.ToXElement();
-            if (xAssignee != null)
-                xAssignee.Name = "Assignee";
+            if(Assignee != null)
+            {
+                xElement.Add(new XElement("Assignee", Assignee.Id));
+            }
 
             xElement.Add(
                 Form?.ToXElement(),
-                xAssignee,
                 new XElement("DueDateExpression", DueDateExpression),
                 new XElement("FormScript", FormScript),
                 new XElement("ValidationScript", ValidationScript),
-                new XElement("CandidateUsers", CandidateUsers?.Select(u => u.ToXElement()).ToList()),
-                new XElement("CandidateRoles", CandidateRoles?.Select(r => r.ToXElement()).ToList()));
+                new XElement("CandidateUsers", CandidateUsers?.Select(u => new XElement("ProcessUser", u.Id)).ToList()),
+                new XElement("CandidateRoles", CandidateRoles?.Select(r => new XElement("ProcessRole", r.Id)).ToList())); 
             return xElement;
         }
     }

@@ -28,7 +28,7 @@ namespace DasContract.Abstraction.Processes
         public IEnumerable<Gateway> Gateways { get { return ProcessElements.Values.OfType<Gateway>(); } }
 
         public Process() { }
-        public Process(XElement xElement)
+        public Process(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
         {
             Id = xElement.Attribute("Id")?.Value;
             Name = xElement.Element("Name")?.Value;
@@ -39,15 +39,15 @@ namespace DasContract.Abstraction.Processes
 
             SequenceFlows = xElement.Element("SequenceFlows")?.Elements("SequenceFlow")?.
                 Select(e => new SequenceFlow(e)).ToDictionary(s => s.Id) ?? SequenceFlows;
-            ProcessElements = CreateProcessElements(xElement.Element("ProcessElements"));
+            ProcessElements = CreateProcessElements(xElement.Element("ProcessElements"), roles, users);
         }
 
-        private IDictionary<string, ProcessElement> CreateProcessElements(XElement xElement)
+        private IDictionary<string, ProcessElement> CreateProcessElements(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
         {
             IEnumerable<ProcessElement> processElements = new List<ProcessElement>();
             if (xElement != null)
             {
-                var tasks = CreateTasks(xElement);
+                var tasks = CreateTasks(xElement, roles, users);
                 var gateways = CreateGateways(xElement);
                 var events = CreateEvents(xElement);
 
@@ -61,14 +61,14 @@ namespace DasContract.Abstraction.Processes
             return processElements.ToDictionary(e => e.Id);
         }
 
-        private IEnumerable<Task> CreateTasks(XElement xElement)
+        private IEnumerable<Task> CreateTasks(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
         {
             var tasks = xElement.Elements("Task")?.Select(e => new Task(e));
             var businessRuleTasks = xElement.Elements("BusinessRuleTask")?.Select(e => new BusinessRuleTask(e));
             var callActivities = xElement.Elements("CallActivity")?.Select(e => new CallActivity(e));
             var scriptTasks = xElement.Elements("ScriptTask")?.Select(e => new ScriptTask(e));
             var serviceTasks = xElement.Elements("ServiceTask")?.Select(e => new ServiceTask(e));
-            var userTasks = xElement.Elements("UserTask")?.Select(e => new UserTask(e));
+            var userTasks = xElement.Elements("UserTask")?.Select(e => new UserTask(e, roles, users));
             
             if (tasks == null)
                 tasks = new List<Task>();

@@ -82,11 +82,14 @@ namespace DasContract.Abstraction
         public Contract(XElement xElement)
         {
             Id = xElement.Attribute("Id").Value;
-            ProcessDiagram = xElement.Element("ProcessDiagram")?.Value;
-            Processes = xElement.Element("Processes")?.Elements("Process")?.Select(e => new Process(e)).ToList();
-            DataTypes = CreateDataTypes(xElement.Element("DataTypes"));
-            Users = xElement.Element("Users")?.Elements("ProcessUser")?.Select(u => new ProcessUser(u)).ToList();
             Roles = xElement.Element("Roles")?.Elements("ProcessRole")?.Select(r => new ProcessRole(r)).ToList();
+            var rolesDict = Roles.ToDictionary(r => r.Id);
+            Users = xElement.Element("Users")?.Elements("ProcessUser")?.Select(u => new ProcessUser(u, rolesDict)).ToList();
+            var usersDict = Users.ToDictionary(u => u.Id);
+  
+            DataTypes = CreateDataTypes(xElement.Element("DataTypes"));
+            ProcessDiagram = xElement.Element("ProcessDiagram")?.Value;
+            Processes = xElement.Element("Processes")?.Elements("Process")?.Select(e => new Process(e, rolesDict, usersDict)).ToList();
         }
 
         private IDictionary<string, DataType> CreateDataTypes(XElement xElement)

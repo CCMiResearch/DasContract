@@ -13,13 +13,13 @@ namespace DasContract.Abstraction.Processes
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
 
         public ProcessUser() { }
-        public ProcessUser(XElement xElement)
+        public ProcessUser(XElement xElement, IDictionary<string, ProcessRole> roles)
         {
             Id = xElement.Attribute("Id").Value;
             Name = xElement.Element("Name")?.Value;
             Description = xElement.Element("Description")?.Value;
             Address = xElement.Element("Address")?.Value;
-            Roles = xElement.Element("Roles")?.Elements("ProcessRole")?.Select(e => new ProcessRole(e)).ToList()
+            Roles = xElement.Element("Roles")?.Elements("ProcessRole")?.Select(e => roles[e.Value]).ToList()
                 ?? Roles;
         }
 
@@ -30,7 +30,7 @@ namespace DasContract.Abstraction.Processes
                 new XElement("Name", Name),
                 new XElement("Description", Description),
                 new XElement("Address", Address),
-                new XElement("Roles", Roles.Select(r => r.ToXElement()).ToList())
+                new XElement("Roles", Roles.Select(r => new XElement("ProcessRole", r.Id)).ToList())
             );
         }
     }
