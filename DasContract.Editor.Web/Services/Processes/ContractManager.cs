@@ -1,8 +1,10 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
+using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.UndoRedo;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,8 @@ namespace DasContract.Editor.Web.Services.Processes
 
         private IJSRuntime _jsRuntime;
 
+        private NavigationManager _navigationManager;
+
         private Dictionary<string, Process> _deletedProcesses = new Dictionary<string, Process>();
 
         public event EventHandler<ProcessUser> UserRemoved;
@@ -25,9 +29,12 @@ namespace DasContract.Editor.Web.Services.Processes
         public event EventHandler<ProcessUser> UserAdded;
         public event EventHandler<ProcessRole> RoleAdded;
 
-        public ContractManager(IJSRuntime jsRuntime)
+        public string GeneratedContract { get; private set; }
+
+        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager)
         {
             _jsRuntime = jsRuntime;
+            _navigationManager = navigationManager;
             InitializeNewContract(); //DEBUG
         }
 
@@ -243,6 +250,15 @@ namespace DasContract.Editor.Web.Services.Processes
             Console.WriteLine(dataTypes.Count);
 
             Contract.DataTypes = dataTypes.ToDictionary(d => d.Id);
+        }
+
+        public string ConvertToSolidity()
+        {
+            ContractConverter converter = new ContractConverter(Contract);
+            converter.ConvertContract();
+            GeneratedContract = converter.GetSolidityCode();
+            _navigationManager.NavigateTo("/generated");
+            return GeneratedContract;
         }
     }
 }

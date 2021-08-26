@@ -15,6 +15,8 @@ namespace DasContract.Editor.Web.Services.Processes
         event EventHandler<ProcessUser> UserAdded;
         event EventHandler<ProcessRole> RoleAdded;
 
+        string GeneratedContract { get; }
+
         bool IsContractInitialized();
         void AddNewProcess(string processId, string participantId = null);
         ProcessUser AddNewUser();
@@ -38,6 +40,7 @@ namespace DasContract.Editor.Web.Services.Processes
         Property GetPropertyById(string propertyId);
         IList<Property> GetCollectionProperties();
         void SetDataModel(string dataModelXml);
+        string ConvertToSolidity();
         void SetProcessDiagram(string diagramXml);
     }
 }

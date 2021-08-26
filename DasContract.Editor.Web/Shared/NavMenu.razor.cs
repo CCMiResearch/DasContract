@@ -1,5 +1,6 @@
 ﻿using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Editor.Web.Services.Converter;
+using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace DasContract.Editor.Web.Shared
     public partial class NavMenu: ComponentBase
     {
         [Inject]
-        private IConverterService ConverterService { get; set; }
+        private IContractManager ContractManager { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -21,7 +22,7 @@ namespace DasContract.Editor.Web.Shared
 
         public void GenerateContract()
         {
-            ConverterService.ConvertContract();
+            Console.WriteLine(ContractManager.ConvertToSolidity());
         }
 
         protected string BaseRelativePath()
