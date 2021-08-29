@@ -10,7 +10,7 @@ namespace DasContract.Abstraction.Processes.Tasks
     {
         public UserForm Form { get; set; } = new UserForm();
 
-        public string FormScript { get; set; }
+        public string FormDefinition { get; set; }
 
         /// <summary>
         /// A due date expression such as $(someDate) or an ISO date. 
@@ -38,12 +38,16 @@ namespace DasContract.Abstraction.Processes.Tasks
         {
             DueDateExpression = xElement.Element("DueDateExpression")?.Value;
             ValidationScript = xElement.Element("ValidationScript")?.Value;
-            FormScript = xElement.Element("FormScript")?.Value;
+            FormDefinition = xElement.Element("FormDefinition")?.Value;
 
-            var xUserForm = xElement.Element("UserForm");
-            if (xUserForm != null)
-                Form = new UserForm(xUserForm);
-
+            if (FormDefinition != null)
+            {
+                try
+                {
+                    Form = UserForm.DeserializeFormScript(FormDefinition);
+                }
+                catch (Exception) { }
+            }
 
             var xAssignee = xElement.Element("Assignee");
             if (xAssignee != null)
@@ -68,7 +72,7 @@ namespace DasContract.Abstraction.Processes.Tasks
             xElement.Add(
                 Form?.ToXElement(),
                 new XElement("DueDateExpression", DueDateExpression),
-                new XElement("FormScript", FormScript),
+                new XElement("FormDefinition", FormDefinition),
                 new XElement("ValidationScript", ValidationScript),
                 new XElement("CandidateUsers", CandidateUsers?.Select(u => new XElement("ProcessUser", u.Id)).ToList()),
                 new XElement("CandidateRoles", CandidateRoles?.Select(r => new XElement("ProcessRole", r.Id)).ToList())); 
