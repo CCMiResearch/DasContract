@@ -60,7 +60,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         {
             try
             {
-                UserTask.Form = DeserializeFormScript(UserTask.FormScript);
+                UserTask.Form = UserForm.DeserializeFormScript(UserTask.FormDefinition);
                 UserFormService.CurrentUserForm = UserTask.Form;
                 UserFormService.RequestRefresh();
                 return true;
@@ -74,42 +74,14 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         protected void OnUserFormScriptChange(string script)
         {
-            UserTask.FormScript = script;
+            UserTask.FormDefinition = script;
             if(Refresh.AutoRefresh)
             {
                 TryRefreshUserForm();
             }
         }
 
-        public UserForm DeserializeFormScript(string formScript)
-        {
-            using TextReader reader = new StringReader(formScript);
-            XmlSerializer serializer = create_throwing_serializer();
-            XmlReader xmlReader = new XmlTextReader(reader);
-
-            return (UserForm)serializer.Deserialize(xmlReader);
-        }
-
-        private void Serializer_Throw(object sender, XmlElementEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-        private void Serializer_Throw(object sender, XmlAttributeEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-        private void Serializer_Throw(object sender, XmlNodeEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-        private XmlSerializer create_throwing_serializer()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(UserForm));
-            serializer.UnknownAttribute += new XmlAttributeEventHandler(Serializer_Throw);
-            serializer.UnknownElement += new XmlElementEventHandler(Serializer_Throw);
-            serializer.UnknownNode += new XmlNodeEventHandler(Serializer_Throw);
-            return serializer;
-        }
+        
 
         public void Dispose()
         {
@@ -118,7 +90,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         protected void OnScriptChanged(string script)
         {
-            UserTask.FormScript = script;
+            UserTask.FormDefinition = script;
             if (Refresh.AutoRefresh)
                 TryRefreshUserForm();
         }

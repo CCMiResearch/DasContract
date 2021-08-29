@@ -8,5 +8,5 @@
             <Refresh @ref=Refresh RefreshRequested="() => TryRefreshUserForm()" />
         }
     </div>
-    <ScriptTab Script="@UserTask.FormScript" ScriptChanged="OnScriptChanged" Language="xml"></ScriptTab>
+    <ScriptTab Script="@UserTask.FormDefinition" ScriptChanged="OnScriptChanged" Language="xml"></ScriptTab>
 </div>
