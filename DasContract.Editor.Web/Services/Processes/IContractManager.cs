@@ -35,11 +35,12 @@ namespace DasContract.Editor.Web.Services.Processes
         string SerializeContract();
         void RestoreContract(string contractXML);
         string GetProcessDiagram();
-        string GetDataModelXml();
+        
         IDictionary<string, DataType> GetDataTypes();
         Property GetPropertyById(string propertyId);
         IList<Property> GetCollectionProperties();
-        void SetDataModel(string dataModelXml);
+        string GetDataModelXml();
+        void SetDataModelXml(string dataModelXml);
         string ConvertToSolidity();
         void SetProcessDiagram(string diagramXml);
     }

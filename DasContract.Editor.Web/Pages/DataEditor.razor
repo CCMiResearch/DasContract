@@ -5,7 +5,7 @@
         <div class="script-toolbar">
             <Refresh @ref=Refresh RefreshRequested="RefreshDiagram" />
         </div>
-        <ScriptTab Script="@DataModelXml" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
+        <ScriptTab Script="@(ContractManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
     </div>
     <div class="gutter-col gutter-col-1"></div>
     <div id="mermaid-canvas"></div>

@@ -226,12 +226,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public string GetDataModelXml()
         {
-            var xRoot = new XElement("DataModel");
-            foreach (var dataType in Contract.DataTypes)
-            {
-                xRoot.Add(dataType.Value.ToXElement());
-            }
-            return xRoot.ToString();
+            return Contract.DataModelDefinition;
         }
 
         public IDictionary<string, DataType> GetDataTypes()
@@ -239,17 +234,11 @@ namespace DasContract.Editor.Web.Services.Processes
             return Contract.DataTypes;
         }
 
-        public void SetDataModel(string dataModelXml)
+        public void SetDataModelXml(string dataModelXml)
         {
-            Console.WriteLine("Trying to set data model");
-            var xRoot = XElement.Parse(dataModelXml);
-            var dataTypes = new List<DataType>();
-            dataTypes.AddRange(xRoot.Elements("Token").Select(e => new Token(e)).ToList());
-            dataTypes.AddRange(xRoot.Elements("Entity").Select(e => new Entity(e)).ToList());
-            dataTypes.AddRange(xRoot.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
-            Console.WriteLine(dataTypes.Count);
-
-            Contract.DataTypes = dataTypes.ToDictionary(d => d.Id);
+            Contract.DataModelDefinition = dataModelXml;
+            var xDataModel = XElement.Parse(dataModelXml);
+            Contract.SetDataModelFromXml(xDataModel);
         }
 
         public string ConvertToSolidity()

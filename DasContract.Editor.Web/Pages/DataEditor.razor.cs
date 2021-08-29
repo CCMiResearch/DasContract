@@ -51,8 +51,6 @@ namespace DasContract.Editor.Web.Pages
         //    +run()
         //  }";
 
-        protected string DataModelXml { get; set; }
-
         private Template _mermaidTemplate = Template.Parse(@"classDiagram
 {{for enum in enums}}
 class {{enum.name}} { 
@@ -87,18 +85,13 @@ class {{token.name}} {
 ");
 
 
-        protected override Task OnInitializedAsync()
-        {
-            DataModelXml = ContractManager.GetDataModelXml();
-            return base.OnInitializedAsync();
-        }
 
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
                 InitializeSplitGutter();
-                DataModelXmlChanged(DataModelXml);
+                RefreshDiagram();
             }
         }
 
@@ -110,10 +103,9 @@ class {{token.name}} {
 
         protected void DataModelXmlChanged(string script)
         {
-            DataModelXml = script;
+            ContractManager.SetDataModelXml(script);
             if (Refresh.AutoRefresh && !string.IsNullOrEmpty(script))
             {
-                ContractManager.SetDataModel(DataModelXml);
                 RefreshDiagram();
             }
         }
@@ -149,7 +141,6 @@ class {{token.name}} {
                     Tokens = dataTypes.Values.OfType<Token>().Where(e => e.GetType() == typeof(Token))
                 });
 
-                Console.WriteLine($"Mermaid script:{mermaidScript}");
                 await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", mermaidScript);
             }
             catch (JSException)
