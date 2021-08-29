@@ -1,5 +1,6 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
+using DasContract.Abstraction.UserInterface.FormFields;
 using DasContract.Blockchain.Solidity.Converters;
 using System;
 using System.Globalization;
@@ -64,6 +65,28 @@ namespace DasContract.Blockchain.Solidity
                     return "uint8";
                 default:
                     return "string";
+            }
+        }
+
+        public static string FormFieldToDataType(Field field)
+        {
+            switch (field)
+            {
+                case AddressField _:
+                    return "address";
+                case BoolField _:
+                    return "bool";
+                case DateField _:
+                case IntField _:
+                    return "uint";
+                case DecimalField _:
+                case DropdownField _:
+                case EnumField _:
+                case MultiLineField _:
+                case SingleLineField _:
+                    return "string";
+                default:
+                    throw new Exception();
             }
         }
 

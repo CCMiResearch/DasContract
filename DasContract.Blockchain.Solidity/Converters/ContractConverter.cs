@@ -48,6 +48,7 @@ namespace DasContract.Blockchain.Solidity.Converters
             
             while (processConverterQueue.Count() > 0)
             {
+                System.Console.WriteLine("Loop");
                 var currentConverter = processConverterQueue.Dequeue();
                 var inheritedIdentifiers = processConverters[currentConverter.Id].InstanceIdentifiers;
                 var callActivities = currentConverter.Process.Tasks.Where(t => t is CallActivity).Cast<CallActivity>();

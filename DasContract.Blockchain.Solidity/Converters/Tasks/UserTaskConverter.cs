@@ -106,22 +106,15 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
             function.AddToBody(new SolidityStatement(userTaskElement.ValidationScript, false));
 
-            /* TODO reimplement for new forms definitions
-            if (userTaskElement.Form.Fields != null)
+            foreach (var fieldGroup in userTaskElement.Form.FieldGroups)
             {
-                foreach (var field in userTaskElement.Form.Fields)
+                foreach (var field in fieldGroup.Fields)
                 {
-                    //TODO: throw exception if no property has been found
-                    var propertyAndEntity = processConverter.GetPropertyAndEntity(field.PropertyExpression);
-                    var property = propertyAndEntity.Item1;
-                    var entity = propertyAndEntity.Item2;
-                    var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.DisplayName);
-
-
-                    function.AddParameter(new SolidityParameter(Helpers.PropertyTypeToString(property, processConverter.ContractConverter), formPropertyDisplayName));
+                    //var property = processConverter.GetProperty(field.ParamBind);
+                    var formPropertyDisplayName = Helpers.ToLowerCamelCase(field.Label);
+                    function.AddParameter(new SolidityParameter(Helpers.FormFieldToDataType(field), formPropertyDisplayName));
                 }
             }
-            */
 
             function.AddToBody(CreateCallNextBody());
             return function;
