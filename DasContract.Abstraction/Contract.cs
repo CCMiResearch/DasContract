@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -14,6 +15,8 @@ namespace DasContract.Abstraction
         /// BPMN 2.0 XML with process description and a visual process information. 
         /// </summary>
         public string ProcessDiagram { get; set; }
+
+        public string DataModelDefinition { get; set; }
 
         /// <summary>
         /// Currently used for backwards compatibility, when only one 
@@ -72,7 +75,7 @@ namespace DasContract.Abstraction
         public IDictionary<string, DataType> DataTypes { get; set; } = new Dictionary<string, DataType>();
 
         public IEnumerable<Token> Tokens { get { return DataTypes.Values.OfType<Token>(); } }
-        public IEnumerable<Enum> Enums { get { return DataTypes.Values.OfType<Enum>(); } }
+        public IEnumerable<Data.Enum> Enums { get { return DataTypes.Values.OfType<Data.Enum>(); } }
         public IEnumerable<Entity> Entities { get { return DataTypes.Values.OfType<Entity>().Except(Tokens); } }
 
         public IList<ProcessRole> Roles { get; set; } = new List<ProcessRole>();
@@ -86,40 +89,57 @@ namespace DasContract.Abstraction
             var rolesDict = Roles.ToDictionary(r => r.Id);
             Users = xElement.Element("Users")?.Elements("ProcessUser")?.Select(u => new ProcessUser(u, rolesDict)).ToList();
             var usersDict = Users.ToDictionary(u => u.Id);
-  
-            DataTypes = CreateDataTypes(xElement.Element("DataTypes"));
+
             ProcessDiagram = xElement.Element("ProcessDiagram")?.Value;
             Processes = xElement.Element("Processes")?.Elements("Process")?.Select(e => new Process(e, rolesDict, usersDict)).ToList();
+            DataModelDefinition = xElement.Element("DataModelDefinition")?.Value;
+
+            XElement xDataModel;
+            if (string.IsNullOrEmpty(DataModelDefinition))
+            {
+                xDataModel = xElement.Element("DataTypes");
+                SetDataModelFromXml(xDataModel);
+            }
+            else
+            {
+                try
+                {
+                    xDataModel = XElement.Parse(DataModelDefinition);
+                    SetDataModelFromXml(xDataModel);
+                }
+                catch (Exception _) { }
+            }
         }
 
-        private IDictionary<string, DataType> CreateDataTypes(XElement xElement)
+        public void SetDataModelFromXml(XElement xDataModel)
         {
-            IEnumerable<DataType> dataTypes = new List<DataType>();
-            if (xElement != null)
-            {
-                var tokens = xElement.Elements("Token")?.Select(e => new Token(e));
-                var enums = xElement.Elements("Enum")?.Select(e => new Enum(e));
-                var entities = xElement.Elements("Entity")?.Select(e => new Entity(e));
-                if (tokens != null)
-                    dataTypes = dataTypes.Concat(tokens);
-                if (enums != null)
-                    dataTypes = dataTypes.Concat(enums);
-                if (entities != null)
-                    dataTypes = dataTypes.Concat(entities);
-            }
-            return dataTypes.ToDictionary(d => d.Id);
+            var dataTypes = new List<DataType>();
+            dataTypes.AddRange(xDataModel.Elements("Token").Select(e => new Token(e)).ToList());
+            dataTypes.AddRange(xDataModel.Elements("Entity").Select(e => new Entity(e)).ToList());
+            dataTypes.AddRange(xDataModel.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
+
+            DataTypes = dataTypes.ToDictionary(d => d.Id);
         }
 
         public XElement ToXElement()
         {
-            return new XElement("Contract",
+            var xElement =  new XElement("Contract",
                 new XAttribute("Id", Id),
                 new XElement("ProcessDiagram", ProcessDiagram),
                 new XElement("Processes", Processes.Select(p => p.ToXElement()).ToList()),
-                new XElement("DataTypes", DataTypes.Select(d => d.Value.ToXElement()).ToList()),
                 new XElement("Roles", Roles.Select(r => r.ToXElement())),
                 new XElement("Users", Users.Select(u => u.ToXElement()))
             );
+
+            if (string.IsNullOrEmpty(DataModelDefinition))
+            {
+                xElement.Add(new XElement("DataTypes", DataTypes.Select(d => d.Value.ToXElement()).ToList()));
+            }
+            else
+            {
+                xElement.Add(new XElement("DataModelDefinition", DataModelDefinition));
+            }
+            return xElement;
         }
     }
 }
