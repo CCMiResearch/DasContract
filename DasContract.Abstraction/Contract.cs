@@ -107,7 +107,7 @@ namespace DasContract.Abstraction
                     xDataModel = XElement.Parse(DataModelDefinition);
                     SetDataModelFromXml(xDataModel);
                 }
-                catch (Exception _) { }
+                catch (Exception) { }
             }
         }
 

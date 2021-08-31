@@ -1,4 +1,5 @@
-﻿using DasContract.Editor.Web.Services;
+﻿using Blazored.LocalStorage;
+using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -22,6 +23,9 @@ namespace DasContract.Editor.Web.Shared
 
         [Inject]
         private IJSRuntime JSRunTime { get; set; }
+
+        [Inject]
+        private ILocalStorageService LocalStorage { get; set; }
 
         protected override void OnInitialized()
         {
@@ -56,7 +60,9 @@ namespace DasContract.Editor.Web.Shared
         {
             //Request a force save
             await SaveManager.RequestSave();
-            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", ContractManager.SerializeContract());
+            var serializedContract = ContractManager.SerializeContract();
+            await LocalStorage.SetItemAsync("contract", serializedContract);
+            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", serializedContract);
         }
     }
 }

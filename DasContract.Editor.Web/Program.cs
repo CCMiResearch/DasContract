@@ -16,6 +16,7 @@ using DasContract.Editor.Web.Services.Converter;
 using DasContract.Editor.Web.Services.UndoRedo;
 using DasContract.Editor.Web.Services.UserInput;
 using DasContract.Editor.Web.Services.UserForm;
+using Blazored.LocalStorage;
 
 namespace DasContract.Editor.Web
 {
@@ -39,9 +40,13 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<SaveManager>();
             builder.Services.AddScoped<UsersRolesManager>();
             builder.Services.AddScoped<UserFormService>();
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IConverterService, ConverterService>();
 
-            var host =  builder.Build();
+            var host = builder.Build();
+
+            var contractManager = host.Services.GetRequiredService<IContractManager>();
+            await contractManager.InitAsync();
 
             await host.RunAsync();
         }

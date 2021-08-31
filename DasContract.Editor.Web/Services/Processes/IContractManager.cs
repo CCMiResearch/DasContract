@@ -18,6 +18,7 @@ namespace DasContract.Editor.Web.Services.Processes
         string GeneratedContract { get; }
 
         bool IsContractInitialized();
+        Task InitAsync();
         void AddNewProcess(string processId, string participantId = null);
         ProcessUser AddNewUser();
         void AddUser(ProcessUser user);

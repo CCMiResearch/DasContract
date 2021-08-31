@@ -30,6 +30,7 @@ namespace DasContract.Editor.Web.Pages
 
         protected void OnCreateNewClicked()
         {
+            ContractManager.InitializeNewContract();
             NavigationManager.NavigateTo("/process");
         }
     }

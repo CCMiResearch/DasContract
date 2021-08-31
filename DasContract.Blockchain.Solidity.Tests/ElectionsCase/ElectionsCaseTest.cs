@@ -11,13 +11,17 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
         [Fact]
         public void TestConversion()
         {
-            var contract = ElectionContractFactory.CreateContract();
 
+            var contract = ElectionContractFactory.CreateContract();
+            Console.WriteLine(contract.ToXElement().ToString());
+
+            /*
             var contractConverter = new ContractConverter(contract);
             contractConverter.ConvertContract();
             var solidityCode = contractConverter.GetSolidityCode();
 
             System.IO.File.WriteAllText(@"../../../../DasContract.CaseStudies/elections/elections.sol", solidityCode);
+            */
         }
     }
 }

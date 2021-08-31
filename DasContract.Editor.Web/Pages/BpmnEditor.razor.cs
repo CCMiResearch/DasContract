@@ -69,8 +69,6 @@ namespace DasContract.Editor.Web.Pages
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            if (!ContractManager.IsContractInitialized())
-                ContractManager.InitializeNewContract();
 
             if(EditElementService.EditElement != null)
             {

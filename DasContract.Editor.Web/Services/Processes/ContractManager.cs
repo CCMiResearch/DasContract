@@ -1,4 +1,5 @@
-﻿using DasContract.Abstraction;
+﻿using Blazored.LocalStorage;
+using DasContract.Abstraction;
 using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Blockchain.Solidity.Converters;
@@ -22,6 +23,8 @@ namespace DasContract.Editor.Web.Services.Processes
 
         private NavigationManager _navigationManager;
 
+        private ILocalStorageService _localStorage;
+
         private Dictionary<string, Process> _deletedProcesses = new Dictionary<string, Process>();
 
         public event EventHandler<ProcessUser> UserRemoved;
@@ -31,11 +34,21 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public string GeneratedContract { get; private set; }
 
-        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager)
+        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager, ILocalStorageService localStorage)
         {
             _jsRuntime = jsRuntime;
             _navigationManager = navigationManager;
-            InitializeNewContract(); //DEBUG
+            _localStorage = localStorage;
+        }
+
+        public async Task InitAsync()
+        {
+            Console.WriteLine("Initializing");
+            var contract = await _localStorage.GetItemAsync<string>("contract");
+            if (contract != null)
+                RestoreContract(contract);
+            else
+                InitializeNewContract();
         }
 
         public bool IsContractInitialized()
