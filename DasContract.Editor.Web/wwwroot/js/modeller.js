@@ -13,6 +13,7 @@ import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProv
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
 import customRules from "./modellerCustomRules";
+import { saveAs } from 'file-saver';
 
 
 export function hookEvents() {
@@ -63,6 +64,18 @@ export function hookEvents() {
         });
     });
 
+}
+
+export function saveAsSvg() {
+    window.modeler.saveSVG({}, function (err, svg) {
+        if (err) {
+            console.log(err);
+        }
+
+        var FileSaver = require('file-saver');
+        var blob = new Blob([svg], { type: "image/svg" });
+        FileSaver.saveAs(blob, "diagram.svg");
+    })
 }
 
 export function updateElementName(elementId, elementName) {

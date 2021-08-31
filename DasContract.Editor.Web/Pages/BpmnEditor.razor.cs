@@ -80,6 +80,19 @@ namespace DasContract.Editor.Web.Pages
             EditElementService.EditElementChanged += HandleEditElementChanged;
             SaveManager.SaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
+            CreateSaveDiagramToolbarButton();
+        }
+
+        private void CreateSaveDiagramToolbarButton()
+        {
+            var saveDiagramButton = new ToolBarItem { Description = "Save the diagram as .png", IconPath = "icons/card-image.svg", Name = "Save diagram" };
+            saveDiagramButton.OnClick += HandleSaveDiagram;
+            Layout.AddToolbarItem(saveDiagramButton);
+        }
+
+        private async void HandleSaveDiagram(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("modellerLib.saveAsSvg");
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
@@ -112,6 +125,7 @@ namespace DasContract.Editor.Web.Pages
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
+            Layout.RemoveToolbarItem("Save diagram");
         }
     }
 }

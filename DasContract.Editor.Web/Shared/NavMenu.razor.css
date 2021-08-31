@@ -21,6 +21,11 @@
 }
 
 .toolbar {
+    display: flex;
+}
+
+.toolbar-item {
+    margin-right: 6px;
 }
 
 .nav-buttons {

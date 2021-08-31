@@ -23,7 +23,9 @@
     <div class="toolbar">
         @foreach (var toolBarItem in Layout.ToolBarItems)
         {
-            <ToolBarButton ToolBarItem="toolBarItem" />
+            <div class="toolbar-item">
+                <ToolBarButton ToolBarItem="toolBarItem" />
+            </div>
         }
     </div>
     <div class="generate-button">
