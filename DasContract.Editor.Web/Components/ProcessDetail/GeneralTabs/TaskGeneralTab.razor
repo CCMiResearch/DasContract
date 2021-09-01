@@ -3,22 +3,24 @@
 
 @if (Task.InstanceType != Abstraction.Processes.Tasks.InstanceType.Single)
 {
-    <div class="mb-3">
-        <label class="form-label">Loop Collection</label>
-        <Select2 TItem="Property"
-                 Options="ContractManager.GetCollectionProperties()"
-                 ContentSelector="(p) => p.Name"
-                 ValueSelector="(p) => p.Id"
-                 Id="@($"{Task.Id}-loop-collection")"
-                 Selected="@(GetSelectedCollectionList())"
-                 SelectedChanged="@((selected) => Task.LoopCollection = selected.FirstOrDefault()?.Id)"
-                 Multiple="false" />
-    </div>
+    <TabSection SectionName="Multi Instance">
+        <div class="mb-3">
+            <label class="form-label">Loop Collection</label>
+            <Select2 TItem="Property"
+                     Options="ContractManager.GetCollectionProperties()"
+                     ContentSelector="(p) => p.Name"
+                     ValueSelector="(p) => p.Id"
+                     Id="@($"{Task.Id}-loop-collection")"
+                     Selected="@(GetSelectedCollectionList())"
+                     SelectedChanged="@((selected) => Task.LoopCollection = selected.FirstOrDefault()?.Id)"
+                     Multiple="false" />
+        </div>
 
-    <div class="mb-3">
-        <label for="@($"loop-cardinality-{Task.Id}")" class="form-label">Loop Cardinality</label>
-        <input class="form-control" id="@($"loop-cardinality-{Task.Id}")" @bind-value="Task.LoopCardinality">
-    </div>
+        <div class="mb-3">
+            <label for="@($"loop-cardinality-{Task.Id}")" class="form-label">Loop Cardinality</label>
+            <input class="form-control" id="@($"loop-cardinality-{Task.Id}")" @bind-value="Task.LoopCardinality">
+        </div>
+    </TabSection>
 }
 
 @switch (Task)
