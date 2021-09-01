@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Shared
 {
-    public partial class NavMenu: ComponentBase
+    public partial class NavMenu : ComponentBase
     {
         [Inject]
-        private IContractManager ContractManager { get; set; }
+        protected IContractManager ContractManager { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        protected ElementReference NameInputReference { get; set; } 
+
+        protected string ContractName { get { return ContractManager.GetContractName(); } set { ContractManager.SetContractName(value); } }
+
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
+
+        protected bool IsNameBeingEdited { get; set; }
 
         public void GenerateContract()
         {

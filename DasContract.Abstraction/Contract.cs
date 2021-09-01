@@ -16,6 +16,8 @@ namespace DasContract.Abstraction
         /// </summary>
         public string ProcessDiagram { get; set; }
 
+        public string Name { get; set; }
+
         public string DataModelDefinition { get; set; }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace DasContract.Abstraction
         public Contract(XElement xElement)
         {
             Id = xElement.Attribute("Id").Value;
+            Name = xElement.Element("Name")?.Value;
             Roles = xElement.Element("Roles")?.Elements("ProcessRole")?.Select(r => new ProcessRole(r)).ToList();
             var rolesDict = Roles.ToDictionary(r => r.Id);
             Users = xElement.Element("Users")?.Elements("ProcessUser")?.Select(u => new ProcessUser(u, rolesDict)).ToList();
@@ -125,6 +128,7 @@ namespace DasContract.Abstraction
         {
             var xElement =  new XElement("Contract",
                 new XAttribute("Id", Id),
+                new XElement("Name", Name),
                 new XElement("ProcessDiagram", ProcessDiagram),
                 new XElement("Processes", Processes.Select(p => p.ToXElement()).ToList()),
                 new XElement("Roles", Roles.Select(r => r.ToXElement())),

@@ -16,6 +16,10 @@
     padding: 0.4em 1em;
 }
 
+.contract-name:hover {
+    cursor: pointer;
+}
+
 .btn {
     margin: 0px 2px;
 }

@@ -1,6 +1,23 @@
 ﻿<div class="dascontract-navbar">
     <div class="app-title">
-        <h4><strong>DasContract </strong></h4>
+        @if (IsNameBeingEdited)
+        {
+            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" @bind-value="ContractName" @onfocusout="() => { IsNameBeingEdited = false; }">
+        }
+        else
+        {
+            <h4 class="contract-name" @onclick="() => { IsNameBeingEdited = true; }">
+                @if (string.IsNullOrWhiteSpace(ContractName))
+                {
+                    <strong>Untitled Contract</strong>
+                }
+                else
+                {
+                    <strong>@ContractName</strong>
+                }
+            </h4>
+        }
+
     </div>
 
     <div class="tab-buttons btn-group" role="group">
