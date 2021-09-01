@@ -47,11 +47,10 @@ namespace DasContract.Editor.Web.Services.Processes
             await _jsRuntime.InvokeVoidAsync("exitGuardLib.setContractManagerInstance", DotNetObjectReference.Create(this));
             var contract = await _localStorage.GetItemAsync<string>("contract");
             if (contract != null)
+            {
                 RestoreContract(contract);
-            else
-                InitializeNewContract();
-
-            SerializedContract = Contract.ToXElement().ToString();
+                SerializedContract = Contract.ToXElement().ToString();
+            }
         }
 
         public bool IsContractInitialized()
@@ -63,6 +62,7 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             Contract = new Contract();
             Contract.Id = Guid.NewGuid().ToString();
+            SerializedContract = Contract.ToXElement().ToString();
         }
 
         public bool TryGetProcess(string id, out Process process)

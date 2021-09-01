@@ -21,3 +21,7 @@ label:hover {
     cursor: pointer;
     color: #3681ce;
 }
+
+.centered {
+    text-align: center;
+}

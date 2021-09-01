@@ -11,9 +11,26 @@
 
 <p>
     <strong>
-        <label for="input-file">Open </label>
+        <label for="input-file">Open from file </label>
         or
         <label @onclick="OnCreateNewClicked">create </label>
         a new contract
+        <br>
+        @if (ContractManager.IsContractInitialized())
+        {
+            <div class="centered">
+                or <label @onclick="OnOpenRecentClicked"> open recent </label>
+                (
+                @if (string.IsNullOrWhiteSpace(@ContractManager.GetContractName()))
+                {
+                    <a>Untitled Contract</a>
+                }
+                else
+                {
+                    <a>@ContractManager.GetContractName()</a>
+                }
+                )
+            </div>
+        }
     </strong>
 </p>

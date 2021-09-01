@@ -28,6 +28,11 @@ namespace DasContract.Editor.Web.Pages
             NavigationManager.NavigateTo("/process");
         }
 
+        protected void OnOpenRecentClicked()
+        {
+            NavigationManager.NavigateTo("/process");
+        }
+
         protected void OnCreateNewClicked()
         {
             ContractManager.InitializeNewContract();
