@@ -10,7 +10,8 @@ module.exports = {
         keyCapture: './js/keyCapture.js',
         select2: './js/select2.js',
         mermaid: './js/mermaid.js',
-        tooltips: './js/tooltips.js'
+        tooltips: './js/tooltips.js',
+        exitGuard: './js/exitGuard.js'
     },
     module: {
         rules: [ 

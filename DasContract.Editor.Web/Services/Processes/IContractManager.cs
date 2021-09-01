@@ -36,6 +36,8 @@ namespace DasContract.Editor.Web.Services.Processes
         string SerializeContract();
         void RestoreContract(string contractXML);
         string GetProcessDiagram();
+        string GetContractName();
+        void SetContractName(string name);
         
         IDictionary<string, DataType> GetDataTypes();
         Property GetPropertyById(string propertyId);

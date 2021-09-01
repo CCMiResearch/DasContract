@@ -33,6 +33,7 @@ namespace DasContract.Editor.Web.Services.Processes
         public event EventHandler<ProcessRole> RoleAdded;
 
         public string GeneratedContract { get; private set; }
+        public string SerializedContract { get; private set; }
 
         public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager, ILocalStorageService localStorage)
         {
@@ -43,12 +44,14 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public async Task InitAsync()
         {
-            Console.WriteLine("Initializing");
+            await _jsRuntime.InvokeVoidAsync("exitGuardLib.setContractManagerInstance", DotNetObjectReference.Create(this));
             var contract = await _localStorage.GetItemAsync<string>("contract");
             if (contract != null)
                 RestoreContract(contract);
             else
                 InitializeNewContract();
+
+            SerializedContract = Contract.ToXElement().ToString();
         }
 
         public bool IsContractInitialized()
@@ -192,12 +195,13 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public string SerializeContract()
         {
-
-            return Contract.ToXElement().ToString();
+            SerializedContract = Contract.ToXElement().ToString();
+            return SerializedContract;
         }
 
         public void RestoreContract(string contractXML)
         {
+            SerializedContract = contractXML;
             var xElement = XElement.Parse(contractXML);
             Contract = new Contract(xElement);
         }
@@ -261,6 +265,25 @@ namespace DasContract.Editor.Web.Services.Processes
             GeneratedContract = converter.GetSolidityCode();
             _navigationManager.NavigateTo("/generated");
             return GeneratedContract;
+        }
+
+        public string GetContractName()
+        {
+            return Contract.Name;
+        }
+
+        public void SetContractName(string name)
+        {
+            Contract.Name = name;
+        }
+
+        [JSInvokable]
+        public bool CanSafelyExit()
+        {
+            if (Contract == null)
+                return true;
+
+            return Contract.ToXElement().ToString() == SerializedContract;
         }
     }
 }
