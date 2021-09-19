@@ -26,11 +26,6 @@ namespace DasContract.Editor.Web.Shared
 
         protected bool IsNameBeingEdited { get; set; }
 
-        public void GenerateContract()
-        {
-            Console.WriteLine(ContractManager.ConvertToSolidity());
-        }
-
         protected string BaseRelativePath()
         {
             return NavigationManager.ToBaseRelativePath(NavigationManager.Uri);

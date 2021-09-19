@@ -36,6 +36,11 @@
                 Users
             </button>
         </NavLink>
+        <NavLink href="/generated">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "generated" ? "active": "")">
+                Generated
+            </button>
+        </NavLink>
     </div>
     <div class="toolbar">
         @foreach (var toolBarItem in Layout.ToolBarItems)
@@ -44,9 +49,6 @@
                 <ToolBarButton ToolBarItem="toolBarItem" />
             </div>
         }
-    </div>
-    <div class="generate-button">
-        <button @onclick="GenerateContract" class="btn btn-primary">Generate</button>
     </div>
 </div>
 
