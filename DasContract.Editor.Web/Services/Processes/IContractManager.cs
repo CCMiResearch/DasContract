@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
+using DasContract.Editor.Web.Services.Converter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace DasContract.Editor.Web.Services.Processes
         IList<Property> GetCollectionProperties();
         string GetDataModelXml();
         void SetDataModelXml(string dataModelXml);
-        string ConvertToSolidity();
+        string ConvertContract(IConverterService converterService);
         void SetProcessDiagram(string diagramXml);
     }
 }

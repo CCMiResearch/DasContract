@@ -41,7 +41,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<UsersRolesManager>();
             builder.Services.AddScoped<UserFormService>();
             builder.Services.AddBlazoredLocalStorage();
-            builder.Services.AddScoped<IConverterService, ConverterService>();
+            builder.Services.AddScoped<IConverterService, SolidityConverterService>();
 
             var host = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using DasContract.Editor.Web.Services.Processes;
+﻿using DasContract.Editor.Web.Services.Converter;
+using DasContract.Editor.Web.Services.Processes;
 using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -25,6 +26,7 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
             CreateToolbarItems();
+            ContractManager.ConvertContract(new SolidityConverterService());
         }
 
         private void CreateToolbarItems()

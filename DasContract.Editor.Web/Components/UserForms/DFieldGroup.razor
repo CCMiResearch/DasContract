@@ -13,6 +13,10 @@
         @foreach (var field in FieldGroup.Fields)
         {
             <DField Field="field" />
+            @if (field.Multiple)
+            {
+                <button @onclick="() => { field.FieldCount++; }" class="btn btn-primary btn-circle btn-sm add-button">+</button>
+            }
         }
     </div>
 }

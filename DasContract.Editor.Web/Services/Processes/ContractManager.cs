@@ -4,6 +4,7 @@ using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
 using DasContract.Blockchain.Solidity.Converters;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
+using DasContract.Editor.Web.Services.Converter;
 using DasContract.Editor.Web.Services.UndoRedo;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -258,12 +259,9 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.SetDataModelFromXml(xDataModel);
         }
 
-        public string ConvertToSolidity()
+        public string ConvertContract(IConverterService contractConverter)
         {
-            ContractConverter converter = new ContractConverter(Contract);
-            converter.ConvertContract();
-            GeneratedContract = converter.GetSolidityCode();
-            _navigationManager.NavigateTo("/generated");
+            GeneratedContract = contractConverter.ConvertContract(Contract);
             return GeneratedContract;
         }
 
