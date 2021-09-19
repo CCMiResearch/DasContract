@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -8,21 +9,19 @@ namespace DasContract.Abstraction.UserInterface.FormFields
     public class IntField : Field
     {
         [XmlIgnoreAttribute]
-        public long Data { get; set; }
+        public IList<long> Data { get; set; } = new List<long>();
 
         public IntField() { }
 
         public override void SetData(string data)
         {
-            Data = Convert.ToInt64(data);
+            Data.Clear();
+            Data.Add(Convert.ToInt64(data));
         }
 
         public override void SetDataList(List<string> data)
         {
-            if (data.Count > 0)
-            {
-                Data = Convert.ToInt64(data[0]);
-            }
+            Data = data.Select(d => Convert.ToInt64(d)).ToList();
         }
 
         public override object GetData()

@@ -8,18 +8,19 @@ namespace DasContract.Abstraction.UserInterface.FormFields
     public class MultiLineField : Field
     {
         [XmlIgnoreAttribute]
-        public string Data { get; set; }
+        public IList<string> Data { get; set; } = new List<string>();
 
         public MultiLineField() { }
 
         public override void SetData(string data)
         {
-            Data = data;
+            Data.Clear();
+            Data.Add(data);
         }
 
         public override void SetDataList(List<string> data)
         {
-            Data = string.Join(Environment.NewLine, data);
+            Data = data;
         }
 
         public override object GetData()

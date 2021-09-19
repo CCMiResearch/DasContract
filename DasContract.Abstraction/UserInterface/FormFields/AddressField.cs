@@ -11,16 +11,17 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         public AddressField() { }
 
         [XmlIgnoreAttribute]
-        public string Data { get; set; }
+        public IList<string> Data { get; set; } = new List<string>();
 
         public override void SetData(string data)
         {
-            Data = data;
+            Data.Clear();
+            Data.Add(data);
         }
 
         public override void SetDataList(List<string> data)
         {
-            Data = string.Join(",", data);
+            Data = data;
         }
 
         public override object GetData()

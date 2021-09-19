@@ -17,8 +17,13 @@ namespace DasContract.Abstraction.UserInterface.FormFields
         public string Description { get; set; } = "";
         [XmlAttribute("ReadOnly")]
         public bool ReadOnly { get; set; } = false;
-        [XmlIgnoreAttribute]
+        [XmlIgnore]
         public bool Currency { get; set; } = false;
+        [XmlAttribute("Multiple")]
+        public bool Multiple { get; set; } = false;
+
+        [XmlIgnore]
+        public int FieldCount { get; set; } = 1;
 
         public abstract void SetData(string data);
         public abstract void SetDataList(List<string> data);
