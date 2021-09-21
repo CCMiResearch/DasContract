@@ -70,24 +70,33 @@ namespace DasContract.Blockchain.Solidity
 
         public static string FormFieldToDataType(Field field)
         {
+            string dataType;
             switch (field)
             {
                 case AddressField _:
-                    return "address";
+                    dataType = "address";
+                    break;
                 case BoolField _:
-                    return "bool";
+                    dataType = "bool";
+                    break;
                 case DateField _:
                 case IntField _:
-                    return "uint";
+                    dataType = "uint";
+                    break;
                 case DecimalField _:
                 case DropdownField _:
                 case EnumField _:
                 case MultiLineField _:
                 case SingleLineField _:
-                    return "string";
+                    dataType = "string";
+                    break;
                 default:
                     throw new Exception();
             }
+
+            if (field.Multiple)
+                dataType += "[]";
+            return dataType;
         }
 
         public static string PropertyTypeToString(Property property, ContractConverter contractConverter)
