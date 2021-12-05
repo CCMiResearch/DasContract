@@ -13,7 +13,7 @@
     <strong>
         <label for="input-file">Open from file </label>
         or
-        <label @onclick="OnCreateNewClicked">create </label>
+        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
         a new contract
         <br>
         @if (ContractManager.IsContractInitialized())
