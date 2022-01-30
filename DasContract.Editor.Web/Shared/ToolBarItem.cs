@@ -10,6 +10,7 @@ namespace DasContract.Editor.Web.Shared
     public class ToolBarItem
     {
         public event EventHandler<MouseEventArgs> OnClick;
+        public string Id { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
         public string IconPath { get; set; }

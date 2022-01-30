@@ -39,16 +39,20 @@ namespace DasContract.Editor.Web.Shared
             StateHasChanged();
         }
 
-        public void RemoveToolbarItem(string ItemName)
+        public void RemoveToolbarItem(string ItemId)
         {
-            ToolBarItems = ToolBarItems.Where(i => i.Name != ItemName).ToList();
+            ToolBarItems = ToolBarItems.Where(i => i.Id != ItemId).ToList();
             StateHasChanged();
         }
 
         //Creates toolbar items that are shared across all editors
         protected IList<ToolBarItem> CreateSharedToolbarItems()
         {
-            var downloadItem = new ToolBarItem { IconPath = "icons/download.svg", Description = "Save as .dascontract", Name = "Save contract" };
+            var downloadItem = new ToolBarItem { 
+                IconPath = "icons/download.svg", 
+                Description = "Save as .dascontract", 
+                Name = "Download contract",
+                Id = "download-contract"};
             downloadItem.OnClick += HandleSaveContractClicked;
             return new List<ToolBarItem>
             {

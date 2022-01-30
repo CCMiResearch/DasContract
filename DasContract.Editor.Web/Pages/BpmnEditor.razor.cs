@@ -83,7 +83,11 @@ namespace DasContract.Editor.Web.Pages
 
         private void CreateSaveDiagramToolbarButton()
         {
-            var saveDiagramButton = new ToolBarItem { Description = "Save the diagram as .png", IconPath = "icons/card-image.svg", Name = "Save diagram" };
+            var saveDiagramButton = new ToolBarItem { 
+                Description = "Save the diagram as .png", 
+                IconPath = "icons/card-image.svg", 
+                Id = "download-diagram",
+                Name = "Download diagram" };
             saveDiagramButton.OnClick += HandleSaveDiagram;
             Layout.AddToolbarItem(saveDiagramButton);
         }
@@ -123,7 +127,7 @@ namespace DasContract.Editor.Web.Pages
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
-            Layout.RemoveToolbarItem("Save diagram");
+            Layout.RemoveToolbarItem("download-diagram");
         }
     }
 }

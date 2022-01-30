@@ -31,7 +31,11 @@ namespace DasContract.Editor.Web.Pages
 
         private void CreateToolbarItems()
         {
-            var saveCodeToolbarItem = new ToolBarItem { Name = "Save code", IconPath = "icons/file-text.svg" };
+            var saveCodeToolbarItem = new ToolBarItem { 
+                Name = "Download code", 
+                IconPath = "icons/file-text.svg",
+                Id = "download-code"
+                };
             saveCodeToolbarItem.OnClick += HandleSaveCodeClicked;
             Layout.AddToolbarItem(saveCodeToolbarItem);
         }
@@ -43,7 +47,7 @@ namespace DasContract.Editor.Web.Pages
 
         public void Dispose()
         {
-            Layout.RemoveToolbarItem("Save code");
+            Layout.RemoveToolbarItem("download-code");
         }
     }
 }
