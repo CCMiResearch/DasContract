@@ -1,9 +1,0 @@
-﻿do{{ p.TransactionKindName }}{{ p.CoordinationAct }} :: (AsContractError e
-{% for stateMachine in p.StateMachines %}
-    , AsSMContractError e TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
-{% endfor %}
-    ) => Contract Schema e ()
-do{{ p.TransactionKindName }}{{ p.CoordinationAct }} = do
-    params <- endpoint @"do{{ p.TransactionKindName }}{{ p.CoordinationAct }}" @Parameters{{ p.TransactionKindName }}{{ p.CoordinationAct }}
-    let pn = {{ p.ProcessName }} (param{{ p.TransactionKindName }}{{ p.CoordinationAct }}Id{{ p.ProcessName }} params)
-    pure ()
