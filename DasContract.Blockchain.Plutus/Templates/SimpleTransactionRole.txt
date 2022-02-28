@@ -1,8 +1,0 @@
-﻿data Roles = Roles
-    { initiator :: PubKey
-    , executor :: PubKey
-    }
-    deriving (Prelude.Eq, Prelude.Show, Prelude.Ord, Generic, IotsType, ToSchema)
-
-makeLift ''Roles
-makeIsData ''Roles
