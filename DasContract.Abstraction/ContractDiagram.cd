@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DasContract.Abstraction.Contract">
+    <Position X="10.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAIAAgAAAAAAAgAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Contract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.UserInterface.FormField">
+    <Position X="19.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAECEAQAAAEAAAAQAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>UserInterface\FormField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.UserInterface.UserForm">
+    <Position X="17.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>UserInterface\UserForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Process">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAEABAAAAgAAAAAAgAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Processes\Process.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.ProcessRole">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\ProcessRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.ProcessUser">
+    <Position X="11.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\ProcessUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.SequenceFlow">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Processes\SequenceFlow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Events.EndEvent" Collapsed="true">
+    <Position X="5.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Events\EndEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Events.Event" Collapsed="true">
+    <Position X="6.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Events\Event.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Events.StartEvent">
+    <Position X="7.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Events\StartEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Tasks.BusinessRuleTask">
+    <Position X="10" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Tasks\BusinessRuleTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Tasks.ScriptTask">
+    <Position X="12.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Processes\Tasks\ScriptTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Tasks.ServiceTask">
+    <Position X="5.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggAAAAAAAAA=</HashCode>
+      <FileName>Processes\Tasks\ServiceTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Tasks.Task" Collapsed="true">
+    <Position X="8.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Tasks\Task.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Tasks.UserTask">
+    <Position X="7.75" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAIAAAAAAAgAACAAAAEAAAA=</HashCode>
+      <FileName>Processes\Tasks\UserTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Gateways.ExclusiveGateway" Collapsed="true">
+    <Position X="12" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Gateways\ExclusiveGateway.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Gateways.Gateway" Collapsed="true">
+    <Position X="11" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Gateways\Gateway.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DasContract.Abstraction.Processes.Gateways.ParallelGateway" Collapsed="true">
+    <Position X="9.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\Gateways\ParallelGateway.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Data.Entity">
+    <Position X="13.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Data\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DasContract.Abstraction.Data.Property">
+    <Position X="15.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAAAAAAAAAAQAAAIIAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Data\Property.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DasContract.Abstraction.Processes.IProcessElement">
+    <Position X="8" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Processes\IProcessElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="DasContract.Abstraction.UserInterface.FormFieldType">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>UserInterface\FormFieldType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DasContract.Abstraction.Data.PropertyType">
+    <Position X="13.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAAAAAAAABAAAgQAAAAAAAAAAAABQCAAAAAAAAACA=</HashCode>
+      <FileName>Data\PropertyType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
