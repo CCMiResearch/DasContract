@@ -1,6 +1,0 @@
-﻿allocate{{ p.TransactionKindName }} :: TransactionKind{{ p.Fact }}State -> TransactionKind{{ p.Fact }}Action -> Value -> ValueAllocation
-allocate{{ p.TransactionKindName }} _ _ currentValue =
-    ValueAllocation
-        { vaOwnAddress = currentValue
-        , vaOtherPayments = mempty
-        }

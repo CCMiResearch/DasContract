@@ -1,6 +1,0 @@
-﻿machine{{ p.TransactionKindName }} :: {{ p.ProcessName }} -> StateMachine TransactionKind{{ p.Fact }}State TransactionKind{{ p.Fact }}Action
-machine{{ p.TransactionKindName }} pn = StateMachine
-    { smTransition  =   transition{{ p.TransactionKindName }} pn
-    , smCheck       =   check{{ p.TransactionKindName }} pn
-    , smFinal       =   isFinal{{ p.TransactionKindName }}
-    }
