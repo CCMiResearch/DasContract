@@ -34,6 +34,9 @@
     <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-literal-expression.css">
     <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-font/css/dmn.css">
 
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="600x600" href="icon-512.png" />
+
     <!--DMN modeler script-->
     <!--<script src="node_modules/dmn-js/dist/dmn-modeler.development.js"></script>-->
     <script src="https://unpkg.com/dmn-js@11.0.1/dist/dmn-modeler.development.js"></script>
@@ -80,6 +83,7 @@
     <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
     <script src="_content/BlazorMonaco/jsInterop.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 
 </html>
