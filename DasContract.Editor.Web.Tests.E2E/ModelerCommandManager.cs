@@ -16,8 +16,13 @@ namespace DasContract.Editor.Web.Tests.E2E
 {
     public class ModelerCommandManager
     {
+        public const string DEFAULT_PROCESS_ID = "Process_1";
+
         private Contract _contract;
         private int _posCounter;
+
+        private Stack<XElement> _undoableStates = new Stack<XElement>();
+        private Stack<XElement> _redoableStates = new Stack<XElement>();
 
         private IDictionary<Type, string> typeMappings = new Dictionary<Type, string>()
         {
@@ -44,6 +49,7 @@ namespace DasContract.Editor.Web.Tests.E2E
                             window.elementRegistry = modeler.get('elementRegistry');
                             window.modeling = modeler.get('modeling');
                             window.bpmnFactory = modeler.get('bpmnFactory');
+                            window.commandStack = window.modeling._commandStack;
 
                             window.process = elementRegistry.get('Process_1');
                             window.startEvent = elementRegistry.get('StartEvent_1');
@@ -52,11 +58,13 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public XElement GetContractAsXElement()
         {
-            return _contract.ToXElement();
+            return new Contract(_contract.ToXElement()).ToXElement();
         }
 
         public async Task<string> CreateNewProcess(IPage page, bool first)
         {
+            AddCurrentStateAsUndoable();
+
             if (first)
             {
                 await page.EvaluateAsync(@"window.modeling.makeProcess();");
@@ -79,23 +87,29 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public async Task<string> AddProcessElement<T>(IPage page, string processId) where T : ProcessElement, new()
         {
+            AddCurrentStateAsUndoable();
+
             await page.EvaluateAsync(
                 $"window.addedElement = window.elementFactory.createShape({{ type: '{typeMappings[typeof(T)]}' }})");
             dynamic result = await page.EvaluateAsync<ExpandoObject>("window.addedElement");
             var id = result.id;
 
             var addedElement = new T { Id = id };
-            var process = _contract.Processes.Single(p => p.Id == processId);
+            var process = GetProcess(processId);
             process.ProcessElements.Add(id, addedElement);
 
+            var procSelector = processId == DEFAULT_PROCESS_ID ? "process" : $"window.elementRegistry.get('{processId}')";
+
             await page.EvaluateAsync(
-                $"window.modeling.createShape(window.addedElement, {{ x: {_posCounter}, y: {_posCounter} }}, process)");
+                $"window.modeling.createShape(window.addedElement, {{ x: {_posCounter}, y: {_posCounter} }}, {procSelector})");
             _posCounter += 100;
             return id;
         }
 
         public async Task RemoveProcessElement(IPage page, string processId, string elementId)
         {
+            AddCurrentStateAsUndoable();
+
             await page.EvaluateAsync(
                 $"window.modeling.removeShape(window.elementRegistry.get('{elementId}'))");
 
@@ -106,6 +120,8 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public async Task RenameElement(IPage page, string processId, string elementId, string newName)
         {
+            AddCurrentStateAsUndoable();
+
             await page.EvaluateAsync(
                 $"window.modeling.updateProperties(window.elementRegistry.get('{elementId}'), {{name: '{newName}'}})");
 
@@ -116,6 +132,8 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public async Task SetTaskLoopCharacteristic(IPage page, string processId, string elementId, InstanceType instanceType)
         {
+            AddCurrentStateAsUndoable();
+
             string loopCharacteristicInput;
             if (instanceType == InstanceType.Single)
                 loopCharacteristicInput = "undefined";
@@ -133,6 +151,8 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public async Task RenameConnection(IPage page, string processId, string connectionId, string newName)
         {
+            AddCurrentStateAsUndoable();
+
             await page.EvaluateAsync(
                 $"window.modeling.updateProperties(window.elementRegistry.get('{connectionId}'), {{name: '{newName}'}})");
 
@@ -143,6 +163,8 @@ namespace DasContract.Editor.Web.Tests.E2E
 
         public async Task<string> ConnectElements(IPage page, string processId, string sourceId, string targetId)
         {
+            AddCurrentStateAsUndoable();
+
             dynamic result = await page.EvaluateAsync<ExpandoObject>(
                 $"window.modeling.connect(window.elementRegistry.get('{sourceId}'), window.elementRegistry.get('{targetId}'))");
             var connectionId = result.id;
@@ -156,12 +178,38 @@ namespace DasContract.Editor.Web.Tests.E2E
             return connectionId;
         }
 
+        public void AddCurrentStateAsUndoable()
+        {
+            _undoableStates.Push(_contract.ToXElement());
+        }
+
+        public async Task Undo(IPage page)
+        {
+            await page.EvaluateAsync("window.commandStack.undo()");
+            _redoableStates.Push(_contract.ToXElement());
+            var state = _undoableStates.Pop();
+            _contract = new Contract(state);
+        }
+
+        public async Task Redo(IPage page)
+        {
+            await page.EvaluateAsync("window.commandStack.redo()");
+            _undoableStates.Push(_contract.ToXElement());
+            var state = _redoableStates.Pop();
+            _contract = new Contract(state);
+        }
+
+        private Process GetProcess(string id)
+        {
+            return _contract.Processes.Single(p => p.Id == id || p.ParticipantId == id);
+        }
+
         private void InitializeModel()
         {
             _contract = new Contract { Id = "Contract" };
 
             var startEvent = new StartEvent { Id = "StartEvent_1" };
-            var process = new Process { Id = "Process_1", IsExecutable = true };
+            var process = new Process { Id = DEFAULT_PROCESS_ID, IsExecutable = true };
             process.ProcessElements.Add("StartEvent_1", startEvent);
             _contract.Processes.Add(process);
         }

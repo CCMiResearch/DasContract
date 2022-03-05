@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml.Linq;
 using Task = System.Threading.Tasks.Task;
 using NUnit.Framework;
+using DasContract.Abstraction;
 
 namespace DasContract.Editor.Web.Tests.E2E.ModelerSynchronization
 {
@@ -15,7 +16,7 @@ namespace DasContract.Editor.Web.Tests.E2E.ModelerSynchronization
         protected readonly string _baseUrl;
 
         protected ModelerCommandManager _commandManager;
-        protected const string DEFAULT_PROCESS_ID = "Process_1";
+        
 
         public ModelerSynchronizationFixture()
         {
@@ -54,7 +55,7 @@ namespace DasContract.Editor.Web.Tests.E2E.ModelerSynchronization
             var download = await waitForDownloadTask;
             var path = await download.PathAsync();
             var xml = await File.ReadAllTextAsync(path);
-            return XElement.Parse(xml);
+            return new Contract(XElement.Parse(xml)).ToXElement();
         }
     }
 }
