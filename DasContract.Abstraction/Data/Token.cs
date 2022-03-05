@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DasContract.Abstraction.Processes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ namespace DasContract.Abstraction.Data
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Token";
+            xElement.Name = ElementNames.TOKEN;
             xElement.Add(
                 new XAttribute("IsFungible", IsFungible),
                 new XAttribute("IsIssued", IsIssued),

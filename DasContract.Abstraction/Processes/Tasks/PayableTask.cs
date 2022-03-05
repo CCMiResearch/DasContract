@@ -19,7 +19,6 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "PayableTask";
             xElement.Add(
                 new XElement("TokenOperationType", OperationType));
             return xElement;

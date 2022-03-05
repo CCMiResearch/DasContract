@@ -28,7 +28,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Task";
+            xElement.Name = ElementNames.TASK;
             xElement.Add(
                 new XElement("InstanceType", InstanceType),
                 new XElement("LoopCardinality", LoopCardinality),

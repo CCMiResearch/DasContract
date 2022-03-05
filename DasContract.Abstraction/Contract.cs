@@ -30,8 +30,6 @@ namespace DasContract.Abstraction
             set { Processes[0] = value; }
         }
 
-
-
         public bool TryGetProcess(string processId, out Process process)
         {
             var search = Processes.Where(p => p.Id == processId);
@@ -116,12 +114,8 @@ namespace DasContract.Abstraction
 
         public void SetDataModelFromXml(XElement xDataModel)
         {
-            var dataTypes = new List<DataType>();
-            dataTypes.AddRange(xDataModel.Elements("Token").Select(e => new Token(e)).ToList());
-            dataTypes.AddRange(xDataModel.Elements("Entity").Select(e => new Entity(e)).ToList());
-            dataTypes.AddRange(xDataModel.Elements("Enum").Select(e => new Abstraction.Data.Enum(e)).ToList());
-
-            DataTypes = dataTypes.ToDictionary(d => d.Id);
+            DataTypes = xDataModel.Elements()?
+                .Select(e => CreateDataType(e)).ToDictionary(d => d.Id);
         }
 
         public XElement ToXElement()
@@ -144,6 +138,17 @@ namespace DasContract.Abstraction
                 xElement.Add(new XElement("DataModelDefinition", DataModelDefinition));
             }
             return xElement;
+        }
+
+        private DataType CreateDataType(XElement xElement)
+        {
+            switch (xElement.Name.LocalName)
+            {
+                case ElementNames.ENTITY: return new Entity(xElement);
+                case ElementNames.TOKEN: return new Token(xElement);
+                case ElementNames.ENUM: return new Data.Enum(xElement);
+                default: throw new Exception($"Invalid data type element name: {xElement.Name.LocalName}");
+            }
         }
     }
 }

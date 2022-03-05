@@ -17,7 +17,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "ServiceTask";
+            xElement.Name = ElementNames.SERVICE_TASK;
             xElement.Add(
                 new XElement("ImplementationType", ImplementationType),
                 new XElement("Configuration", Configuration));

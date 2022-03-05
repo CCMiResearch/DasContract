@@ -16,7 +16,7 @@ namespace DasContract.Abstraction.Processes.Gateways
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Gateway";
+            xElement.Name = ElementNames.GATEWAY;
             xElement.Add(
                 new XElement("DefaultSequenceFlowId", DefaultSequenceFlowId));
             return xElement;

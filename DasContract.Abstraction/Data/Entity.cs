@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DasContract.Abstraction.Processes;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -22,7 +23,7 @@ namespace DasContract.Abstraction.Data
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Entity";
+            xElement.Name = ElementNames.ENTITY;
             xElement.Add(
                 new XAttribute("IsRootEntity", IsRootEntity)
             );

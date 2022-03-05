@@ -62,9 +62,9 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "UserTask";
+            xElement.Name = ElementNames.USER_TASK;
 
-            if(Assignee != null)
+            if (Assignee != null)
             {
                 xElement.Add(new XElement("Assignee", Assignee.Id));
             }

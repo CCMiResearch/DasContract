@@ -16,7 +16,7 @@ namespace DasContract.Abstraction.Processes.Events
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Event";
+            xElement.Name = ElementNames.EVENT;
             return xElement;
         }
     }

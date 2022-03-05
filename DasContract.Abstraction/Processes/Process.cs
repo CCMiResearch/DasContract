@@ -37,89 +37,31 @@ namespace DasContract.Abstraction.Processes
             if (bool.TryParse(xElement.Element("IsExecutable")?.Value, out var isExecutable))
                 IsExecutable = isExecutable;
 
-            SequenceFlows = xElement.Element("SequenceFlows")?.Elements("SequenceFlow")?.
-                Select(e => new SequenceFlow(e)).ToDictionary(s => s.Id) ?? SequenceFlows;
-            ProcessElements = CreateProcessElements(xElement.Element("ProcessElements"), roles, users);
+            SequenceFlows = xElement.Element("SequenceFlows")?.Elements("SequenceFlow")?
+                .Select(e => new SequenceFlow(e)).ToDictionary(s => s.Id) ?? SequenceFlows;
+            ProcessElements = xElement.Element("ProcessElements")?.Elements()?
+                .Select(e => CreateProcessElement(e, roles, users)).ToDictionary(e => e.Id) ?? ProcessElements;
         }
 
-        private IDictionary<string, ProcessElement> CreateProcessElements(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
+        private ProcessElement CreateProcessElement(XElement element, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
         {
-            IEnumerable<ProcessElement> processElements = new List<ProcessElement>();
-            if (xElement != null)
+            switch(element.Name.LocalName)
             {
-                var tasks = CreateTasks(xElement, roles, users);
-                var gateways = CreateGateways(xElement);
-                var events = CreateEvents(xElement);
-
-                if (tasks != null)
-                    processElements = processElements.Concat(tasks);
-                if (gateways != null)
-                    processElements = processElements.Concat(gateways);
-                if (events != null)
-                    processElements = processElements.Concat(events);
+                case ElementNames.TASK: return new Task(element);
+                case ElementNames.BUSINESS_RULE_TASK: return new BusinessRuleTask(element); 
+                case ElementNames.SCRIPT_TASK: return new ScriptTask(element); 
+                case ElementNames.SERVICE_TASK: return new ServiceTask(element); 
+                case ElementNames.USER_TASK: return new UserTask(element, roles, users);
+                case ElementNames.CALL_ACTIVITY: return new CallActivity(element);
+                case ElementNames.EXCLUSIVE_GATEWAY: return new ExclusiveGateway(element); 
+                case ElementNames.PARALLEL_GATEWAY: return new ParallelGateway(element); 
+                case ElementNames.EVENT: return new Event(element); 
+                case ElementNames.BOUNDARY_EVENT: return new BoundaryEvent(element); 
+                case ElementNames.END_EVENT: return new EndEvent(element); 
+                case ElementNames.START_EVENT: return new StartEvent(element); 
+                case ElementNames.TIMER_BOUNDARY_EVENT: return new TimerBoundaryEvent(element);
+                default: throw new Exception($"Invalid process element name: {element.Name.LocalName}");
             }
-            return processElements.ToDictionary(e => e.Id);
-        }
-
-        private IEnumerable<Task> CreateTasks(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
-        {
-            var tasks = xElement.Elements("Task")?.Select(e => new Task(e));
-            var businessRuleTasks = xElement.Elements("BusinessRuleTask")?.Select(e => new BusinessRuleTask(e));
-            var callActivities = xElement.Elements("CallActivity")?.Select(e => new CallActivity(e));
-            var scriptTasks = xElement.Elements("ScriptTask")?.Select(e => new ScriptTask(e));
-            var serviceTasks = xElement.Elements("ServiceTask")?.Select(e => new ServiceTask(e));
-            var userTasks = xElement.Elements("UserTask")?.Select(e => new UserTask(e, roles, users));
-            
-            if (tasks == null)
-                tasks = new List<Task>();
-            if (businessRuleTasks != null)
-                tasks = tasks.Concat(businessRuleTasks);
-            if (callActivities != null)
-                tasks = tasks.Concat(callActivities);
-            if (scriptTasks != null)
-                tasks = tasks.Concat(scriptTasks);
-            if (serviceTasks != null)
-                tasks = tasks.Concat(serviceTasks);
-            if (userTasks != null)
-                tasks = tasks.Concat(userTasks);
-
-            return tasks.ToList();
-        }
-
-        private IEnumerable<Gateway> CreateGateways(XElement xElement)
-        {
-            IEnumerable<Gateway> gateways = new List<Gateway>();
-            var parallelGateways = xElement.Elements("ParallelGateway")?.Select(e => new ParallelGateway(e));
-            var exclusiveGateways = xElement.Elements("ExclusiveGateway")?.Select(e => new ExclusiveGateway(e));
-
-            if (parallelGateways != null)
-                gateways = gateways.Concat(parallelGateways);
-            if (exclusiveGateways != null)
-                gateways = gateways.Concat(exclusiveGateways);
-
-            return gateways.ToList();
-        }
-
-        private IEnumerable<Event> CreateEvents(XElement xElement)
-        {
-            var events = xElement.Elements("Event")?.Select(e => new Event(e));
-            var endEvents = xElement.Elements("EndEvent")?.Select(e => new EndEvent(e));
-            var startEvents = xElement.Elements("StartEvent")?.Select(e => new StartEvent(e));
-            var boundaryEvents = xElement.Elements("BoundaryEvent")?.Select(e => new BoundaryEvent(e));
-            var timerBoundaryEvents = xElement.Elements("TimerBoundaryEvent")?.Select(e => new TimerBoundaryEvent(e));
-
-            if (events == null)
-                events = new List<Event>();
-            if (endEvents != null)
-                events = events.Concat(endEvents);
-            if (startEvents != null)
-                events = events.Concat(startEvents);
-            if (boundaryEvents != null)
-                events = events.Concat(boundaryEvents);
-            if (timerBoundaryEvents != null)
-                events = events.Concat(timerBoundaryEvents);
-
-            return events.ToList();
         }
 
         public XElement ToXElement()

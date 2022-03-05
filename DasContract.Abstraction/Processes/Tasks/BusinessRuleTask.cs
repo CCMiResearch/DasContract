@@ -18,7 +18,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "BusinessRuleTask";
+            xElement.Name = ElementNames.BUSINESS_RULE_TASK;
             xElement.Add(
                 new XElement("BusinessRuleDefinition", BusinessRuleDefinitionXml));
             return xElement;

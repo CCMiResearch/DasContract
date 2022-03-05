@@ -18,7 +18,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "CallActivity";
+            xElement.Name = ElementNames.CALL_ACTIVITY;
             xElement.Add(
                 new XElement("CalledElement", CalledElement));
             return xElement;

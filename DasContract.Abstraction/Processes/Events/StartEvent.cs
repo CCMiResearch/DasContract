@@ -18,7 +18,7 @@ namespace DasContract.Abstraction.Processes.Events
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "StartEvent";
+            xElement.Name = ElementNames.START_EVENT;
 
             var xStartForm = StartForm?.ToXElement();
             if (xStartForm != null)

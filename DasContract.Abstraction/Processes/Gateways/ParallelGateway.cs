@@ -13,7 +13,7 @@ namespace DasContract.Abstraction.Processes.Gateways
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "ParallelGateway";
+            xElement.Name = ElementNames.PARALLEL_GATEWAY;
             return xElement;
         }
     }

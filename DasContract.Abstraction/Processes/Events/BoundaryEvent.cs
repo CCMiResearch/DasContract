@@ -18,7 +18,7 @@ namespace DasContract.Abstraction.Processes.Events
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "BoundaryEvent";
+            xElement.Name = ElementNames.BOUNDARY_EVENT;
             xElement.Add(
                 new XElement("AttachedTo", AttachedTo));
             return xElement;

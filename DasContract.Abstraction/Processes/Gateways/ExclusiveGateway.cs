@@ -10,7 +10,7 @@ namespace DasContract.Abstraction.Processes.Gateways
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "ExclusiveGateway";
+            xElement.Name = ElementNames.EXCLUSIVE_GATEWAY;
             return xElement;
         }
     }

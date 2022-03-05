@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DasContract.Abstraction.Processes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace DasContract.Abstraction.Data
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "Enum";
+            xElement.Name = ElementNames.ENUM;
             foreach (var value in Values.Select(v => new XElement("Value", v)).ToList())
             {
                 xElement.Add(value);

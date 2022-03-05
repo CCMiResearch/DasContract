@@ -35,7 +35,7 @@ namespace DasContract.Abstraction.Processes.Events
         public override XElement ToXElement()
         {
             var xElement = base.ToXElement();
-            xElement.Name = "TimerBoundaryEvent";
+            xElement.Name = ElementNames.TIMER_BOUNDARY_EVENT;
             xElement.Add(
                 new XElement("TimerDefinitionType", TimerDefinitionType),
                 new XElement("TimerDefinition", TimerDefinition));
