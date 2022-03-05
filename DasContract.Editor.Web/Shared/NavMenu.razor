@@ -20,28 +20,30 @@
 
     </div>
 
-    <div class="tab-buttons btn-group" role="group">
-        <NavLink href="/process" Match="NavLinkMatch.All">
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "process" ? "active": "")">
+    <div class="main-button-group">
+        <div class="nav-buttons btn-group me-2" role="group">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "process" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("process"))">
                 Process
             </button>
-        </NavLink>
-        <NavLink href="/data">
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "data" ? "active": "")">
+
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "data" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("data"))">
                 Data
             </button>
-        </NavLink>
-        <NavLink href="/users">
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "users" ? "active": "")">
+
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "users" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("users"))">
                 Users
             </button>
-        </NavLink>
-        <NavLink href="/generated">
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "generated" ? "active": "")">
-                Generated
-            </button>
-        </NavLink>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "generated" ? "active": "")"
+                @onclick="@(() => NavigationManager.NavigateTo("generated"))">
+            Generated
+        </button>
     </div>
+
     <div class="toolbar">
         @foreach (var toolBarItem in Layout.ToolBarItems)
         {

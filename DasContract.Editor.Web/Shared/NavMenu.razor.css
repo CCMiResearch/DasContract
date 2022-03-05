@@ -20,9 +20,6 @@
     cursor: pointer;
 }
 
-.btn {
-    margin: 0px 2px;
-}
 
 .toolbar {
     display: flex;
