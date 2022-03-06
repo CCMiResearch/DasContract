@@ -33,7 +33,7 @@ namespace DasContract.Editor.Web.Pages
         {
             var saveCodeToolbarItem = new ToolBarItem { 
                 Name = "Download code", 
-                IconPath = "icons/file-text.svg",
+                IconPath = "dist/icons/file-text.svg",
                 Id = "download-code"
                 };
             saveCodeToolbarItem.OnClick += HandleSaveCodeClicked;

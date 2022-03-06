@@ -49,7 +49,7 @@ namespace DasContract.Editor.Web.Shared
         protected IList<ToolBarItem> CreateSharedToolbarItems()
         {
             var downloadItem = new ToolBarItem { 
-                IconPath = "icons/download.svg", 
+                IconPath = "dist/icons/download.svg", 
                 Description = "Save as .dascontract", 
                 Name = "Download contract",
                 Id = "download-contract"};

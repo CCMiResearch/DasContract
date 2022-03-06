@@ -85,7 +85,7 @@ namespace DasContract.Editor.Web.Pages
         {
             var saveDiagramButton = new ToolBarItem { 
                 Description = "Save the diagram as .png", 
-                IconPath = "icons/card-image.svg", 
+                IconPath = "dist/icons/card-image.svg", 
                 Id = "download-diagram",
                 Name = "Download diagram" };
             saveDiagramButton.OnClick += HandleSaveDiagram;
