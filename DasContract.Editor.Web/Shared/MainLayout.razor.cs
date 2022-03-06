@@ -30,6 +30,10 @@ namespace DasContract.Editor.Web.Shared
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            Console.WriteLine("Initializing");
+            if (!ContractManager.IsContractInitialized())
+                ContractManager.InitializeNewContract();
+
             ToolBarItems = CreateSharedToolbarItems();
         }
 

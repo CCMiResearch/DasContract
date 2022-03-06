@@ -11,11 +11,20 @@ namespace DasContract.Editor.Web.Services.Converter
     public class SolidityConverterService: IConverterService
     {
 
-        public string ConvertContract(Contract contract)
+        public bool TryConvertContract(Contract contract, out string data)
         {
             ContractConverter converter = new ContractConverter(contract);
-            converter.ConvertContract();
-            return converter.GetSolidityCode();
+            try
+            {
+                converter.ConvertContract();
+                data = converter.GetSolidityCode();
+                return true;
+            }
+            catch (Exception e)
+            {
+                data = e.Message;
+                return false;
+            }
         }
     }
 }

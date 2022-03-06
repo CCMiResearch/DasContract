@@ -16,17 +16,22 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         IContractManager ContractManager { get; set; }
 
+        
+
         [Inject]
         IJSRuntime JSRuntime { get; set; }
 
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
 
+        private bool _conversionSuccessful;
+        private string _conversionData;
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
             CreateToolbarItems();
-            ContractManager.ConvertContract(new SolidityConverterService());
+            _conversionSuccessful = ContractManager.ConvertContract(new SolidityConverterService(), out _conversionData);
         }
 
         private void CreateToolbarItems()

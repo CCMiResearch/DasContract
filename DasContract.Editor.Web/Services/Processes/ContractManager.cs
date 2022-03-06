@@ -259,15 +259,14 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.SetDataModelFromXml(xDataModel);
         }
 
-        public string ConvertContract(IConverterService contractConverter)
+        public bool ConvertContract(IConverterService contractConverter, out string data)
         {
-            GeneratedContract = contractConverter.ConvertContract(Contract);
-            return GeneratedContract;
+            return contractConverter.TryConvertContract(Contract, out data);
         }
 
         public string GetContractName()
         {
-            return Contract.Name;
+            return Contract?.Name;
         }
 
         public void SetContractName(string name)
