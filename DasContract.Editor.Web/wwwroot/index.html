@@ -6,40 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>DasContract Modeler</title>
     <base href="/" />
-    <!--JQuery-->
-    <!--<script src="node_modules/jquery/dist/jquery.slim.min.js"></script>-->
-    <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <!--Bootstrap-->
-    <link href="https://unpkg.com/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!--<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+    <!--JQuery-->
+    <script src="dist/node_packages/jquery/dist/jquery.slim.min.js"></script>
+
+    <!--Bootstrap-->
+    <link href="dist/node_packages/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="dist/node_packages/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <!--Main stylesheet-->
     <link href="css/app.css" rel="stylesheet" />
     <!--DMN modeler stylesheets-->
-    <!--<link rel="stylesheet" href="node_modules/dmn-js/dist/assets/diagram-js.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-js-shared.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-js-drd.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-js-decision-table.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-js-decision-table-controls.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-js-literal-expression.css">
-    <link rel="stylesheet" href="node_modules/dmn-js/dist/assets/dmn-font/css/dmn.css">-->
-
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/diagram-js.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-shared.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-drd.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-decision-table.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-decision-table-controls.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-js-literal-expression.css">
-    <link rel="stylesheet" href="https://unpkg.com/dmn-js@11.0.1/dist/assets/dmn-font/css/dmn.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/diagram-js.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-shared.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-drd.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-decision-table.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-decision-table-controls.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-literal-expression.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-font/css/dmn.css">
 
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="600x600" href="icon-512.png" />
 
     <!--DMN modeler script-->
     <!--<script src="node_modules/dmn-js/dist/dmn-modeler.development.js"></script>-->
-    <script src="https://unpkg.com/dmn-js@11.0.1/dist/dmn-modeler.development.js"></script>
+    <script src="dist/node_packages/dmn-js/dist/dmn-modeler.development.js"></script>
     <!--Custom js scripts-->
     <script src="dist/modeller_bundle.js"></script>
     <script src="dist/splitter_bundle.js"></script>
@@ -52,18 +43,16 @@
     <script src="dist/tooltips_bundle.js"></script>
     <script src="dist/exitGuard_bundle.js"></script>
     <!--Select 2 component-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="dist/node_packages/select2/dist/css/select2.min.css" />
+    <script src="dist/node_packages/select2/dist/js/select2.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="dist/node_packages/select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css" />
     <!--Isolated css styles-->
     <link rel="stylesheet" href="DasContract.Editor.Web.styles.css">
-    <!--BPMN modeler-->
-    <!--<link rel="stylesheet" href="node_modules/bpmn-js/dist/assets/diagram-js.css">
-    <link rel="stylesheet" href="node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css">-->
 
-    <link rel="stylesheet" href="https://unpkg.com/bpmn-js@8.7.3/dist/assets/diagram-js.css">
-    <link rel="stylesheet" href="https://unpkg.com/bpmn-js@8.7.3/dist/assets/bpmn-font/css/bpmn.css">
+    <!--BPMN modeler-->
+    <link rel="stylesheet" href="dist/node_packages/bpmn-js/dist/assets/diagram-js.css">
+    <link rel="stylesheet" href="dist/node_packages/bpmn-js/dist/assets/bpmn-font/css/bpmn.css">
 
     <!--Blazor monaco styles-->
     <link href="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.css" rel="stylesheet" />

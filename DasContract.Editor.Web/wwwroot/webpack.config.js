@@ -11,7 +11,8 @@ module.exports = {
         select2: './js/select2.js',
         mermaid: './js/mermaid.js',
         tooltips: './js/tooltips.js',
-        exitGuard: './js/exitGuard.js'
+        exitGuard: './js/exitGuard.js',
+        serviceWorker: './service-worker.js'
     },
     module: {
         rules: [ 
