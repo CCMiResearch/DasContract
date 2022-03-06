@@ -37,10 +37,12 @@ async function onFetch(event) {
         const shouldServeIndexHtml = event.request.mode === 'navigate';
 
         const request = shouldServeIndexHtml ? 'index.html' : event.request;
-        console.log(request);
+        request.url = request.url.split("?")[0];
         const cache = await caches.open(cacheName);
         cachedResponse = await cache.match(request);
     }
 
     return cachedResponse || fetch(event.request);
 }
+
+
