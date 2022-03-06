@@ -37,13 +37,8 @@ async function onFetch(event) {
         const shouldServeIndexHtml = event.request.mode === 'navigate';
 
         let request = shouldServeIndexHtml ? 'index.html' : event.request;
-        if (request != null && request.url != null && request.url.includes("?")) {
-            console.log("Request");
-            console.log(Request);
-            request = new Request(request.url.split("?")[0], {});
-        }
         const cache = await caches.open(cacheName);
-        cachedResponse = await cache.match(request);
+        cachedResponse = await cache.match(request, {ignoreSearch: true});
     }
 
     return cachedResponse || fetch(event.request);
