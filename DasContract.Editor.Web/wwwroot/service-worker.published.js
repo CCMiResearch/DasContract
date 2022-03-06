@@ -36,9 +36,12 @@ async function onFetch(event) {
         // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
         const shouldServeIndexHtml = event.request.mode === 'navigate';
 
-        const request = shouldServeIndexHtml ? 'index.html' : event.request;
-        if (request != null &&request.url != null)
-            request.url = request.url.split("?")[0];
+        let request = shouldServeIndexHtml ? 'index.html' : event.request;
+        if (request != null && request.url != null && request.url.includes("?")) {
+            console.log("Request");
+            console.log(Request);
+            request = new Request(request.url.split("?")[0], {});
+        }
         const cache = await caches.open(cacheName);
         cachedResponse = await cache.match(request);
     }
