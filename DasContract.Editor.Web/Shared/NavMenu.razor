@@ -1,42 +1,57 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">DasContract.Editor</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+﻿<div class="dascontract-navbar">
+    <div class="app-title">
+        @if (IsNameBeingEdited)
+        {
+            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" @bind-value="ContractName" @onfocusout="() => { IsNameBeingEdited = false; }">
+        }
+        else
+        {
+            <h4 class="contract-name" @onclick="() => { IsNameBeingEdited = true; }">
+                @if (string.IsNullOrWhiteSpace(ContractName))
+                {
+                    <strong>Untitled Contract</strong>
+                }
+                else
+                {
+                    <strong>@ContractName</strong>
+                }
+            </h4>
+        }
+
+    </div>
+
+    <div class="main-button-group">
+        <div class="nav-buttons btn-group me-2" role="group">
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "process" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("process"))">
+                Process
+            </button>
+
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "data" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("data"))">
+                Data
+            </button>
+
+            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "users" ? "active": "")"
+                    @onclick="@(() => NavigationManager.NavigateTo("users"))">
+                Users
+            </button>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "generated" ? "active": "")"
+                @onclick="@(() => NavigationManager.NavigateTo("generated"))">
+            Generated
+        </button>
+    </div>
+
+    <div class="toolbar">
+        @foreach (var toolBarItem in Layout.ToolBarItems)
+        {
+            <div class="toolbar-item">
+                <ToolBarButton ToolBarItem="toolBarItem" />
+            </div>
+        }
+    </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="editor">
-                <span class="oi oi-browser" aria-hidden="true"></span> BPMN Editor
-            </NavLink>
-        </li>
-    </ul>
-</div>
 
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

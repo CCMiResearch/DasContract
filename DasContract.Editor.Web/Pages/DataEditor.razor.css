@@ -1,0 +1,19 @@
+﻿.data-editor {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 10px 0.5fr;
+}
+
+.script-canvas {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.script-toolbar{
+    width: 100%;
+    padding: 5px 15px;
+    border-bottom: 1px solid grey;
+    display: flex;
+    align-items: center;
+}

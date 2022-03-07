@@ -1,17 +1,21 @@
 ﻿using DasContract.Abstraction.UserInterface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
     public class UserTask : PayableTask
     {
-        public UserForm Form { get; set; }
+        public UserForm Form { get; set; } = new UserForm();
+
+        public string FormDefinition { get; set; }
 
         /// <summary>
         /// A due date expression such as $(someDate) or an ISO date. 
         /// </summary>
-        public string DueDateExpression { get; set; } 
+        public string DueDateExpression { get; set; }
 
         /// <summary>
         /// An user who is assigned to perform a task. May be null. 
@@ -21,12 +25,58 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// <summary>
         /// Process users which are selected to perform this task. 
         /// </summary>
-        public IEnumerable<ProcessUser> CandidateUsers { get; set; }
+        public IList<ProcessUser> CandidateUsers { get; set; } = new List<ProcessUser>();
         /// <summary>
         /// Process roles allowed to execute this task. 
         /// </summary>
-        public IEnumerable<ProcessRole> CandidateRoles { get; set; }
+        public IList<ProcessRole> CandidateRoles { get; set; } = new List<ProcessRole>();
 
         public string ValidationScript { get; set; }
+
+        public UserTask() { }
+        public UserTask(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users) : base(xElement)
+        {
+            DueDateExpression = xElement.Element("DueDateExpression")?.Value;
+            ValidationScript = xElement.Element("ValidationScript")?.Value;
+            FormDefinition = xElement.Element("FormDefinition")?.Value;
+
+            if (FormDefinition != null)
+            {
+                try
+                {
+                    Form = UserForm.DeserializeFormScript(FormDefinition);
+                }
+                catch (Exception) { }
+            }
+
+            var xAssignee = xElement.Element("Assignee");
+            if (xAssignee != null)
+                Assignee = users[xAssignee.Value];
+
+            CandidateUsers = xElement.Element("CandidateUsers")?.Elements("ProcessUser")?.Select(e => users[e.Value]).ToList()
+                ?? CandidateUsers;
+            CandidateRoles = xElement.Element("CandidateRoles")?.Elements("ProcessRole")?.Select(e => roles[e.Value]).ToList()
+                ?? CandidateRoles;
+        }
+
+        public override XElement ToXElement()
+        {
+            var xElement = base.ToXElement();
+            xElement.Name = ElementNames.USER_TASK;
+
+            if (Assignee != null)
+            {
+                xElement.Add(new XElement("Assignee", Assignee.Id));
+            }
+
+            xElement.Add(
+                Form?.ToXElement(),
+                new XElement("DueDateExpression", DueDateExpression),
+                new XElement("FormDefinition", FormDefinition),
+                new XElement("ValidationScript", ValidationScript),
+                new XElement("CandidateUsers", CandidateUsers?.Select(u => new XElement("ProcessUser", u.Id)).ToList()),
+                new XElement("CandidateRoles", CandidateRoles?.Select(r => new XElement("ProcessRole", r.Id)).ToList())); 
+            return xElement;
+        }
     }
 }

@@ -1,0 +1,53 @@
+﻿@using DasContract.Abstraction.Processes.Tasks
+@using DasContract.Editor.Web.Components.Common
+@using DasContract.Editor.Web.Extensions
+@using DasContract.Abstraction.Processes
+
+
+<div class="detail-bar">
+    <div class="detail-bar-header">
+        <div class="main-info">
+            <h5 class="id-attribute"><strong>@EditedElement?.Id</strong></h5>
+            <h6 class="element-type-attribute">@EditedElement.GetType().Name.SplitCamelCase()</h6>
+            <h6 class="element-type-attribute">Process Id: @(ProcessManager.TryGetProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "") </h6>
+        </div>
+
+        <div class="tab-buttons btn-group" role="group">
+            @*Render tab buttons*@
+            @foreach (var tab in _tabs)
+            {
+                <button @onclick="e => _activeTab = tab" type="button" class="btn btn-outline-primary shadow-none @(tab == _activeTab ? "active" : "")">
+                    @tab.TabName
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="edit-tab">
+        @*Render the active tab*@
+        @switch (_activeTab.TabType)
+        {
+            case ProcessDetailTabType.General:
+                <ElementGeneralTab ContractElement="EditedElement" />
+                break;
+            case ProcessDetailTabType.Script:
+                <ScriptTab @bind-Script="((ScriptTask) EditedElement).Script" Language="sol" />
+                break;
+            case ProcessDetailTabType.UserForm:
+                <UserFormsTab UserTask="((UserTask) EditedElement)" />
+                break;
+            case ProcessDetailTabType.UserValidation:
+                <ScriptTab @bind-Script="((UserTask) EditedElement).ValidationScript" Language="sol" />
+                break;
+            case ProcessDetailTabType.ProcessScript:
+                <ScriptTab @bind-Script="((Process) EditedElement).CustomScript" Language="sol"/>
+                break;
+            case ProcessDetailTabType.BusinessRules:
+                <BusinessRulesTab BusinessRuleTask="(BusinessRuleTask) EditedElement"/>
+                break;
+            case ProcessDetailTabType.SequenceFlowCondition:
+                <ScriptTab @bind-Script="((SequenceFlow) EditedElement).Condition" Language="sol"/>
+                break;
+        }
+    </div>
+</div>

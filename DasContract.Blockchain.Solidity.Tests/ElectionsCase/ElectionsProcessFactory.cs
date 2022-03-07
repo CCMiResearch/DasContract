@@ -68,9 +68,9 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
             {
                 CreateStartEvent(),
                 CreateInitiateElectionsTask(),
-                CreateRegisterNewPartyTask(),
-                CreateRegisterCandidateTask(),
-                CreateApproveCandidatesTask(),
+                //CreateRegisterNewPartyTask(),
+                //CreateRegisterCandidateTask(),
+                //CreateApproveCandidatesTask(),
                 CreateStartCountryElections(),
                 CreateCountryElectionsCallActivity(),
                 CreateEndEvent()
@@ -236,7 +236,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
         ge.voters.push(0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2); "
             };
         }
-
+        /*
         private static UserTask CreateApproveCandidatesTask()
         {
             var form = new UserForm
@@ -335,6 +335,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
 
         private static UserTask CreateRegisterNewPartyTask()
         {
+           
             var form = new UserForm
             {
                 Id = "Form_2",
@@ -404,6 +405,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
         politicalPartiesKeys.push(msg.sender);"
             };
         }
+        */
 
         private static ScriptTask CreateInitiateElectionsTask()
         {

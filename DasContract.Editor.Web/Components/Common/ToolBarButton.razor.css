@@ -1,0 +1,12 @@
+﻿.toolbar-item-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-button{
+    padding-top: 0.2rem;
+}
+
+.tool-bar-item-name {
+    font-size: 0.8rem
+}

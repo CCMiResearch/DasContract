@@ -237,7 +237,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         {
             string callName;
             //TODO: check whether name is unique, short enough, etc...
-            if (element.Name != null && element.Name.Length <= 20)
+            if (!string.IsNullOrWhiteSpace(element.Name) && element.Name.Length <= 20)
                 callName = Helpers.ToUpperCamelCase(element.Name);
             else
                 callName = element.Id;

@@ -1,19 +1,61 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>DasContract.Editor</title>
+    <title>DasContract Modeler</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
-    <script src="_content/MatBlazor/dist/matBlazor.js"></script>
-    <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 
-    <script src="js/my_lib.js"></script>
-    <link rel="stylesheet" href="css/bpmn-editor/diagram-js.css">
-    <link rel="stylesheet" href="css/bpmn-editor/bpmn-font/css/bpmn.css">
+    <!--JQuery-->
+    <script src="dist/node_packages/jquery/dist/jquery.slim.min.js"></script>
+
+    <!--Bootstrap-->
+    <link href="dist/node_packages/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="dist/node_packages/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Main stylesheet-->
+    <link href="css/app.css" rel="stylesheet" />
+    <!--DMN modeler stylesheets-->
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/diagram-js.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-shared.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-drd.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-decision-table.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-decision-table-controls.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-literal-expression.css">
+    <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-font/css/dmn.css">
+
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="600x600" href="icon-512.png" />
+
+    <!--DMN modeler script-->
+    <!--<script src="node_modules/dmn-js/dist/dmn-modeler.development.js"></script>-->
+    <script src="dist/node_packages/dmn-js/dist/dmn-modeler.production.min.js"></script>
+    <!--Custom js scripts-->
+    <script src="dist/modeller_bundle.js"></script>
+    <script src="dist/splitter_bundle.js"></script>
+    <script src="dist/fileSaver_bundle.js"></script>
+    <script src="dist/modellerCustomRules_bundle.js"></script>
+    <script src="dist/dmnModeller_bundle.js"></script>
+    <script src="dist/select2_bundle.js"></script>
+    <script src="dist/keyCapture_bundle.js"></script>
+    <script src="dist/mermaid_bundle.js"></script>
+    <script src="dist/tooltips_bundle.js"></script>
+    <script src="dist/exitGuard_bundle.js"></script>
+    <!--Select 2 component-->
+    <link rel="stylesheet" href="dist/node_packages/select2/dist/css/select2.min.css" />
+    <script src="dist/node_packages/select2/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="dist/node_packages/select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css" />
+    <!--Isolated css styles-->
+    <link rel="stylesheet" href="DasContract.Editor.Web.styles.css">
+
+    <!--BPMN modeler-->
+    <link rel="stylesheet" href="dist/node_packages/bpmn-js/dist/assets/diagram-js.css">
+    <link rel="stylesheet" href="dist/node_packages/bpmn-js/dist/assets/bpmn-font/css/bpmn.css">
+
+    <!--Blazor monaco styles-->
+    <link href="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -24,7 +66,13 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script>require.config({ paths: { 'vs': '_content/BlazorMonaco/lib/monaco-editor/min/vs' } });</script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
+    <script src="_content/BlazorMonaco/jsInterop.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 
 </html>

@@ -1,30 +1,22 @@
-﻿@page "/editor"
-@inject IJSRuntime JSRunTime
-
-
-
-<MatButton OnClick="@ExportXML" Label="Export XML"></MatButton>
-
-<div id="canvas"></div>
-
-
-@code {
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
+﻿@page "/process"
+<div class="editor-main">
+    <div class="@(ShowDetailBar ? "grid" : "") main-container">
+        @if (UserFormService.IsPreviewOpen)
         {
-            CreateEditor();
+            <div class="user-form-preview">
+                <DasContract.Editor.Web.Components.UserForms.DForm UserForm="UserFormService.CurrentUserForm" />
+            </div>
         }
-
-    }
-    async void CreateEditor()
-    {
-        await JSRunTime.InvokeVoidAsync("MyLib.createModeler");
-    }
-
-    async void ExportXML()
-    {
-        var xml = await JSRunTime.InvokeAsync<string>("MyLib.getDiagramXML");
-        Console.WriteLine(xml);
-    }
-}
+        else
+        {
+            <div class="outer-canvas">
+                <div id="canvas"></div>
+            </div>
+        }
+        @if (ShowDetailBar)
+        {
+            <div class="gutter-col gutter-col-1"></div>
+            <ProcessDetailBar />
+        }
+    </div>
+</div>
