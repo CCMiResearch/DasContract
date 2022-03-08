@@ -17,7 +17,7 @@ namespace DasContract.Abstraction.Processes
         public const string START_EVENT = "StartEvent";
         public const string TIMER_BOUNDARY_EVENT = "TimerBoundaryEvent";
         public const string BOUNDARY_EVENT = "BoundaryEvent";
-        public const string EXCLUSIVE_GATEWAY = "EclusiveGateway";
+        public const string EXCLUSIVE_GATEWAY = "ExclusiveGateway";
         public const string PARALLEL_GATEWAY = "ParallelGateway";
         public const string GATEWAY = "Gateway";
 
