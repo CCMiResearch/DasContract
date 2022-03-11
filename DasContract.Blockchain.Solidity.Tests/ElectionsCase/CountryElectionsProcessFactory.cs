@@ -20,8 +20,8 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 ProcessElements = new List<ProcessElement>
                 {
                     CreateStartEvent(),
-                    CreateSendBallotsTask(),
-                    CreateVoteTask(),
+                    //CreateSendBallotsTask(),
+                    //CreateVoteTask(),
                     CreateTimerBoundaryEvent(),
                     CreateCountVotesTask(),
                     CreateDistributeSeatsTask(),
@@ -149,7 +149,7 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
                 Script = "" //TODO
             };
         }
-
+        /*
         private static UserTask CreateVoteTask()
         {
 
@@ -225,5 +225,6 @@ namespace DasContract.Blockchain.Solidity.Tests.ElectionsCase
         }"
             };
         }
+        */
     }
 }

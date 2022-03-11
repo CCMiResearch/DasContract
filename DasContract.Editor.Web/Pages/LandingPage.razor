@@ -1,0 +1,36 @@
+﻿@page "/"
+@layout LandingPageLayout
+
+<h1><strong>DasContract</strong></h1>
+
+<InputFile OnChange="OnInputFileProvided" AdditionalAttributes="@(
+    new Dictionary<string, object> {
+        { "id", "input-file"} ,
+        { "accept", ".dascontract" }
+    })" />
+
+<p>
+    <strong>
+        <label for="input-file">Open from file </label>
+        or
+        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
+        a new contract
+        <br>
+        @if (ContractManager.IsContractInitialized())
+        {
+            <div class="centered">
+                or <label @onclick="OnOpenRecentClicked"> open recent </label>
+                (
+                @if (string.IsNullOrWhiteSpace(@ContractManager.GetContractName()))
+                {
+                    <a>Untitled Contract</a>
+                }
+                else
+                {
+                    <a>@ContractManager.GetContractName()</a>
+                }
+                )
+            </div>
+        }
+    </strong>
+</p>

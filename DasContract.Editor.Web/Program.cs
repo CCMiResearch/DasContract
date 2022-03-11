@@ -7,6 +7,16 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DasContract.Editor.Web.Services.BpmnEvents;
+using DasContract.Editor.Web.Services;
+using DasContract.Editor.Web.Services.EditElement;
+using DasContract.Editor.Web.Services.Processes;
+using BlazorPro.BlazorSize;
+using DasContract.Editor.Web.Services.Converter;
+using DasContract.Editor.Web.Services.UndoRedo;
+using DasContract.Editor.Web.Services.UserInput;
+using DasContract.Editor.Web.Services.UserForm;
+using Blazored.LocalStorage;
 
 namespace DasContract.Editor.Web
 {
@@ -19,7 +29,26 @@ namespace DasContract.Editor.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
+            builder.Services.AddScoped<IBpmnEventHandler, BpmnEventHandler>();
+            builder.Services.AddScoped<IContractManager, ContractManager>();
+            builder.Services.AddScoped<IProcessManager, ProcessManager>();
+            builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
+            builder.Services.AddScoped<UserInputHandler>();
+            builder.Services.AddScoped<EditElementService>();
+            builder.Services.AddScoped<ResizeHandler>();
+            builder.Services.AddScoped<ResizeListener>();
+            builder.Services.AddScoped<SaveManager>();
+            builder.Services.AddScoped<UsersRolesManager>();
+            builder.Services.AddScoped<UserFormService>();
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<IConverterService, SolidityConverterService>();
+
+            var host = builder.Build();
+
+            var contractManager = host.Services.GetRequiredService<IContractManager>();
+            await contractManager.InitAsync();
+
+            await host.RunAsync();
         }
     }
 }

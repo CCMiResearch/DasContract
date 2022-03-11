@@ -1,0 +1,27 @@
+﻿h1{
+    font-family: Helvetica;
+    font-size:400%;
+    margin:auto;
+    margin-top: 60px;
+    width: max-content;
+}
+
+p {
+    width: max-content;
+    margin:auto;
+    margin-top: 30px;
+    font-size: 130%;
+}
+
+label {
+    color: #1b6ec2;
+}
+
+label:hover {
+    cursor: pointer;
+    color: #3681ce;
+}
+
+.centered {
+    text-align: center;
+}

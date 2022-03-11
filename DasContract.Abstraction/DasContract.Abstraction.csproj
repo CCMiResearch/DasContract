@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Marek Skotnica, Jan Frait, Jan Klicpera, Martin Drozdík, Ondřej Šelder</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Company>CCMI FIT CTU</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/CCMiResearch/DasContract</PackageProjectUrl>
+    <Version>2.0.1</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
 
 </Project>

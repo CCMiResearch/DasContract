@@ -1,0 +1,12 @@
+﻿<div class="script-canvas d-flex flex-column">
+    <div class="script-toolbar d-flex flex-row">
+        <button class="btn btn-outline-dark btn-sm me-3" @onclick="() => SwitchPreview()">
+            @(UserFormService.IsPreviewOpen ? "Close preview" : "Show preview")
+        </button>
+        @if (UserFormService.IsPreviewOpen)
+        {
+            <Refresh @ref=Refresh RefreshRequested="() => TryRefreshUserForm()" />
+        }
+    </div>
+    <ScriptTab Script="@UserTask.FormDefinition" ScriptChanged="OnScriptChanged" Language="xml"></ScriptTab>
+</div>

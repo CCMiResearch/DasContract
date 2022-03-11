@@ -1,0 +1,8 @@
+﻿<div class="form-check form-switch me-2">
+    <input class="form-check-input" type="checkbox" id="data-script-refresh-checkbox" checked="@AutoRefresh" @bind-value="AutoRefresh">
+    <label class="form-check-label" for="data-script-refresh-checkbox">Auto refresh</label>
+</div>
+@if (!AutoRefresh)
+{
+    <img @onclick="() => RefreshRequested.InvokeAsync()" src="dist/icons/arrow-repeat.svg" alt="Bootstrap" width="20" height="20" class="refresh-button">
+}

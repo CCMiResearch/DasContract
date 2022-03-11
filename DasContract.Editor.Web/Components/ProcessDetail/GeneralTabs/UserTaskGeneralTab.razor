@@ -1,0 +1,42 @@
+﻿@using DasContract.Abstraction.Processes
+
+<TabSection SectionName="Details">
+    <div class="mb-3">
+        <label class="form-label">Assignee</label>
+        <Select2 TItem="ProcessUser"
+                 Options="ContractManager.GetProcessUsers()"
+                 ContentSelector="(u) => u.Name"
+                 ValueSelector="(u) => u.Id"
+                 Id="@($"{UserTask.Id}-assignee")"
+                 Selected="@(CreateAssigneeSelectedList())"
+                 SelectedChanged="@((selected) => UserTask.Assignee = selected.FirstOrDefault())"
+                 Multiple="false" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Candidate users</label>
+        <Select2 TItem="ProcessUser"
+                 Options="ContractManager.GetProcessUsers()"
+                 ContentSelector="(u) => u.Name"
+                 ValueSelector="(u) => u.Id"
+                 Id="@($"{UserTask.Id}-candidate-users")"
+                 @bind-Selected="@(UserTask.CandidateUsers)"
+                 Multiple="true" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Candidate roles</label>
+        <Select2 TItem="ProcessRole"
+                 Options="ContractManager.GetProcessRoles()"
+                 ContentSelector="(r) => r.Name"
+                 ValueSelector="(r) => r.Id"
+                 Id="@($"{UserTask.Id}-candidate-roles")"
+                 @bind-Selected="@(UserTask.CandidateRoles)"
+                 Multiple="true" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Due date</label>
+        <input class="form-control" @bind-value="UserTask.DueDateExpression">
+    </div>
+</TabSection>

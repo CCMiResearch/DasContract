@@ -1,5 +1,6 @@
 ﻿using DasContract.Abstraction.Data;
 using DasContract.Abstraction.Processes;
+using DasContract.Abstraction.UserInterface.FormFields;
 using DasContract.Blockchain.Solidity.Converters;
 using System;
 using System.Globalization;
@@ -38,10 +39,12 @@ namespace DasContract.Blockchain.Solidity
             "yyyy-MM-ddTHHZ"
         };
 
-        public static string PrimitivePropertyTypeToString(PropertyDataType propertyType)
+        public static string PrimitivePropertyTypeToString(PropertyDataType? propertyType)
         {
             switch (propertyType)
             {
+                case null:
+                    return "";
                 case PropertyDataType.Bool:
                     return "bool";
                 case PropertyDataType.String:
@@ -63,6 +66,37 @@ namespace DasContract.Blockchain.Solidity
                 default:
                     return "string";
             }
+        }
+
+        public static string FormFieldToDataType(Field field)
+        {
+            string dataType;
+            switch (field)
+            {
+                case AddressField _:
+                    dataType = "address";
+                    break;
+                case BoolField _:
+                    dataType = "bool";
+                    break;
+                case DateField _:
+                case IntField _:
+                    dataType = "uint";
+                    break;
+                case DecimalField _:
+                case DropdownField _:
+                case EnumField _:
+                case MultiLineField _:
+                case SingleLineField _:
+                    dataType = "string";
+                    break;
+                default:
+                    throw new Exception();
+            }
+
+            if (field.Multiple)
+                dataType += "[]";
+            return dataType;
         }
 
         public static string PropertyTypeToString(Property property, ContractConverter contractConverter)

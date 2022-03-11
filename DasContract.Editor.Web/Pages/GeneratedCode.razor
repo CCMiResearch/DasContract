@@ -1,0 +1,13 @@
+﻿@page "/generated"
+
+@if (_conversionSuccessful)
+{
+    <ScriptTab Script="@(_conversionData)" Language="sol"></ScriptTab>
+}
+else
+{
+    <div class="card m-5 p-2">
+        <h3>Could not generate the contract:</h3>
+        @_conversionData
+    </div>
+}

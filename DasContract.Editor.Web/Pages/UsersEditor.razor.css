@@ -1,0 +1,71 @@
+﻿.users-roles-editor {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+
+.add-button {
+    align-self: flex-end;
+    margin-top: 1em;
+}
+
+.users, .roles {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding: 0px 20px;
+}
+
+.accordion-body {
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.accordion {
+    width: 100%;
+    min-width: min-content;
+}
+
+.short {
+    width: 45%;
+    min-width: 200px;
+}
+
+.long {
+    width: 100%;
+}
+
+.input {
+    margin-bottom: 10px;
+}
+
+.divider {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    background: #f7f7f8;
+}
+
+.btn-outline-primary {
+    width: max-content;
+    align-self: flex-end;
+}
+
+.role-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-close {
+    margin-left: 2em;
+    align-self: center;
+}
+
+.select2-outer {
+    margin-bottom: 2em;
+    width:100%;
+}

@@ -1,0 +1,11 @@
+﻿.editor-container {
+    position:relative;
+    height: 100%;
+    width:100%;
+    min-width: 350px;
+}
+
+.outer-editor-container {
+    padding: 10px 0px;
+    height: 100%;
+}

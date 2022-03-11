@@ -1,0 +1,23 @@
+﻿.tab-button {
+    border: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: min-content;
+    padding: 1px 7px;
+    user-select: none;
+    text-decoration: none;
+    font-size: 15px;
+    margin-right: 3px;
+    height: min-content;
+    margin-bottom: -1px;
+}
+
+    .tab-button:hover {
+        background-color: white;
+        cursor: pointer;
+    }
+
+.tab-button-active {
+    border-bottom: 1px solid white;
+    background-color: white;
+}

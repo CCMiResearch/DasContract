@@ -186,6 +186,7 @@ namespace DasContract.Abstraction.Processes
             var formElement = xElement.Descendants("Form").FirstOrDefault();
             if (formElement != null)
             {
+                /* TODO: apply for 
                 UserForm form = new UserForm();
                 form.Id = formElement.Descendants("Id").FirstOrDefault().Value;
                 form.Fields = new List<FormField>();
@@ -201,6 +202,7 @@ namespace DasContract.Abstraction.Processes
                     form.Fields.Add(field);
                 }
                 task.Form = form;
+                */
             }
             return task;
         }
