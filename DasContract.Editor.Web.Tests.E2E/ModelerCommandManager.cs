@@ -130,6 +130,71 @@ namespace DasContract.Editor.Web.Tests.E2E
             element.Name = newName;
         }
 
+        public async Task EditProcessElementId(IPage page, string processId, string oldId, string newId)
+        {
+            AddCurrentStateAsUndoable();
+            await page.EvaluateAsync(
+                $"window.modeling.updateProperties(window.elementRegistry.get('{oldId}'), {{id: '{newId}'}})");
+
+            var process = _contract.Processes.Single(p => p.Id == processId);
+
+            var element = process.ProcessElements[oldId];
+
+            var incomingToUpdate = process.SequenceFlows.Where(s => element.Incoming.Contains(s.Key));
+            foreach (var seqFlow in incomingToUpdate)
+            {
+                seqFlow.Value.TargetId = newId;
+            }
+            var outgoingToUpdate = process.SequenceFlows.Where(s => element.Outgoing.Contains(s.Key));
+            foreach (var seqFlow in outgoingToUpdate)
+            {
+                seqFlow.Value.SourceId = newId;
+            }
+            //If the element is a task, then it might have boundary events attached to it
+            if (element is Abstraction.Processes.Tasks.Task)
+            {
+                var boundaryEvents = process.ProcessElements.Values
+                    .Where(e => e is BoundaryEvent)
+                    .Select(e => e as BoundaryEvent);
+                foreach (var boundaryEvent in boundaryEvents)
+                {
+                    if (boundaryEvent.AttachedTo == element.Id)
+                        boundaryEvent.AttachedTo = newId;
+                }
+            }
+
+            process.ProcessElements.Remove(oldId);
+            element.Id = newId;
+            process.ProcessElements.Add(newId, element);
+        }
+
+        public async Task EditConnectionId(IPage page, string processId, string oldId, string newId)
+        {
+            AddCurrentStateAsUndoable();
+            await page.EvaluateAsync(
+                $"window.modeling.updateProperties(window.elementRegistry.get('{oldId}'), {{id: '{newId}'}})");
+
+            var process = _contract.Processes.Single(p => p.Id == processId);
+
+            var sequenceFlow = process.SequenceFlows[oldId];
+
+            if (process.ProcessElements.TryGetValue(sequenceFlow.SourceId, out var source))
+            {
+                source.Outgoing.Remove(sequenceFlow.Id);
+                source.Outgoing.Add(newId);
+            }
+
+            if (process.ProcessElements.TryGetValue(sequenceFlow.TargetId, out var target))
+            {
+                target.Incoming.Remove(sequenceFlow.Id);
+                target.Incoming.Add(newId);
+            }
+
+            process.SequenceFlows.Remove(oldId);
+            sequenceFlow.Id = newId;
+            process.SequenceFlows.Add(newId, sequenceFlow);
+        }
+
         public async Task SetTaskLoopCharacteristic(IPage page, string processId, string elementId, InstanceType instanceType)
         {
             AddCurrentStateAsUndoable();
