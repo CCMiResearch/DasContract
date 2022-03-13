@@ -9,7 +9,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// <summary>
         /// Numbers of repetitions for the process
         /// </summary>
-        public int LoopCardinality { get; set; }
+        public string LoopCardinality { get; set; }
         /// <summary>
         /// ID of the referenced collection entity (must be an entity that is saved inside of the contract)
         /// </summary>
@@ -19,8 +19,7 @@ namespace DasContract.Abstraction.Processes.Tasks
         public Task(XElement xElement) : base(xElement)
         {
             LoopCollection = xElement.Element("LoopCollection")?.Value;
-            if (int.TryParse(xElement.Element("LoopCardinality")?.Value, out var loopCardinality))
-                LoopCardinality = loopCardinality;
+            LoopCardinality = xElement.Element("LoopCardinality")?.Value;
             if (System.Enum.TryParse<InstanceType>(xElement.Element("InstanceType")?.Value, out var type))
                 InstanceType = type;
         }

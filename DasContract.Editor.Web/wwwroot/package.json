@@ -15,17 +15,17 @@
   "dependencies": {
     "bootstrap": "^5.0.2",
     "bootstrap-icons": "^1.5.0",
-    "bpmn-js": "^8.7.0",
+    "bpmn-js": "^9.0.2",
     "dmn-js": "^12.0.1",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
-    "mermaid": "^8.10.2",
+    "mermaid": "^8.14.0",
     "select2": "^4.1.0-rc.0",
-    "select2-bootstrap-5-theme": "^1.1.1",
+    "select2-bootstrap-5-theme": "^1.2.0",
     "split-grid": "^1.0.11",
     "split-js": "^1.0.1",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
     "workbox-strategies": "^6.5.1"
   },
   "devDependencies": {

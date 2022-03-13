@@ -4,21 +4,25 @@
 <div>
     <TabSection>
         <div class="mb-3">
+            <label for="@($"id-input-{ContractElement.Id}")" class="form-label">Id</label>
+            <input class="@($"form-control {_idInputClassDecorator}")" id="@($"id-input-{ContractElement.Id}")" value="@ContractElement.Id" @onchange="IdInput">
+            @if (_idInputErrorMessage != string.Empty)
+            {
+<div class="invalid-feedback">@_idInputErrorMessage</div>}
+        </div>
+        <div class="mb-3">
             <label for="@($"name-input-{ContractElement.Id}")" class="form-label">Name</label>
-            <input class="form-control" id="@($"name-input-{ContractElement.Id}")" @bind-value="ContractElement.Name" @onfocusout="NameInput">
+            <input class="form-control" id="@($"name-input-{ContractElement.Id}")" value="@ContractElement.Name" @onchange="NameInput">
         </div>
     </TabSection>
 
     @switch (ContractElement)
     {
         case DasContract.Abstraction.Processes.Tasks.Task task:
-            <TaskGeneralTab Task="task" />
-            break;
-        case Process process:
-            <ProcessGeneralTab Process="process" />
-            break;
-        case TimerBoundaryEvent timerBoundaryEvent:
-            <TimerBoundaryGeneralTab TimerBoundaryEvent="timerBoundaryEvent" />
-            break;
-    }
+<TaskGeneralTab Task="task" /> break;
+case Process process:
+<ProcessGeneralTab Process="process" /> break;
+case TimerBoundaryEvent timerBoundaryEvent:
+<TimerBoundaryGeneralTab TimerBoundaryEvent="timerBoundaryEvent" />break;
+}
 </div>

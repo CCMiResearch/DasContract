@@ -129,7 +129,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             if (userTaskElement.InstanceType != InstanceType.Single)
             {
                 //The tasks will run until it gets interrupted by some boundary event
-                if (userTaskElement.LoopCardinality == -1 || (userTaskElement.LoopCardinality == 0 && userTaskElement.LoopCollection == null))
+                if (userTaskElement.LoopCardinality == "-1" || (userTaskElement.LoopCardinality == "0" && userTaskElement.LoopCollection == null))
                 {
                     return components;
                 }
@@ -139,7 +139,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                 
                 components.Add(new SolidityStatement($"{counterVariableName}++"));
                 counterVariablePresent = true;
-                if (userTaskElement.LoopCardinality > 0)
+                if (userTaskElement.LoopCardinality != "0")
                 {
                     ifStatement.AddConditionBlock($"{counterVariableName} >= {userTaskElement.LoopCardinality}", callNextStatement);
                 }
@@ -159,7 +159,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         SolidityStatement CreateMultiInstanceCounterDefinition()
         {
-            if (userTaskElement.LoopCardinality != 0 || userTaskElement.LoopCollection != null)
+            if (userTaskElement.LoopCardinality != "0" || userTaskElement.LoopCollection != null)
             {
                 var variableName = ConversionTemplates.MultiInstanceCounterVariable(GetElementCallName());
                 return new SolidityStatement($"uint256 {variableName}");

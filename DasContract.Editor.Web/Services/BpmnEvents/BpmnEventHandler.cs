@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
+using DasContract.Editor.Web.Services.Processes;
+using DasContract.Abstraction.Processes;
 
 namespace DasContract.Editor.Web.Services.BpmnEvents
 {
     public class BpmnEventHandler : IBpmnEventHandler
     {
         IJSRuntime _jsRuntime;
+        IContractManager _contractManager;
 
         public event EventHandler<BpmnElementEvent> ElementClick;
         public event EventHandler<BpmnElementEvent> ElementChanged;
@@ -22,9 +25,10 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public event EventHandler<BpmnElementEvent> RootAdded;
         public event EventHandler<BpmnElementEvent> RootRemoved;
 
-        public BpmnEventHandler(IJSRuntime jsRuntime)
+        public BpmnEventHandler(IJSRuntime jsRuntime, IContractManager contractManager)
         {
             _jsRuntime = jsRuntime;
+            _contractManager = contractManager;
         }
 
         public async Task InitializeHandler()
@@ -35,6 +39,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         [JSInvokable]
         public void HandleBpmnElementEvent(BpmnElementEvent e)
         {
+            TranslateProcessId(e);
             switch(e.Type)
             {
                 case "element.click":
@@ -62,8 +67,30 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
                     RootAdded?.Invoke(this, e);
                     break;
                 case "root.removed":
-                    RootRemoved?.Invoke(this, e);
+                    RootRemoved?.Invoke(this, e);   
                     break;
+            }
+        }
+
+        private void TranslateProcessId(BpmnElementEvent e)
+        {
+            string procId;
+            if (e.Element.Type == BpmnConstants.BPMN_ELEMENT_PROCESS)
+            {
+                procId = _contractManager.TranslateBpmnProcessId(e.Element.Id);
+                if (procId != null)
+                {
+                    e.Element.Id = procId;
+                }
+            }
+
+            if (string.IsNullOrEmpty(e.Element.ProcessId))
+                return;
+
+            procId = _contractManager.TranslateBpmnProcessId(e.Element.ProcessId);
+            if (procId != null)
+            {
+                e.Element.ProcessId = procId;
             }
         }
     }

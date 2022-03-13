@@ -103,15 +103,21 @@ namespace DasContract.Editor.Web.Services.Processes
         {
             var process = GetProcess(processId);
 
-            if (!process.ProcessElements.ContainsKey(prevId))
-                throw new InvalidIdException($"Process element cannot be updated, because id {prevId} does not exist");
-            if (process.ProcessElements.ContainsKey(newId))
-                throw new DuplicateIdException($"Id cannot be changed, because process with id {newId} already exists");
+            if (process.ProcessElements.ContainsKey(newId) || process.ProcessElements.ContainsKey(newId))
+                throw new DuplicateIdException($"Id cannot be changed, because process element with id {newId} already exists");
 
-            var element = process.ProcessElements[prevId];
-            process.ProcessElements.Remove(prevId);
-            element.Id = newId;
-            process.ProcessElements.Add(newId, element);
+            if (process.ProcessElements.TryGetValue(prevId, out var processElement))
+            {
+                UpdateProcessElementId(process, processElement, newId);
+            }
+            else if (process.SequenceFlows.TryGetValue(prevId, out var sequenceFlow))
+            {
+                UpdateSequenceFlowId(process, sequenceFlow, newId);
+            }
+            else
+            {
+                throw new InvalidIdException($"Process element cannot be updated, because id {prevId} does not exist");
+            }
         }
 
         public SequenceFlow AddSequenceFlow(string id, string target, string source, string processId)
@@ -315,6 +321,55 @@ namespace DasContract.Editor.Web.Services.Processes
                 if (add)
                     seqFlowList.Add(flowId);
             }
+        }
+
+        private void UpdateProcessElementId(Process process, ProcessElement processElement, string newId)
+        {
+            //The ids need to be updated in sequence flows that reference this element
+            var incomingToUpdate = process.SequenceFlows.Where(s => processElement.Incoming.Contains(s.Key));
+            foreach (var seqFlow in incomingToUpdate)
+            {
+                seqFlow.Value.TargetId = newId;
+            }
+            var outgoingToUpdate = process.SequenceFlows.Where(s => processElement.Outgoing.Contains(s.Key));
+            foreach (var seqFlow in outgoingToUpdate)
+            {
+                seqFlow.Value.SourceId = newId;
+            }
+            //If the element is a task, then it might have boundary events attached to it
+            if (processElement is Abstraction.Processes.Tasks.Task)
+            {
+                var boundaryEvents = process.ProcessElements.Values
+                    .Where(e => e is BoundaryEvent)
+                    .Select(e => e as BoundaryEvent);
+                foreach (var boundaryEvent in boundaryEvents)
+                {
+                    if (boundaryEvent.AttachedTo == processElement.Id)
+                        boundaryEvent.AttachedTo = newId;
+                }
+            }
+
+            process.ProcessElements.Remove(processElement.Id);
+            processElement.Id = newId;
+            process.ProcessElements.Add(newId, processElement);
+        }
+        private void UpdateSequenceFlowId(Process process, SequenceFlow sequenceFlow, string newId)
+        {
+            if (process.ProcessElements.TryGetValue(sequenceFlow.SourceId, out var source))
+            {
+                source.Outgoing.Remove(sequenceFlow.Id);
+                source.Outgoing.Add(newId);
+            }
+
+            if (process.ProcessElements.TryGetValue(sequenceFlow.TargetId, out var target))
+            {
+                target.Incoming.Remove(sequenceFlow.Id);
+                target.Incoming.Add(newId);
+            }
+
+            process.SequenceFlows.Remove(sequenceFlow.Id);
+            sequenceFlow.Id = newId;
+            process.SequenceFlows.Add(newId, sequenceFlow);
         }
 
     }
