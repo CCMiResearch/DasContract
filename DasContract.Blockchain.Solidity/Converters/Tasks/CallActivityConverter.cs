@@ -101,7 +101,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         string GetLoopVariable()
         {
-            if (callActivity.LoopCollection != null || callActivity.LoopCardinality != 0)
+            if (callActivity.LoopCollection != null || callActivity.LoopCardinality != "0")
             {
                 return ConversionTemplates.IdentifierVariableName(callActivity.Id);
             }
