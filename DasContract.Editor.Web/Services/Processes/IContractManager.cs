@@ -19,8 +19,10 @@ namespace DasContract.Editor.Web.Services.Processes
         string GeneratedContract { get; }
 
         bool IsContractInitialized();
+        bool IsElementIdAvailable(string id);
         Task InitAsync();
         void AddNewProcess(string processId, string participantId = null);
+        void UpdateProcessId(Process process, string newProcessId);
         ProcessUser AddNewUser();
         void AddUser(ProcessUser user);
         void RemoveUser(ProcessUser user);
@@ -47,5 +49,6 @@ namespace DasContract.Editor.Web.Services.Processes
         void SetDataModelXml(string dataModelXml);
         bool ConvertContract(IConverterService converterService, out string data);
         void SetProcessDiagram(string diagramXml);
+        string TranslateBpmnProcessId(string bpmnProcessId);
     }
 }

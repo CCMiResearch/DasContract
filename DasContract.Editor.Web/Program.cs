@@ -17,6 +17,7 @@ using DasContract.Editor.Web.Services.UndoRedo;
 using DasContract.Editor.Web.Services.UserInput;
 using DasContract.Editor.Web.Services.UserForm;
 using Blazored.LocalStorage;
+using DasContract.Editor.Web.Services.JsInterop;
 
 namespace DasContract.Editor.Web
 {
@@ -33,6 +34,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IContractManager, ContractManager>();
             builder.Services.AddScoped<IProcessManager, ProcessManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
+            builder.Services.AddScoped<IBpmnJsCommunicator, BpmnJsCommunicator>();
             builder.Services.AddScoped<UserInputHandler>();
             builder.Services.AddScoped<EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();

@@ -162,6 +162,8 @@ namespace DasContract.Editor.Web.Services
 
         private void ElementIdUpdated(object sender, BpmnElementEvent e)
         {
+            Console.WriteLine($"Type:{e.Element.Type};ProcId:{e.Element.ProcessId};Id:{e.Element.Id};NewId:{e.NewId}");
+
             _processManager.UpdateId(e.Element.Id, e.NewId, e.Element.ProcessId);
             if (_processManager.TryRetrieveElementById(e.NewId, e.Element.ProcessId, out var element))
             {

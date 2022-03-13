@@ -87,6 +87,15 @@ export function updateElementName(elementId, elementName) {
     modeling.updateProperties(element, { name: elementName});
 }
 
+export function updateElementId(oldElementId, newElementId) {
+    const elementRegistry = window.modeler.get('elementRegistry'),
+        modeling = window.modeler.get('modeling');
+
+    const element = elementRegistry.get(oldElementId);
+
+    modeling.updateProperties(element, { id: newElementId });
+}
+
 function copyEventInformation(e) {
     let eventObj = { type: e.type };
     if (e.newId != null)
