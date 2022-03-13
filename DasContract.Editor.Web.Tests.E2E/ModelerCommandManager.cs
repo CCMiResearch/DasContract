@@ -65,15 +65,26 @@ namespace DasContract.Editor.Web.Tests.E2E
         {
             AddCurrentStateAsUndoable();
 
+            dynamic result;
             if (first)
             {
-                await page.EvaluateAsync(@"window.modeling.makeProcess();");
-            }
-
-            dynamic result = await page.EvaluateAsync<ExpandoObject>(
-                @$"const participant = window.elementFactory.createParticipantShape({{ type: 'bpmn:Participant' }});
+                result = await page.EvaluateAsync<ExpandoObject>(@$"const participant = window.elementFactory.createParticipantShape({{ type: 'bpmn:Participant' }});
                    const addedParticipant = window.modeling.createShape(participant, {{ x: 400, y: 100 }}, process);
-                   Object.freeze({{procId: addedParticipant.businessObject.processRef.id, participantId: addedParticipant.id}})");
+                   Object.freeze({{procId: addedParticipant.businessObject.processRef.id, participantId: addedParticipant.id}});");
+            }
+            else
+            {
+                result = await page.EvaluateAsync<ExpandoObject>(@"const collaboration = window.elementRegistry.filter(function (element) {
+                        return element.type == ""bpmn:Collaboration"";
+                        } )[0];
+
+                        const participant = window.elementFactory.createParticipantShape({
+                            type: ""bpmn:Participant""
+                        });
+                        window.modeling.createShape(participant, { x: 400, y: 500 }, collaboration);
+                        Object.freeze({procId: participant.businessObject.processRef.id, participantId: participant.id});"
+                    );
+            }
 
             if (!first)
             {
