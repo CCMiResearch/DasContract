@@ -15,7 +15,7 @@
   "dependencies": {
     "bootstrap": "^5.0.2",
     "bootstrap-icons": "^1.5.0",
-    "bpmn-js": "^8.7.0",
+    "bpmn-js": "^9.0.2",
     "dmn-js": "^12.0.1",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
