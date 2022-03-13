@@ -77,7 +77,7 @@ namespace DasContract.Editor.Web.Tests.E2E
 
             if (!first)
             {
-                _contract.Processes.Add(new Process { Id = result.procId });
+                _contract.Processes.Add(new Process { Id = result.procId, BpmnId = result.procId });
             }
 
             _contract.Processes.Single(p => p.Id == result.procId).ParticipantId = result.participantId;
@@ -209,7 +209,7 @@ namespace DasContract.Editor.Web.Tests.E2E
             _contract = new Contract { Id = "Contract" };
 
             var startEvent = new StartEvent { Id = "StartEvent_1" };
-            var process = new Process { Id = DEFAULT_PROCESS_ID, IsExecutable = true };
+            var process = new Process { Id = DEFAULT_PROCESS_ID, IsExecutable = true, BpmnId = DEFAULT_PROCESS_ID };
             process.ProcessElements.Add("StartEvent_1", startEvent);
             _contract.Processes.Add(process);
         }
