@@ -12,10 +12,11 @@ namespace DasContract.Abstraction.Processes
     public class Process : IContractElement
     {
         public string Id { get; set; }
+        
         public string Name { get; set; }
 
         public bool IsExecutable { get; set; }
-
+        public string BpmnId { get; set; }
         public string ParticipantId { get; set; }
 
         public string CustomScript { get; set; }
@@ -31,6 +32,7 @@ namespace DasContract.Abstraction.Processes
         public Process(XElement xElement, IDictionary<string, ProcessRole> roles, IDictionary<string, ProcessUser> users)
         {
             Id = xElement.Attribute("Id")?.Value;
+            BpmnId = xElement.Element("BpmnId")?.Value ?? Id;
             Name = xElement.Element("Name")?.Value;
             CustomScript = xElement.Element("CustomScript")?.Value;
             ParticipantId = xElement.Element("ParticipantId")?.Value;
@@ -68,6 +70,7 @@ namespace DasContract.Abstraction.Processes
         {
             return new XElement("Process",
                 new XAttribute("Id", Id),
+                new XElement("BpmnId", BpmnId),
                 new XElement("Name", Name),
                 new XElement("IsExecutable", IsExecutable),
                 new XElement("ParticipantId", ParticipantId),

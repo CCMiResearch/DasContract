@@ -92,7 +92,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 process = Contract.Processes.First();
                 process.ParticipantId = participantId;
                 //The id needs to be updated due to a bug in the bpmn modeller
-                process.Id = processId;
+                process.BpmnId = processId;
             }
             else
             {
@@ -105,7 +105,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 }
                 else
                 {
-                    process = new Process { Id = processId, ParticipantId = participantId };
+                    process = new Process { Id = processId, ParticipantId = participantId, BpmnId = processId };
                 }
                 Contract.Processes.Add(process);
             }
@@ -282,6 +282,40 @@ namespace DasContract.Editor.Web.Services.Processes
 
             return Contract.ToXElement().ToString() == SerializedContract;
         }
+
+        public bool IsElementIdAvailable(string id)
+        {
+            return Contract.Processes.All(p => !p.ProcessElements.ContainsKey(id) && !p.SequenceFlows.ContainsKey(id));
+        }
+
+        public void UpdateProcessId(Process process, string newProcessId)
+        {
+            if (Contract.Processes.Count(p => p.Id == newProcessId) > 0)
+                throw new DuplicateIdException($"Id cannot be changed, because process with id {newProcessId} already exists");
+
+            foreach(var p in Contract.Processes)
+            {
+                var callActivites = p.ProcessElements.Values
+                    .Where(e => e is Abstraction.Processes.Tasks.CallActivity)
+                    .Select(e => e as Abstraction.Processes.Tasks.CallActivity);
+                foreach (var callActivity in callActivites)
+                {
+                    callActivity.CalledElement = newProcessId;
+                }
+            }
+            process.Id = newProcessId;
+        }
+
+        public string TranslateBpmnProcessId(string bpmnProcessId)
+        {
+            var proc = Contract.Processes.SingleOrDefault(p => p.BpmnId == bpmnProcessId);
+
+            if (proc != null)
+                return proc.Id;
+
+            proc = _deletedProcesses.Values.SingleOrDefault(p => p.BpmnId == bpmnProcessId);
+
+            return proc?.Id;
+        }
     }
 }
-     
