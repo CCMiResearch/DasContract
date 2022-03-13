@@ -92,7 +92,7 @@ namespace DasContract.Editor.Web.Services.Processes
                 process = Contract.Processes.First();
                 process.ParticipantId = participantId;
                 //The id needs to be updated due to a bug in the bpmn modeller
-                process.BpmnId = processId;
+                //process.BpmnId = processId;
             }
             else
             {
