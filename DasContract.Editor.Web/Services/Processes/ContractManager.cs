@@ -293,14 +293,17 @@ namespace DasContract.Editor.Web.Services.Processes
             if (Contract.Processes.Count(p => p.Id == newProcessId) > 0)
                 throw new DuplicateIdException($"Id cannot be changed, because process with id {newProcessId} already exists");
 
-            foreach(var p in Contract.Processes)
+            foreach (var p in Contract.Processes)
             {
-                var callActivites = p.ProcessElements.Values
+                var callActivites = p.Tasks
                     .Where(e => e is Abstraction.Processes.Tasks.CallActivity)
                     .Select(e => e as Abstraction.Processes.Tasks.CallActivity);
                 foreach (var callActivity in callActivites)
                 {
-                    callActivity.CalledElement = newProcessId;
+                    if (callActivity.CalledElement == process.Id)
+                    {
+                        callActivity.CalledElement = newProcessId;
+                    }
                 }
             }
             process.Id = newProcessId;
