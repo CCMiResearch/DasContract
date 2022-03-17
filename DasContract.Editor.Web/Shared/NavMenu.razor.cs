@@ -17,6 +17,9 @@ namespace DasContract.Editor.Web.Shared
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        protected IConverterService ConverterService { get; set; }
+
         protected ElementReference NameInputReference { get; set; } 
 
         protected string ContractName { get { return ContractManager.GetContractName(); } set { ContractManager.SetContractName(value); } }
@@ -25,6 +28,13 @@ namespace DasContract.Editor.Web.Shared
         protected MainLayout Layout { get; set; }
 
         protected bool IsNameBeingEdited { get; set; }
+
+        protected void SetConversionTargetAndNavigate(ConversionTarget conversionTarget)
+        {
+            ConverterService.SetConversionTarget(conversionTarget);
+            NavigationManager.NavigateTo("generated");
+            StateHasChanged();
+        }
 
         protected string BaseRelativePath()
         {

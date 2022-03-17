@@ -20,37 +20,53 @@
 
     </div>
 
-    <div class="main-button-group">
-        <div class="nav-buttons btn-group me-2" role="group">
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "process" ? "active": "")"
+    <div class="main-button-group d-flex">
+        <div class="nav-buttons btn-group me-3" role="group">
+            <button type="button" class="btn btn-header shadow-none @(BaseRelativePath() == "process" ? "active": "")"
                     @onclick="@(() => NavigationManager.NavigateTo("process"))">
-                Process
+                <strong>Process</strong>
             </button>
 
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "data" ? "active": "")"
+            <button type="button" class="btn btn-header shadow-none @(BaseRelativePath() == "data" ? "active": "")"
                     @onclick="@(() => NavigationManager.NavigateTo("data"))">
-                Data
+                <strong>Data</strong>
             </button>
 
-            <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "users" ? "active": "")"
+            <button type="button" class="btn btn-header shadow-none @(BaseRelativePath() == "users" ? "active": "")"
                     @onclick="@(() => NavigationManager.NavigateTo("users"))">
-                Users
+                <strong>Users</strong>
             </button>
         </div>
 
-        <button type="button" class="btn btn-outline-primary shadow-none @(BaseRelativePath() == "generated" ? "active": "")"
-                @onclick="@(() => NavigationManager.NavigateTo("generated"))">
-            Generated
-        </button>
+        <div class="dropdown">
+            <button type="button" class="btn btn-header dropdown-toggle shadow-none" data-bs-toggle="dropdown">
+                <strong>Convert</strong>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="generated/solidity">Solidity</a></li>
+                <li><a class="dropdown-item" href="generated/plutus">Plutus</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="toolbar">
-        @foreach (var toolBarItem in Layout.ToolBarItems)
-        {
-            <div class="toolbar-item">
-                <ToolBarButton ToolBarItem="toolBarItem" />
+            <div class="dropdown d-flex">
+                <button type="button" class="btn btn-header d-flex align-items-center shadow-none" data-bs-toggle="dropdown">
+                    <strong>
+
+                        Download
+                        <i class="bi bi-download ms-1" ></i>
+                    </strong>
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach (var toolBarItem in Layout.ToolBarItems)
+                    {
+                        <li>
+                            <ToolBarButton ToolBarItem="toolBarItem" />
+                        </li>
+                    }
+                </ul>
             </div>
-        }
     </div>
 </div>
 

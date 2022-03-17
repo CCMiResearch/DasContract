@@ -25,7 +25,7 @@ namespace DasContract.Editor.Web.Services.Processes
         private NavigationManager _navigationManager;
 
         private ILocalStorageService _localStorage;
-
+        private  IConverterService _converterService;
         private Dictionary<string, Process> _deletedProcesses = new Dictionary<string, Process>();
 
         public event EventHandler<ProcessUser> UserRemoved;
@@ -36,11 +36,12 @@ namespace DasContract.Editor.Web.Services.Processes
         public string GeneratedContract { get; private set; }
         public string SerializedContract { get; private set; }
 
-        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager, ILocalStorageService localStorage)
+        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager, ILocalStorageService localStorage, IConverterService converterService)
         {
             _jsRuntime = jsRuntime;
             _navigationManager = navigationManager;
             _localStorage = localStorage;
+            _converterService = converterService;
         }
 
         public async Task InitAsync()
@@ -259,9 +260,19 @@ namespace DasContract.Editor.Web.Services.Processes
             Contract.SetDataModelFromXml(xDataModel);
         }
 
-        public bool ConvertContract(IConverterService contractConverter, out string data)
+        public bool ConvertContract(out string data)
         {
-            return contractConverter.TryConvertContract(Contract, out data);
+            //Todo: check for changes
+            if (_converterService.ConvertContract(Contract))
+            {
+                data = _converterService.GetConvertedCode();
+                return true;
+            }
+            else
+            {
+                data = _converterService.GetErrorMessage();
+                return false;
+            }
         }
 
         public string GetContractName()
