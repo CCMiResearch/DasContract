@@ -1,7 +1,6 @@
 ﻿using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;

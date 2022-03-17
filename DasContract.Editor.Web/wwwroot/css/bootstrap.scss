@@ -1,0 +1,19 @@
+﻿$primary: #1b6ec2;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "_variables.scss";
+
+.btn-header {
+    @include button-variant($dark-primary, $dark-primary, $white, $dark-primary, $dark-primary, $gray-300, $dark-primary, $dark-primary, $white);
+}
+.nav-buttons .btn-header {
+    border-radius: 0 !important;
+}
+
+.nav-buttons .btn-header:hover {
+    border-bottom: 4px solid $blue-400;
+}
+
+.nav-buttons .btn-header.active {
+    border-bottom: 4px solid $blue-400
+}

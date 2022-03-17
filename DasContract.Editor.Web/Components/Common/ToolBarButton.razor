@@ -1,5 +1,5 @@
 ﻿<div class="toolbar-item-container">
-    <button class="btn btn-outline-primary toolbar-button" id="toolbar-button-@(ToolBarItem.Id)" @onclick="@((args) => ToolBarItem.OnToolBarItemClick(this, args))">
+    <button class="btn toolbar-button" id="toolbar-button-@(ToolBarItem.Id)" @onclick="@((args) => ToolBarItem.OnToolBarItemClick(this, args))">
         <div class="d-flex align-items-center">
             <img class="toolbar-icon me-1" src="@ToolBarItem.IconPath" width="25" height="25">
             <div class="tool-bar-item-name">@ToolBarItem.Name</div>

@@ -2,5 +2,21 @@
   {
     "outputFile": "wwwroot/css/_variables.css",
     "inputFile": "wwwroot/css/_variables.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/app.css",
+    "inputFile": "wwwroot/css/app.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/bootstrap.css",
+    "inputFile": "wwwroot/css/bootstrap.scss"
+  },
+  {
+    "outputFile": "Shared/NavMenu.razor.css",
+    "inputFile": "Shared/NavMenu.razor.scss"
+  },
+  {
+    "outputFile": "Components/ProcessDetail/ProcessDetailBar.razor.css",
+    "inputFile": "Components/ProcessDetail/ProcessDetailBar.razor.scss"
   }
 ]

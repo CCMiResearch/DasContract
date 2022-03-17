@@ -1,6 +1,5 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Blockchain.Solidity.Converters;
-using DasContract.Editor.Web.Services.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +7,23 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.Converter
 {
-    public class SolidityConverterService: IConverterService
+    public class SolidityConversionStrategy : ConversionStrategy
     {
 
-        public bool TryConvertContract(Contract contract, out string data)
+        public override bool Convert(Contract contract)
         {
-            ContractConverter converter = new ContractConverter(contract);
             try
             {
+                var converter = new ContractConverter(contract);
                 converter.ConvertContract();
-                data = converter.GetSolidityCode();
+                ConvertedCode = converter.GetSolidityCode();
+                ErrorMessage = null;
                 return true;
             }
             catch (Exception e)
             {
-                data = e.Message;
+                ConvertedCode = null;
+                ErrorMessage = e.Message;
                 return false;
             }
         }

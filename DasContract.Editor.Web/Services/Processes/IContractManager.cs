@@ -47,7 +47,7 @@ namespace DasContract.Editor.Web.Services.Processes
         IList<Property> GetCollectionProperties();
         string GetDataModelXml();
         void SetDataModelXml(string dataModelXml);
-        bool ConvertContract(IConverterService converterService, out string data);
+        bool ConvertContract(out string data);
         void SetProcessDiagram(string diagramXml);
         string TranslateBpmnProcessId(string bpmnProcessId);
     }
