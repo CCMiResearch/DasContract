@@ -165,8 +165,8 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public void AddRole(ProcessRole role)
         {
-            RoleAdded?.Invoke(this, role);
             Contract.Roles.Add(role);
+            RoleAdded?.Invoke(this, role);
         }
         public void RemoveRole(ProcessRole role)
         {

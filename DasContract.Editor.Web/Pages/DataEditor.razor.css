@@ -4,10 +4,15 @@
     grid-template-columns: 0.5fr 10px 0.5fr;
 }
 
+.editor-main {
+    height: 100%;
+}
+
 .script-canvas {
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    align-items: stretch;
+    grid-template-rows: min-content auto;
 }
 
 .script-toolbar{
@@ -17,3 +22,10 @@
     display: flex;
     align-items: center;
 }
+
+::deep svg{
+    max-width: 100%;
+    height: 100% !important;
+    width: auto !important;
+}
+

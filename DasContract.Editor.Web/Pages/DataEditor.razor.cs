@@ -29,6 +29,8 @@ namespace DasContract.Editor.Web.Pages
 
         protected Refresh Refresh { get; set; }
 
+        protected string MermaidScript { get; set; }
+
         //  protected string MermaidScript { get; set; } = @"classDiagram
         //Animal <|-- Duck
         //Animal <|-- Fish
@@ -86,27 +88,28 @@ class {{token.name}} {
 
 
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                InitializeSplitGutter();
-                RefreshDiagram();
+                await InitializeSplitGutter();
+                await JSRunTime.InvokeVoidAsync("mermaidLib.initialize");
+                await RefreshDiagram();
             }
         }
 
-        async void InitializeSplitGutter()
+        async Task InitializeSplitGutter()
         {
             await JSRunTime.InvokeVoidAsync("splitterLib.createSplit", ".gutter-col-1");
             await ResizeHandler.InitializeHandler();
         }
 
-        protected void DataModelXmlChanged(string script)
+        protected async Task DataModelXmlChanged(string script)
         {
             ContractManager.SetDataModelXml(script);
             if (Refresh.AutoRefresh && !string.IsNullOrEmpty(script))
             {
-                RefreshDiagram();
+                await RefreshDiagram();
             }
         }
 
@@ -128,12 +131,12 @@ class {{token.name}} {
             return relationships;
         }
 
-        private async void RefreshDiagram()
+        private async Task RefreshDiagram()
         {
             try
             {
                 var dataTypes = ContractManager.GetDataTypes();
-                var mermaidScript = _mermaidTemplate.Render(new
+                MermaidScript = _mermaidTemplate.Render(new
                 {
                     Relationships = GetModelRelationships(dataTypes),
                     Enums = dataTypes.Values.OfType<Abstraction.Data.Enum>(),
@@ -141,7 +144,7 @@ class {{token.name}} {
                     Tokens = dataTypes.Values.OfType<Token>().Where(e => e.GetType() == typeof(Token))
                 });
 
-                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", mermaidScript);
+                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", MermaidScript);
             }
             catch (JSException)
             {

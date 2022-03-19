@@ -2,7 +2,8 @@
     <div class="app-title">
         @if (IsNameBeingEdited)
         {
-            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" @bind-value="ContractName" @onfocusout="() => { IsNameBeingEdited = false; }">
+            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" value="@ContractName" 
+                   @onchange="(args) => { ContractName = (string)args.Value; IsNameBeingEdited = false; }" @onfocusout="() => IsNameBeingEdited = false">
         }
         else
         {

@@ -16,6 +16,9 @@
 .bi {
   font-size: 1.2em; }
 
+.dascontract-navbar {
+  z-index: 9001; }
+
 .contract-name:hover {
   cursor: pointer; }
 
