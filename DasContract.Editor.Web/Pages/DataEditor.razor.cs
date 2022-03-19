@@ -2,7 +2,9 @@
 using DasContract.Editor.Web.Components.Common;
 using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Scriban;
 using System;
@@ -13,7 +15,7 @@ using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class DataEditor : ComponentBase
+    public partial class DataEditor : ComponentBase, IDisposable
     {
         [Inject]
         protected ResizeHandler ResizeHandler { get; set; }
@@ -28,6 +30,9 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         protected Refresh Refresh { get; set; }
+
+        [CascadingParameter]
+        protected MainLayout Layout { get; set; }
 
         protected string MermaidScript { get; set; }
 
@@ -90,12 +95,18 @@ class {{token.name}} {
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
                 await InitializeSplitGutter();
-                await JSRunTime.InvokeVoidAsync("mermaidLib.initialize");
                 await RefreshDiagram();
             }
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            CreateToolbarItems();
         }
 
         async Task InitializeSplitGutter()
@@ -111,6 +122,26 @@ class {{token.name}} {
             {
                 await RefreshDiagram();
             }
+        }
+
+        private void CreateToolbarItems()
+        {
+            var saveDiagramSvgItem = new ToolBarItem
+            {
+                Name = "Diagram as svg",
+                IconPath = "dist/icons/file-text.svg",
+                Id = "download-svg"
+            };
+            saveDiagramSvgItem.OnClick += HandleSaveToSvgClicked;
+            Layout.AddToolbarItem(saveDiagramSvgItem);
+            var saveDiagramPngItem = new ToolBarItem
+            {
+                Name = "Diagram as png",
+                IconPath = "dist/icons/file-text.svg",
+                Id = "download-png"
+            };
+            saveDiagramPngItem.OnClick += HandleSaveToPngClicked;
+            Layout.AddToolbarItem(saveDiagramPngItem);
         }
 
         private IList<Tuple<string, string>> GetModelRelationships(IDictionary<string, DataType> dataTypes)
@@ -129,6 +160,16 @@ class {{token.name}} {
                 }
             }
             return relationships;
+        }
+
+        private async void HandleSaveToSvgClicked(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("mermaidLib.downloadSVG", ContractManager.GetContractName());
+        }
+
+        private async void HandleSaveToPngClicked(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("mermaidLib.downloadPNG", ContractManager.GetContractName());
         }
 
         private async Task RefreshDiagram()
@@ -150,6 +191,12 @@ class {{token.name}} {
             {
                 Console.WriteLine("Could not render mermaid diagram");
             }
+        }
+
+        public void Dispose()
+        {
+            Layout.RemoveToolbarItem("download-svg");
+            Layout.RemoveToolbarItem("download-png");
         }
     }
 }
