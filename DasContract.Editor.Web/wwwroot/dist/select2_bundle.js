@@ -1,1 +1,68 @@
-var select2Lib;(()=>{"use strict";var e={d:(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t),r:e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})}},t={};function n(e,t,n,o,a){$(`#${e}`).select2({theme:"bootstrap-5",width:"100%",multiple:o}),n.forEach((t=>{var n=new Option(t.text,t.value,!1,!1);$("#"+e).append(n)})),$("#"+e).val(t),$("#"+e).on("select2:select",(function(e){a.invokeMethodAsync("OnSelect",e.params.data.id)})),$("#"+e).on("select2:unselect",(function(e){console.log(e),a.invokeMethodAsync("OnUnselect",e.params.data.id)})),$("#"+e).on("change",(function(e){a.invokeMethodAsync("OnChange")}))}function o(e,t,n){var o=new Option(n,t,!1,!1);$("#"+e).append(o)}function a(e,t){$("#"+e).find('[value="'+t+'"]').remove()}function i(e,t,n){$("#"+e+" option").remove(),t.forEach((t=>{var n=new Option(t.text,t.value,!1,!1);$("#"+e).append(n)})),l(e,n)}function r(e){return $.makeArray($("#"+e).find(":selected").map((function(){return this.value})))}function l(e,t){$("#"+e).val(null),$("#"+e).val(t)}e.r(t),e.d(t,{addOption:()=>o,getSelectedIds:()=>r,initializeSelect2:()=>n,refreshOptions:()=>i,refreshSelectedItems:()=>l,removeOption:()=>a}),select2Lib=t})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+var select2Lib;
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./js/select2.js":
+/*!***********************!*\
+  !*** ./js/select2.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addOption\": () => (/* binding */ addOption),\n/* harmony export */   \"getSelectedIds\": () => (/* binding */ getSelectedIds),\n/* harmony export */   \"initializeSelect2\": () => (/* binding */ initializeSelect2),\n/* harmony export */   \"refreshOptions\": () => (/* binding */ refreshOptions),\n/* harmony export */   \"refreshSelectedItems\": () => (/* binding */ refreshSelectedItems),\n/* harmony export */   \"removeOption\": () => (/* binding */ removeOption)\n/* harmony export */ });\nfunction initializeSelect2(componentId, selectedItems, options, multiple, dotnetRef) {\n  $(`#${componentId}`).select2({\n    theme: \"bootstrap-5\",\n    width: '100%',\n    multiple: multiple\n  });\n  options.forEach(option => {\n    var addedOption = new Option(option.text, option.value, false, false);\n    $('#' + componentId).append(addedOption);\n  });\n  $('#' + componentId).val(selectedItems);\n  $('#' + componentId).on('select2:select', function (e) {\n    dotnetRef.invokeMethodAsync('OnSelect', e.params.data.id);\n  });\n  $('#' + componentId).on('select2:unselect', function (e) {\n    console.log(e);\n    dotnetRef.invokeMethodAsync('OnUnselect', e.params.data.id);\n  });\n  $('#' + componentId).on('change', function (e) {\n    dotnetRef.invokeMethodAsync('OnChange');\n  });\n}\nfunction addOption(componentId, value, text) {\n  var addedOption = new Option(text, value, false, false);\n  $('#' + componentId).append(addedOption);\n}\nfunction removeOption(componentId, value) {\n  $('#' + componentId).find('[value=\"' + value + '\"]').remove();\n}\nfunction refreshOptions(componentId, options, selected) {\n  $('#' + componentId + \" option\").remove();\n  options.forEach(option => {\n    var addedOption = new Option(option.text, option.value, false, false);\n    $('#' + componentId).append(addedOption);\n  });\n  refreshSelectedItems(componentId, selected);\n}\nfunction getSelectedIds(id) {\n  return $.makeArray($('#' + id).find(':selected').map(function () {\n    return this.value;\n  }));\n}\nfunction refreshSelectedItems(componentId, selected) {\n  $('#' + componentId).val(null);\n  $('#' + componentId).val(selected); //$('#' + componentId).trigger('change');\n}\n\n//# sourceURL=webpack://%5Bname%5DLib/./js/select2.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./js/select2.js"](0, __webpack_exports__, __webpack_require__);
+/******/ 	select2Lib = __webpack_exports__;
+/******/ 	
+/******/ })()
+;

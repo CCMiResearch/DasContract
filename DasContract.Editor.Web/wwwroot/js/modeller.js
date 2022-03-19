@@ -13,7 +13,7 @@ import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProv
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
 import customRules from "./modellerCustomRules";
-import { saveAs } from 'file-saver';
+import { downloadSvg, downloadSvgAsPng } from "./fileSaver";
 
 
 export function hookEvents() {
@@ -66,16 +66,15 @@ export function hookEvents() {
 
 }
 
-export function saveAsSvg() {
-    window.modeler.saveSVG({}, function (err, svg) {
-        if (err) {
-            console.log(err);
-        }
+export async function saveAsSvg(diagramName) {
+    const svg = (await window.modeler.saveSVG()).svg;
+    downloadSvg(`process-diagram-${diagramName}.svg`, svg);
+}
 
-        var FileSaver = require('file-saver');
-        var blob = new Blob([svg], { type: "image/svg" });
-        FileSaver.saveAs(blob, "diagram.svg");
-    })
+export async function saveAsPng(diagramName) {
+    const viewport = $('.viewport')[0].getBoundingClientRect();
+    const svg = (await window.modeler.saveSVG()).svg;
+    downloadSvgAsPng(`process-diagram-${diagramName}.png`, svg, viewport.width, viewport.height );
 }
 
 export function updateElementName(elementId, elementName) {

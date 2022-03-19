@@ -18,5 +18,9 @@
   {
     "outputFile": "Components/ProcessDetail/ProcessDetailBar.razor.css",
     "inputFile": "Components/ProcessDetail/ProcessDetailBar.razor.scss"
+  },
+  {
+    "outputFile": "Pages/DataEditor.razor.css",
+    "inputFile": "Pages/DataEditor.razor.scss"
   }
 ]

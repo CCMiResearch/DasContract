@@ -277,7 +277,7 @@ namespace DasContract.Editor.Web.Services.Processes
 
         public string GetContractName()
         {
-            return Contract?.Name;
+            return string.IsNullOrWhiteSpace(Contract?.Name) ? "Unnamed contract" : Contract.Name;
         }
 
         public void SetContractName(string name)
