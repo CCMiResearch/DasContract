@@ -1,0 +1,57 @@
+﻿@import "../wwwroot/css/_variables.scss";
+@import "../wwwroot/css/bootstrap.scss";
+
+h1{
+    font-family: Helvetica;
+    font-size:400%;
+    margin:auto;
+    margin-top: 60px;
+    width: max-content;
+}
+
+p {
+    width: max-content;
+    margin:auto;
+    margin-top: 30px;
+    font-size: 130%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.recent-contracts {
+    width: max-content;
+    margin: 0 auto;
+    max-height: 50%;
+    overflow-y: scroll;
+}
+
+.select-section {
+    width: 15em;
+    font-size: 24px;
+    margin: 0 auto;
+    border-bottom: 1px solid $gray-400;
+    text-align: center;
+}
+
+label {
+    color: #1b6ec2;
+}
+
+label:hover {
+    cursor: pointer;
+    color: #3681ce;
+}
+
+.centered {
+    text-align: center;
+}
+
+.recent-name {
+    color: $primary
+}
+
+.recent-name:hover {
+    cursor: pointer;
+}

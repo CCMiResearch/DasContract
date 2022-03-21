@@ -1,8 +1,12 @@
 ﻿<div class="dascontract-navbar">
-    <div class="app-title">
+
+    <div class="app-title d-flex align-items-center">
+        <a @onclick="() => NavigateToLandingPage()">
+            <img class="me-3 logo" src="dist/logo/logo.svg" width="40" height="40"  />
+        </a>
         @if (IsNameBeingEdited)
         {
-            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" value="@ContractName" 
+            <input class="form-control" maxlength="30" @ref="NameInputReference" @onmouseover="async () => { await NameInputReference.FocusAsync(); }" value="@ContractName"
                    @onchange="(args) => { ContractName = (string)args.Value; IsNameBeingEdited = false; }" @onfocusout="() => IsNameBeingEdited = false">
         }
         else
@@ -51,23 +55,32 @@
     </div>
 
     <div class="toolbar">
-            <div class="dropdown d-flex">
-                <button type="button" class="btn btn-header d-flex align-items-center shadow-none" data-bs-toggle="dropdown">
-                    <strong>
+        <div class="d-flex me-1">
+            <button type="button" class="btn btn-header d-flex align-items-center shadow-none" @onclick="() => SaveContract()">
+                <strong>
 
-                        Download
-                        <i class="bi bi-download ms-1" ></i>
-                    </strong>
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach (var toolBarItem in Layout.ToolBarItems)
-                    {
-                        <li>
-                            <ToolBarButton ToolBarItem="toolBarItem" />
-                        </li>
-                    }
-                </ul>
-            </div>
+                    Save
+                    <i class="bi bi-save ms-1"></i>
+                </strong>
+            </button>
+        </div>
+        <div class="dropdown d-flex">
+            <button type="button" class="btn btn-header d-flex align-items-center shadow-none" data-bs-toggle="dropdown">
+                <strong>
+
+                    Download
+                    <i class="bi bi-download ms-1"></i>
+                </strong>
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var toolBarItem in Layout.ToolBarItems)
+                {
+                    <li>
+                        <ToolBarButton ToolBarItem="toolBarItem" />
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </div>
 

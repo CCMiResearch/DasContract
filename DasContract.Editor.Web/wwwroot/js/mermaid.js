@@ -30,10 +30,15 @@ export const downloadPNG = (contractName) => {
 }
 
 export function renderMermaidDiagram(elementId, input) {
-    var canvas = document.getElementById(elementId);
-    mermaid.mermaidAPI.render('graph', input, function (svgCode) {
-        canvas.innerHTML = svgCode;
-        $('#graph').removeAttr('height').removeAttr('width')
-            .css({maxWidth: ""});
-    })
+	var canvas = document.getElementById(elementId);
+	try {
+		mermaid.mermaidAPI.render('graph', input, function (svgCode) {
+			canvas.innerHTML = svgCode;
+			$('#graph').removeAttr('height').removeAttr('width')
+				.css({ maxWidth: "" });
+		})
+	} catch (e) {
+		let dgraph = $('#graph')[0];
+		dgraph.remove();
+    }
 }

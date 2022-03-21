@@ -23,7 +23,9 @@ namespace DasContract.Editor.Web.Services
         private EditElementService _editElementService;
         private IJSRuntime _jsRuntime;
 
-        private bool IsBpmnEditorInitialized { get; set; } = false;
+        protected string CurrentContractId { get; set; }
+
+        protected bool IsInitialized { get; set; } = false;
 
         public BpmnSynchronizer(
             IBpmnEventHandler bpmnEventHandler, 
@@ -54,23 +56,28 @@ namespace DasContract.Editor.Web.Services
 
         public async void InitializeOrRestoreBpmnEditor(string canvasElementId)
         {
-            //Initial configuration and startup of the bpmn js component and its services
-            if(!IsBpmnEditorInitialized)
+            if(!IsInitialized)
             {
-                var bpmnEditorDiagram = _contractManager.GetProcessDiagram();
                 await _bpmnEventHandler.InitializeHandler();
                 InitiliazeEventHandlers();
-                await _jsRuntime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "", canvasElementId);
-                IsBpmnEditorInitialized = true;
+                IsInitialized = true;
             }
-            //If the modeler has been already initialized in the current session, then it is just reinjected into the canvas element
+            //Initial configuration and startup of the bpmn js component and its services
+            if(_contractManager.GetContractId() != CurrentContractId)
+            {
+                var bpmnEditorDiagram = _contractManager.GetProcessDiagram();
+                await _jsRuntime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "", canvasElementId);
+                CurrentContractId = _contractManager.GetContractId();
+            }
+
+            //If the contract didn't change, then the modeler is just reinjected into the canvas element
             else
             {
                 await _jsRuntime.InvokeVoidAsync("modellerLib.restoreModelerElement", canvasElementId);
             }
         }
 
-    public void Dispose()
+        public void Dispose()
         {
             _bpmnEventHandler.ShapeAdded -= ShapeAdded;
             _bpmnEventHandler.ShapeRemoved -= ShapeRemoved;
@@ -100,12 +107,10 @@ namespace DasContract.Editor.Web.Services
 
         private void RootRemoved(object sender, BpmnElementEvent e)
         {
-            /*
             if (e.Element.Type == "bpmn:Process")
             {
                 _contractManager.RemoveProcess(e.Element.Id);
             }
-            */
         }
 
         private void ShapeAdded(object sender, BpmnElementEvent e)

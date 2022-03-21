@@ -1,14 +1,17 @@
 ﻿import { toBase64 } from 'js-base64';
 
 export function saveFile(download, href) {
-    //var FileSaver = require('file-saver');
-    //var blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
-    //FileSaver.saveAs(blob, fileName);
     const a = document.createElement('a');
     a.download = download;
     a.href = href;
     a.click();
     a.remove();
+}
+
+export function saveContract(fileName, fileContent) {
+	var FileSaver = require('file-saver');
+    var blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+    FileSaver.saveAs(blob, fileName);
 }
 
 export function downloadSvg(fileName, svgString) {

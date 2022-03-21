@@ -15,55 +15,41 @@ import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvi
 import customRules from "./modellerCustomRules";
 import { downloadSvg, downloadSvgAsPng } from "./fileSaver";
 
+const ELEMENT_EVENTS = [
+    'element.changed',
+    'element.click',
+    'shape.added',
+    'shape.create',
+    'shape.removed',
+    'element.updateId',
+    'connection.added',
+    'connection.removed',
+    'root.added',
+    'root.removed'
+];
+
 
 export function hookEvents() {
     var eventBus = window.modeler.get('eventBus');
 
-    var elementEvents = [
-        'element.changed',
-        'element.click',
-        'shape.added',
-        'shape.create',
-        'shape.removed',
-        'element.updateId',
-        'connection.added',
-        'connection.removed',
-        'root.added',
-        'root.removed'
-    ];
-    eventBus.on('copyPaste.elementsPasted', function (e) {
-        console.log(e);
-
+    ELEMENT_EVENTS.forEach(function (event) {
+        eventBus.on(event, eventHandler)
     });
-    eventBus.on('copyPaste.elementsCopied', function (e) {
-        console.log(e);
+}
+
+export function unhookEvents() {
+    var eventBus = window.modeler.get('eventBus');
+
+    ELEMENT_EVENTS.forEach(function (event) {
+        eventBus.off(event, eventHandler)
     });
+}
 
-    elementEvents.forEach(function (event) {
-
-        eventBus.on(event, function (e) {
-            // e.element = the model element
-            // e.gfx = the graphical element
-            if (modellerLib.eventHandlerInstanceRef != null) {
-                let eventObj = copyEventInformation(e);
-                modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
-            }
-            /*
-            if (e.type === "shape.added") {
-                if (e.element.businessObject.mamaMia == null) {
-                    e.element.businessObject.mamaMia = "yooo";
-                    console.log("adding mama mia");
-                }
-                else {
-                    console.log(e.element.businessObject.mamaMia);
-                }
-
-            }
-            */
-            console.log(event, 'on', e, ' element id: ', e.element.id);
-        });
-    });
-
+async function eventHandler(e) {
+    if (modellerLib.eventHandlerInstanceRef != null) {
+        let eventObj = copyEventInformation(e);
+        await modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
+    }
 }
 
 export async function saveAsSvg(diagramName) {
@@ -193,8 +179,8 @@ export async function createModeler(modelerXml, canvasId) {
         additionalModules: [customRules]
     });
 
-    
-    
+    unhookEvents();
+
     if (modelerXml !== '') {
         await window.modeler.importXML(modelerXml);
         hookEvents(); //Hook events after the import is done

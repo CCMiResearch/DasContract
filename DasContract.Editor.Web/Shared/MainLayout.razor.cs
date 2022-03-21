@@ -19,6 +19,9 @@ namespace DasContract.Editor.Web.Shared
         private IContractManager ContractManager { get; set; }
 
         [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
         private SaveManager SaveManager { get; set; }
 
         [Inject]
@@ -27,12 +30,14 @@ namespace DasContract.Editor.Web.Shared
         [Inject]
         private ILocalStorageService LocalStorage { get; set; }
 
+        protected IList<string> Alerts { get; set; } = new List<string>();
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
             Console.WriteLine("Initializing");
             if (!ContractManager.IsContractInitialized())
-                ContractManager.InitializeNewContract();
+                NavigationManager.NavigateTo("");
 
             ToolBarItems = CreateSharedToolbarItems();
         }
@@ -49,29 +54,37 @@ namespace DasContract.Editor.Web.Shared
             StateHasChanged();
         }
 
+        public async Task CreateAlert(string message, int lifespanMs = 1500)
+        {
+            Alerts.Add(message);
+            StateHasChanged();
+            await Task.Delay(lifespanMs);
+            Alerts.Remove(message);
+            StateHasChanged();
+        }
+
         //Creates toolbar items that are shared across all editors
         protected IList<ToolBarItem> CreateSharedToolbarItems()
         {
             var downloadItem = new ToolBarItem { 
-                IconPath = "dist/icons/download.svg", 
+                IconName = "file-earmark-medical", 
                 Description = "Save as .dascontract", 
-                Name = "Download contract",
+                Name = "Contract",
                 Id = "download-contract"};
-            downloadItem.OnClick += HandleSaveContractClicked;
+            downloadItem.OnClick += HandleDownloadContractClicked;
             return new List<ToolBarItem>
             {
                downloadItem
             };
         }
 
-        protected async void HandleSaveContractClicked(object sender, MouseEventArgs args)
+        protected async void HandleDownloadContractClicked(object sender, MouseEventArgs args)
         {
             //Request a force save
             await SaveManager.RequestSave();
             var serializedContract = ContractManager.SerializeContract();
-            await LocalStorage.SetItemAsync("contract", serializedContract);
             var contractName = string.IsNullOrEmpty(ContractManager.GetContractName()) ? "contract" : ContractManager.GetContractName();
-            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", $"{contractName}.dascontract", serializedContract);
+            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveContract", $"{contractName}.dascontract", serializedContract);
         }
     }
 }

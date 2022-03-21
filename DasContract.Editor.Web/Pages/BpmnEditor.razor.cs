@@ -52,6 +52,7 @@ namespace DasContract.Editor.Web.Pages
             if (firstRender)
             {
                 BpmnSynchronizer.InitializeOrRestoreBpmnEditor("canvas");
+                CreateSaveDiagramToolbarButton();
             }
 
             if (_restoreBpmnElement)
@@ -78,15 +79,14 @@ namespace DasContract.Editor.Web.Pages
             EditElementService.EditElementChanged += HandleEditElementChanged;
             SaveManager.SaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
-            CreateSaveDiagramToolbarButton();
         }
 
         private void CreateSaveDiagramToolbarButton()
         {
             var saveDiagramAsSvgButton = new ToolBarItem
             {
-                IconPath = "dist/icons/card-image.svg",
-                Id = "download-svg",
+                IconName = "filetype-svg",
+                Id = "bpmn-download-svg",
                 Name = "Diagram as svg"
             };
             saveDiagramAsSvgButton.OnClick += HandleSaveDiagramAsSvg;
@@ -94,8 +94,8 @@ namespace DasContract.Editor.Web.Pages
 
             var saveDiagramAsPngButton = new ToolBarItem
             {
-                IconPath = "dist/icons/card-image.svg",
-                Id = "download-png",
+                IconName = "file-earmark-image",
+                Id = "bpmn-download-png",
                 Name = "Diagram as png"
             };
             saveDiagramAsPngButton.OnClick += HandleSaveDiagramAsPng;
@@ -142,8 +142,8 @@ namespace DasContract.Editor.Web.Pages
             await SaveManager.RequestSave();
             SaveManager.SaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
-            Layout.RemoveToolbarItem("download-png");
-            Layout.RemoveToolbarItem("download-svg");
+            Layout.RemoveToolbarItem("bpmn-download-png");
+            Layout.RemoveToolbarItem("bpmn-download-svg");
         }
     }
 }

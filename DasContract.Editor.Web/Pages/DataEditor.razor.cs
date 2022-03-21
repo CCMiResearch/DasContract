@@ -100,13 +100,14 @@ class {{token.name}} {
             {
                 await InitializeSplitGutter();
                 await RefreshDiagram();
+                CreateToolbarItems();
             }
         }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            CreateToolbarItems();
+
         }
 
         async Task InitializeSplitGutter()
@@ -129,7 +130,7 @@ class {{token.name}} {
             var saveDiagramSvgItem = new ToolBarItem
             {
                 Name = "Diagram as svg",
-                IconPath = "dist/icons/file-text.svg",
+                IconName = "filetype-svg",
                 Id = "download-svg"
             };
             saveDiagramSvgItem.OnClick += HandleSaveToSvgClicked;
@@ -137,7 +138,7 @@ class {{token.name}} {
             var saveDiagramPngItem = new ToolBarItem
             {
                 Name = "Diagram as png",
-                IconPath = "dist/icons/file-text.svg",
+                IconName = "file-earmark-image",
                 Id = "download-png"
             };
             saveDiagramPngItem.OnClick += HandleSaveToPngClicked;

@@ -62,8 +62,8 @@ namespace DasContract.Editor.Web.Pages
         private void CreateToolbarItems()
         {
             var saveCodeToolbarItem = new ToolBarItem { 
-                Name = "Download code", 
-                IconPath = "dist/icons/file-text.svg",
+                Name = "Converted code", 
+                IconName = "file-earmark-code",
                 Id = "download-code"
                 };
             saveCodeToolbarItem.OnClick += HandleSaveCodeClicked;

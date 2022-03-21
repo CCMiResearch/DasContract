@@ -22,5 +22,9 @@
   {
     "outputFile": "Pages/DataEditor.razor.css",
     "inputFile": "Pages/DataEditor.razor.scss"
+  },
+  {
+    "outputFile": "Pages/LandingPage.razor.css",
+    "inputFile": "Pages/LandingPage.razor.scss"
   }
 ]

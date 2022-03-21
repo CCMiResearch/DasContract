@@ -1,7 +1,7 @@
 ﻿@page "/"
 @layout LandingPageLayout
 
-<h1><strong>DasContract</strong></h1>
+<h1 class="mb-3"><strong>DasContract</strong></h1>
 
 <InputFile OnChange="OnInputFileProvided" AdditionalAttributes="@(
     new Dictionary<string, object> {
@@ -9,28 +9,75 @@
         { "accept", ".dascontract" }
     })" />
 
-<p>
+<div class="select-section mb-3">
     <strong>
         <label for="input-file">Open from file </label>
-        or
-        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
-        a new contract
-        <br>
-        @if (ContractManager.IsContractInitialized())
-        {
-            <div class="centered">
-                or <label @onclick="OnOpenRecentClicked"> open recent </label>
-                (
-                @if (string.IsNullOrWhiteSpace(@ContractManager.GetContractName()))
-                {
-                    <a>Untitled Contract</a>
-                }
-                else
-                {
-                    <a>@ContractManager.GetContractName()</a>
-                }
-                )
-            </div>
-        }
     </strong>
-</p>
+</div>
+
+<div class="select-section mb-3">
+    <strong>
+        <label id="create-link" @onclick="OnCreateNewClicked">Create new contract </label>
+    </strong>
+</div>
+
+<div class="select-section mb-3">
+    <strong>
+        <a id="browse-examples" data-bs-toggle="collapse" href="#collapseExample">Browse example contracts</a>
+    </strong>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <a @onclick="@(() => OpenExampleContract("dist/examples/elections.dascontract"))">European elections</a>
+        </div>
+    </div>
+</div>
+
+@if (ContractLinks != null && ContractLinks.Count > 0)
+{
+    <div class="select-section">
+<strong>
+    <label>Recent contracts </label>
+</strong>
+        </div>
+                <div class="recent-contracts card card-body">
+                    <table>
+                        <tr>
+                            <th class="pe-4">Contract name</th>
+                            <th class="pe-4">Last modified</th>
+                            <th></th>
+                        </tr>
+                        @foreach (var contractLink in ContractLinks)
+                        {
+        <tr>
+            <td class="pe-4 pb-2"><strong><a class="recent-name" @onclick="async () => await OnOpenRecentClicked(contractLink.ContractId)">@contractLink.ContractName</a></strong></td>
+            <td class="pe-4 pb-2">@contractLink.LastChanged</td>
+            <td class="pb-2"><button class="btn btn-outline-danger" @onclick="() => RemoveStoredContract(contractLink.ContractId)">Remove</button></td>
+        </tr>
+}
+
+                    </table>
+                </div>} @*<p>
+                    <strong>
+                        <label for="input-file">Open from file </label>
+                        or
+                        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
+                        a new contract
+                        <br>
+                        @if (ContractManager.IsContractInitialized())
+                        {
+                            <div class="centered">
+                                or <label @onclick="OnOpenRecentClicked"> open recent </label>
+                                (
+                                @if (string.IsNullOrWhiteSpace(@ContractManager.GetContractName()))
+                                {
+                                    <a>Untitled Contract</a>
+                                }
+                                else
+                                {
+                                    <a>@ContractManager.GetContractName()</a>
+                                }
+                                )
+                            </div>
+                        }
+                    </strong>
+                </p>*@

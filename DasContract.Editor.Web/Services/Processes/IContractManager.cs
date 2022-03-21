@@ -40,6 +40,7 @@ namespace DasContract.Editor.Web.Services.Processes
         void RestoreContract(string contractXML);
         string GetProcessDiagram();
         string GetContractName();
+        string GetContractId();
         void SetContractName(string name);
         
         IDictionary<string, DataType> GetDataTypes();
@@ -50,5 +51,7 @@ namespace DasContract.Editor.Web.Services.Processes
         bool ConvertContract(out string data);
         void SetProcessDiagram(string diagramXml);
         string TranslateBpmnProcessId(string bpmnProcessId);
+        bool CanSafelyExit();
+
     }
 }

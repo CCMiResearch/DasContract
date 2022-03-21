@@ -17,12 +17,12 @@ namespace DasContract.Editor.Web.Services
     public class SaveManager
     {
         public AsyncEvent<EventArgs> SaveRequested = new AsyncEvent<EventArgs>();
+        public AsyncEvent<EventArgs> EditorsSaved = new AsyncEvent<EventArgs>();
 
         public async Task RequestSave()
         {
             await SaveRequested.InvokeAsync(this, EventArgs.Empty);
-
-
+            await EditorsSaved.InvokeAsync(this, EventArgs.Empty);
         }
     }
 }

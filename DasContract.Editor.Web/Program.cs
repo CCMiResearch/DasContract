@@ -18,6 +18,7 @@ using DasContract.Editor.Web.Services.UserInput;
 using DasContract.Editor.Web.Services.UserForm;
 using Blazored.LocalStorage;
 using DasContract.Editor.Web.Services.JsInterop;
+using DasContract.Editor.Web.Services.LocalStorage;
 
 namespace DasContract.Editor.Web
 {
@@ -29,12 +30,14 @@ namespace DasContract.Editor.Web
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IBpmnEventHandler, BpmnEventHandler>();
             builder.Services.AddScoped<IContractManager, ContractManager>();
             builder.Services.AddScoped<IProcessManager, ProcessManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
             builder.Services.AddScoped<IBpmnJsCommunicator, BpmnJsCommunicator>();
+            builder.Services.AddScoped<ISaveGuardJsCommunicator, SaveGuardJsCommunicator>();
+            builder.Services.AddScoped<IContractStorage, ContractStorage>();
             builder.Services.AddScoped<UserInputHandler>();
             builder.Services.AddScoped<EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();
@@ -42,7 +45,6 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<SaveManager>();
             builder.Services.AddScoped<UsersRolesManager>();
             builder.Services.AddScoped<UserFormService>();
-            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IConverterService, ConverterService>();
 
             var host = builder.Build();
