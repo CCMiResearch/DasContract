@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class BpmnEditor: ComponentBase, IAsyncDisposable
+    public partial class BpmnEditor : ComponentBase, IAsyncDisposable
     {
         [Inject]
         private IBpmnEventHandler BpmnEventHandler { get; set; }
@@ -52,6 +52,7 @@ namespace DasContract.Editor.Web.Pages
             if (firstRender)
             {
                 BpmnSynchronizer.InitializeOrRestoreBpmnEditor("canvas");
+                CreateSaveDiagramToolbarButton();
             }
 
             if (_restoreBpmnElement)
@@ -70,31 +71,45 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
 
-            if(EditElementService.EditElement != null)
+            if (EditElementService.EditElement != null)
             {
                 ShowDetailBar = true;
             }
 
             EditElementService.EditElementChanged += HandleEditElementChanged;
-            SaveManager.SaveRequested += SaveDiagramXml;
+            SaveManager.StateSaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
-            CreateSaveDiagramToolbarButton();
         }
 
         private void CreateSaveDiagramToolbarButton()
         {
-            var saveDiagramButton = new ToolBarItem { 
-                Description = "Save the diagram as .png", 
-                IconPath = "dist/icons/card-image.svg", 
-                Id = "download-diagram",
-                Name = "Download diagram" };
-            saveDiagramButton.OnClick += HandleSaveDiagram;
-            Layout.AddToolbarItem(saveDiagramButton);
+            var saveDiagramAsSvgButton = new ToolBarItem
+            {
+                IconName = "filetype-svg",
+                Id = "bpmn-download-svg",
+                Name = "Diagram as svg"
+            };
+            saveDiagramAsSvgButton.OnClick += HandleSaveDiagramAsSvg;
+            Layout.AddToolbarItem(saveDiagramAsSvgButton);
+
+            var saveDiagramAsPngButton = new ToolBarItem
+            {
+                IconName = "file-earmark-image",
+                Id = "bpmn-download-png",
+                Name = "Diagram as png"
+            };
+            saveDiagramAsPngButton.OnClick += HandleSaveDiagramAsPng;
+            Layout.AddToolbarItem(saveDiagramAsPngButton);
         }
 
-        private async void HandleSaveDiagram(object sender, MouseEventArgs args)
+        private async void HandleSaveDiagramAsSvg(object sender, MouseEventArgs args)
         {
-            await JSRunTime.InvokeVoidAsync("modellerLib.saveAsSvg");
+            await JSRunTime.InvokeVoidAsync("modellerLib.saveAsSvg", ContractManager.GetContractName());
+        }
+
+        private async void HandleSaveDiagramAsPng(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("modellerLib.saveAsPng", ContractManager.GetContractName());
         }
 
         private void HandleEditElementChanged(object sender, EditElementEventArgs args)
@@ -117,17 +132,18 @@ namespace DasContract.Editor.Web.Pages
 
         private void HandleUserFormPreviewChanged()
         {
-            if(!UserFormService.IsPreviewOpen)
+            if (!UserFormService.IsPreviewOpen)
                 _restoreBpmnElement = true;
             StateHasChanged();
         }
 
         public async ValueTask DisposeAsync()
         {
-            await SaveManager.RequestSave();
-            SaveManager.SaveRequested -= SaveDiagramXml;
+            await SaveManager.RequestStateSave();
+            SaveManager.StateSaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
-            Layout.RemoveToolbarItem("download-diagram");
+            Layout.RemoveToolbarItem("bpmn-download-png");
+            Layout.RemoveToolbarItem("bpmn-download-svg");
         }
     }
 }

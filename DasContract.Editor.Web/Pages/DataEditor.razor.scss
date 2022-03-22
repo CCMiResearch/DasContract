@@ -1,0 +1,34 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.data-editor {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 10px 0.5fr;
+}
+
+.editor-main {
+    height: 100%;
+}
+
+.script-canvas {
+    height: 100%;
+    display: grid;
+    align-items: stretch;
+    grid-template-rows: min-content auto;
+}
+
+.script-toolbar{
+    width: 100%;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: -0.8em;
+    background: $gray-100;
+}
+
+::deep svg{
+    max-width: 100%;
+    height: 100% !important;
+    width: auto !important;
+}
+

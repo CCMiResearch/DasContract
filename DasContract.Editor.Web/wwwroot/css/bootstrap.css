@@ -7533,6 +7533,34 @@ textarea.form-control-lg {
     background-color: #212529;
     border-color: #212529; }
 
+.btn-download {
+  color: #000;
+  background-color: #fff;
+  border-color: #fff; }
+  .btn-download:hover {
+    color: #000;
+    background-color: #e9ecef;
+    border-color: #e9ecef; }
+  .btn-check:focus + .btn-download, .btn-download:focus {
+    color: #000;
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    box-shadow: 0 0 0 0.25rem rgba(217, 217, 217, 0.5); }
+  .btn-check:checked + .btn-download,
+  .btn-check:active + .btn-download, .btn-download:active, .btn-download.active,
+  .show > .btn-download.dropdown-toggle {
+    color: #000;
+    background-color: #dee2e6;
+    border-color: #dee2e6; }
+    .btn-check:checked + .btn-download:focus,
+    .btn-check:active + .btn-download:focus, .btn-download:active:focus, .btn-download.active:focus,
+    .show > .btn-download.dropdown-toggle:focus {
+      box-shadow: 0 0 0 0.25rem rgba(217, 217, 217, 0.5); }
+  .btn-download:disabled, .btn-download.disabled {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff; }
+
 .nav-buttons .btn-header {
   border-radius: 0 !important; }
 

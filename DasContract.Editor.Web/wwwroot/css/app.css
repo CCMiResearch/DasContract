@@ -21,7 +21,7 @@ a, .btn-link {
 
 .gutter-col {
   cursor: col-resize;
-  background-color: #c6c6c6;
+  background-color: #edecec;
   background-image: url(../dist/icons/vertical.png);
   background-repeat: no-repeat;
   background-position: 50%; }

@@ -1,5 +1,7 @@
 ﻿using DasContract.Blockchain.Solidity.Converters;
+using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.Converter;
+using DasContract.Editor.Web.Services.JsInterop;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -15,12 +17,18 @@ namespace DasContract.Editor.Web.Shared
         protected IContractManager ContractManager { get; set; }
 
         [Inject]
+        protected SaveManager SaveManager { get; set; }
+
+        [Inject]
         private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        protected ISaveGuardJsCommunicator SaveGuardJsCommunicator { get; set; }
 
         [Inject]
         protected IConverterService ConverterService { get; set; }
 
-        protected ElementReference NameInputReference { get; set; } 
+        protected ElementReference NameInputReference { get; set; }
 
         protected string ContractName { get { return ContractManager.GetContractName(); } set { ContractManager.SetContractName(value); } }
 
@@ -34,6 +42,28 @@ namespace DasContract.Editor.Web.Shared
             ConverterService.SetConversionTarget(conversionTarget);
             NavigationManager.NavigateTo("generated");
             StateHasChanged();
+        }
+
+        protected async Task NavigateToLandingPage()
+        {
+            if (!ContractManager.CanSafelyExit() && !await SaveGuardJsCommunicator.DisplayAndCollectConfirmation())
+            {
+                return;
+            }
+            NavigationManager.NavigateTo("");
+        }
+
+        protected async Task SaveContract()
+        {
+            try
+            {
+                await SaveManager.RequestContractSave();
+                await Layout.CreateAlert("Contract saved");
+            }
+            catch (Exception)
+            {
+                await Layout.CreateAlert("Could not save contract");
+            }
         }
 
         protected string BaseRelativePath()

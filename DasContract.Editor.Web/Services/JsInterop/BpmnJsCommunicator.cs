@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.JsInterop
 {
-    public class BpmnJsCommunicator : IBpmnJsCommunicator
+    public class BpmnJsCommunicator : JsCommunicator, IBpmnJsCommunicator
     {
-        private IJSRuntime _jsRuntime;
-        public BpmnJsCommunicator(IJSRuntime jSRuntime)
+        public BpmnJsCommunicator(IJSRuntime jSRuntime) : base(jSRuntime)
         {
-            _jsRuntime = jSRuntime;
         }
 
         public async Task UpdateElementId(string oldElementId, string newElementId)
         {
             Console.WriteLine($"Updateing {oldElementId} to {newElementId}");
-            await _jsRuntime.InvokeVoidAsync("modellerLib.updateElementId", oldElementId, newElementId);
+            await JSRuntime.InvokeVoidAsync("modellerLib.updateElementId", oldElementId, newElementId);
         }
     }
 }

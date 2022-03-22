@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Components\Converter\" />
+    <Folder Include="wwwroot\dist\logo\" />
   </ItemGroup>
 
   <ItemGroup>

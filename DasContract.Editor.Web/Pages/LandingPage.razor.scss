@@ -1,0 +1,74 @@
+﻿@import "../wwwroot/css/_variables.scss";
+@import "../wwwroot/css/bootstrap.scss";
+
+h1 {
+    font-family: Helvetica;
+    font-size: 400%;
+    margin: auto;
+    margin-top: 60px;
+    width: max-content;
+}
+
+p {
+}
+
+.select-options {
+    font-size: 130%;
+}
+
+a {
+    text-decoration: none;
+    color: #1b6ec2;
+}
+
+    a:hover {
+        color: #3681ce;
+    }
+
+.recent-contracts {
+    width: max-content;
+    margin: 0 auto;
+    max-height: 50%;
+    overflow-y: auto;
+}
+
+.card-body {
+    background: $gray-100;
+}
+
+.select-section {
+    width: 15em;
+    font-size: 24px;
+    margin: 0 auto;
+    border-bottom: 1px solid $gray-400;
+    text-align: center;
+}
+
+label {
+    color: #1b6ec2;
+}
+
+label:hover {
+    cursor: pointer;
+    color: #3681ce;
+}
+
+.centered {
+    text-align: center;
+}
+
+.recent-name {
+    color: $primary;
+}
+
+.last-edited {
+    color: $gray-600;
+}
+
+.list-group {
+}
+
+#examples-collapse{
+    width: max-content;
+    margin: 0 auto;
+}
