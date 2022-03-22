@@ -31,5 +31,10 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         {
             ContractManager.RemoveRole(AddedRole);
         }
+
+        public string GetRoleId()
+        {
+            return AddedRole?.Id;
+        }
     }
 }

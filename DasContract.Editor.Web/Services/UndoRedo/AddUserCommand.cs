@@ -31,5 +31,10 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         {
             ContractManager.RemoveUser(AddedUser);
         }
+
+        public string GetUserId()
+        {
+            return AddedUser?.Id;
+        }
     }
 }

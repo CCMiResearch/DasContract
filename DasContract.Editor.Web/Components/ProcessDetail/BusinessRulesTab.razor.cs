@@ -25,14 +25,14 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             if (firstRender)
             {
                 await JSRunTime.InvokeVoidAsync("dmnModellerLib.createModeler", BusinessRuleTask.BusinessRuleDefinitionXml ?? "");
-                SaveManager.SaveRequested += HandleSaveRequested;
+                SaveManager.StateSaveRequested += HandleSaveRequested;
             }
             
         }
 
         public async void Dispose()
         {
-            SaveManager.SaveRequested -= HandleSaveRequested;
+            SaveManager.StateSaveRequested -= HandleSaveRequested;
             await SaveModel();
         }
 

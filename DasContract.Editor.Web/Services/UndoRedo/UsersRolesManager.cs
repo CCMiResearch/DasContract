@@ -17,9 +17,26 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         //Commands that been undone - they can be redone
         private Stack<ContractCommand> RedoableCommands { get; set; } = new Stack<ContractCommand>();
 
+        private IDictionary<string, bool> AccordionStates { get; set; } = new Dictionary<string, bool>();
+
         public UsersRolesManager(IContractManager contractManager)
         {
             _contractManager = contractManager;
+        }
+
+        public bool GetAccordionState(string id)
+        {
+            if (AccordionStates.TryGetValue(id, out var state))
+                return state;
+            return false;
+        }
+
+        public void FlipAccordionState(string id)
+        {
+            if (!AccordionStates.TryGetValue(id, out var state))
+                AccordionStates[id] = true;
+            else
+                AccordionStates[id] = !state;
         }
 
         public void UserRoleAssigned(Select2<ProcessRole> select, string roleId)
@@ -46,6 +63,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             RedoableCommands.Clear();
             var addCommand = new AddUserCommand(_contractManager);
             addCommand.Execute();
+            FlipAccordionState(addCommand.GetUserId());
             UndoableCommands.Push(addCommand);
         }
 
@@ -62,6 +80,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             RedoableCommands.Clear();
             var addCommand = new AddRoleCommand(_contractManager);
             addCommand.Execute();
+            FlipAccordionState(addCommand.GetRoleId());
             UndoableCommands.Push(addCommand);
         }
 

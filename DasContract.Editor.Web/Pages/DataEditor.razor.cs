@@ -2,7 +2,9 @@
 using DasContract.Editor.Web.Components.Common;
 using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Scriban;
 using System;
@@ -13,7 +15,7 @@ using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Pages
 {
-    public partial class DataEditor : ComponentBase
+    public partial class DataEditor : ComponentBase, IDisposable
     {
         [Inject]
         protected ResizeHandler ResizeHandler { get; set; }
@@ -28,6 +30,11 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         protected Refresh Refresh { get; set; }
+
+        [CascadingParameter]
+        protected MainLayout Layout { get; set; }
+
+        protected string MermaidScript { get; set; }
 
         //  protected string MermaidScript { get; set; } = @"classDiagram
         //Animal <|-- Duck
@@ -86,28 +93,56 @@ class {{token.name}} {
 
 
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
-                InitializeSplitGutter();
-                RefreshDiagram();
+                await InitializeSplitGutter();
+                await RefreshDiagram();
+                CreateToolbarItems();
             }
         }
 
-        async void InitializeSplitGutter()
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+        }
+
+        async Task InitializeSplitGutter()
         {
             await JSRunTime.InvokeVoidAsync("splitterLib.createSplit", ".gutter-col-1");
             await ResizeHandler.InitializeHandler();
         }
 
-        protected void DataModelXmlChanged(string script)
+        protected async Task DataModelXmlChanged(string script)
         {
             ContractManager.SetDataModelXml(script);
             if (Refresh.AutoRefresh && !string.IsNullOrEmpty(script))
             {
-                RefreshDiagram();
+                await RefreshDiagram();
             }
+        }
+
+        private void CreateToolbarItems()
+        {
+            var saveDiagramSvgItem = new ToolBarItem
+            {
+                Name = "Diagram as svg",
+                IconName = "filetype-svg",
+                Id = "download-svg"
+            };
+            saveDiagramSvgItem.OnClick += HandleSaveToSvgClicked;
+            Layout.AddToolbarItem(saveDiagramSvgItem);
+            var saveDiagramPngItem = new ToolBarItem
+            {
+                Name = "Diagram as png",
+                IconName = "file-earmark-image",
+                Id = "download-png"
+            };
+            saveDiagramPngItem.OnClick += HandleSaveToPngClicked;
+            Layout.AddToolbarItem(saveDiagramPngItem);
         }
 
         private IList<Tuple<string, string>> GetModelRelationships(IDictionary<string, DataType> dataTypes)
@@ -128,12 +163,22 @@ class {{token.name}} {
             return relationships;
         }
 
-        private async void RefreshDiagram()
+        private async void HandleSaveToSvgClicked(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("mermaidLib.downloadSVG", ContractManager.GetContractName());
+        }
+
+        private async void HandleSaveToPngClicked(object sender, MouseEventArgs args)
+        {
+            await JSRunTime.InvokeVoidAsync("mermaidLib.downloadPNG", ContractManager.GetContractName());
+        }
+
+        private async Task RefreshDiagram()
         {
             try
             {
                 var dataTypes = ContractManager.GetDataTypes();
-                var mermaidScript = _mermaidTemplate.Render(new
+                MermaidScript = _mermaidTemplate.Render(new
                 {
                     Relationships = GetModelRelationships(dataTypes),
                     Enums = dataTypes.Values.OfType<Abstraction.Data.Enum>(),
@@ -141,12 +186,18 @@ class {{token.name}} {
                     Tokens = dataTypes.Values.OfType<Token>().Where(e => e.GetType() == typeof(Token))
                 });
 
-                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", mermaidScript);
+                await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", MermaidScript);
             }
             catch (JSException)
             {
                 Console.WriteLine("Could not render mermaid diagram");
             }
+        }
+
+        public void Dispose()
+        {
+            Layout.RemoveToolbarItem("download-svg");
+            Layout.RemoveToolbarItem("download-png");
         }
     }
 }
