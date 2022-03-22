@@ -57,7 +57,7 @@ namespace DasContract.Editor.Web.Shared
         {
             try
             {
-                await SaveManager.RequestSave();
+                await SaveManager.RequestContractSave();
                 await Layout.CreateAlert("Contract saved");
             }
             catch (Exception)

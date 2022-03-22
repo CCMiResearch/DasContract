@@ -1,30 +1,39 @@
 ﻿@import "../wwwroot/css/_variables.scss";
 @import "../wwwroot/css/bootstrap.scss";
 
-h1{
+h1 {
     font-family: Helvetica;
-    font-size:400%;
-    margin:auto;
+    font-size: 400%;
+    margin: auto;
     margin-top: 60px;
     width: max-content;
 }
 
 p {
-    width: max-content;
-    margin:auto;
-    margin-top: 30px;
+}
+
+.select-options {
     font-size: 130%;
 }
 
 a {
     text-decoration: none;
+    color: #1b6ec2;
 }
+
+    a:hover {
+        color: #3681ce;
+    }
 
 .recent-contracts {
     width: max-content;
     margin: 0 auto;
     max-height: 50%;
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+
+.card-body {
+    background: $gray-100;
 }
 
 .select-section {
@@ -49,9 +58,17 @@ label:hover {
 }
 
 .recent-name {
-    color: $primary
+    color: $primary;
 }
 
-.recent-name:hover {
-    cursor: pointer;
+.last-edited {
+    color: $gray-600;
+}
+
+.list-group {
+}
+
+#examples-collapse{
+    width: max-content;
+    margin: 0 auto;
 }

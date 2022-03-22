@@ -81,7 +81,7 @@ namespace DasContract.Editor.Web.Shared
         protected async void HandleDownloadContractClicked(object sender, MouseEventArgs args)
         {
             //Request a force save
-            await SaveManager.RequestSave();
+            await SaveManager.RequestStateSave();
             var serializedContract = ContractManager.SerializeContract();
             var contractName = string.IsNullOrEmpty(ContractManager.GetContractName()) ? "contract" : ContractManager.GetContractName();
             await JSRunTime.InvokeVoidAsync("fileSaverLib.saveContract", $"{contractName}.dascontract", serializedContract);

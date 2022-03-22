@@ -19,6 +19,7 @@ using DasContract.Editor.Web.Services.UserForm;
 using Blazored.LocalStorage;
 using DasContract.Editor.Web.Services.JsInterop;
 using DasContract.Editor.Web.Services.LocalStorage;
+using DasContract.Editor.Web.Services.ExamplesLoader;
 
 namespace DasContract.Editor.Web
 {
@@ -37,6 +38,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
             builder.Services.AddScoped<IBpmnJsCommunicator, BpmnJsCommunicator>();
             builder.Services.AddScoped<ISaveGuardJsCommunicator, SaveGuardJsCommunicator>();
+            builder.Services.AddScoped<IExampleLoader, ExampleLoader>();
             builder.Services.AddScoped<IContractStorage, ContractStorage>();
             builder.Services.AddScoped<UserInputHandler>();
             builder.Services.AddScoped<EditElementService>();

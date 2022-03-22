@@ -1,4 +1,5 @@
-﻿using DasContract.Editor.Web.Services.JsInterop;
+﻿using DasContract.Editor.Web.Services.ExamplesLoader;
+using DasContract.Editor.Web.Services.JsInterop;
 using DasContract.Editor.Web.Services.LocalStorage;
 using DasContract.Editor.Web.Services.Processes;
 using Microsoft.AspNetCore.Components;
@@ -24,23 +25,26 @@ namespace DasContract.Editor.Web.Pages
         protected ISaveGuardJsCommunicator SaveGuardJsCommunicator { get; set; }
 
         [Inject]
-        protected IContractStorage ContractStorage { get; set; }
+        private IExampleLoader ExampleLoader { get; set; }
 
         [Inject]
-        private HttpClient HttpClient { get; set; }
+        protected IContractStorage ContractStorage { get; set; }
 
-        protected IList<StoredContractLink> ContractLinks { get; set; }
 
-        protected override async Task OnInitializedAsync()
+
+        protected IList<StoredContractLink> ContractLinks { get; set; } = new List<StoredContractLink>();
+        protected IList<ExampleContract> ExampleContracts { get; set; } = new List<ExampleContract>();
+
+        protected override async Task OnParametersSetAsync()
         {
             ContractLinks = await ContractStorage.GetAllContractLinks();
-            StateHasChanged();
-            await base.OnInitializedAsync();
+            ExampleContracts = await ExampleLoader.ReadManifest();
+            await base.OnParametersSetAsync();
         }
 
         protected async void RemoveStoredContract(string contractId)
         {
-            if (await SaveGuardJsCommunicator.DisplayAndCollectConfirmation("Are you sure?"))
+            if (await SaveGuardJsCommunicator.DisplayAndCollectConfirmation("This will permanently remove the contract. Are you sure?"))
             {
                 await ContractStorage.RemoveContract(contractId);
                 ContractLinks = await ContractStorage.GetAllContractLinks();
@@ -66,9 +70,9 @@ namespace DasContract.Editor.Web.Pages
             NavigationManager.NavigateTo("/process");
         }
 
-        protected async Task OpenExampleContract(string contractAddress)
+        protected async Task OpenExampleContract(string exampleName)
         {
-            var contract = await HttpClient.GetStringAsync(contractAddress);
+            var contract = await ExampleLoader.ReadContract(exampleName);
             ContractManager.RestoreContract(contract);
             NavigationManager.NavigateTo("/process");
         }

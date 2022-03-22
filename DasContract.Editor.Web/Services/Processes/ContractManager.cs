@@ -53,7 +53,7 @@ namespace DasContract.Editor.Web.Services.Processes
         public async Task InitAsync()
         {
             await _jsRuntime.InvokeVoidAsync("exitGuardLib.setContractManagerInstance", DotNetObjectReference.Create(this));
-            _saveManager.EditorsSaved += SaveContract;
+            _saveManager.ContractSaveRequested += SaveContract;
         }
 
         public bool IsContractInitialized()

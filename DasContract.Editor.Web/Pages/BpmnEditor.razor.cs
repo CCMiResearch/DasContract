@@ -77,7 +77,7 @@ namespace DasContract.Editor.Web.Pages
             }
 
             EditElementService.EditElementChanged += HandleEditElementChanged;
-            SaveManager.SaveRequested += SaveDiagramXml;
+            SaveManager.StateSaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
         }
 
@@ -139,8 +139,8 @@ namespace DasContract.Editor.Web.Pages
 
         public async ValueTask DisposeAsync()
         {
-            await SaveManager.RequestSave();
-            SaveManager.SaveRequested -= SaveDiagramXml;
+            await SaveManager.RequestStateSave();
+            SaveManager.StateSaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
             Layout.RemoveToolbarItem("bpmn-download-png");
             Layout.RemoveToolbarItem("bpmn-download-svg");

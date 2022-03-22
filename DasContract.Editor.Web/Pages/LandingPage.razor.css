@@ -7577,20 +7577,24 @@ h1, .h1 {
   margin-top: 60px;
   width: max-content; }
 
-p {
-  width: max-content;
-  margin: auto;
-  margin-top: 30px;
+.select-options {
   font-size: 130%; }
 
 a {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #1b6ec2; }
+
+a:hover {
+  color: #3681ce; }
 
 .recent-contracts {
   width: max-content;
   margin: 0 auto;
   max-height: 50%;
-  overflow-y: scroll; }
+  overflow-y: auto; }
+
+.card-body {
+  background: #f8f9fa; }
 
 .select-section {
   width: 15em;
@@ -7612,5 +7616,9 @@ label:hover {
 .recent-name {
   color: #1b6ec2; }
 
-.recent-name:hover {
-  cursor: pointer; }
+.last-edited {
+  color: #6c757d; }
+
+#examples-collapse {
+  width: max-content;
+  margin: 0 auto; }

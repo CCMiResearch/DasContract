@@ -9,75 +9,47 @@
         { "accept", ".dascontract" }
     })" />
 
-<div class="select-section mb-3">
+<div class="select-options centered">
     <strong>
         <label for="input-file">Open from file </label>
+        or
+        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
+        a new contract
+        <br />
     </strong>
-</div>
-
-<div class="select-section mb-3">
     <strong>
-        <label id="create-link" @onclick="OnCreateNewClicked">Create new contract </label>
+        or <a id="browse-examples" data-bs-toggle="collapse" href="#examples-collapse">browse example contracts</a>
     </strong>
-</div>
-
-<div class="select-section mb-3">
-    <strong>
-        <a id="browse-examples" data-bs-toggle="collapse" href="#collapseExample">Browse example contracts</a>
-    </strong>
-    <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-            <a @onclick="@(() => OpenExampleContract("dist/examples/elections.dascontract"))">European elections</a>
+    <div class="collapse" id="examples-collapse">
+        <div class="card card-body ps-4 pe-4">
+            <div class="list-group">
+                @foreach (var exampleContract in ExampleContracts)
+                {
+    <a href="#" @onclick="() => OpenExampleContract(exampleContract.ContractFilename)"
+       class="list-group-item list-group-item-action">
+        <div><strong>@exampleContract.Name</strong></div>
+    </a>}
+            </div>
+            </div>
         </div>
     </div>
-</div>
 
 @if (ContractLinks != null && ContractLinks.Count > 0)
 {
-    <div class="select-section">
-<strong>
-    <label>Recent contracts </label>
-</strong>
+<div class="card recent-contracts mt-4">
+    <div class="card-body ps-4 pe-4">
+        <h5 class="centered mb-2">Recent contracts</h5>
+        <div class="list-group">
+            @foreach (var contractLink in ContractLinks)
+            {
+<a href="#" @onclick="() => OnOpenRecentClicked(contractLink.ContractId)"
+   class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
+    <div class="recent-name me-5"><strong>@contractLink.ContractName</strong></div>
+    <div class="last-edited">Last edited @contractLink.LastChanged 
+    <button type="button" class="btn-close ms-2" aria-label="Close" 
+            @onclick:stopPropagation="true" @onclick="@(() => RemoveStoredContract(contractLink.ContractId))"></button>
+    </div>
+</a>            }
         </div>
-                <div class="recent-contracts card card-body">
-                    <table>
-                        <tr>
-                            <th class="pe-4">Contract name</th>
-                            <th class="pe-4">Last modified</th>
-                            <th></th>
-                        </tr>
-                        @foreach (var contractLink in ContractLinks)
-                        {
-        <tr>
-            <td class="pe-4 pb-2"><strong><a class="recent-name" @onclick="async () => await OnOpenRecentClicked(contractLink.ContractId)">@contractLink.ContractName</a></strong></td>
-            <td class="pe-4 pb-2">@contractLink.LastChanged</td>
-            <td class="pb-2"><button class="btn btn-outline-danger" @onclick="() => RemoveStoredContract(contractLink.ContractId)">Remove</button></td>
-        </tr>
-}
-
-                    </table>
-                </div>} @*<p>
-                    <strong>
-                        <label for="input-file">Open from file </label>
-                        or
-                        <label id="create-link" @onclick="OnCreateNewClicked">create </label>
-                        a new contract
-                        <br>
-                        @if (ContractManager.IsContractInitialized())
-                        {
-                            <div class="centered">
-                                or <label @onclick="OnOpenRecentClicked"> open recent </label>
-                                (
-                                @if (string.IsNullOrWhiteSpace(@ContractManager.GetContractName()))
-                                {
-                                    <a>Untitled Contract</a>
-                                }
-                                else
-                                {
-                                    <a>@ContractManager.GetContractName()</a>
-                                }
-                                )
-                            </div>
-                        }
-                    </strong>
-                </p>*@
+    </div>
+</div>}
