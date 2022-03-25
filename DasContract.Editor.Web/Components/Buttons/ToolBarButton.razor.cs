@@ -1,11 +1,7 @@
 ﻿using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Components.Common
+namespace DasContract.Editor.Web.Components.Buttons
 {
     public partial class ToolBarButton : ComponentBase
     {

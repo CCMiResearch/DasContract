@@ -3,7 +3,7 @@
         <div class="data-editor">
             <div class="script-canvas mb-5">
                 <div class="script-toolbar">
-                    <Refresh @ref=Refresh RefreshRequested="RefreshDiagram" />
+                    <RefreshButton @ref=Refresh RefreshRequested="RefreshDiagram" />
                 </div>
                 <div class="script-body">
                     <ScriptTab Script="@(ContractManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>

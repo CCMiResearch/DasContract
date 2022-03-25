@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DasContract.Editor.Web.Services.BpmnEvents;
-using DasContract.Editor.Web.Services;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
 using BlazorPro.BlazorSize;
@@ -20,6 +19,8 @@ using Blazored.LocalStorage;
 using DasContract.Editor.Web.Services.JsInterop;
 using DasContract.Editor.Web.Services.LocalStorage;
 using DasContract.Editor.Web.Services.ExamplesLoader;
+using DasContract.Editor.Web.Services.Resize;
+using DasContract.Editor.Web.Services.Save;
 
 namespace DasContract.Editor.Web
 {

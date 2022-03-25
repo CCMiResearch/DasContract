@@ -43,7 +43,6 @@ namespace DasContract.Editor.Web.Services.EditElement
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
     }
 }

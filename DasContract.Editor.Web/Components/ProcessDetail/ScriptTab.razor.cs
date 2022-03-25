@@ -1,5 +1,5 @@
 ﻿using BlazorMonaco;
-using DasContract.Editor.Web.Services;
+using DasContract.Editor.Web.Services.Resize;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

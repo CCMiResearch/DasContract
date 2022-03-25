@@ -1,7 +1,6 @@
 ﻿using DasContract.Abstraction;
 using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
-using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.Processes;
@@ -12,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services
+namespace DasContract.Editor.Web.Services.BpmnEvents
 {
     public class BpmnSynchronizer : IBpmnSynchronizer, IDisposable
     {
@@ -28,9 +27,9 @@ namespace DasContract.Editor.Web.Services
         protected bool IsInitialized { get; set; } = false;
 
         public BpmnSynchronizer(
-            IBpmnEventHandler bpmnEventHandler, 
+            IBpmnEventHandler bpmnEventHandler,
             IProcessManager processManager,
-            IContractManager contractManager, 
+            IContractManager contractManager,
             EditElementService editElementService,
             IJSRuntime jsRuntime)
         {
@@ -56,14 +55,14 @@ namespace DasContract.Editor.Web.Services
 
         public async void InitializeOrRestoreBpmnEditor(string canvasElementId)
         {
-            if(!IsInitialized)
+            if (!IsInitialized)
             {
                 await _bpmnEventHandler.InitializeHandler();
                 InitiliazeEventHandlers();
                 IsInitialized = true;
             }
             //Initial configuration and startup of the bpmn js component and its services
-            if(_contractManager.GetContractId() != CurrentContractId)
+            if (_contractManager.GetContractId() != CurrentContractId)
             {
                 var bpmnEditorDiagram = _contractManager.GetProcessDiagram();
                 await _jsRuntime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "", canvasElementId);
@@ -119,7 +118,7 @@ namespace DasContract.Editor.Web.Services
             if (e.Element.Type == "bpmn:Participant")
             {
                 _contractManager.AddNewProcess(e.Element.ProcessId, e.Element.Id);
-                
+
                 if (_contractManager.TryGetProcess(e.Element.ProcessId, out var process))
                 {
                     if (_editElementService.EditElement == process)
@@ -232,7 +231,7 @@ namespace DasContract.Editor.Web.Services
                 {
                     var sequenceFlow = element as SequenceFlow;
                     _processManager.UpdateSequenceFlowSourceAndTarget(sequenceFlow, e.Element.Source, e.Element.Target, e.Element.ProcessId);
-                }    
+                }
 
                 //Check if parent process of the element has changed
                 if (_processManager.TryGetProcessOfElement(element.Id, out var process))
@@ -262,17 +261,17 @@ namespace DasContract.Editor.Web.Services
             else
                 elementId = e.Element.Id;
 
-            if(e.Element.Type == "bpmn:Process")
+            if (e.Element.Type == "bpmn:Process")
             {
                 _contractManager.TryGetProcess(e.Element.Id, out var process);
                 _editElementService.EditElement = process;
             }
-            else if(e.Element.Type == "bpmn:Participant")
+            else if (e.Element.Type == "bpmn:Participant")
             {
                 _contractManager.TryGetProcess(e.Element.ProcessId, out var process);
                 _editElementService.EditElement = process;
             }
-            else if(_processManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
+            else if (_processManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
             {
                 _editElementService.EditElement = element;
             }

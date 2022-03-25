@@ -1,7 +1,8 @@
 ﻿using DasContract.Abstraction.Data;
-using DasContract.Editor.Web.Components.Common;
-using DasContract.Editor.Web.Services;
+using DasContract.Editor.Web.Components.Buttons;
 using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.Resize;
+using DasContract.Editor.Web.Services.Save;
 using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Pages
 {
@@ -29,7 +29,7 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         private IContractManager ContractManager { get; set; }
 
-        protected Refresh Refresh { get; set; }
+        protected RefreshButton Refresh { get; set; }
 
         [CascadingParameter]
         protected MainLayout Layout { get; set; }

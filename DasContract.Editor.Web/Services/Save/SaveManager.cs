@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services
+namespace DasContract.Editor.Web.Services.Save
 {
     /// <summary>
     /// Certain parts of the modeler are not saved after every user input (for example the DMN editor runs entirely in javascript and is only
@@ -22,7 +22,7 @@ namespace DasContract.Editor.Web.Services
         public async Task RequestStateSave()
         {
             await StateSaveRequested.InvokeAsync(this, EventArgs.Empty);
-            
+
         }
 
         public async Task RequestContractSave()

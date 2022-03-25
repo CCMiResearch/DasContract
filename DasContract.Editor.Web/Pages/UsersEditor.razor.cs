@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Components.Common;
+using DasContract.Editor.Web.Components.Select2;
 using DasContract.Editor.Web.Services.Processes;
 using DasContract.Editor.Web.Services.UndoRedo;
 using DasContract.Editor.Web.Services.UserInput;

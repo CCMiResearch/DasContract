@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Components.Common
+namespace DasContract.Editor.Web.Components.Buttons
 {
     public partial class TabButton: ComponentBase
     {

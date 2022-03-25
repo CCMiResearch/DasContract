@@ -1,4 +1,5 @@
 ﻿@using DasContract.Abstraction.Processes
+@using DasContract.Editor.Web.Components.Select2;
 @page "/users"
 
 <div class="users-roles-editor">
@@ -11,14 +12,14 @@
                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
 
                 </div>
-                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
+                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
                        @oninput="(args) => FilterUsers((string) args.Value)" value="@UsersFilter">
             </div>
             <button class="btn btn-primary add-button" @onclick="() => UsersRolesManager.AddUser()">Add user</button>
         </div>
 
         @foreach (var user in ContractManager.GetProcessUsers().Reverse())
-            {
+        {
             //Roles must be hidden using display none, because select2 is a buggy hellish component and breaks otherwise
 <div class="accordion" id="user-@(user.Id)-accordion" style="@(FilteredUsers[user]?"":"display: none;")">
     <div class="accordion-item">
@@ -85,34 +86,34 @@
 
         @foreach (var role in ContractManager.GetProcessRoles().Reverse())
         {
-    <div class="accordion" id="role-@(role.Id)-accordion" style="@(FilteredRoles[role]?"":"display: none;")">
-        <div class="accordion-item">
+<div class="accordion" id="role-@(role.Id)-accordion" style="@(FilteredRoles[role]?"":"display: none;")">
+    <div class="accordion-item">
 
-            <h2 class="accordion-header">
-                <button class="accordion-button @(UsersRolesManager.GetAccordionState(role.Id) ? "" : "collapsed")"
-                        type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(role.Id)" aria-expanded="@(UsersRolesManager.GetAccordionState(role.Id))"
-                        aria-controls="collapse-@(role.Id)"
-                        @onclick="() => UsersRolesManager.FlipAccordionState(role.Id)">
-                    <strong>@(role.Name == null ? "Unnamed role" : role.Name)</strong>
-                </button>
-            </h2>
+        <h2 class="accordion-header">
+            <button class="accordion-button @(UsersRolesManager.GetAccordionState(role.Id) ? "" : "collapsed")"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(role.Id)" aria-expanded="@(UsersRolesManager.GetAccordionState(role.Id))"
+                    aria-controls="collapse-@(role.Id)"
+                    @onclick="() => UsersRolesManager.FlipAccordionState(role.Id)">
+                <strong>@(role.Name == null ? "Unnamed role" : role.Name)</strong>
+            </button>
+        </h2>
 
-            <div id="collapse-@(role.Id)" class="accordion-collapse collapse @(UsersRolesManager.GetAccordionState(role.Id) ? "show" : "")" data-bs-parent="#role-@(role.Id)-accordion">
-                <div class="accordion-body">
-                    <div class="input long">
-                        <label for="@($"role-name-{role.Id}")" class="form-label">Name</label>
-                        <input class="form-control" id="@($"role-name-{role.Id}")" @bind-value="role.Name" @onfocusout="() => StateHasChanged()">
-                    </div>
-
-                    <div class="input long">
-                        <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
-                        <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
-                    </div>
-                    <button @onclick="() => UsersRolesManager.RemoveRole(role, _select2Components)" class="btn btn-outline-danger">Remove Role</button>
+        <div id="collapse-@(role.Id)" class="accordion-collapse collapse @(UsersRolesManager.GetAccordionState(role.Id) ? "show" : "")" data-bs-parent="#role-@(role.Id)-accordion">
+            <div class="accordion-body">
+                <div class="input long">
+                    <label for="@($"role-name-{role.Id}")" class="form-label">Name</label>
+                    <input class="form-control" id="@($"role-name-{role.Id}")" @bind-value="role.Name" @onfocusout="() => StateHasChanged()">
                 </div>
+
+                <div class="input long">
+                    <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
+                    <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
+                </div>
+                <button @onclick="() => UsersRolesManager.RemoveRole(role, _select2Components)" class="btn btn-outline-danger">Remove Role</button>
             </div>
         </div>
-    </div>}
+    </div>
+</div>}
 
     </div>
 </div>
