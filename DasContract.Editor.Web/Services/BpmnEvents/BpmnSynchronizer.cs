@@ -3,7 +3,7 @@ using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using DasContract.Editor.Web.Services.EditElement;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;

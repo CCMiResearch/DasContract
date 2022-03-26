@@ -2,7 +2,7 @@
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.JsInterop;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;

@@ -13,10 +13,11 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace DasContract.Editor.Web.Services.Processes
+namespace DasContract.Editor.Web.Services.ContractManagement
 {
     public class ContractManager : IContractManager
     {
@@ -25,6 +26,8 @@ namespace DasContract.Editor.Web.Services.Processes
         private IJSRuntime _jsRuntime;
 
         private NavigationManager _navigationManager;
+
+        private HttpClient _httpClient;
 
         private SaveManager _saveManager;
 
@@ -41,12 +44,13 @@ namespace DasContract.Editor.Web.Services.Processes
         public string GeneratedContract { get; private set; }
         public string SerializedContract { get; private set; }
 
-        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager,
+        public ContractManager(IJSRuntime jsRuntime, NavigationManager navigationManager, HttpClient httpClient,
             IConverterService converterService, IContractStorage contractStorage, SaveManager saveManager)
         {
             _jsRuntime = jsRuntime;
             _navigationManager = navigationManager;
             _converterService = converterService;
+            _httpClient = httpClient;
             _contractStorage = contractStorage;
             _saveManager = saveManager;
         }
@@ -62,10 +66,15 @@ namespace DasContract.Editor.Web.Services.Processes
             return Contract != null;
         }
 
-        public void InitializeNewContract()
+        public async Task InitializeNewContract()
         {
             Contract = new Contract();
             Contract.Id = Guid.NewGuid().ToString();
+            try
+            {
+                SetDataModelXml(await _httpClient.GetStringAsync("dist/examples/example-datatypes.xml"));
+            }
+            catch (Exception) { }
             SerializedContract = SerializeContract();
         }
 

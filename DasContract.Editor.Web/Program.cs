@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.EditElement;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using BlazorPro.BlazorSize;
 using DasContract.Editor.Web.Services.Converter;
 using DasContract.Editor.Web.Services.UndoRedo;
@@ -21,6 +21,7 @@ using DasContract.Editor.Web.Services.LocalStorage;
 using DasContract.Editor.Web.Services.ExamplesLoader;
 using DasContract.Editor.Web.Services.Resize;
 using DasContract.Editor.Web.Services.Save;
+using DasContract.Editor.Web.Services.DataModel;
 
 namespace DasContract.Editor.Web
 {
@@ -39,6 +40,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
             builder.Services.AddScoped<IBpmnJsCommunicator, BpmnJsCommunicator>();
             builder.Services.AddScoped<ISaveGuardJsCommunicator, SaveGuardJsCommunicator>();
+            builder.Services.AddScoped<IDataModelConverter, DataModelConverter>();
             builder.Services.AddScoped<IExampleLoader, ExampleLoader>();
             builder.Services.AddScoped<IContractStorage, ContractStorage>();
             builder.Services.AddScoped<UserInputHandler>();

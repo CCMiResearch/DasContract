@@ -33,9 +33,11 @@ export function renderMermaidDiagram(elementId, input) {
 	var canvas = document.getElementById(elementId);
 	try {
 		mermaid.mermaidAPI.render('graph', input, function (svgCode) {
+			console.log("hello");
 			canvas.innerHTML = svgCode;
-			$('#graph').removeAttr('height').removeAttr('width')
-				.css({ maxWidth: "" });
+			let svgElement = $('#graph')[0];
+			let minWidth = window.getComputedStyle(svgElement).getPropertyValue('max-width');
+			svgElement.style.setProperty('min-width', minWidth);
 		})
 	} catch (e) {
 		let dgraph = $('#graph')[0];

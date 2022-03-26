@@ -37,6 +37,9 @@ namespace DasContract.Editor.Web.Components.Select2
         [Parameter]
         public EventCallback<string> ItemUnselected { get; set; }
 
+        [Parameter]
+        public int MinimumResultsForSearch { get; set; } = 5;
+
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }
 
@@ -63,6 +66,7 @@ namespace DasContract.Editor.Web.Components.Select2
                     Options.Where(o => !string.IsNullOrWhiteSpace(ContentSelector(o)))
                         .Select(o => new Select2Option { Text = ContentSelector(o), Value = ValueSelector(o)}).ToList(),
                     Multiple,
+                    MinimumResultsForSearch,
                     dotnetRef);
             }
             await RefreshJsComponent();

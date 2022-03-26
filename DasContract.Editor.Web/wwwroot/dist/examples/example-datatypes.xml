@@ -1,0 +1,27 @@
+﻿<DataTypes>
+	<Token Id="Token_1" Name="CarNFT" IsFungible="false" IsIssued="false" Symbol="HTWHL">
+		<MintScript>Insert mint script here</MintScript>
+		<TransferScript>Insert transfer script here</TransferScript>
+		<Property Id="Property_3" Name="car" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_2" />
+	</Token>
+
+	<Enum Id="Enum_1" Name="CarBrand">
+		<Value>BMW</Value>
+		<Value>Lada</Value>
+		<Value>Skoda</Value>
+		<Value>Tesla</Value>
+	</Enum>
+
+	<Entity Id="Entity_1" Name="RootEntity" IsRootEntity="true">
+		<Property Id="Property_1" Name="Cars" IsMandatory="true" PropertyType="Collection" DataType="Reference" ReferencedDataType="Entity_2" />
+	</Entity>
+
+	<Entity Id="Entity_2" Name="Car">
+		<Property Id="Property_2" Name="id" IsMandatory="true" PropertyType="Single" DataType="Uint" />
+		<Property Id="Property_3" Name="brand" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Enum_1" />
+		<Property Id="Property_4" Name="color" IsMandatory="true" PropertyType="Single" DataType="String" />
+		<Property Id="Property_5" Name="enginePowerKw" IsMandatory="true" PropertyType="Single" DataType="Int" />
+		<Property Id="Property_6" Name="isElectric" IsMandatory="false" PropertyType="Single" DataType="Bool" />
+		<Property Id="Property_7" Name="dateRegistered" IsMandatory="true" PropertyType="Single" DataType="DateTime" />
+	</Entity>
+</DataTypes>

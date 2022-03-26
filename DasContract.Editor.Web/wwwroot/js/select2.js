@@ -1,8 +1,9 @@
-﻿export function initializeSelect2(componentId, selectedItems, options, multiple, dotnetRef) {
+﻿export function initializeSelect2(componentId, selectedItems, options, multiple, minimumResultsForSearch, dotnetRef) {
     $(`#${componentId}`).select2({
         theme: "bootstrap-5",
         width: '100%',
-        multiple: multiple
+        multiple: multiple,
+        minimumResultsForSearch: minimumResultsForSearch
     });
 
     options.forEach((option) => {

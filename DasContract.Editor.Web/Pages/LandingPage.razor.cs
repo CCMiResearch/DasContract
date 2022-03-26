@@ -1,7 +1,7 @@
 ﻿using DasContract.Editor.Web.Services.ExamplesLoader;
 using DasContract.Editor.Web.Services.JsInterop;
 using DasContract.Editor.Web.Services.LocalStorage;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
@@ -77,9 +77,9 @@ namespace DasContract.Editor.Web.Pages
             NavigationManager.NavigateTo("/process");
         }
 
-        protected void OnCreateNewClicked()
+        protected async Task OnCreateNewClicked()
         {
-            ContractManager.InitializeNewContract();
+            await ContractManager.InitializeNewContract();
             NavigationManager.NavigateTo("/process");
         }
     }

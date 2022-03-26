@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services.Processes
+namespace DasContract.Editor.Web.Services.ContractManagement
 {
     public interface IContractManager
     {
@@ -32,7 +32,7 @@ namespace DasContract.Editor.Web.Services.Processes
         void RemoveProcess(string processId);
         IList<ProcessUser> GetProcessUsers();
         IList<ProcessRole> GetProcessRoles();
-        void InitializeNewContract();
+        Task InitializeNewContract();
         bool TryGetProcess(string id, out Process process);
         string GetProcessIdFromParticipantId(string participantId);
         IList<Process> GetAllProcesses();

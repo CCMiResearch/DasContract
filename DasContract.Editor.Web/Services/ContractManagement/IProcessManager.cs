@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DasContract.Abstraction.Processes;
 
-namespace DasContract.Editor.Web.Services.Processes
+namespace DasContract.Editor.Web.Services.ContractManagement
 {
     public interface IProcessManager
     {

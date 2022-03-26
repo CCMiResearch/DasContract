@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasContract.Editor.Web.Services.Processes
+namespace DasContract.Editor.Web.Services.ContractManagement
 {
     public class ProcessManager : IProcessManager
     {

@@ -2,7 +2,6 @@
 
 export async function createModeler(modelerXml) {
     if (window.dmnModeler != null) {
-        console.log("destroying");
         window.dmnModeler.destroy();
     }
 
@@ -16,28 +15,13 @@ export async function createModeler(modelerXml) {
         modelerXml = defaultDmn;
     }
 
-    await window.dmnModeler.importXML(modelerXml, function (err) {
-
-        if (err) {
-            console.log('error rendering', err);
-        } else {
-            console.log('rendered');
-        }
-    });
+    await window.dmnModeler.importXML(modelerXml);
 
     window.dmnModeler.attachTo('#dmnCanvas');
 }
 
 export async function saveXml() {
-    let savedXml;
-    window.dmnModeler.saveXML({ format: false }, function (err, xml) {
-
-        if (err) {
-            return console.error('could not save DMN diagram', err);
-        }
-
-        savedXml = xml;
-    });
+    let savedXml = (await window.dmnModeler.saveXML({format: false})).xml
     return savedXml;
 }
 
