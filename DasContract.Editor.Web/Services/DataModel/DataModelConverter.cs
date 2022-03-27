@@ -62,6 +62,9 @@ namespace DasContract.Editor.Web.Services.DataModel
             return $"class {token.Name} {{ \n" +
                 $"<<token>> \n" +
                 $"{string.Join("\n", convertedProperties)} \n" +
+                $"symbol() {token.Symbol}\n" +
+                $"isFungible() {token.IsFungible}\n" +
+                $"isIssued() {token.IsIssued}\n" +
                 $"}}\n";
         }
 
