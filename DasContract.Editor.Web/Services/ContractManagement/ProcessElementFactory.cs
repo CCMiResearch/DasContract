@@ -3,10 +3,6 @@ using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.ContractManagement
 {

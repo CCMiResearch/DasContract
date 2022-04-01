@@ -26,7 +26,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            EditElementService.EditElementChanged += HandleEditedElementChanged;
+            EditElementService.EditElementAssigned += HandleEditedElementChanged;
             EditElementService.EditElementModified += HandleEditedElementModified;
             EditedElement = EditElementService.EditElement;
             CreateTabsList();
@@ -34,7 +34,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         public void Dispose()
         {
-            EditElementService.EditElementChanged -= HandleEditedElementChanged;
+            EditElementService.EditElementAssigned -= HandleEditedElementChanged;
             EditElementService.EditElementModified -= HandleEditedElementModified;
         }
 

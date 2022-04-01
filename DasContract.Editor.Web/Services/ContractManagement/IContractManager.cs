@@ -21,21 +21,28 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         bool IsContractInitialized();
         bool IsElementIdAvailable(string id);
         Task InitAsync();
+        Task InitializeNewContract();
+        bool ConvertContract(out string data);
+        void SetProcessDiagram(string diagramXml);
+        bool CanSafelyExit();
+
         void AddNewProcess(string processId, string participantId = null);
         void UpdateProcessId(Process process, string newProcessId);
+        bool TryGetProcess(string id, out Process process);
+        string GetProcessIdFromParticipantId(string participantId);
+        IList<Process> GetAllProcesses();
+        string TranslateBpmnProcessId(string bpmnProcessId);
+
         ProcessUser AddNewUser();
+        ProcessRole AddNewRole();
         void AddUser(ProcessUser user);
         void RemoveUser(ProcessUser user);
-        ProcessRole AddNewRole();
         void AddRole(ProcessRole role);
         void RemoveRole(ProcessRole role);
         void RemoveProcess(string processId);
         IList<ProcessUser> GetProcessUsers();
         IList<ProcessRole> GetProcessRoles();
-        Task InitializeNewContract();
-        bool TryGetProcess(string id, out Process process);
-        string GetProcessIdFromParticipantId(string participantId);
-        IList<Process> GetAllProcesses();
+
         string SerializeContract();
         void RestoreContract(string contractXML);
         string GetProcessDiagram();
@@ -48,10 +55,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         IList<Property> GetCollectionProperties();
         string GetDataModelXml();
         void SetDataModelXml(string dataModelXml);
-        bool ConvertContract(out string data);
-        void SetProcessDiagram(string diagramXml);
-        string TranslateBpmnProcessId(string bpmnProcessId);
-        bool CanSafelyExit();
 
     }
 }

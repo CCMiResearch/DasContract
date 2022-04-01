@@ -94,10 +94,8 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         public void AddNewProcess(string processId, string participantId = null)
         {
             Process process;
-            Console.WriteLine($"process id: {processId}, participantId: {participantId}");
             if (participantId == null && Contract.Processes.Count > 0)
             {
-                Console.WriteLine("Removing last part");
                 RemoveProcess(Contract.Processes.First().Id);
             }
             //Copy the existing process if the input participant is not defined
@@ -111,11 +109,9 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     RemoveProcess(Contract.Processes.First().Id);
                     _deletedProcesses.Remove(processId);
                     Contract.Processes.Add(process);
-                    Console.WriteLine("Restoring participant");
                 }
                 else
                 {
-                    Console.WriteLine("Copying to participant");
                     process = Contract.Processes.First();
                     process.ParticipantId = participantId;
                 }
@@ -284,7 +280,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
 
         public bool ConvertContract(out string data)
         {
-            //Todo: check for changes
             if (_converterService.ConvertContract(Contract))
             {
                 data = _converterService.GetConvertedCode();

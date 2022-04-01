@@ -77,7 +77,7 @@ namespace DasContract.Editor.Web.Pages
                 ShowDetailBar = true;
             }
 
-            EditElementService.EditElementChanged += HandleEditElementChanged;
+            EditElementService.EditElementAssigned += HandleEditElementChanged;
             SaveManager.StateSaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
         }
