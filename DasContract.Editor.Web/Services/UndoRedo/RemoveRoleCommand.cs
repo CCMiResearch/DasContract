@@ -13,7 +13,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         private ProcessRole RemovedRole { get; set; }
         private IEnumerable<Select2<ProcessRole>> RoleContainers { get; set; }
 
-        public RemoveRoleCommand(IContractManager contractManager, ProcessRole removedRole, IEnumerable<Select2<ProcessRole>> roleContainers) : base(contractManager)
+        public RemoveRoleCommand(IUserModelManager userModelManager, ProcessRole removedRole, IEnumerable<Select2<ProcessRole>> roleContainers) : base(userModelManager)
         {
             RoleContainers = roleContainers;
             RemovedRole = removedRole;
@@ -26,12 +26,12 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             {
                 roleContainer.UnselectItem(RemovedRole);
             }
-            ContractManager.RemoveRole(RemovedRole);
+            UserModelManager.RemoveRole(RemovedRole);
         }
 
         public override void Undo()
         {
-            ContractManager.AddRole(RemovedRole);
+            UserModelManager.AddRole(RemovedRole);
             foreach (var roleContainer in RoleContainers)
             {
                 roleContainer.SelectItem(RemovedRole);

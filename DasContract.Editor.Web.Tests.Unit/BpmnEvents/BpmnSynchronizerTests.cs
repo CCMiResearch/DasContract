@@ -22,18 +22,18 @@ namespace DasContract.Editor.Web.Tests.Unit.BpmnEvents
 
         private readonly Mock<IContractManager> _contractManagerMock;
         private readonly Mock<IJSRuntime> _jsRuntimeMock;
-        private readonly Mock<IProcessManager> _processElementManagerMock;
+        private readonly Mock<IProcessModelManager> _processModelManagerMock;
         private readonly Mock<IEditElementService> _editElementServiceMock;
         public BpmnSynchronizerTests()
         {
             _contractManagerMock = new Mock<IContractManager>();
             _jsRuntimeMock = new Mock<IJSRuntime>();
-            _processElementManagerMock = new Mock<IProcessManager>();
+            _processModelManagerMock = new Mock<IProcessModelManager>();
             _editElementServiceMock = new Mock<IEditElementService>();
 
-            _contractManagerMock.Setup(m => m.TranslateBpmnProcessId(It.IsAny<string>())).Returns<string>(id => $"{id}-translated");
-            _eventHandler = new BpmnEventHandler(_jsRuntimeMock.Object, _contractManagerMock.Object);
-            _bpmnSynchronizer = new BpmnSynchronizer(_eventHandler, _processElementManagerMock.Object,
+            _processModelManagerMock.Setup(m => m.TranslateBpmnProcessId(It.IsAny<string>())).Returns<string>(id => $"{id}-translated");
+            _eventHandler = new BpmnEventHandler(_jsRuntimeMock.Object, _processModelManagerMock.Object);
+            _bpmnSynchronizer = new BpmnSynchronizer(_eventHandler, _processModelManagerMock.Object,
                 _contractManagerMock.Object, _editElementServiceMock.Object, _jsRuntimeMock.Object);
 
             _bpmnSynchronizer.InitializeOrRestoreBpmnEditor("");
@@ -45,7 +45,7 @@ namespace DasContract.Editor.Web.Tests.Unit.BpmnEvents
             const string ELEMENT_ID = "ELEMENT1";
             const string PROCESS_ID = "PROCESS1";
             IProcessElement element = new ScriptTask { Id = ELEMENT_ID};
-            _processElementManagerMock.Setup(p => p.TryRetrieveIElementById(ELEMENT_ID, $"{PROCESS_ID}-translated", out element)).Returns(true);
+            _processModelManagerMock.Setup(p => p.TryRetrieveIElementById(ELEMENT_ID, $"{PROCESS_ID}-translated", out element)).Returns(true);
             _editElementServiceMock.SetupSet(e => e.EditElement = element).Verifiable();
 
             _eventHandler.HandleBpmnElementEvent(
@@ -69,7 +69,7 @@ namespace DasContract.Editor.Web.Tests.Unit.BpmnEvents
             const string PROCESS_ID = "PROCESS1";
             string PROCESS_ID_TRANSLATED = $"{PROCESS_ID}-translated";
             Process process = new Process { Id =  PROCESS_ID_TRANSLATED};
-            _contractManagerMock.Setup(c => c.TryGetProcess(PROCESS_ID_TRANSLATED, out process));
+            _processModelManagerMock.Setup(c => c.TryGetProcess(PROCESS_ID_TRANSLATED, out process));
             _editElementServiceMock.SetupSet(e => e.EditElement = process).Verifiable();
 
             _eventHandler.HandleBpmnElementEvent(

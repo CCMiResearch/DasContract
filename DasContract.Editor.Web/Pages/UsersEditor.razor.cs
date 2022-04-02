@@ -18,10 +18,10 @@ namespace DasContract.Editor.Web.Pages
         protected Dictionary<string, Select2<ProcessRole>> _select2Components = new Dictionary<string, Select2<ProcessRole>>();
 
         [Inject]
-        protected IContractManager ContractManager { get; set; }
+        protected IUserModelManager UserModelManager { get; set; }
 
         [Inject]
-        protected UsersRolesManager UsersRolesManager { get; set; }
+        protected UsersRolesFacade UsersRolesFacade { get; set; }
 
         protected IDictionary<ProcessUser, bool> FilteredUsers { get; set; } = new Dictionary<ProcessUser, bool>();
         protected string UsersFilter { get; set; }
@@ -40,10 +40,10 @@ namespace DasContract.Editor.Web.Pages
             base.OnInitialized();
 
             UserInputHandler.KeyDown += HandleKeyDown;
-            ContractManager.UserRemoved += OnUserRemoved;
-            ContractManager.UserAdded += OnUserAdded;
-            ContractManager.RoleAdded += OnRoleAdded;
-            ContractManager.RoleRemoved += OnRoleRemoved;
+            UserModelManager.UserRemoved += OnUserRemoved;
+            UserModelManager.UserAdded += OnUserAdded;
+            UserModelManager.RoleAdded += OnRoleAdded;
+            UserModelManager.RoleRemoved += OnRoleRemoved;
 
             FilterUsers(UsersFilter);
             FilterRoles(RolesFilter);
@@ -52,21 +52,20 @@ namespace DasContract.Editor.Web.Pages
         public void Dispose()
         {
             UserInputHandler.KeyDown -= HandleKeyDown;
-            ContractManager.UserRemoved -= OnUserRemoved;
-            ContractManager.UserAdded -= OnUserAdded;
-            ContractManager.RoleAdded -= OnRoleAdded;
-            ContractManager.RoleRemoved -= OnRoleRemoved;
+            UserModelManager.UserRemoved -= OnUserRemoved;
+            UserModelManager.UserAdded -= OnUserAdded;
+            UserModelManager.RoleAdded -= OnRoleAdded;
+            UserModelManager.RoleRemoved -= OnRoleRemoved;
         }
 
         protected void FilterUsers(string keyword)
         {
-            Console.WriteLine(_select2Components.Count);
             UsersFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredUsers = ContractManager.GetProcessUsers().ToDictionary(u => u, u => true);
+                FilteredUsers = UserModelManager.GetProcessUsers().ToDictionary(u => u, u => true);
             else
             {
-                FilteredUsers = ContractManager.GetProcessUsers()
+                FilteredUsers = UserModelManager.GetProcessUsers()
                     .ToDictionary(u => u, u => UserFilterPredicate(u, keyword));
             }
         }
@@ -75,10 +74,10 @@ namespace DasContract.Editor.Web.Pages
         {
             RolesFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredRoles = ContractManager.GetProcessRoles().ToDictionary(r => r, r => true);
+                FilteredRoles = UserModelManager.GetProcessRoles().ToDictionary(r => r, r => true);
             else
             {
-                FilteredRoles = ContractManager.GetProcessRoles()
+                FilteredRoles = UserModelManager.GetProcessRoles()
                     .ToDictionary(r => r, r => RolesFilterPredicate(r, keyword));
             }
         }
@@ -120,24 +119,24 @@ namespace DasContract.Editor.Web.Pages
 
         protected void OnRoleAssigned(string roleId, string userId)
         {
-            UsersRolesManager.UserRoleAssigned(_select2Components[userId], roleId);
+            UsersRolesFacade.UserRoleAssigned(_select2Components[userId], roleId);
         }
 
         protected void OnRoleUnassigned(string roleId, string userId)
         {
-            UsersRolesManager.UserRoleUnassigned(_select2Components[userId], roleId);
+            UsersRolesFacade.UserRoleUnassigned(_select2Components[userId], roleId);
         }
 
         public void HandleKeyDown(object sender, KeyEvent e)
         {
             if (e.CtrlKey && e.Key == "z")
             {
-                UsersRolesManager.Undo();
+                UsersRolesFacade.Undo();
                 StateHasChanged();
             }
             else if (e.CtrlKey && e.Key == "y")
             {
-                UsersRolesManager.Redo();
+                UsersRolesFacade.Redo();
                 StateHasChanged();
             }
         }

@@ -13,7 +13,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         protected ProcessRole AssignedRole { get; set; }
         protected Select2<ProcessRole> RoleSelect { get; set; }
 
-        public AssignRoleCommand(IContractManager contractManager, ProcessRole assignedRole, Select2<ProcessRole> roleSelect) : base(contractManager)
+        public AssignRoleCommand(IUserModelManager userModelManager, ProcessRole assignedRole, Select2<ProcessRole> roleSelect) : base(userModelManager)
         {
             AssignedRole = assignedRole;
             RoleSelect = roleSelect;

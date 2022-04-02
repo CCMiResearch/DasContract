@@ -13,7 +13,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
     public class BpmnEventHandler : IBpmnEventHandler
     {
         IJSRuntime _jsRuntime;
-        IContractManager _contractManager;
+        IProcessModelManager _processModelManager;
 
         public event EventHandler<BpmnElementEvent> ElementClick;
         public event EventHandler<BpmnElementEvent> ElementChanged;
@@ -25,10 +25,10 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public event EventHandler<BpmnElementEvent> RootAdded;
         public event EventHandler<BpmnElementEvent> RootRemoved;
 
-        public BpmnEventHandler(IJSRuntime jsRuntime, IContractManager contractManager)
+        public BpmnEventHandler(IJSRuntime jsRuntime, IProcessModelManager processModelManager)
         {
             _jsRuntime = jsRuntime;
-            _contractManager = contractManager;
+            _processModelManager = processModelManager;
         }
 
         public async Task InitializeHandler()
@@ -77,7 +77,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             string procId;
             if (e.Element.Type == BpmnConstants.BPMN_ELEMENT_PROCESS)
             {
-                procId = _contractManager.TranslateBpmnProcessId(e.Element.Id);
+                procId = _processModelManager.TranslateBpmnProcessId(e.Element.Id);
                 if (procId != null)
                 {
                     e.Element.Id = procId;
@@ -87,7 +87,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             if (string.IsNullOrEmpty(e.Element.ProcessId))
                 return;
 
-            procId = _contractManager.TranslateBpmnProcessId(e.Element.ProcessId);
+            procId = _processModelManager.TranslateBpmnProcessId(e.Element.ProcessId);
             if (procId != null)
             {
                 e.Element.ProcessId = procId;

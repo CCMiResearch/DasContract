@@ -27,6 +27,9 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         [Inject]
+        private IProcessModelManager ProcessModelManager { get; set; }
+
+        [Inject]
         private IEditElementService EditElementService { get; set; }
 
         [Inject]
@@ -128,7 +131,7 @@ namespace DasContract.Editor.Web.Pages
         private async Task SaveDiagramXml(object sender, EventArgs e)
         {
             var diagramXml = await JSRunTime.InvokeAsync<string>("modellerLib.getDiagramXML");
-            ContractManager.SetProcessDiagram(diagramXml);
+            ProcessModelManager.SetProcessBpmnDefinition(diagramXml);
         }
 
         private void HandleUserFormPreviewChanged()

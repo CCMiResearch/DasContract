@@ -6,7 +6,7 @@
                     <RefreshButton @ref=Refresh RefreshRequested="RefreshDiagram" />
                 </div>
                 <div class="script-body">
-                    <ScriptTab Script="@(ContractManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
+                    <ScriptTab Script="@(DataModelManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
                 </div>
             </div>
             <div class="gutter-col gutter-col-1"></div>

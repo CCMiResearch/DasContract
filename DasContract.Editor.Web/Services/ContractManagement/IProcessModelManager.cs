@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DasContract.Abstraction;
 using DasContract.Abstraction.Processes;
 
 namespace DasContract.Editor.Web.Services.ContractManagement
 {
-    public interface IProcessManager
+    public interface IProcessModelManager
     {
+        void SetContract(Contract contract);
+
+        IList<string> GetAllProcessIds();
+        void AddNewProcess(string processId, string participantId = null);
+        void RemoveProcess(string processId);
+        void UpdateProcessId(Process process, string newProcessId);
+        bool TryGetProcess(string id, out Process process);
+        string GetProcessIdFromParticipantId(string participantId);
+        string TranslateBpmnProcessId(string bpmnProcessId);
+
+        bool IsElementIdAvailable(string id);
         bool TryRetrieveIElementById(string elementId, string processId, out IProcessElement element);
         bool TryRetrieveIElementById(string elementId, out IProcessElement element);
         ProcessElement AddElement(string elementType, string elementId, string processId);
@@ -21,5 +33,8 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         bool TryRetrieveElementById(string sequenceFlowId, string processId, out ProcessElement sequenceFlow);
         bool TryGetProcessOfElement(string elementId, out Process process);
         void ChangeProcessOfElement(IProcessElement element, string prevProcessId, string newProcessId);
+
+        void SetProcessBpmnDefinition(string bpmnDefinition);
+        string GetProcessBpmnDefinition();
     }
 }

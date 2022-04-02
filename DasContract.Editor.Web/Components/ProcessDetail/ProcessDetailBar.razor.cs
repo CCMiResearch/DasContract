@@ -16,7 +16,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         private IEditElementService EditElementService { get; set; }
 
         [Inject]
-        protected IProcessManager ProcessManager { get; set; }
+        protected IProcessModelManager ProcessManager { get; set; }
 
         private IList<ProcessDetailTab> _tabs;
         private ProcessDetailTab _activeTab;

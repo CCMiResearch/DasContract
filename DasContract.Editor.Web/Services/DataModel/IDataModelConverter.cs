@@ -8,6 +8,6 @@ namespace DasContract.Editor.Web.Services.DataModel
 {
     public interface IDataModelConverter
     {
-        string ConvertToMermaid(IDictionary<string, DataType> dataTypes);
+        string ConvertToDiagramCode(IDictionary<string, DataType> dataTypes);
     }
 }

@@ -36,7 +36,9 @@ namespace DasContract.Editor.Web
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IBpmnEventHandler, BpmnEventHandler>();
             builder.Services.AddScoped<IContractManager, ContractManager>();
-            builder.Services.AddScoped<IProcessManager, ProcessManager>();
+            builder.Services.AddScoped<IUserModelManager, UserModelManager>();
+            builder.Services.AddScoped<IDataModelManager, DataModelManager>();
+            builder.Services.AddScoped<IProcessModelManager, ProcessModelManager>();
             builder.Services.AddScoped<IBpmnSynchronizer, BpmnSynchronizer>();
             builder.Services.AddScoped<IBpmnJsCommunicator, BpmnJsCommunicator>();
             builder.Services.AddScoped<ISaveGuardJsCommunicator, SaveGuardJsCommunicator>();
@@ -48,7 +50,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
             builder.Services.AddScoped<SaveManager>();
-            builder.Services.AddScoped<UsersRolesManager>();
+            builder.Services.AddScoped<UsersRolesFacade>();
             builder.Services.AddScoped<UserFormService>();
             builder.Services.AddScoped<IConverterService, ConverterService>();
 

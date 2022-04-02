@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class UsersRolesManager
+    public class UsersRolesFacade
     {
-        private IContractManager _contractManager;
+        private IUserModelManager _userModelManager;
 
         //Commands that have been done "in the past" and can be undone
         private Stack<ContractCommand> UndoableCommands { get; set; } = new Stack<ContractCommand>();
@@ -19,9 +19,9 @@ namespace DasContract.Editor.Web.Services.UndoRedo
 
         private IDictionary<string, bool> AccordionStates { get; set; } = new Dictionary<string, bool>();
 
-        public UsersRolesManager(IContractManager contractManager)
+        public UsersRolesFacade(IUserModelManager userModelManager)
         {
-            _contractManager = contractManager;
+            _userModelManager = userModelManager;
         }
 
         public bool GetAccordionState(string id)
@@ -42,16 +42,16 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public void UserRoleAssigned(Select2<ProcessRole> select, string roleId)
         {
             RedoableCommands.Clear();
-            var assignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
-            var assignedCommand = new AssignRoleCommand(_contractManager, assignedRole, select);
+            var assignedRole = _userModelManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
+            var assignedCommand = new AssignRoleCommand(_userModelManager, assignedRole, select);
             UndoableCommands.Push(assignedCommand);
         }
 
         public void UserRoleUnassigned(Select2<ProcessRole> select, string roleId)
         {
             RedoableCommands.Clear();
-            var unassignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
-            var unassignedCommand = new UnassignRoleCommand(_contractManager, unassignedRole, select);
+            var unassignedRole = _userModelManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
+            var unassignedCommand = new UnassignRoleCommand(_userModelManager, unassignedRole, select);
             UndoableCommands.Push(unassignedCommand);
 
         }
@@ -59,7 +59,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public void AddUser()
         {
             RedoableCommands.Clear();
-            var addCommand = new AddUserCommand(_contractManager);
+            var addCommand = new AddUserCommand(_userModelManager);
             addCommand.Execute();
             FlipAccordionState(addCommand.GetUserId());
             UndoableCommands.Push(addCommand);
@@ -68,7 +68,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public void RemoveUser(ProcessUser removedUser)
         {
             RedoableCommands.Clear();
-            var removeCommand = new RemoveUserCommand(_contractManager, removedUser);
+            var removeCommand = new RemoveUserCommand(_userModelManager, removedUser);
             removeCommand.Execute();
             UndoableCommands.Push(removeCommand);
         }
@@ -76,7 +76,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public void AddRole()
         {
             RedoableCommands.Clear();
-            var addCommand = new AddRoleCommand(_contractManager);
+            var addCommand = new AddRoleCommand(_userModelManager);
             addCommand.Execute();
             FlipAccordionState(addCommand.GetRoleId());
             UndoableCommands.Push(addCommand);
@@ -86,7 +86,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         {
             RedoableCommands.Clear();
             var filteredSelect2Components = select2Components.Values.Where(s => s.Selected.Contains(removedRole)).ToList();
-            var removeCommand = new RemoveRoleCommand(_contractManager, removedRole, filteredSelect2Components);
+            var removeCommand = new RemoveRoleCommand(_userModelManager, removedRole, filteredSelect2Components);
             removeCommand.Execute();
             UndoableCommands.Push(removeCommand);
         }
