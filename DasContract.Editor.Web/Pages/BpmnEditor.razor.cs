@@ -27,7 +27,7 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         [Inject]
         protected ResizeHandler ResizeHandler { get; set; }

@@ -44,7 +44,7 @@ namespace DasContract.Editor.Web
             builder.Services.AddScoped<IExampleLoader, ExampleLoader>();
             builder.Services.AddScoped<IContractStorage, ContractStorage>();
             builder.Services.AddScoped<UserInputHandler>();
-            builder.Services.AddScoped<EditElementService>();
+            builder.Services.AddScoped<IEditElementService, EditElementService>();
             builder.Services.AddScoped<ResizeHandler>();
             builder.Services.AddScoped<ResizeListener>();
             builder.Services.AddScoped<SaveManager>();

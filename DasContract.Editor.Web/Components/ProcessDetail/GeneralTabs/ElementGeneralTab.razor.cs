@@ -30,7 +30,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         private IBpmnJsCommunicator BpmnJsCommunicator { get; set; }
 
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         protected string _idInputClassDecorator;
         protected string _idInputErrorMessage;
@@ -99,7 +99,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 elementId = ContractElement.Id;
 
             if (elementId != null)
-                await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", elementId, name);
+                await BpmnJsCommunicator.UpdateElementName(elementId, name);
         }
     }
 }

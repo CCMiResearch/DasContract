@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.EditElement
 {
-    public class EditElementService: IDisposable
+    public class EditElementService: IDisposable, IEditElementService
     {
         /// <summary>
         /// Gets called whenever a new element is assigned
@@ -26,7 +26,7 @@ namespace DasContract.Editor.Web.Services.EditElement
             get { return _editElement; }
             set
             {
-                if(_editElement == value)
+                if (_editElement == value)
                 {
                     return;
                 }

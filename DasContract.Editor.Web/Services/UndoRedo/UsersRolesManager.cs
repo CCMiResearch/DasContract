@@ -41,7 +41,6 @@ namespace DasContract.Editor.Web.Services.UndoRedo
 
         public void UserRoleAssigned(Select2<ProcessRole> select, string roleId)
         {
-            Console.WriteLine("Assigned user role");
             RedoableCommands.Clear();
             var assignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
             var assignedCommand = new AssignRoleCommand(_contractManager, assignedRole, select);
@@ -50,7 +49,6 @@ namespace DasContract.Editor.Web.Services.UndoRedo
 
         public void UserRoleUnassigned(Select2<ProcessRole> select, string roleId)
         {
-            Console.WriteLine("Unassigned user role");
             RedoableCommands.Clear();
             var unassignedRole = _contractManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
             var unassignedCommand = new UnassignRoleCommand(_contractManager, unassignedRole, select);

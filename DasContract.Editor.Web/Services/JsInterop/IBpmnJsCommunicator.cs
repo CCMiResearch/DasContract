@@ -8,5 +8,6 @@ namespace DasContract.Editor.Web.Services.JsInterop
     interface IBpmnJsCommunicator
     {
         Task UpdateElementId(string oldElementId, string newElementId);
+        Task UpdateElementName(string elementId, string newElementName);
     }
 }

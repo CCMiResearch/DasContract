@@ -13,7 +13,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
     public partial class ProcessDetailBar : ComponentBase, IDisposable
     {
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         [Inject]
         protected IProcessManager ProcessManager { get; set; }

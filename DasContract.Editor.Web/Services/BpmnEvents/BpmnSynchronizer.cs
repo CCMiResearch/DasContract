@@ -19,7 +19,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         private IBpmnEventHandler _bpmnEventHandler;
         private IProcessManager _processManager;
         private IContractManager _contractManager;
-        private EditElementService _editElementService;
+        private IEditElementService _editElementService;
         private IJSRuntime _jsRuntime;
 
         protected string CurrentContractId { get; set; }
@@ -30,7 +30,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             IBpmnEventHandler bpmnEventHandler,
             IProcessManager processManager,
             IContractManager contractManager,
-            EditElementService editElementService,
+            IEditElementService editElementService,
             IJSRuntime jsRuntime)
         {
             _bpmnEventHandler = bpmnEventHandler;

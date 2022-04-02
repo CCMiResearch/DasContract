@@ -42,31 +42,31 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             TranslateProcessId(e);
             switch(e.Type)
             {
-                case "element.click":
+                case BpmnConstants.BPMN_EVENT_CLICK:
                     ElementClick?.Invoke(this, e);
                     break;
-                case "element.changed":
+                case BpmnConstants.BPMN_EVENT_ELEMENT_CHANGED:
                     ElementChanged?.Invoke(this, e);
                     break;
-                case "shape.added":
+                case BpmnConstants.BPMN_EVENT_SHAPE_ADDED:
                     ShapeAdded?.Invoke(this, e);
                     break;
-                case "shape.removed":
+                case BpmnConstants.BPMN_EVENT_SHAPE_REMOVED:
                     ShapeRemoved?.Invoke(this, e);
                     break;
-                case "element.updateId":
+                case BpmnConstants.BPMN_EVENT_UPDATE_ID:
                     ElementIdUpdated?.Invoke(this, e);
                     break;
-                case "connection.removed":
+                case BpmnConstants.BPMN_EVENT_CONNECTION_REMOVED:
                     ConnectionRemoved?.Invoke(this, e);
                     break;
-                case "connection.added":
+                case BpmnConstants.BPMN_EVENT_CONNECTION_ADDED:
                     ConnectionAdded?.Invoke(this, e);
                     break;
-                case "root.added":
+                case BpmnConstants.BPMN_EVENT_ROOT_ADDED:
                     RootAdded?.Invoke(this, e);
                     break;
-                case "root.removed":
+                case BpmnConstants.BPMN_EVENT_ROOT_REMOVED:
                     RootRemoved?.Invoke(this, e);   
                     break;
             }
