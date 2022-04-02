@@ -8,7 +8,6 @@ using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using Scriban;
 using System;
 using System.Collections.Generic;
 using System.Linq;
