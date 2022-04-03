@@ -33,7 +33,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
                 }
             }
-            else if (taskElement.LoopCardinality != 0)
+            else if (taskElement.LoopCardinality != "0")
             {
                 return taskElement.LoopCardinality.ToString();
             }

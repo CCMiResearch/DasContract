@@ -65,19 +65,30 @@ namespace DasContract.Editor.Web.Tests.E2E
         {
             AddCurrentStateAsUndoable();
 
+            dynamic result;
             if (first)
             {
-                await page.EvaluateAsync(@"window.modeling.makeProcess();");
-            }
-
-            dynamic result = await page.EvaluateAsync<ExpandoObject>(
-                @$"const participant = window.elementFactory.createParticipantShape({{ type: 'bpmn:Participant' }});
+                result = await page.EvaluateAsync<ExpandoObject>(@$"const participant = window.elementFactory.createParticipantShape({{ type: 'bpmn:Participant' }});
                    const addedParticipant = window.modeling.createShape(participant, {{ x: 400, y: 100 }}, process);
-                   Object.freeze({{procId: addedParticipant.businessObject.processRef.id, participantId: addedParticipant.id}})");
+                   Object.freeze({{procId: addedParticipant.businessObject.processRef.id, participantId: addedParticipant.id}});");
+            }
+            else
+            {
+                result = await page.EvaluateAsync<ExpandoObject>(@"const collaboration = window.elementRegistry.filter(function (element) {
+                        return element.type == ""bpmn:Collaboration"";
+                        } )[0];
+
+                        const participant = window.elementFactory.createParticipantShape({
+                            type: ""bpmn:Participant""
+                        });
+                        window.modeling.createShape(participant, { x: 400, y: 500 }, collaboration);
+                        Object.freeze({procId: participant.businessObject.processRef.id, participantId: participant.id});"
+                    );
+            }
 
             if (!first)
             {
-                _contract.Processes.Add(new Process { Id = result.procId });
+                _contract.Processes.Add(new Process { Id = result.procId, BpmnId = result.procId });
             }
 
             _contract.Processes.Single(p => p.Id == result.procId).ParticipantId = result.participantId;
@@ -128,6 +139,71 @@ namespace DasContract.Editor.Web.Tests.E2E
             var process = _contract.Processes.Single(p => p.Id == processId);
             var element = process.ProcessElements[elementId];
             element.Name = newName;
+        }
+
+        public async Task EditProcessElementId(IPage page, string processId, string oldId, string newId)
+        {
+            AddCurrentStateAsUndoable();
+            await page.EvaluateAsync(
+                $"window.modeling.updateProperties(window.elementRegistry.get('{oldId}'), {{id: '{newId}'}})");
+
+            var process = _contract.Processes.Single(p => p.Id == processId);
+
+            var element = process.ProcessElements[oldId];
+
+            var incomingToUpdate = process.SequenceFlows.Where(s => element.Incoming.Contains(s.Key));
+            foreach (var seqFlow in incomingToUpdate)
+            {
+                seqFlow.Value.TargetId = newId;
+            }
+            var outgoingToUpdate = process.SequenceFlows.Where(s => element.Outgoing.Contains(s.Key));
+            foreach (var seqFlow in outgoingToUpdate)
+            {
+                seqFlow.Value.SourceId = newId;
+            }
+            //If the element is a task, then it might have boundary events attached to it
+            if (element is Abstraction.Processes.Tasks.Task)
+            {
+                var boundaryEvents = process.ProcessElements.Values
+                    .Where(e => e is BoundaryEvent)
+                    .Select(e => e as BoundaryEvent);
+                foreach (var boundaryEvent in boundaryEvents)
+                {
+                    if (boundaryEvent.AttachedTo == element.Id)
+                        boundaryEvent.AttachedTo = newId;
+                }
+            }
+
+            process.ProcessElements.Remove(oldId);
+            element.Id = newId;
+            process.ProcessElements.Add(newId, element);
+        }
+
+        public async Task EditConnectionId(IPage page, string processId, string oldId, string newId)
+        {
+            AddCurrentStateAsUndoable();
+            await page.EvaluateAsync(
+                $"window.modeling.updateProperties(window.elementRegistry.get('{oldId}'), {{id: '{newId}'}})");
+
+            var process = _contract.Processes.Single(p => p.Id == processId);
+
+            var sequenceFlow = process.SequenceFlows[oldId];
+
+            if (process.ProcessElements.TryGetValue(sequenceFlow.SourceId, out var source))
+            {
+                source.Outgoing.Remove(sequenceFlow.Id);
+                source.Outgoing.Add(newId);
+            }
+
+            if (process.ProcessElements.TryGetValue(sequenceFlow.TargetId, out var target))
+            {
+                target.Incoming.Remove(sequenceFlow.Id);
+                target.Incoming.Add(newId);
+            }
+
+            process.SequenceFlows.Remove(oldId);
+            sequenceFlow.Id = newId;
+            process.SequenceFlows.Add(newId, sequenceFlow);
         }
 
         public async Task SetTaskLoopCharacteristic(IPage page, string processId, string elementId, InstanceType instanceType)
@@ -209,7 +285,7 @@ namespace DasContract.Editor.Web.Tests.E2E
             _contract = new Contract { Id = "Contract" };
 
             var startEvent = new StartEvent { Id = "StartEvent_1" };
-            var process = new Process { Id = DEFAULT_PROCESS_ID, IsExecutable = true };
+            var process = new Process { Id = DEFAULT_PROCESS_ID, IsExecutable = true, BpmnId = DEFAULT_PROCESS_ID };
             process.ProcessElements.Add("StartEvent_1", startEvent);
             _contract.Processes.Add(process);
         }

@@ -75,7 +75,7 @@ namespace DasContract.Blockchain.Solidity.Converters
         bool TryGetIdentifier(CallActivity callActivity, out ProcessInstanceIdentifier identifier)
         {
 
-            if(callActivity.InstanceType == InstanceType.Parallel && (callActivity.LoopCollection != null || callActivity.LoopCardinality != 0))
+            if(callActivity.InstanceType == InstanceType.Parallel && (callActivity.LoopCollection != null || callActivity.LoopCardinality != "0"))
             {
                 identifier = new ProcessInstanceIdentifier(callActivity.Id);
                 return true;

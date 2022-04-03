@@ -70,7 +70,8 @@ namespace DasContract.Editor.Web.Shared
             await SaveManager.RequestSave();
             var serializedContract = ContractManager.SerializeContract();
             await LocalStorage.SetItemAsync("contract", serializedContract);
-            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", "contract.dascontract", serializedContract);
+            var contractName = string.IsNullOrEmpty(ContractManager.GetContractName()) ? "contract" : ContractManager.GetContractName();
+            await JSRunTime.InvokeVoidAsync("fileSaverLib.saveFile", $"{contractName}.dascontract", serializedContract);
         }
     }
 }
