@@ -2,7 +2,7 @@
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.JsInterop;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
@@ -44,6 +44,10 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         {
             var id = args.Value as string;
             _idInputErrorMessage = string.Empty;
+            _idInputClassDecorator = "";
+
+            if (id == ContractElement.Id)
+                return;
 
             if (string.IsNullOrEmpty(id))
             {
@@ -69,7 +73,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 _idInputErrorMessage += "Id must consist of alphanumerical characters and underscores\n";
                 return;
             }
-            _idInputClassDecorator = "";
+            
 
             if (ContractElement is Process)
             {

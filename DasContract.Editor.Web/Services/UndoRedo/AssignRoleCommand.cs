@@ -1,6 +1,6 @@
 ﻿using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Components.Common;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Components.Select2;
+using DasContract.Editor.Web.Services.ContractManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;

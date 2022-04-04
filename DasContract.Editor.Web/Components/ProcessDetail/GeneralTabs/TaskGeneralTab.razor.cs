@@ -1,5 +1,5 @@
 ﻿using DasContract.Abstraction.Data;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

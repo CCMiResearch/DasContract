@@ -1,38 +1,31 @@
 ﻿.detail-bar {
-    background-color: white;
-    overflow-y: auto;
-    min-width: max-content;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-}
+  background-color: white;
+  overflow-y: auto;
+  min-width: max-content;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%; }
 
 .detail-bar-header {
-    background-color: #f7f7f8;
-    padding: 20px 8px 0px;
-}
+  background-color: #f8f9fa;
+  padding: 20px 8px 0px; }
 
-.id-attribute{
-    margin: auto;
-    width: min-content;
-    margin-bottom: 10px;
-}
+.id-attribute {
+  margin: auto;
+  width: min-content;
+  margin-bottom: 10px; }
 
-.element-type-attribute{
-    margin: auto;
-    width: max-content;
-    color: dimgrey;
-    font-family: Verdana;
-}
+.element-type-attribute {
+  margin: auto;
+  width: max-content;
+  color: dimgrey;
+  font-family: Verdana; }
 
 .main-info {
-    margin-bottom: 15px;
-}
+  margin-bottom: 15px; }
 
 .tab-buttons {
-    display: flex;
-}
+  display: flex; }
 
 .edit-tab {
-    margin: 15px;
-}
+  margin: 15px; }

@@ -51,6 +51,7 @@ namespace DasContract.Editor.Web.Tests.E2E.ModelerSynchronization
         protected async Task<XElement> DownloadAndReadDasContract()
         {
             var waitForDownloadTask = Page.WaitForDownloadAsync();
+            await Page.ClickAsync("#download-button");
             await Page.ClickAsync("#toolbar-button-download-contract");
             var download = await waitForDownloadTask;
             var path = await download.PathAsync();

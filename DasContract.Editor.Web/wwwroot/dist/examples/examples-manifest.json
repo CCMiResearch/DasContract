@@ -1,0 +1,8 @@
+﻿{
+  "examples": [
+    {
+      "name": "EU Elections",
+      "contract_filename": "elections.dascontract"
+    }
+  ]
+}

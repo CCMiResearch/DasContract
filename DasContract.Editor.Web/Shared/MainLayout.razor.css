@@ -2,3 +2,12 @@
 .content {
     height: 100%;
 }
+
+.alert-container {
+    position: fixed;
+    z-index: 9001;
+    right: 12px;
+    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+}

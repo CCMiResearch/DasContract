@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using DasContract.Abstraction.Processes.Tasks;
-using System.Text.RegularExpressions;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using DasContract.Abstraction;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail

@@ -1,5 +1,5 @@
 ﻿using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +30,11 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         public override void Undo()
         {
             ContractManager.RemoveRole(AddedRole);
+        }
+
+        public string GetRoleId()
+        {
+            return AddedRole?.Id;
         }
     }
 }

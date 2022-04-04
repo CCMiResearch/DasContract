@@ -1,15 +1,9 @@
 ﻿using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Abstraction.UserInterface;
-using DasContract.Editor.Web.Components.Common;
+using DasContract.Editor.Web.Components.Buttons;
 using DasContract.Editor.Web.Services.UserForm;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
@@ -20,7 +14,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         [Inject]
         public UserFormService UserFormService { get; set; }
 
-        protected Refresh Refresh { get; set; }
+        protected RefreshButton Refresh { get; set; }
 
         private UserTask _userTask;
 

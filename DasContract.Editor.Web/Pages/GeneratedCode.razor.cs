@@ -1,5 +1,5 @@
 ﻿using DasContract.Editor.Web.Services.Converter;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,13 +16,17 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         IContractManager ContractManager { get; set; }
 
-        
-
         [Inject]
         IJSRuntime JSRuntime { get; set; }
 
+        [Inject]
+        IConverterService ConverterService { get; set; }
+
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
+
+        [Parameter]
+        public string Platform { get; set; }
 
         private bool _conversionSuccessful;
         private string _conversionData;
@@ -31,14 +35,35 @@ namespace DasContract.Editor.Web.Pages
         {
             base.OnInitialized();
             CreateToolbarItems();
-            _conversionSuccessful = ContractManager.ConvertContract(new SolidityConverterService(), out _conversionData);
+            
         }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            SetPlatformAndConvert();
+        }
+
+        protected void SetPlatformAndConvert()
+        {
+            switch (Platform)
+            {
+                case "solidity":
+                    ConverterService.SetConversionTarget(ConversionTarget.SOLIDITY);
+                    break;
+                case "plutus":
+                    ConverterService.SetConversionTarget(ConversionTarget.PLUTUS);
+                    break;
+            }
+            _conversionSuccessful = ContractManager.ConvertContract(out _conversionData);
+        }
+
 
         private void CreateToolbarItems()
         {
             var saveCodeToolbarItem = new ToolBarItem { 
-                Name = "Download code", 
-                IconPath = "dist/icons/file-text.svg",
+                Name = "Converted code", 
+                IconName = "file-earmark-code",
                 Id = "download-code"
                 };
             saveCodeToolbarItem.OnClick += HandleSaveCodeClicked;

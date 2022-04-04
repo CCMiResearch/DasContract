@@ -1,12 +1,16 @@
 ﻿@page "/data"
+    <div class="editor-main">
+        <div class="data-editor">
+            <div class="script-canvas mb-5">
+                <div class="script-toolbar">
+                    <RefreshButton @ref=Refresh RefreshRequested="RefreshDiagram" />
+                </div>
+                <div class="script-body">
+                    <ScriptTab Script="@(ContractManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
+                </div>
+            </div>
+            <div class="gutter-col gutter-col-1"></div>
 
-<div class="data-editor">
-    <div class="script-canvas">
-        <div class="script-toolbar">
-            <Refresh @ref=Refresh RefreshRequested="RefreshDiagram" />
+            <div id="mermaid-canvas" class="d-flex h-100"></div>
         </div>
-        <ScriptTab Script="@(ContractManager.GetDataModelXml())" ScriptChanged="DataModelXmlChanged" Language="xml"></ScriptTab>
     </div>
-    <div class="gutter-col gutter-col-1"></div>
-    <div id="mermaid-canvas"></div>
-</div>

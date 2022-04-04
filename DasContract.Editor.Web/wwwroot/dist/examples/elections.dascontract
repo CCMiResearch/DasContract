@@ -1,0 +1,642 @@
+<Contract Id="4a154629-909e-4b48-8eef-e3618cb6ae87">
+  <Name>EU Elections</Name>
+  <ProcessDiagram>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"&gt;&lt;bpmn:collaboration id="Collaboration_0fy5itr"&gt;&lt;bpmn:participant id="Participant_1c72387" name="European Parliament Elections" processRef="Process_0teruuw" /&gt;&lt;bpmn:participant id="Participant_1fh3j74" name="Country Elections" processRef="Process_12s0dt2" /&gt;&lt;/bpmn:collaboration&gt;&lt;bpmn:process id="Process_0teruuw"&gt;&lt;bpmn:startEvent id="Event_0cs982d"&gt;&lt;bpmn:outgoing&gt;Flow_0be6kms&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0be6kms" sourceRef="Event_0cs982d" targetRef="Activity_12ynylc" /&gt;&lt;bpmn:sequenceFlow id="Flow_0dwyn97" sourceRef="Activity_12ynylc" targetRef="Activity_1565eto" /&gt;&lt;bpmn:sequenceFlow id="Flow_1vzt3ae" sourceRef="Activity_1565eto" targetRef="Activity_110qxyv" /&gt;&lt;bpmn:userTask id="Activity_1565eto" name="[Political Party] Register New Party"&gt;&lt;bpmn:incoming&gt;Flow_0dwyn97&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1vzt3ae&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_110qxyv" name="[Candidate]&amp;#10;Register Candidate"&gt;&lt;bpmn:incoming&gt;Flow_1vzt3ae&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_121ku6k&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16arfxr&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_16arfxr" sourceRef="Activity_110qxyv" targetRef="Activity_0oi4ov6" /&gt;&lt;bpmn:userTask id="Activity_0oi4ov6" name="[Political Party] Approve and Order Candidates"&gt;&lt;bpmn:incoming&gt;Flow_16arfxr&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1cjb4tb&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_090i2i9&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_090i2i9" sourceRef="Activity_0oi4ov6" targetRef="Activity_1uvy5dr" /&gt;&lt;bpmn:scriptTask id="Activity_1uvy5dr" name="Start Country Elections"&gt;&lt;bpmn:incoming&gt;Flow_090i2i9&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1jx5gpr&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1gm6gt7&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:boundaryEvent id="Event_10ke0j8" attachedToRef="Activity_1565eto"&gt;&lt;bpmn:outgoing&gt;Flow_121ku6k&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_1dcjbn6" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:boundaryEvent id="Event_0ti8212" attachedToRef="Activity_110qxyv"&gt;&lt;bpmn:outgoing&gt;Flow_1cjb4tb&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0q7mhaz" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:boundaryEvent id="Event_1x6kz51" attachedToRef="Activity_0oi4ov6"&gt;&lt;bpmn:outgoing&gt;Flow_1jx5gpr&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0bjg54n" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1gm6gt7" sourceRef="Activity_1uvy5dr" targetRef="Activity_081v4hc" /&gt;&lt;bpmn:callActivity id="Activity_081v4hc" name="Country Elections"&gt;&lt;bpmn:incoming&gt;Flow_1gm6gt7&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1vs8jz2&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:endEvent id="Event_04k40lc"&gt;&lt;bpmn:incoming&gt;Flow_1vs8jz2&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1vs8jz2" sourceRef="Activity_081v4hc" targetRef="Event_04k40lc" /&gt;&lt;bpmn:sequenceFlow id="Flow_121ku6k" sourceRef="Event_10ke0j8" targetRef="Activity_110qxyv" /&gt;&lt;bpmn:sequenceFlow id="Flow_1cjb4tb" sourceRef="Event_0ti8212" targetRef="Activity_0oi4ov6" /&gt;&lt;bpmn:sequenceFlow id="Flow_1jx5gpr" sourceRef="Event_1x6kz51" targetRef="Activity_1uvy5dr" /&gt;&lt;bpmn:scriptTask id="Activity_12ynylc" name="Initiate Elections"&gt;&lt;bpmn:incoming&gt;Flow_0be6kms&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0dwyn97&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_12s0dt2"&gt;&lt;bpmn:startEvent id="Event_0y58lx4"&gt;&lt;bpmn:outgoing&gt;Flow_0vdpmbf&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0vdpmbf" sourceRef="Event_0y58lx4" targetRef="Activity_0qtefup" /&gt;&lt;bpmn:sequenceFlow id="Flow_0cpa2dd" sourceRef="Activity_0qtefup" targetRef="Activity_0n6z5yk" /&gt;&lt;bpmn:sequenceFlow id="Flow_17jj146" sourceRef="Activity_0n6z5yk" targetRef="Activity_1bdqlhh" /&gt;&lt;bpmn:sequenceFlow id="Flow_1mi4331" sourceRef="Activity_1bdqlhh" targetRef="Activity_0a673cx" /&gt;&lt;bpmn:sequenceFlow id="Flow_1p5hgui" sourceRef="Activity_0a673cx" targetRef="Activity_0warevq" /&gt;&lt;bpmn:scriptTask id="Activity_0warevq" name="Assign Privilegues to the Elected Candidates"&gt;&lt;bpmn:incoming&gt;Flow_1p5hgui&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1qutvz3&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:scriptTask id="Activity_0a673cx" name="Distribute Seats"&gt;&lt;bpmn:incoming&gt;Flow_1mi4331&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1p5hgui&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:userTask id="Activity_0n6z5yk" name="[EU Citizen]&amp;#10;Vote"&gt;&lt;bpmn:incoming&gt;Flow_0cpa2dd&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_17jj146&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_03njcma" sourceRef="Event_10czjrb" targetRef="Activity_1bdqlhh" /&gt;&lt;bpmn:boundaryEvent id="Event_10czjrb" attachedToRef="Activity_0n6z5yk"&gt;&lt;bpmn:outgoing&gt;Flow_03njcma&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0o2skcs" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:scriptTask id="Activity_1bdqlhh" name="Count Votes"&gt;&lt;bpmn:incoming&gt;Flow_17jj146&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_03njcma&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1mi4331&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:endEvent id="Event_1140fyj"&gt;&lt;bpmn:incoming&gt;Flow_1qutvz3&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1qutvz3" sourceRef="Activity_0warevq" targetRef="Event_1140fyj" /&gt;&lt;bpmn:scriptTask id="Activity_0qtefup" name="Send ballots to the elegible EU Citizens"&gt;&lt;bpmn:incoming&gt;Flow_0vdpmbf&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0cpa2dd&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;/bpmn:process&gt;&lt;bpmndi:BPMNDiagram id="BPMNDiagram_1"&gt;&lt;bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0fy5itr"&gt;&lt;bpmndi:BPMNShape id="Participant_1c72387_di" bpmnElement="Participant_1c72387" isHorizontal="true"&gt;&lt;dc:Bounds x="340" y="60" width="1180" height="250" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1jx5gpr_di" bpmnElement="Flow_1jx5gpr"&gt;&lt;di:waypoint x="1070" y="122" /&gt;&lt;di:waypoint x="1070" y="90" /&gt;&lt;di:waypoint x="1180" y="90" /&gt;&lt;di:waypoint x="1180" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1cjb4tb_di" bpmnElement="Flow_1cjb4tb"&gt;&lt;di:waypoint x="910" y="120" /&gt;&lt;di:waypoint x="910" y="90" /&gt;&lt;di:waypoint x="1020" y="90" /&gt;&lt;di:waypoint x="1020" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_121ku6k_di" bpmnElement="Flow_121ku6k"&gt;&lt;di:waypoint x="750" y="122" /&gt;&lt;di:waypoint x="750" y="90" /&gt;&lt;di:waypoint x="860" y="90" /&gt;&lt;di:waypoint x="860" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1vs8jz2_di" bpmnElement="Flow_1vs8jz2"&gt;&lt;di:waypoint x="1390" y="180" /&gt;&lt;di:waypoint x="1452" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1gm6gt7_di" bpmnElement="Flow_1gm6gt7"&gt;&lt;di:waypoint x="1230" y="180" /&gt;&lt;di:waypoint x="1290" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_090i2i9_di" bpmnElement="Flow_090i2i9"&gt;&lt;di:waypoint x="1070" y="180" /&gt;&lt;di:waypoint x="1130" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_16arfxr_di" bpmnElement="Flow_16arfxr"&gt;&lt;di:waypoint x="910" y="180" /&gt;&lt;di:waypoint x="970" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1vzt3ae_di" bpmnElement="Flow_1vzt3ae"&gt;&lt;di:waypoint x="750" y="180" /&gt;&lt;di:waypoint x="810" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0dwyn97_di" bpmnElement="Flow_0dwyn97"&gt;&lt;di:waypoint x="590" y="180" /&gt;&lt;di:waypoint x="650" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0be6kms_di" bpmnElement="Flow_0be6kms"&gt;&lt;di:waypoint x="438" y="180" /&gt;&lt;di:waypoint x="490" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0cs982d_di" bpmnElement="Event_0cs982d"&gt;&lt;dc:Bounds x="402" y="162" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1omwn42_di" bpmnElement="Activity_1565eto"&gt;&lt;dc:Bounds x="650" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_01mxvod_di" bpmnElement="Activity_110qxyv"&gt;&lt;dc:Bounds x="810" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0fu36ty_di" bpmnElement="Activity_0oi4ov6"&gt;&lt;dc:Bounds x="970" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1yh9zlk_di" bpmnElement="Activity_1uvy5dr"&gt;&lt;dc:Bounds x="1130" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0uzlfdk_di" bpmnElement="Activity_081v4hc"&gt;&lt;dc:Bounds x="1290" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_04k40lc_di" bpmnElement="Event_04k40lc"&gt;&lt;dc:Bounds x="1452" y="162" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_06klfr8_di" bpmnElement="Activity_12ynylc"&gt;&lt;dc:Bounds x="490" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1m6auae_di" bpmnElement="Event_1x6kz51"&gt;&lt;dc:Bounds x="1052" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_10ifko9_di" bpmnElement="Event_0ti8212"&gt;&lt;dc:Bounds x="892" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_13vh433_di" bpmnElement="Event_10ke0j8"&gt;&lt;dc:Bounds x="732" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_1fh3j74_di" bpmnElement="Participant_1fh3j74" isHorizontal="true"&gt;&lt;dc:Bounds x="340" y="330" width="1180" height="250" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1qutvz3_di" bpmnElement="Flow_1qutvz3"&gt;&lt;di:waypoint x="1230" y="450" /&gt;&lt;di:waypoint x="1292" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_03njcma_di" bpmnElement="Flow_03njcma"&gt;&lt;di:waypoint x="750" y="392" /&gt;&lt;di:waypoint x="750" y="370" /&gt;&lt;di:waypoint x="860" y="370" /&gt;&lt;di:waypoint x="860" y="410" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1p5hgui_di" bpmnElement="Flow_1p5hgui"&gt;&lt;di:waypoint x="1070" y="450" /&gt;&lt;di:waypoint x="1130" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1mi4331_di" bpmnElement="Flow_1mi4331"&gt;&lt;di:waypoint x="910" y="450" /&gt;&lt;di:waypoint x="970" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_17jj146_di" bpmnElement="Flow_17jj146"&gt;&lt;di:waypoint x="750" y="450" /&gt;&lt;di:waypoint x="810" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0cpa2dd_di" bpmnElement="Flow_0cpa2dd"&gt;&lt;di:waypoint x="590" y="450" /&gt;&lt;di:waypoint x="650" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0vdpmbf_di" bpmnElement="Flow_0vdpmbf"&gt;&lt;di:waypoint x="438" y="450" /&gt;&lt;di:waypoint x="490" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0y58lx4_di" bpmnElement="Event_0y58lx4"&gt;&lt;dc:Bounds x="402" y="432" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1xn9hda_di" bpmnElement="Activity_0warevq"&gt;&lt;dc:Bounds x="1130" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_187abpa_di" bpmnElement="Activity_0a673cx"&gt;&lt;dc:Bounds x="970" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1n6r13m_di" bpmnElement="Activity_0n6z5yk"&gt;&lt;dc:Bounds x="650" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1v1fwtj_di" bpmnElement="Activity_1bdqlhh"&gt;&lt;dc:Bounds x="810" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1140fyj_di" bpmnElement="Event_1140fyj"&gt;&lt;dc:Bounds x="1292" y="432" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0yd8fdy_di" bpmnElement="Activity_0qtefup"&gt;&lt;dc:Bounds x="490" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0sn6234_di" bpmnElement="Event_10czjrb"&gt;&lt;dc:Bounds x="732" y="392" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;/bpmndi:BPMNPlane&gt;&lt;/bpmndi:BPMNDiagram&gt;&lt;/bpmn:definitions&gt;</ProcessDiagram>
+  <Processes>
+    <Process Id="Process_0teruuw">
+      <Name>European Parliament Elections</Name>
+      <IsExecutable>true</IsExecutable>
+      <ParticipantId>Participant_1c72387</ParticipantId>
+      <CustomScript>function incrementPartyVote(address partyAddress) internal {
+        PoliticalParty storage party = politicalParties[partyAddress];
+        party.voteCount += 1;
+    }
+
+    function incrementCandidatesVotes(address[] memory candidateAddresses) internal {
+        
+        for(uint i = 0; i&lt;candidateAddresses.length; i++){
+            Candidate storage candidate = candidates[candidateAddresses[i]];
+            candidate.voteCount += 1;
+        }
+        
+    }
+    
+    function checkOpenListVotingChoices(address[] memory votingChoices, uint256 countryId) internal view {
+        address firstCandidateParty;
+        bool first = true;
+        
+        //Check whether the candidates are approved AND are from the same party AND represent the correct country
+        for (uint i = 0; i&lt;votingChoices.length; i++){
+            require(candidates[votingChoices[i]].approved==true, ""Candidate address is invalid"");
+            address currCandidateParty = candidates[votingChoices[i]].partyId;
+            if(first) {
+                firstCandidateParty = currCandidateParty;
+                require(politicalParties[firstCandidateParty].countryId == countryId);
+                first = false;
+            }
+            else {
+                require(currCandidateParty == firstCandidateParty, ""Candidates must be from the same party"");
+            }
+            
+        }
+    }
+    
+    function checkClosedListVotingChoices(address[] memory votingChoices, uint256 countryId) internal view {
+        require(votingChoices.length == 1, ""Only a party vote is allowed"");
+        //Check whether the party is registered and is from the correct country
+        PoliticalParty storage party = politicalParties[votingChoices[0]];
+        require(party.id != address(0), ""Party address is invalid"");
+        require(party.countryId == countryId);
+    }
+    
+    function checkSingleTransferrableVotingChoices(address[] memory votingChoices, uint256 countryId) internal view {
+        //Check whether the candidates are approved
+        for (uint i = 0; i&lt;votingChoices.length; i++){
+            Candidate storage candidate = candidates[votingChoices[i]];
+            require(candidate.approved == true, ""Candidate address is invalid"");
+            require(politicalParties[candidate.partyId].countryId == countryId);
+        }
+    }</CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_0be6kms">
+          <Name></Name>
+          <SourceId>Event_0cs982d</SourceId>
+          <TargetId>Activity_12ynylc</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0dwyn97">
+          <Name></Name>
+          <SourceId>Activity_12ynylc</SourceId>
+          <TargetId>Activity_1565eto</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1vzt3ae">
+          <Name></Name>
+          <SourceId>Activity_1565eto</SourceId>
+          <TargetId>Activity_110qxyv</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_16arfxr">
+          <Name></Name>
+          <SourceId>Activity_110qxyv</SourceId>
+          <TargetId>Activity_0oi4ov6</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_090i2i9">
+          <Name></Name>
+          <SourceId>Activity_0oi4ov6</SourceId>
+          <TargetId>Activity_1uvy5dr</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1gm6gt7">
+          <Name></Name>
+          <SourceId>Activity_1uvy5dr</SourceId>
+          <TargetId>Activity_081v4hc</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1vs8jz2">
+          <Name></Name>
+          <SourceId>Activity_081v4hc</SourceId>
+          <TargetId>Event_04k40lc</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_121ku6k">
+          <Name></Name>
+          <SourceId>Event_10ke0j8</SourceId>
+          <TargetId>Activity_110qxyv</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1cjb4tb">
+          <Name></Name>
+          <SourceId>Event_0ti8212</SourceId>
+          <TargetId>Activity_0oi4ov6</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1jx5gpr">
+          <Name></Name>
+          <SourceId>Event_1x6kz51</SourceId>
+          <TargetId>Activity_1uvy5dr</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <CallActivity Id="Activity_081v4hc">
+          <Name>Country Elections</Name>
+          <Incoming>
+            <IncomingId>Flow_1gm6gt7</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1vs8jz2</OutgoingId>
+          </Outgoing>
+          <InstanceType>Parallel</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection>Property_27</LoopCollection>
+          <CalledElement>Process_12s0dt2</CalledElement>
+        </CallActivity>
+        <ScriptTask Id="Activity_12ynylc">
+          <Name>Initiate Elections</Name>
+          <Incoming>
+            <IncomingId>Flow_0be6kms</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0dwyn97</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>candidateApprovalEnd = 9598986017;
+candidateRegistrationEnd = 9598986017;
+partyRegistrationEnd = 9598986017;
+
+CountryElections memory czechElections = CountryElections(0,""Czech Republic"", 9598986017, 959994017, new address[](0), VotingSystem.OpenList, 10, 20, 18);
+countries.push(czechElections);
+CountryElections memory germanElections = CountryElections(1,""Germany"", 9598986017, 959994017, new address[](0), VotingSystem.ClosedList, 20, 40, 18);
+countries.push(germanElections);</Script>
+        </ScriptTask>
+        <ScriptTask Id="Activity_1uvy5dr">
+          <Name>Start Country Elections</Name>
+          <Incoming>
+            <IncomingId>Flow_090i2i9</IncomingId>
+            <IncomingId>Flow_1jx5gpr</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1gm6gt7</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>CountryElections storage cz = countries[0];
+cz.voters.push(0x5B38Da6a701c568545dCfcB03FcB875f56beddC4);
+CountryElections storage ge = countries[1];
+ge.voters.push(0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2); </Script>
+        </ScriptTask>
+        <UserTask Id="Activity_110qxyv">
+          <Name>[Candidate]
+Register Candidate</Name>
+          <Incoming>
+            <IncomingId>Flow_1vzt3ae</IncomingId>
+            <IncomingId>Flow_121ku6k</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_16arfxr</OutgoingId>
+          </Outgoing>
+          <InstanceType>Parallel</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection>Property_26</LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Candidate registration"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Label="Party ID" Description="A party ID adhering to the ISO 42069 standard"/&gt;
+        &lt;SingleLineField Label="Candidate name"/&gt;
+        &lt;SingleLineField Label="Website"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;
+
+</FormDefinition>
+          <ValidationScript>PoliticalParty storage party = politicalParties[partyId];
+//check whether a party exists
+require(bytes(party.name).length &gt; 0);
+//check whether a candidate is not already registered to this address
+require(candidates[msg.sender].id == address(0));
+
+Candidate memory candidate = Candidate({
+    id: msg.sender,
+    name: name,
+    website: website, 
+    voteCount: 0, 
+    hasSeat: false,
+    approved: false,
+    partyId: party.id
+});
+
+candidatesKeys.push(msg.sender);
+candidates[msg.sender] = candidate;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>2ebc4ff2-59e3-4f2f-a87d-761ccea1d14a</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <UserTask Id="Activity_1565eto">
+          <Name>[Political Party] Register New Party</Name>
+          <Incoming>
+            <IncomingId>Flow_0dwyn97</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1vzt3ae</OutgoingId>
+          </Outgoing>
+          <InstanceType>Parallel</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection>Property_25</LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Party registration"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Label="Name"/&gt;
+        &lt;SingleLineField Label="Code"/&gt;
+        &lt;SingleLineField Label="Website"/&gt;
+        &lt;SingleLineField Label="Country ID"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;
+</FormDefinition>
+          <ValidationScript>require(politicalParties[msg.sender].id == address(0));
+PoliticalParty memory party = PoliticalParty({
+    id: msg.sender,
+    name: name,
+    code: code,
+    website: website,
+    voteCount: 0,
+    allocatedSeats: 0,
+    countryId: countryId
+});
+politicalParties[msg.sender] = party;
+politicalPartiesKeys.push(msg.sender);</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>b2b69fda-837f-4d14-bd8e-45fc9e290001</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <UserTask Id="Activity_0oi4ov6">
+          <Name>[Political Party] Approve and Order Candidates</Name>
+          <Incoming>
+            <IncomingId>Flow_16arfxr</IncomingId>
+            <IncomingId>Flow_1cjb4tb</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_090i2i9</OutgoingId>
+          </Outgoing>
+          <InstanceType>Parallel</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection>Property_25</LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Candidate approval"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Multiple="true" Label="Approved candidates" Description="Addresses of the approved candidates"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;
+</FormDefinition>
+          <ValidationScript>for(uint i = 0; i &lt; chosencandidates.length; i++){
+    Candidate storage c = candidates[chosencandidates[i]];
+    //check if candidate exists and whether he is assigned to the political party
+    if(bytes(c.name).length &gt; 0 &amp;&amp; c.partyId == msg.sender){
+        c.approved = true;
+    }
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>b2b69fda-837f-4d14-bd8e-45fc9e290001</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_04k40lc">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_1vs8jz2</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <StartEvent Id="Event_0cs982d">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_0be6kms</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <TimerBoundaryEvent Id="Event_10ke0j8">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_121ku6k</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_1565eto</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>${partyRegistrationEnd}</TimerDefinition>
+        </TimerBoundaryEvent>
+        <TimerBoundaryEvent Id="Event_0ti8212">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_1cjb4tb</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_110qxyv</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>${candidateRegistrationEnd}</TimerDefinition>
+        </TimerBoundaryEvent>
+        <TimerBoundaryEvent Id="Event_1x6kz51">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_1jx5gpr</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_0oi4ov6</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>${candidateApprovalEnd}</TimerDefinition>
+        </TimerBoundaryEvent>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_12s0dt2">
+      <Name>Country Elections</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_1fh3j74</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_0vdpmbf">
+          <Name></Name>
+          <SourceId>Event_0y58lx4</SourceId>
+          <TargetId>Activity_0qtefup</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0cpa2dd">
+          <Name></Name>
+          <SourceId>Activity_0qtefup</SourceId>
+          <TargetId>Activity_0n6z5yk</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_17jj146">
+          <Name></Name>
+          <SourceId>Activity_0n6z5yk</SourceId>
+          <TargetId>Activity_1bdqlhh</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1mi4331">
+          <Name></Name>
+          <SourceId>Activity_1bdqlhh</SourceId>
+          <TargetId>Activity_0a673cx</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1p5hgui">
+          <Name></Name>
+          <SourceId>Activity_0a673cx</SourceId>
+          <TargetId>Activity_0warevq</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_03njcma">
+          <Name></Name>
+          <SourceId>Event_10czjrb</SourceId>
+          <TargetId>Activity_1bdqlhh</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1qutvz3">
+          <Name></Name>
+          <SourceId>Activity_0warevq</SourceId>
+          <TargetId>Event_1140fyj</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <ScriptTask Id="Activity_0a673cx">
+          <Name>Distribute Seats</Name>
+          <Incoming>
+            <IncomingId>Flow_1mi4331</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1p5hgui</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script></Script>
+        </ScriptTask>
+        <ScriptTask Id="Activity_0warevq">
+          <Name>Assign Privilegues to the Elected Candidates</Name>
+          <Incoming>
+            <IncomingId>Flow_1p5hgui</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1qutvz3</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script></Script>
+        </ScriptTask>
+        <ScriptTask Id="Activity_1bdqlhh">
+          <Name>Count Votes</Name>
+          <Incoming>
+            <IncomingId>Flow_17jj146</IncomingId>
+            <IncomingId>Flow_03njcma</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1mi4331</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script></Script>
+        </ScriptTask>
+        <ScriptTask Id="Activity_0qtefup">
+          <Name>Send ballots to the elegible EU Citizens</Name>
+          <Incoming>
+            <IncomingId>Flow_0vdpmbf</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0cpa2dd</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>CountryElections storage country = countries[call_Activity_1Identifier];
+
+for (uint256 i = 0; i &lt; country.voters.length; i++)
+{
+    votingToken.mint(country.voters[i]);
+}</Script>
+        </ScriptTask>
+        <UserTask Id="Activity_0n6z5yk">
+          <Name>[EU Citizen]
+Vote</Name>
+          <Incoming>
+            <IncomingId>Flow_0cpa2dd</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_17jj146</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality>0</LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Voting"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Multiple="true" Label="Voting choices" Description="Addresses of the chosen subjects"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;
+</FormDefinition>
+          <ValidationScript>require(votingchoices.length &gt; 0, "At least one cadidate must be chosen");
+//Check whether voting is open
+CountryElections storage country = countries[call_Activity_1Identifier];
+require(now &gt; country.electionBeginDate, "Voting is currently not allowed");
+
+//Check the voting choices according to the given voting system
+if (country.votingSystem == VotingSystem.ClosedList)
+{
+    checkClosedListVotingChoices(votingchoices, country.id);
+}
+else if (country.votingSystem == VotingSystem.OpenList)
+{
+    checkOpenListVotingChoices(votingchoices, country.id);
+    // incrementCandidatesVotes(votingChoices, country.id);
+}
+else if (country.votingSystem == VotingSystem.SingleTransferable)
+{
+    checkSingleTransferrableVotingChoices(votingchoices, country.id);
+    //incrementCandidatesVotes(votingChoices);
+}
+votingToken.transfer(msg.sender, address(this));
+
+if (country.votingSystem == VotingSystem.ClosedList)
+    incrementPartyVote(votingchoices[0]);
+else
+    incrementCandidatesVotes(votingchoices); </ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>f74e3c9d-b9e3-4804-866e-dbbfed24c246</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_1140fyj">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_1qutvz3</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <StartEvent Id="Event_0y58lx4">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_0vdpmbf</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <TimerBoundaryEvent Id="Event_10czjrb">
+          <Name></Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_03njcma</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_0n6z5yk</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>${countries[call_Activity_1Identifier].electionEndDate}</TimerDefinition>
+        </TimerBoundaryEvent>
+      </ProcessElements>
+    </Process>
+  </Processes>
+  <Roles>
+    <ProcessRole Id="b2b69fda-837f-4d14-bd8e-45fc9e290001">
+      <Name>Political Party</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="2ebc4ff2-59e3-4f2f-a87d-761ccea1d14a">
+      <Name>Candidate</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="f74e3c9d-b9e3-4804-866e-dbbfed24c246">
+      <Name>EU Citizen</Name>
+      <Description></Description>
+    </ProcessRole>
+  </Roles>
+  <Users>
+    <ProcessUser Id="5b5451c6-ed40-45de-8017-096ef0ecfe29">
+      <Name>ANO</Name>
+      <Description>No pls</Description>
+      <Address></Address>
+      <Roles>
+        <ProcessRole>b2b69fda-837f-4d14-bd8e-45fc9e290001</ProcessRole>
+      </Roles>
+    </ProcessUser>
+    <ProcessUser Id="3dc2a08e-5350-4d1a-9ff8-bbb261219269">
+      <Name>Piráti</Name>
+      <Description></Description>
+      <Address></Address>
+      <Roles>
+        <ProcessRole>b2b69fda-837f-4d14-bd8e-45fc9e290001</ProcessRole>
+      </Roles>
+    </ProcessUser>
+    <ProcessUser Id="de659002-3f68-4d53-8c8e-e809fd957852">
+      <Name>Marek Skotnica</Name>
+      <Description>He is Marek.</Description>
+      <Address></Address>
+      <Roles>
+        <ProcessRole>2ebc4ff2-59e3-4f2f-a87d-761ccea1d14a</ProcessRole>
+        <ProcessRole>f74e3c9d-b9e3-4804-866e-dbbfed24c246</ProcessRole>
+      </Roles>
+    </ProcessUser>
+    <ProcessUser Id="933e8e33-4f75-45db-ba92-0136b5a2353f">
+      <Name>Vojtěch Filip</Name>
+      <Description></Description>
+      <Address></Address>
+      <Roles>
+        <ProcessRole>2ebc4ff2-59e3-4f2f-a87d-761ccea1d14a</ProcessRole>
+        <ProcessRole>f74e3c9d-b9e3-4804-866e-dbbfed24c246</ProcessRole>
+      </Roles>
+    </ProcessUser>
+    <ProcessUser Id="c5694638-ab4a-414d-9ee6-c025a83f8233">
+      <Name>Ivan Bartoš</Name>
+      <Description>Arrrr!</Description>
+      <Address></Address>
+      <Roles>
+        <ProcessRole>2ebc4ff2-59e3-4f2f-a87d-761ccea1d14a</ProcessRole>
+        <ProcessRole>f74e3c9d-b9e3-4804-866e-dbbfed24c246</ProcessRole>
+      </Roles>
+    </ProcessUser>
+  </Users>
+  <DataModelDefinition>  &lt;DataTypes&gt;
+    &lt;Token Id="Token_1" Name="VotingToken" IsRootEntity="false" IsFungible="false" IsIssued="false" Symbol="VOTE"&gt;
+      &lt;MintScript&gt;_safeMint(receiver, uint256(receiver));&lt;/MintScript&gt;
+      &lt;TransferScript&gt;_transfer(from, to, uint256(from));&lt;/TransferScript&gt;
+    &lt;/Token&gt;
+    &lt;Enum Id="Enum_1" Name="VotingSystem"&gt;
+      &lt;Value&gt;ClosedList&lt;/Value&gt;
+      &lt;Value&gt;OpenList&lt;/Value&gt;
+      &lt;Value&gt;SingleTransferable&lt;/Value&gt;
+    &lt;/Enum&gt;
+    &lt;Entity Id="Entity_2" Name="CountryElections" IsRootEntity="false"&gt;
+      &lt;Property Id="Property_51" Name="id" IsMandatory="true" PropertyType="Single" DataType="Uint" /&gt;
+      &lt;Property Id="Property_6" Name="countryName" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_7" Name="electionBeginDate" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_30" Name="electionEndDate" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_40" Name="voters" IsMandatory="true" PropertyType="Collection" DataType="Address" /&gt;
+      &lt;Property Id="Property_8" Name="votingSystem" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Enum_1" /&gt;
+      &lt;Property Id="Property_9" Name="availableSeats" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+      &lt;Property Id="Property_10" Name="electoralTreshold" IsMandatory="true" PropertyType="Single" DataType="Byte" /&gt;
+      &lt;Property Id="Property_11" Name="minimumAge" IsMandatory="true" PropertyType="Single" DataType="Byte" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_3" Name="PoliticalParty" IsRootEntity="false"&gt;
+      &lt;Property Id="Property_12" Name="id" IsMandatory="true" PropertyType="Single" DataType="Address" /&gt;
+      &lt;Property Id="Property_13" Name="name" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_14" Name="code" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_15" Name="website" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_16" Name="voteCount" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+      &lt;Property Id="Property_17" Name="allocatedSeats" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+      &lt;Property Id="Property_50" Name="countryId" IsMandatory="true" PropertyType="Single" DataType="Uint" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_4" Name="Candidate" IsRootEntity="false"&gt;
+      &lt;Property Id="Property_18" Name="id" IsMandatory="true" PropertyType="Single" DataType="Address" /&gt;
+      &lt;Property Id="Property_19" Name="name" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_20" Name="website" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+      &lt;Property Id="Property_21" Name="voteCount" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+      &lt;Property Id="Property_22" Name="hasSeat" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+      &lt;Property Id="Property_31" Name="approved" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+      &lt;Property Id="Property_23" Name="partyId" IsMandatory="true" PropertyType="Single" DataType="Address" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_5" Name="RootEntity" IsRootEntity="true"&gt;
+      &lt;Property Id="Property_27" Name="Countries" IsMandatory="true" PropertyType="Collection" DataType="Reference" ReferencedDataType="Entity_2" /&gt;
+      &lt;Property Id="Property_25" Name="PoliticalParties" IsMandatory="true" PropertyType="Dictionary" KeyType="Address" DataType="Reference" ReferencedDataType="Entity_3" /&gt;
+      &lt;Property Id="Property_26" Name="Candidates" IsMandatory="true" PropertyType="Dictionary" KeyType="Address" DataType="Reference" ReferencedDataType="Entity_4" /&gt;
+      &lt;Property Id="Property_2" Name="startDate" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_3" Name="partyRegistrationEnd" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_4" Name="candidateRegistrationEnd" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_5" Name="candidateApprovalEnd" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+      &lt;Property Id="Property_100" Name="AddressHelper" IsMandatory="true" PropertyType="Collection" DataType="Address" /&gt;
+    &lt;/Entity&gt;
+  &lt;/DataTypes&gt;</DataModelDefinition>
+</Contract>

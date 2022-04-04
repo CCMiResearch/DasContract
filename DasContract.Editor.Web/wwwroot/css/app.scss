@@ -1,0 +1,99 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+body{
+    overflow: hidden;
+}
+
+html, body, app {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.page {
+    height: 100%;
+    display: grid;
+    grid-template-rows: minmax(60px, auto) minmax(0, 1fr);
+}
+
+
+.gutter-col {
+    cursor: col-resize;
+    background-color: #edecec;
+    background-image: url(../dist/icons/vertical.png);
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+
+.full-width-textfield > .mat-text-field {
+    width: 100%;
+}
+
+.mdc-tab__ripple {
+    z-index: 10;
+}
+
+.monaco-editor-container {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+}
+
+#input-file {
+    display: none !important;
+}
+
+.btn-circle.btn-sm {
+    width: 40px;
+    height: 40px;
+    padding: 3px 0px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+}
