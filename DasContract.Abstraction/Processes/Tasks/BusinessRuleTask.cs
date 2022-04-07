@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿using DasContract.Abstraction.Processes.Dmn;
+using System;
+using System.Xml.Linq;
 
 namespace DasContract.Abstraction.Processes.Tasks
 {
@@ -9,10 +11,21 @@ namespace DasContract.Abstraction.Processes.Tasks
         /// </summary>
         public string BusinessRuleDefinitionXml { get; set; }
 
+        public Definitions BusinessRule { get; set; } = new Definitions();
+
         public BusinessRuleTask() { }
+
         public BusinessRuleTask(XElement xElement) : base(xElement)
         {
             BusinessRuleDefinitionXml = xElement.Element("BusinessRuleDefinition")?.Value;
+            if (BusinessRuleDefinitionXml != null)
+            {
+                try
+                {
+                    BusinessRule = Definitions.DeserializePlainDefinition(BusinessRuleDefinitionXml);
+                }
+                catch (Exception) { }
+            }
         }
 
         public override XElement ToXElement()
