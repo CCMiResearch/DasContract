@@ -16,6 +16,9 @@ namespace DasContract.Abstraction.Processes.Dmn
         [XmlAttribute("hitPolicy")]
         public string HitPolicy { get; set; } = String.Empty;
 
+        [XmlAttribute("aggregation")]
+        public string Aggregation { get; set; } = String.Empty;
+
         [XmlAttribute("annotationsWidth", Namespace = "http://bpmn.io/schema/dmn/biodi/2.0")]
         public string AnnotationsWidth { get; set; } = String.Empty;
 

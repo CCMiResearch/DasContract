@@ -14,6 +14,9 @@ namespace DasContract.Abstraction.Processes.Dmn
         public string Id { get; set; } = String.Empty;
 
         //Elements
+        [XmlElement("description")]
+        public string Description { get; set; } = String.Empty;
+
         [XmlElement("inputEntry")]
         public List<InputEntry> InputEntries { get; set; } = new List<InputEntry>();
 
