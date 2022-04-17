@@ -21,6 +21,8 @@ namespace DasContract.Blockchain.Solidity.Converters
                 return new UserTaskConverter((UserTask)element, processConverter);
             else if (elementType == typeof(ScriptTask))
                 return new ScriptTaskConverter((ScriptTask)element, processConverter);
+            else if (elementType == typeof(BusinessRuleTask))
+                return new BusinessRuleTaskConverter((BusinessRuleTask)element, processConverter);
             else if (elementType == typeof(EndEvent))
                 return new EndEventConverter((EndEvent)element, processConverter);
             else if (elementType == typeof(ExclusiveGateway))
