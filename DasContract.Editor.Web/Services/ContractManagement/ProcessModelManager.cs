@@ -190,7 +190,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     element.Id = elementId;
                 }
                 //Invalid element type is ignored (the element is not defined in the dascontract model, for example labels)
-                catch (InvalidCamundaElementTypeException)
+                catch (InvalidBpmnElementTypeException)
                 {
                     return null;
                 }
@@ -202,7 +202,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                 throw new DuplicateIdException($"Process already contains id {elementId}");
 
             process.ProcessElements.Add(elementId, element);
-            Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
             return element;
         }
 
@@ -217,7 +216,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     AddElementToDeletedBuffer(element);
 
                     process.ProcessElements.Remove(id);
-                    Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
                     return;
                 }
             }
@@ -271,7 +269,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             //Add sequence flow references to the source and target elements
             UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, true);
             UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, true);
-            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
             return sequenceFlow;
         }
 
@@ -288,7 +285,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, false);
                     UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, false);
                     process.SequenceFlows.Remove(id);
-                    Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
                     return;
                 }
             }
@@ -355,7 +351,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             var deletedStack = _deletedElements.GetValueOrDefault(e.Id);
 
             deletedStack.Push(e);
-            //Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
         }
 
         private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element)
@@ -377,7 +372,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             return Contract.Processes.Any(p => p.Id == processId);
         }
 
-        public bool TryGetProcessOfElement(string elementId, out Process process)
+        public bool TryRetrieveProcessOfElement(string elementId, out Process process)
         {
             foreach (var p in Contract.Processes)
             {
@@ -414,7 +409,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         {
             //The source element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
             //For that reason, the process of the element must be first retrieved
-            if (!TryGetProcessOfElement(elementId, out var process))
+            if (!TryRetrieveProcessOfElement(elementId, out var process))
                 throw new InvalidIdException($"Element id {elementId} is not located in any process");
             if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");
@@ -426,7 +421,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         {
             //The target element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
             //For that reason, the process of the element must be first retrieved
-            if (!TryGetProcessOfElement(elementId, out var process))
+            if (!TryRetrieveProcessOfElement(elementId, out var process))
                 throw new InvalidIdException($"Element id {elementId} is not located in any process");
             if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");

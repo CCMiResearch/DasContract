@@ -10,7 +10,7 @@ using DasContract.Abstraction.Processes;
 
 namespace DasContract.Editor.Web.Services.BpmnEvents
 {
-    public class BpmnEventHandler : IBpmnEventHandler
+    public class BpmnEventListener : IBpmnEventListener
     {
         IJSRuntime _jsRuntime;
         IProcessModelManager _processModelManager;
@@ -25,7 +25,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         public event EventHandler<BpmnElementEvent> RootAdded;
         public event EventHandler<BpmnElementEvent> RootRemoved;
 
-        public BpmnEventHandler(IJSRuntime jsRuntime, IProcessModelManager processModelManager)
+        public BpmnEventListener(IJSRuntime jsRuntime, IProcessModelManager processModelManager)
         {
             _jsRuntime = jsRuntime;
             _processModelManager = processModelManager;

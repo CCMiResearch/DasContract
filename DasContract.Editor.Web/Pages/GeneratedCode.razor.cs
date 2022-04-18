@@ -19,14 +19,11 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         IJSRuntime JSRuntime { get; set; }
 
-        [Inject]
-        IConverterService ConverterService { get; set; }
-
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
 
         [Parameter]
-        public string Platform { get; set; }
+        public string ConversionTarget { get; set; }
 
         private bool _conversionSuccessful;
         private string _conversionData;
@@ -46,15 +43,6 @@ namespace DasContract.Editor.Web.Pages
 
         protected void SetPlatformAndConvert()
         {
-            switch (Platform)
-            {
-                case "solidity":
-                    ConverterService.SetConversionTarget(ConversionTarget.SOLIDITY);
-                    break;
-                case "plutus":
-                    ConverterService.SetConversionTarget(ConversionTarget.PLUTUS);
-                    break;
-            }
             _conversionSuccessful = ContractManager.ConvertContract(out _conversionData);
         }
 

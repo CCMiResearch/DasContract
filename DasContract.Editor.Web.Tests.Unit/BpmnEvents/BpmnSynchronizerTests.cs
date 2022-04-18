@@ -17,7 +17,7 @@ namespace DasContract.Editor.Web.Tests.Unit.BpmnEvents
 {
     public class BpmnSynchronizerTests
     {
-        private readonly BpmnEventHandler _eventHandler;
+        private readonly BpmnEventListener _eventHandler;
         private readonly BpmnSynchronizer _bpmnSynchronizer;
 
         private readonly Mock<IContractManager> _contractManagerMock;
@@ -32,7 +32,7 @@ namespace DasContract.Editor.Web.Tests.Unit.BpmnEvents
             _editElementServiceMock = new Mock<IEditElementService>();
 
             _processModelManagerMock.Setup(m => m.TranslateBpmnProcessId(It.IsAny<string>())).Returns<string>(id => $"{id}-translated");
-            _eventHandler = new BpmnEventHandler(_jsRuntimeMock.Object, _processModelManagerMock.Object);
+            _eventHandler = new BpmnEventListener(_jsRuntimeMock.Object, _processModelManagerMock.Object);
             _bpmnSynchronizer = new BpmnSynchronizer(_eventHandler, _processModelManagerMock.Object,
                 _contractManagerMock.Object, _editElementServiceMock.Object, _jsRuntimeMock.Object);
 

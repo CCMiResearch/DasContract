@@ -13,9 +13,9 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         private IUserModelManager _userModelManager;
 
         //Commands that have been done "in the past" and can be undone
-        private Stack<ContractCommand> UndoableCommands { get; set; } = new Stack<ContractCommand>();
+        private Stack<UserModelCommand> UndoableCommands { get; set; } = new Stack<UserModelCommand>();
         //Commands that been undone - they can be redone
-        private Stack<ContractCommand> RedoableCommands { get; set; } = new Stack<ContractCommand>();
+        private Stack<UserModelCommand> RedoableCommands { get; set; } = new Stack<UserModelCommand>();
 
         private IDictionary<string, bool> AccordionStates { get; set; } = new Dictionary<string, bool>();
 
@@ -39,7 +39,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
                 AccordionStates[id] = !state;
         }
 
-        public void UserRoleAssigned(Select2<ProcessRole> select, string roleId)
+        public void OnUserRoleAssign(Select2<ProcessRole> select, string roleId)
         {
             RedoableCommands.Clear();
             var assignedRole = _userModelManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
@@ -47,7 +47,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(assignedCommand);
         }
 
-        public void UserRoleUnassigned(Select2<ProcessRole> select, string roleId)
+        public void OnUserRoleUnassign(Select2<ProcessRole> select, string roleId)
         {
             RedoableCommands.Clear();
             var unassignedRole = _userModelManager.GetProcessRoles().Where(r => r.Id == roleId).FirstOrDefault();
@@ -56,7 +56,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
 
         }
 
-        public void AddUser()
+        public void OnUserAdd()
         {
             RedoableCommands.Clear();
             var addCommand = new AddUserCommand(_userModelManager);
@@ -65,7 +65,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(addCommand);
         }
 
-        public void RemoveUser(ProcessUser removedUser)
+        public void OnUserRemove(ProcessUser removedUser)
         {
             RedoableCommands.Clear();
             var removeCommand = new RemoveUserCommand(_userModelManager, removedUser);
@@ -73,7 +73,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(removeCommand);
         }
 
-        public void AddRole()
+        public void OnRoleAdd()
         {
             RedoableCommands.Clear();
             var addCommand = new AddRoleCommand(_userModelManager);
@@ -82,7 +82,7 @@ namespace DasContract.Editor.Web.Services.UndoRedo
             UndoableCommands.Push(addCommand);
         }
 
-        public void RemoveRole(ProcessRole removedRole, IDictionary<string, Select2<ProcessRole>> select2Components)
+        public void OnRoleRemove(ProcessRole removedRole, IDictionary<string, Select2<ProcessRole>> select2Components)
         {
             RedoableCommands.Clear();
             var filteredSelect2Components = select2Components.Values.Where(s => s.Selected.Contains(removedRole)).ToList();

@@ -39,7 +39,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                 case "bpmn:TimerBoundaryEvent":
                     return new TimerBoundaryEvent();
                 default:
-                    throw new InvalidCamundaElementTypeException($"{type} is not a valid element type");
+                    throw new InvalidBpmnElementTypeException($"{type} is not a valid element type");
             }
         }
     }

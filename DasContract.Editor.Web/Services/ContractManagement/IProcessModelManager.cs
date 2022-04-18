@@ -22,6 +22,9 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         bool IsElementIdAvailable(string id);
         bool TryRetrieveIElementById(string elementId, string processId, out IProcessElement element);
         bool TryRetrieveIElementById(string elementId, out IProcessElement element);
+        bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow);
+        bool TryRetrieveElementById(string sequenceFlowId, string processId, out ProcessElement sequenceFlow);
+        bool TryRetrieveProcessOfElement(string elementId, out Process process);
         ProcessElement AddElement(string elementType, string elementId, string processId);
         void RemoveElement(string id);
         bool ProcessExists(string processId);
@@ -29,9 +32,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         void UpdateSequenceFlowSourceAndTarget(SequenceFlow sequenceFlow, string newSource, string newTarget, string processId);
         SequenceFlow AddSequenceFlow(string id, string target, string source, string processId);
         void RemoveSequenceFlow(string id);
-        bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow);
-        bool TryRetrieveElementById(string sequenceFlowId, string processId, out ProcessElement sequenceFlow);
-        bool TryGetProcessOfElement(string elementId, out Process process);
         void ChangeProcessOfElement(IProcessElement element, string prevProcessId, string newProcessId);
 
         void SetProcessBpmnDefinition(string bpmnDefinition);

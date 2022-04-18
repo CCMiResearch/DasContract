@@ -17,8 +17,6 @@ namespace DasContract.Editor.Web.Pages
 {
     public partial class BpmnEditor : ComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IBpmnEventHandler BpmnEventHandler { get; set; }
 
         [Inject]
         private IBpmnSynchronizer BpmnSynchronizer { get; set; }
@@ -146,6 +144,7 @@ namespace DasContract.Editor.Web.Pages
             await SaveManager.RequestStateSave();
             SaveManager.StateSaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
+            EditElementService.EditElementAssigned -= HandleEditElementChanged;
             Layout.RemoveToolbarItem("bpmn-download-png");
             Layout.RemoveToolbarItem("bpmn-download-svg");
         }

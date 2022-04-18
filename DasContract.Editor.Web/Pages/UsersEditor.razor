@@ -15,7 +15,7 @@
                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
                        @oninput="(args) => FilterUsers((string) args.Value)" value="@UsersFilter">
             </div>
-            <button class="btn btn-primary add-button" @onclick="() => UsersRolesFacade.AddUser()">Add user</button>
+            <button class="btn btn-primary add-button" @onclick="() => UsersRolesFacade.OnUserAdd()">Add user</button>
         </div>
 
         @foreach (var user in UserModelManager.GetProcessUsers().Reverse())
@@ -62,7 +62,7 @@
                              ValueSelector="(r) => r.Id">
                     </Select2>
                 </div>
-                <button @onclick="() => UsersRolesFacade.RemoveUser(user)" class="btn btn-outline-danger">Remove User</button>
+                <button @onclick="() => UsersRolesFacade.OnUserRemove(user)" class="btn btn-outline-danger">Remove User</button>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
                        @oninput="(args) => FilterRoles((string) args.Value)" value="@RolesFilter">
             </div>
-            <button class="btn btn-primary add-button" @onclick="() => UsersRolesFacade.AddRole()">Add role</button>
+            <button class="btn btn-primary add-button" @onclick="() => UsersRolesFacade.OnRoleAdd()">Add role</button>
         </div>
 
 
@@ -109,7 +109,7 @@
                     <label for="@($"user-description-{role.Id}")" class="form-label">Description</label>
                     <input class="form-control" id="@($"user-description-{role.Id}")" @bind-value="role.Description">
                 </div>
-                <button @onclick="() => UsersRolesFacade.RemoveRole(role, _select2Components)" class="btn btn-outline-danger">Remove Role</button>
+                <button @onclick="() => UsersRolesFacade.OnRoleRemove(role, _select2Components)" class="btn btn-outline-danger">Remove Role</button>
             </div>
         </div>
     </div>

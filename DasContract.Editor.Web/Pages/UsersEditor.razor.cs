@@ -119,12 +119,12 @@ namespace DasContract.Editor.Web.Pages
 
         protected void OnRoleAssigned(string roleId, string userId)
         {
-            UsersRolesFacade.UserRoleAssigned(_select2Components[userId], roleId);
+            UsersRolesFacade.OnUserRoleAssign(_select2Components[userId], roleId);
         }
 
         protected void OnRoleUnassigned(string roleId, string userId)
         {
-            UsersRolesFacade.UserRoleUnassigned(_select2Components[userId], roleId);
+            UsersRolesFacade.OnUserRoleUnassign(_select2Components[userId], roleId);
         }
 
         public void HandleKeyDown(object sender, KeyEvent e)

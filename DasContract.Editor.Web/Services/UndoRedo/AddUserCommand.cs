@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class AddUserCommand : ContractCommand
+    public class AddUserCommand : UserModelCommand
     {
         private ProcessUser AddedUser { get; set; }
 

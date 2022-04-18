@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class RemoveRoleCommand : ContractCommand
+    public class RemoveRoleCommand : UserModelCommand
     {
         private ProcessRole RemovedRole { get; set; }
         private IEnumerable<Select2<ProcessRole>> RoleContainers { get; set; }

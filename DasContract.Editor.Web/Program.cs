@@ -34,7 +34,7 @@ namespace DasContract.Editor.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddBlazoredLocalStorage();
-            builder.Services.AddScoped<IBpmnEventHandler, BpmnEventHandler>();
+            builder.Services.AddScoped<IBpmnEventListener, BpmnEventListener>();
             builder.Services.AddScoped<IContractManager, ContractManager>();
             builder.Services.AddScoped<IUserModelManager, UserModelManager>();
             builder.Services.AddScoped<IDataModelManager, DataModelManager>();
