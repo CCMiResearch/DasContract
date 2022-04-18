@@ -23,10 +23,10 @@ namespace DasContract.Editor.Web.Pages
         [Inject]
         protected UsersRolesFacade UsersRolesFacade { get; set; }
 
-        protected IDictionary<ProcessUser, bool> FilteredUsers { get; set; } = new Dictionary<ProcessUser, bool>();
+        protected IEnumerable<ProcessUser> FilteredUsers { get; set; } = new List<ProcessUser>();
         protected string UsersFilter { get; set; }
 
-        protected IDictionary<ProcessRole, bool> FilteredRoles { get; set; } = new Dictionary<ProcessRole, bool>();
+        protected IEnumerable<ProcessRole> FilteredRoles { get; set; } = new List<ProcessRole>();
         protected string RolesFilter { get; set; }
 
         [Inject]
@@ -62,11 +62,11 @@ namespace DasContract.Editor.Web.Pages
         {
             UsersFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredUsers = UserModelManager.GetProcessUsers().ToDictionary(u => u, u => true);
+                FilteredUsers = UserModelManager.GetProcessUsers().ToList();
             else
             {
                 FilteredUsers = UserModelManager.GetProcessUsers()
-                    .ToDictionary(u => u, u => UserFilterPredicate(u, keyword));
+                    .Where(u => UserFilterPredicate(u, keyword)).ToList();
             }
         }
 
@@ -74,11 +74,11 @@ namespace DasContract.Editor.Web.Pages
         {
             RolesFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredRoles = UserModelManager.GetProcessRoles().ToDictionary(r => r, r => true);
+                FilteredRoles = UserModelManager.GetProcessRoles();
             else
             {
                 FilteredRoles = UserModelManager.GetProcessRoles()
-                    .ToDictionary(r => r, r => RolesFilterPredicate(r, keyword));
+                    .Where(r => RolesFilterPredicate(r, keyword));
             }
         }
 
@@ -105,6 +105,7 @@ namespace DasContract.Editor.Web.Pages
         protected void OnUserAdded(object sender, ProcessUser addedUser)
         {
             FilterUsers(UsersFilter);
+            StateHasChanged();
         }
 
         protected void OnRoleRemoved(object sender, ProcessRole removedRole)

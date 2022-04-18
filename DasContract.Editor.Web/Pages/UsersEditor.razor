@@ -18,10 +18,9 @@
             <button class="btn btn-primary add-button" @onclick="() => UsersRolesFacade.OnUserAdd()">Add user</button>
         </div>
 
-        @foreach (var user in UserModelManager.GetProcessUsers().Reverse())
+        @foreach (var user in FilteredUsers)
         {
-            //Roles must be hidden using display none, because select2 is a buggy hellish component and breaks otherwise
-<div class="accordion" id="user-@(user.Id)-accordion" style="@(FilteredUsers[user]?"":"display: none;")">
+<div class="accordion" id="user-@(user.Id)-accordion">
     <div class="accordion-item">
 
         <h2 class="accordion-header">
@@ -54,6 +53,7 @@
                     <Select2 Id="@user.Id"
                              TItem="ProcessRole"
                              @bind-Selected="user.Roles"
+                             @ref="_select2Components[user.Id]"
                              Options="UserModelManager.GetProcessRoles()"
                              ItemSelected="((roleId) => OnRoleAssigned(roleId, user.Id))"
                              ItemUnselected="((roleId) => OnRoleUnassigned(roleId, user.Id))"
@@ -84,9 +84,9 @@
         </div>
 
 
-        @foreach (var role in UserModelManager.GetProcessRoles().Reverse())
+        @foreach (var role in FilteredRoles)
         {
-<div class="accordion" id="role-@(role.Id)-accordion" style="@(FilteredRoles[role]?"":"display: none;")">
+<div class="accordion" id="role-@(role.Id)-accordion">
     <div class="accordion-item">
 
         <h2 class="accordion-header">
