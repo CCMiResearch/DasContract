@@ -9,36 +9,42 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     public class BusinessRuleTaskConverter : TaskConverter
     {
-        BusinessRuleTask businessRuleTaskElement;
+        BusinessRuleTask BusinessRuleTaskElement { get; set; } = null;
 
-        SolidityStruct outputStructure = null;
+        SolidityStruct OutputStructure { get; set; } = null;
 
-        SolidityFunction mainFunction = null;
+        SolidityStatement OutputDeclaration { get; set; } = null;
 
-        SolidityFunction decisionFunction = null;
+        SolidityFunction MainFunction { get; set; } = null;
 
-        SolidityFunction helperFunction = null;
+        SolidityFunction DecisionFunction { get; set; } = null;
+
+        SolidityFunction HelperFunction { get; set; } = null;
+
+        HitPolicyConverter HitPolicy { get; set; } = null;
 
         public BusinessRuleTaskConverter(BusinessRuleTask businessRuleTaskElement, ProcessConverter converterService)
         {
-            this.businessRuleTaskElement = businessRuleTaskElement;
+            BusinessRuleTaskElement = businessRuleTaskElement;
             processConverter = converterService;
         }
 
         public override void ConvertElementLogic()
         {
-            var hitPolicy = GetHitPolicyConverter();
-            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
-            outputStructure = hitPolicy.CreateOutputStruct(decision);
-            decisionFunction = hitPolicy.CreateDecisionFunction(decision);
-            helperFunction = hitPolicy.CreateHelperFunction(decision);
-            mainFunction = CreateTaskFunction();
+            HitPolicy = GetHitPolicyConverter();
+            var decision = BusinessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
+            HitPolicy.Decision = decision;
+            OutputStructure = HitPolicy.CreateOutputStruct();
+            OutputDeclaration = HitPolicy.CreateOutputDeclaration();
+            DecisionFunction = HitPolicy.CreateDecisionFunction();
+            HelperFunction = HitPolicy.CreateHelperFunction();
+            MainFunction = CreateTaskFunction();
         }
 
+        //Recognition of Hit Policy
         private HitPolicyConverter GetHitPolicyConverter()
         {
-            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
-            //RECOGNITION OF HIT POLICY
+            var decision = BusinessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
             var hitPolicy = decision.DecisionTable.HitPolicy;
             var aggregation = decision.DecisionTable.Aggregation;
             if (string.IsNullOrEmpty(hitPolicy))
@@ -58,9 +64,9 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             else if (hitPolicy == "COLLECT" && aggregation == "SUM")
                return new CollectSumHPConverter();
             else if (hitPolicy == "COLLECT" && aggregation == "MIN")
-               return new CollectMinHPConverter();
+               return new CollectMaxMinHPConverter(false);
             else if (hitPolicy == "COLLECT" && aggregation == "MAX")
-               return new CollectMaxHPConverter();
+               return new CollectMaxMinHPConverter(true);
             else if (hitPolicy == "COLLECT" && aggregation == "COUNT")
                return new CollectCountHPConverter();
             else
@@ -70,35 +76,35 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
             var components = new List<SolidityComponent>();
-            if (outputStructure != null)
-                components.Add(outputStructure);
-            if (helperFunction != null)
-                components.Add(helperFunction);
-            components.Add(decisionFunction);
-            components.Add(mainFunction);
+            if (OutputStructure != null)
+                components.Add(OutputStructure);
+            components.Add(OutputDeclaration);
+            if (HelperFunction != null)
+                components.Add(HelperFunction);
+            components.Add(DecisionFunction);
+            components.Add(MainFunction);
             return components;
         }
 
-        private SolidityFunction CreateTaskFunction()//TODOTODO
+        private SolidityFunction CreateTaskFunction()
         {
             SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Internal);
             function.AddParameters(processConverter.GetIdentifiersAsParameters());
-            //Add the script logic
-            function.AddToBody(new SolidityStatement("DummyBody", false));
-            //function.AddToBody(new SolidityStatement(scriptTaskElement.Script, false));
+            //Add the call of the decision function
+            function.AddToBody(new SolidityStatement($"{HitPolicy.FunctionName}_Output = {HitPolicy.FunctionName}()", true));
             //Get the delegation logic of the next connected element
-            function.AddToBody(processConverter.GetStatementOfNextElement(businessRuleTaskElement));
+            function.AddToBody(processConverter.GetStatementOfNextElement(BusinessRuleTaskElement));
             return function;
         }
 
         public override string GetElementId()
         {
-            return businessRuleTaskElement.Id;
+            return BusinessRuleTaskElement.Id;
         }
 
         public override string GetElementCallName()
         {
-            return GetElementCallName(businessRuleTaskElement);
+            return GetElementCallName(BusinessRuleTaskElement);
         }
 
         public override SolidityStatement GetStatementForPrevious(ProcessElement previous)

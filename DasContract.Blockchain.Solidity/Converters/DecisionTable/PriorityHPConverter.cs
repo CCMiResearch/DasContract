@@ -6,74 +6,33 @@ using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
+    //Priority Hit Policy - Multiple rules can be matched and the returned output is based on a provided priority.
+    //Priority is provided in the Annotation of the first rule row. This row is then skipped. Format: (output1, output2, ...), (output1, output2, ...), ...
     public class PriorityHPConverter : HitPolicyConverter
     {
-        private int priorityOffset;
+        public int PriorityOffset { get; set; } = 0;
 
         public PriorityHPConverter(int offset)
         {
-            priorityOffset = offset;
+            PriorityOffset = offset;
         }
 
-        public override SolidityFunction CreateDecisionFunction(Decision decision)
+        public override SolidityFunction CreateDecisionFunction()
         {
-            var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
-            SolidityFunction function = new SolidityFunction(functionName, SolidityVisibility.Internal, $"{outputStructName} memory", true);
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            SolidityFunction function = new SolidityFunction(FunctionName, SolidityVisibility.Internal, $"{OutputStructName} memory", true);
             //Add declaration of helper varaibles
-            var prioritiesFormatted = GetPriorities(decision);
-            var noUniqueOutputs = Regex.Matches(prioritiesFormatted, $"{outputStructName}").Count;
-            function.AddToBody(new SolidityStatement($"{outputStructName}[{noUniqueOutputs}] memory priorities = {prioritiesFormatted}", true));
-            function.AddToBody(new SolidityStatement($"{outputStructName} memory output", true));
+            var prioritiesFormatted = GetPriorities(Decision);
+            var noUniqueOutputs = Regex.Matches(prioritiesFormatted, $"{OutputStructName}").Count;
+            function.AddToBody(new SolidityStatement($"{OutputStructName}[{noUniqueOutputs}] memory priorities = {prioritiesFormatted}", true));
+            function.AddToBody(new SolidityStatement($"{OutputStructName} memory output", true));
             function.AddToBody(new SolidityStatement($"bool matchedRule = false", true));
 
-            var rules = GetAllConditions(decision);            
-            foreach (var rule in rules.Skip(priorityOffset).Select((value, i) => new { i, value }))
+            var rules = GetAllConditions();            
+            foreach (var rule in rules.Skip(PriorityOffset).Select((value, i) => new { i, value }))
             {
-                var priorityCheck = new SolidityIfElse();
-                //Assign output if there is already the match
-                string matchBody = $"output = {outputStructName}(";
-                foreach (var outputEntry in decision.DecisionTable.Rules[rule.i + priorityOffset].OutputEntries.Select((value, i) => new { i, value }))
-                {
-                    var dataType = decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
-                    var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
-                    matchBody += $"{convertedValue}";
-                    if (outputEntry.i + 1 < decision.DecisionTable.Rules[rule.i + priorityOffset].OutputEntries.Count)
-                    {
-                        matchBody += ", ";
-                    }
-
-                }
-                matchBody += ");\n";
-                matchBody += "matchedRule = true;";
-                priorityCheck.AddConditionBlock("!matchedRule", new SolidityStatement(matchBody, false));
-
-                //Assign output if there is no match yet
-                string noMatchBody = $"output = {functionName}_decideByPriority(priorities, output, {outputStructName}(";
-                foreach (var outputEntry in decision.DecisionTable.Rules[rule.i + priorityOffset].OutputEntries.Select((value, i) => new { i, value }))
-                {
-                    var dataType = decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
-                    var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
-                    noMatchBody += $"{convertedValue}";
-                    if (outputEntry.i + 1 < decision.DecisionTable.Rules[rule.i + priorityOffset].OutputEntries.Count)
-                    {
-                        noMatchBody += ", ";
-                    }
-
-                }
-                noMatchBody += "))";
-                priorityCheck.AddConditionBlock("", new SolidityStatement(noMatchBody, true));
-
-                //If the row is empty then do not put the logic into conditional statement
-                if (string.IsNullOrEmpty(rule.value))
-                {
-                    function.AddToBody(new SolidityStatement(priorityCheck.ToString(), false));
-                }
-                else
-                {
-                    var condition = new SolidityIfElse();
-                    condition.AddConditionBlock(rule.value, new SolidityStatement(priorityCheck.ToString(), false));
-                    function.AddToBody(condition);
-                }
+                string priorityCheck = GetPriorityCheckBody(rule.i + PriorityOffset);
+                function.AddToBody(AddBodyBasedOnRule(rule.value, priorityCheck));
             }
             //Add the rest of the function
             var undefinedOutputCheck = new SolidityIfElse();
@@ -83,40 +42,66 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             return function;
         }
 
-        public override SolidityFunction CreateHelperFunction(Decision decision)
+        //Returns output for section representing situation if there is the match or not
+        private string GetPriorityCheckBody(int ruleIndex)
         {
-            var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
-            SolidityFunction function = new SolidityFunction($"{functionName}_decideByPriority", SolidityVisibility.Internal, $"{outputStructName} memory", true);
+            var priorityCheck = new SolidityIfElse();
+            //Assign output if there is already match
+            string matchBody = GetMatchBody(ruleIndex);
+            priorityCheck.AddConditionBlock("!matchedRule", new SolidityStatement(matchBody, false));
 
-            var prioritiesFormatted = GetPriorities(decision);
-            var noUniqueOutputs = Regex.Matches(prioritiesFormatted, $"{outputStructName}").Count;
-            function.AddParameter(new SolidityParameter($"{outputStructName}[{noUniqueOutputs}] memory", "priorities"));
-            function.AddParameter(new SolidityParameter($"{outputStructName} memory", "currentOutput"));
-            function.AddParameter(new SolidityParameter($"{outputStructName} memory", "newOutput"));
+            //Assign output if there is no match yet
+            string noMatchBody = GetNoMatchBody(ruleIndex);
+            priorityCheck.AddConditionBlock("", new SolidityStatement(noMatchBody, true));
+            return priorityCheck.ToString();
+        }
 
-            var priorityComparison = new SolidityIfElse();
-            string ifCondition = string.Empty;
-            //Make function of those cycles
-            foreach (var outputVarable in decision.DecisionTable.Outputs.Select((value, i) => new { i, value }))
+        //Returns output for section representing situation if there is already match
+        private string GetMatchBody(int ruleIndex)
+        {
+            string matchBody = $"output = {OutputStructName}(";
+            foreach (var outputEntry in Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Select((value, i) => new { i, value }))
             {
-                ifCondition += $"priorities[i].{outputVarable.value.Name} == currentOutput.{outputVarable.value.Name}";
-                if (outputVarable.i + 1 < decision.DecisionTable.Outputs.Count)
-                {
-                    ifCondition += " && ";
-                }
+                var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
+                var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
+                matchBody += $"{convertedValue}";
+                if (outputEntry.i + 1 < Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Count)
+                    matchBody += ", ";
             }
-            priorityComparison.AddConditionBlock(ifCondition, new SolidityStatement("return currentOutput", true));
-            string elseCondition = string.Empty;
-            foreach (var outputVarable in decision.DecisionTable.Outputs.Select((value, i) => new { i, value }))
+            matchBody += ");\n";
+            matchBody += "matchedRule = true;";
+            return matchBody;
+        }
+
+        //Returns output for section representing situation if there is no match yet
+        private string GetNoMatchBody(int ruleIndex)
+        {
+            string noMatchBody = $"output = {FunctionName}_decideByPriority(priorities, output, {OutputStructName}(";
+            foreach (var outputEntry in Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Select((value, i) => new { i, value }))
             {
-                elseCondition += $"priorities[i].{outputVarable.value.Name} == newOutput.{outputVarable.value.Name}";
-                if (outputVarable.i + 1 < decision.DecisionTable.Outputs.Count)
-                {
-                    elseCondition += " && ";
-                }
+                var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
+                var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
+                noMatchBody += $"{convertedValue}";
+                if (outputEntry.i + 1 < Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Count)
+                    noMatchBody += ", ";
             }
-            priorityComparison.AddConditionBlock(elseCondition, new SolidityStatement("return newOutput", true));
-            
+            noMatchBody += "))";
+            return noMatchBody;
+        }
+
+        //Functions for comparison of matched rule and already matched outputs
+        public override SolidityFunction CreateHelperFunction()
+        {
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            SolidityFunction function = new SolidityFunction($"{FunctionName}_decideByPriority", SolidityVisibility.Internal, $"{OutputStructName} memory", true);
+
+            var prioritiesFormatted = GetPriorities(Decision);
+            var noUniqueOutputs = Regex.Matches(prioritiesFormatted, $"{OutputStructName}").Count;
+            function.AddParameter(new SolidityParameter($"{OutputStructName}[{noUniqueOutputs}] memory", "priorities"));
+            function.AddParameter(new SolidityParameter($"{OutputStructName} memory", "currentOutput"));
+            function.AddParameter(new SolidityParameter($"{OutputStructName} memory", "newOutput"));
+
+            var priorityComparison = GetPriorityComparisonBody();            
             var priorityIteration = new SolidityFor("i", $"{noUniqueOutputs}");
             priorityIteration.AddToBody(new SolidityStatement(priorityComparison.ToString(), false));
             function.AddToBody(priorityIteration);
@@ -124,32 +109,54 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             return function;
         }
 
-        public string GetPriorities(Decision decision)
+        private string GetPriorityComparisonBody()
         {
-            var priorityAnnotation = decision.DecisionTable.Rules[0].Description;
+            var priorityComparison = new SolidityIfElse();
+            string ifCondition = string.Empty;
+            //Make function of cycles comparing priorities
+            foreach (var outputVarable in Decision.DecisionTable.Outputs.Select((value, i) => new { i, value }))
+            {
+                ifCondition += $"priorities[i].{outputVarable.value.Name} == currentOutput.{outputVarable.value.Name}";
+                if (outputVarable.i + 1 < Decision.DecisionTable.Outputs.Count)
+                    ifCondition += " && ";
+            }
+            priorityComparison.AddConditionBlock(ifCondition, new SolidityStatement("return currentOutput", true));
+            string elseCondition = string.Empty;
+            foreach (var outputVarable in Decision.DecisionTable.Outputs.Select((value, i) => new { i, value }))
+            {
+                elseCondition += $"priorities[i].{outputVarable.value.Name} == newOutput.{outputVarable.value.Name}";
+                if (outputVarable.i + 1 < Decision.DecisionTable.Outputs.Count)
+                    elseCondition += " && ";
+            }
+            priorityComparison.AddConditionBlock(elseCondition, new SolidityStatement("return newOutput", true));
+            return priorityComparison.ToString();
+        }
+
+        public string GetPriorities(Decision Decision)
+        {
+            //Get string representation of priority list
+            var priorityAnnotation = Decision.DecisionTable.Rules[0].Description;
             priorityAnnotation = priorityAnnotation.Replace("(", "");
             priorityAnnotation = priorityAnnotation.Replace(" ", "");
             var priorities = priorityAnnotation.Split(new char[] { ')' }, StringSplitOptions.RemoveEmptyEntries);
             string prioritiesFormatted = "[";
+            //Parse list of outputs
             foreach (var priority in priorities.Select((value, i) => new { i, value }))
             {
                 var outputs = priority.value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                prioritiesFormatted += $"{outputStructName}(";
+                prioritiesFormatted += $"{OutputStructName}(";
+                //Format the priority list
                 foreach (var output in outputs.Select((value, i) => new { i, value }))
                 {
-                    var dataType = decision.DecisionTable.Outputs[output.i].TypeRef;
+                    var dataType = Decision.DecisionTable.Outputs[output.i].TypeRef;
                     var convertedValue = ConvertToSolidityValue(output.value, dataType);
                     prioritiesFormatted += $"{convertedValue}";
                     if (output.i + 1 < outputs.Count())
-                    {
                         prioritiesFormatted += ", ";
-                    }
                 }
                 prioritiesFormatted += ")";
                 if (priority.i + 1 < priorities.Count())
-                {
                     prioritiesFormatted += ", ";
-                }
             }
             prioritiesFormatted += "]";
             return prioritiesFormatted;

@@ -5,51 +5,23 @@ using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
+    //Unique Hit Policy - All rules are disjoint and only one rule can be matched.
     public class UniqueHPConverter : HitPolicyConverter
     {
-        public override SolidityFunction CreateDecisionFunction(Decision decision)
+        public override SolidityFunction CreateDecisionFunction()
         {
-            var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
-            SolidityFunction function = new SolidityFunction(functionName, SolidityVisibility.Internal, $"{outputStructName} memory", true);
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            SolidityFunction function = new SolidityFunction(FunctionName, SolidityVisibility.Internal, $"{OutputStructName} memory", true);
             //Add declaration of helper varaibles
-            function.AddToBody(new SolidityStatement($"{outputStructName} memory output", true));
+            function.AddToBody(new SolidityStatement($"{OutputStructName} memory output", true));
             function.AddToBody(new SolidityStatement($"bool matchedRule = false", true));
 
-            var rules = GetAllConditions(decision);
+            //Add checks of conditions for matches and their bodies
+            var rules = GetAllConditions();
             foreach (var rule in rules.Select((value, i) => new { i, value }))
             {
-                var conditionCheck = new SolidityIfElse();
-                //Assign output if there is already the match
-                string matchBody = $"output = {outputStructName}(";
-                foreach (var outputEntry in decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
-                {
-                    var dataType = decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
-                    var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
-                    matchBody += $"{convertedValue}";
-                    if (outputEntry.i + 1 < decision.DecisionTable.Rules[rule.i].OutputEntries.Count)
-                    {
-                        matchBody += ", ";
-                    }
-
-                }
-                matchBody += ");\n";
-                matchBody += "matchedRule = true;";
-                conditionCheck.AddConditionBlock("!matchedRule", new SolidityStatement(matchBody, false));
-
-                //Assign output if there is no match yet
-                conditionCheck.AddConditionBlock("", new SolidityStatement("revert('Undefined output')", true));
-
-                //If the row is empty then do not put the logic into conditional statement
-                if (string.IsNullOrEmpty(rule.value))
-                {
-                    function.AddToBody(new SolidityStatement(conditionCheck.ToString(), false));
-                }
-                else
-                {
-                    var condition = new SolidityIfElse();
-                    condition.AddConditionBlock(rule.value, new SolidityStatement(conditionCheck.ToString(), false));
-                    function.AddToBody(condition);
-                }
+                var conditionCheck = GetConditionCheck(rule.i);
+                function.AddToBody(AddBodyBasedOnRule(rule.value, conditionCheck.ToString()));
             }
 
             //Add the rest of the function
@@ -58,6 +30,38 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             function.AddToBody(undefinedOutputCheck);
             function.AddToBody(new SolidityStatement("return output", true));
             return function;
+        }
+
+        private SolidityIfElse GetConditionCheck(int ruleIndex)
+        {
+            var conditionCheck = new SolidityIfElse();
+            //Assign output if there is already the match
+            string matchBody = GetMatchBody(ruleIndex);
+            conditionCheck.AddConditionBlock("!matchedRule", new SolidityStatement(matchBody, false));
+            //Assign output if there is no match yet
+            conditionCheck.AddConditionBlock("", new SolidityStatement("revert('Undefined output')", true));
+
+            return conditionCheck;
+        }
+
+        //Returns output for section representing situation if there is already the match
+        private string GetMatchBody(int ruleIndex)
+        {
+            string matchBody = $"output = {OutputStructName}(";
+            foreach (var outputEntry in Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Select((value, i) => new { i, value }))
+            {
+                var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
+                var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
+                matchBody += $"{convertedValue}";
+                if (outputEntry.i + 1 < Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Count)
+                {
+                    matchBody += ", ";
+                }
+
+            }
+            matchBody += ");\n";
+            matchBody += "matchedRule = true;";
+            return matchBody;
         }
     }
 }

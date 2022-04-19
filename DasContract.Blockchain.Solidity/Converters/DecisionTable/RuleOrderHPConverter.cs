@@ -7,19 +7,28 @@ using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
+    //Rule Order Hit Policy - Returns all matched values in the order of the rule definition from top to bottom.
     public class RuleOrderHPConverter : OutputOrderHPConverter
     {
         public RuleOrderHPConverter(int offset) : base(offset) { }
 
-        public override string GetPriorities(Decision decision)
+        public override SolidityStatement CreateOutputDeclaration()
         {
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            OutputStructName = string.Concat(Regex.Replace(Decision.Id, @" ", "").ToUpperCamelCase(), "Output");
+            return new SolidityStatement($"{OutputStructName}[] {FunctionName}_Output", true);
+        }
+
+        public override string GetPriorities()
+        {
+            //Parse annotation before removing duplicates
             List<string> possibleOutputs = new List<string>();
-            foreach (var rule in decision.DecisionTable.Rules)
+            foreach (var rule in Decision.DecisionTable.Rules)
             {
-                string ruleOutputs = $"{outputStructName}(";
+                string ruleOutputs = $"{OutputStructName}(";
                 foreach (var outputEntry in rule.OutputEntries.Select((value, i) => new { i, value }))
                 {
-                    var dataType = decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
+                    var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                     var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
                     ruleOutputs += $"{convertedValue}";
                     if (outputEntry.i + 1 < rule.OutputEntries.Count)
@@ -28,6 +37,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 ruleOutputs += ")";
                 possibleOutputs.Add(ruleOutputs);
             }
+            //Remove duplicates and format the priority list
             var uniqueOutputs = possibleOutputs.Distinct().ToList();
             string prioritiesFormatted = "[";
             foreach (var output in uniqueOutputs.Select((value, i) => new { i, value }))

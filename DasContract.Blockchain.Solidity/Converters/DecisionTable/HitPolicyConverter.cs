@@ -9,19 +9,31 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
     public abstract class HitPolicyConverter
     {
-        protected string outputStructName = string.Empty;
+        public string OutputStructName { get; set; } = string.Empty;
 
-        public abstract SolidityFunction CreateDecisionFunction(Decision decision);
+        public string FunctionName { get; set; } = string.Empty;
 
-        public virtual SolidityFunction CreateHelperFunction(Decision decision) { return null; }
+        public Decision Decision { get; set; } = null;
+
+        public abstract SolidityFunction CreateDecisionFunction();
+
+        public virtual SolidityFunction CreateHelperFunction() { return null; }
+
+        //Return statement for declaration and further assignment of the output value
+        public virtual SolidityStatement CreateOutputDeclaration()
+        {
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            OutputStructName = string.Concat(Regex.Replace(Decision.Id, @" ", "").ToUpperCamelCase(), "Output");
+            return new SolidityStatement($"{OutputStructName} {FunctionName}_Output", true);
+        }
 
         //Print declaration template of Solidity struct wrapping up output clauses.
-        public virtual SolidityStruct CreateOutputStruct(Decision decision)
+        public virtual SolidityStruct CreateOutputStruct()
         {
-            outputStructName = string.Concat(Regex.Replace(decision.Id, @" ", "").ToUpperCamelCase(), "Output");
-            var outputStruct = new SolidityStruct(outputStructName);
+            OutputStructName = string.Concat(Regex.Replace(Decision.Id, @" ", "").ToUpperCamelCase(), "Output");
+            var outputStruct = new SolidityStruct(OutputStructName);
             //Print struct's Solidity property based on its DMN modeller counterpart.
-            foreach (var outputClause in decision.DecisionTable.Outputs)
+            foreach (var outputClause in Decision.DecisionTable.Outputs)
             {
                 outputStruct.AddToBody(new SolidityStatement($"{ConvertDecisionDataType(outputClause.TypeRef)} {outputClause.Name.ToLowerCamelCase()}"));
             }
@@ -45,10 +57,10 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
         }
 
         //Get list of conditions clauses that will be inserted into the SolidityIfElse constructors
-        protected List<string> GetAllConditions(Decision decision)
+        protected List<string> GetAllConditions()
         {
             var conditions = new List<string>();
-            foreach (var rule in decision.DecisionTable.Rules)
+            foreach (var rule in Decision.DecisionTable.Rules)
             {
                 var conditionString = string.Empty;
                 //Input's values and data types are in separate lists
@@ -57,8 +69,8 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                     //Skipp if value of boxed expression is empty
                     if (!string.IsNullOrEmpty(inputEntry.value.Text))
                     {
-                        var inputDataType = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.TypeRef;
-                        var expression = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.Text;
+                        var inputDataType = Decision.DecisionTable.Inputs[inputEntry.i].InputExpression.TypeRef;
+                        var expression = Decision.DecisionTable.Inputs[inputEntry.i].InputExpression.Text;
                         if (!string.IsNullOrEmpty(conditionString))
                             conditionString += $" && ";
                         conditionString += ConvertExpressionToCondition(expression, inputDataType, inputEntry.value.Text, true);
@@ -69,31 +81,35 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             return conditions;
         }
 
-        protected string ConvertToSolidityValue(string value, string dataType)
+        //Adds either if-else statement or a general statement
+        protected SolidityComponent AddBodyBasedOnRule(string ruleValue, string body)
         {
-            if (dataType == "string" || dataType == "number" || dataType == "boolean")
+            //If the row is empty then do not put the logic into conditional statement
+            if (string.IsNullOrEmpty(ruleValue))
             {
-                return value;
-            }
-            else if (dataType == "dateTime")
-            {
-                var parsedDateTime = value.Split('\"');
-                return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss");
-            }
-            else if (dataType == "date")
-            {
-                var parsedDateTime = value.Split('\"');
-                return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd");
-            }
-            else if (dataType == "time")
-            {
-                var parsedDateTime = value.Split('\"');
-                return DateTime.Parse(parsedDateTime[1]).ToString("HHmmss");
+                return new SolidityStatement(body, false);
             }
             else
             {
-                throw new Exception($"Invalid Data Type: {dataType} of an Output Clause.");
+                var condition = new SolidityIfElse();
+                condition.AddConditionBlock(ruleValue, new SolidityStatement(body, false));
+                return condition;
             }
+        }
+
+        //Conversion function from DMN Table data type format to Solidity data type format
+        protected string ConvertToSolidityValue(string value, string dataType)
+        {
+            if (dataType == "string" || dataType == "number" || dataType == "boolean")
+                return value;
+            else if (dataType == "dateTime")
+                return DateTime.Parse(value.Split('\"')[1]).ToString("yyyyMMddHHmmss");
+            else if (dataType == "date")
+                return DateTime.Parse(value.Split('\"')[1]).ToString("yyyyMMdd");
+            else if (dataType == "time")
+                return DateTime.Parse(value.Split('\"')[1]).ToString("HHmmss");
+            else
+                throw new Exception($"Invalid Data Type: {dataType} of an Output Clause.");
         }
 
         //Return condition in string format based on the data type of the input
@@ -170,26 +186,22 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             if (inputCondition.Contains(">="))
             {
                 signWithValue.Add(">=");
-                var splitString = inputCondition.Split('=');
-                signWithValue.Add(splitString[1]);
+                signWithValue.Add(inputCondition.Split('=')[1]);
             }
             else if (inputCondition.Contains("<="))
             {
                 signWithValue.Add("<=");
-                var splitString = inputCondition.Split('=');
-                signWithValue.Add(splitString[1]);
+                signWithValue.Add(inputCondition.Split('=')[1]);
             }
             else if (inputCondition.Contains(">"))
             {
                 signWithValue.Add(">");
-                var splitString = inputCondition.Split('>');
-                signWithValue.Add(splitString[1]);
+                signWithValue.Add(inputCondition.Split('>')[1]);
             }
             else if (inputCondition.Contains("<"))
             {
                 signWithValue.Add("<");
-                var splitString = inputCondition.Split('<');
-                signWithValue.Add(splitString[1]);
+                signWithValue.Add(inputCondition.Split('<')[1]);
             }
             //Equality check is done when the value is without the equaility symbol
             else

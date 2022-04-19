@@ -6,40 +6,32 @@ using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
+    //Collect Hit Policy with Sum Aggregation - The result of the decision table is the sum of all the outputs.
     public class CollectSumHPConverter : HitPolicyConverter
     {
-        public override SolidityFunction CreateDecisionFunction(Decision decision)
+        public override SolidityFunction CreateDecisionFunction()
         {
             //Define function's header
-            var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
-            SolidityFunction function = new SolidityFunction(functionName, SolidityVisibility.Internal, $"{outputStructName} memory", true);
+            FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
+            SolidityFunction function = new SolidityFunction(FunctionName, SolidityVisibility.Internal, $"{OutputStructName} memory", true);
             //Add declaration of helper varaibles
-            function.AddToBody(new SolidityStatement($"{outputStructName} memory output", true));
+            function.AddToBody(new SolidityStatement($"{OutputStructName} memory output", true));
             function.AddToBody(new SolidityStatement($"bool matchedRule = false", true));
             
             //For each row representing rule create condition for if statement
-            var rules = GetAllConditions(decision);
+            var rules = GetAllConditions();
             foreach (var rule in rules.Select((value, i) => new { i, value }))
             {
                 //Add to sum if the conditions are met
                 string conditionBody = string.Empty;
-                foreach (var outputEntry in decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
+                foreach (var outputEntry in Decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
                 {
-                    conditionBody += $"output.{decision.DecisionTable.Outputs[outputEntry.i].Name} += {outputEntry.value.Text};\n";
+                    conditionBody += $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} += {outputEntry.value.Text};\n";
                 }
                 conditionBody += "matchedRule = true;";
 
                 //If the row is empty then do not put the logic into conditional statement
-                if (string.IsNullOrEmpty(rule.value))
-                {
-                    function.AddToBody(new SolidityStatement(conditionBody, false));
-                }
-                else
-                {
-                    var condition = new SolidityIfElse();
-                    condition.AddConditionBlock(rule.value, new SolidityStatement(conditionBody, false));
-                    function.AddToBody(condition);
-                }
+                function.AddToBody(AddBodyBasedOnRule(rule.value, conditionBody));
             }
 
             //Add the rest of the function
