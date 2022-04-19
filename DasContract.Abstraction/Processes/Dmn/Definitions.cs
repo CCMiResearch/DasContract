@@ -14,19 +14,19 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("name")]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         [XmlAttribute("namespace")]
-        public string Namespace { get; set; } = String.Empty;
+        public string Namespace { get; set; } = string.Empty;
 
         [XmlAttribute("exporter")]
-        public string Exporter { get; set; } = String.Empty;
+        public string Exporter { get; set; } = string.Empty;
 
         [XmlAttribute("exporterVersion")]
-        public string ExporterVersion { get; set; } = String.Empty;
+        public string ExporterVersion { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("decision")]

@@ -11,14 +11,14 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("expressionLanguage")]
-        public string ExpressionLanguage { get; set; } = String.Empty;
+        public string ExpressionLanguage { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("text")]
-        public string Text { get; set; } = String.Empty;
+        public string Text { get; set; } = string.Empty;
 
         //Methods and Constructors
         public LiteralExpression() { }

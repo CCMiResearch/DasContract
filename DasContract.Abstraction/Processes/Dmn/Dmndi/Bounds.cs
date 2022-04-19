@@ -11,16 +11,16 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("height")]
-        public string Height { get; set; } = String.Empty;
+        public string Height { get; set; } = string.Empty;
 
         [XmlAttribute("width")]
-        public string Width { get; set; } = String.Empty;
+        public string Width { get; set; } = string.Empty;
 
         [XmlAttribute("x")]
-        public string X { get; set; } = String.Empty;
+        public string X { get; set; } = string.Empty;
 
         [XmlAttribute("y")]
-        public string Y { get; set; } = String.Empty;
+        public string Y { get; set; } = string.Empty;
 
         //Methods and Constructors
         public Bounds() { }

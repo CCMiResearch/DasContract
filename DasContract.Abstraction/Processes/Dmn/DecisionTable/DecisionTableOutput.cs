@@ -11,19 +11,19 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("label")]
-        public string Label { get; set; } = String.Empty;
+        public string Label { get; set; } = string.Empty;
 
         [XmlAttribute("name")]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         [XmlAttribute("typeRef")]
-        public string TypeRef { get; set; } = String.Empty;
+        public string TypeRef { get; set; } = string.Empty;
 
         [XmlAttribute("width", Namespace = "http://bpmn.io/schema/dmn/biodi/2.0")]
-        public string Width { get; set; } = String.Empty;
+        public string Width { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("outputValues")]

@@ -12,10 +12,10 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("name")]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("decisionTable")]

@@ -11,7 +11,7 @@ namespace DasContract.Abstraction.Processes.Dmn.Diagram
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("sourceRef")]

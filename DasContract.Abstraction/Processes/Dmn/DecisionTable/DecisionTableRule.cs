@@ -11,11 +11,11 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("description")]
-        public string Description { get; set; } = String.Empty;
+        public string Description { get; set; } = string.Empty;
 
         [XmlElement("inputEntry")]
         public List<InputEntry> InputEntries { get; set; } = new List<InputEntry>();

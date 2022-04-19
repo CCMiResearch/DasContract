@@ -12,10 +12,10 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("dmnElementRef")]
-        public string DmnElementRef { get; set; } = String.Empty;
+        public string DmnElementRef { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("waypoint", Namespace = "http://www.omg.org/spec/DMN/20180521/DI/")]

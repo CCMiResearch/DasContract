@@ -12,10 +12,10 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("x")]
-        public string x { get; set; } = String.Empty;
+        public string X { get; set; } = string.Empty;
 
         [XmlAttribute("y")]
-        public string Y { get; set; } = String.Empty;
+        public string Y { get; set; } = string.Empty;
 
         //Methods and Constructors
         public Waypoint() { }

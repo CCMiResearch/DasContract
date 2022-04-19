@@ -11,16 +11,16 @@ namespace DasContract.Abstraction.Processes.Dmn
     {
         //Attributes
         [XmlAttribute("id")]
-        public string Id { get; set; } = String.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [XmlAttribute("hitPolicy")]
-        public string HitPolicy { get; set; } = String.Empty;
+        public string HitPolicy { get; set; } = string.Empty;
 
         [XmlAttribute("aggregation")]
-        public string Aggregation { get; set; } = String.Empty;
+        public string Aggregation { get; set; } = string.Empty;
 
         [XmlAttribute("annotationsWidth", Namespace = "http://bpmn.io/schema/dmn/biodi/2.0")]
-        public string AnnotationsWidth { get; set; } = String.Empty;
+        public string AnnotationsWidth { get; set; } = string.Empty;
 
         //Elements
         [XmlElement("input")]

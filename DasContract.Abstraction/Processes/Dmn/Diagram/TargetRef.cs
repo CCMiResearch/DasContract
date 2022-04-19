@@ -11,7 +11,7 @@ namespace DasContract.Abstraction.Processes.Dmn.Diagram
     {
         //Attributes
         [XmlAttribute("href")]
-        public string Href { get; set; } = String.Empty;
+        public string Href { get; set; } = string.Empty;
 
         //Methods and Constructors
         public TargetRef() { }
