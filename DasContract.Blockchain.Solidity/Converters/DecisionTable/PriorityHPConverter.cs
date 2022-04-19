@@ -12,5 +12,10 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             SolidityFunction function = new SolidityFunction(functionName, SolidityVisibility.Internal, $"{outputStructName} memory", true);
             return function;
         }
+
+        public override SolidityFunction CreateHelperFunction(Decision decision)//TODO
+        {
+            return null;
+        }
     }
 }

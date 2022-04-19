@@ -21,7 +21,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             foreach (var rule in rules)
             {
                 //If the row is empty then do not put the logic into conditional statement
-                if (String.IsNullOrEmpty(rule))
+                if (string.IsNullOrEmpty(rule))
                 {
                     function.AddToBody(new SolidityStatement(conditionBody, true));
                 }

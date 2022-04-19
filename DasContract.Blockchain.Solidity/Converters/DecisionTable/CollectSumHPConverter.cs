@@ -22,7 +22,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             foreach (var rule in rules.Select((value, i) => new { i, value }))
             {
                 //Add to sum if the conditions are met
-                string conditionBody = String.Empty;
+                string conditionBody = string.Empty;
                 foreach (var outputEntry in decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
                 {
                     conditionBody += $"output.{decision.DecisionTable.Outputs[outputEntry.i].Name} += {outputEntry.value.Text};\n";
@@ -30,7 +30,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 conditionBody += "matchedRule = true;";
 
                 //If the row is empty then do not put the logic into conditional statement
-                if (String.IsNullOrEmpty(rule.value))
+                if (string.IsNullOrEmpty(rule.value))
                 {
                     function.AddToBody(new SolidityStatement(conditionBody, false));
                 }

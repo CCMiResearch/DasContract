@@ -28,7 +28,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         public override void ConvertElementLogic()
         {
             var hitPolicy = GetHitPolicyConverter();
-            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !String.IsNullOrEmpty(d.DecisionTable.Id));
+            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
             outputStructure = hitPolicy.CreateOutputStruct(decision);
             decisionFunction = hitPolicy.CreateDecisionFunction(decision);
             helperFunction = hitPolicy.CreateHelperFunction(decision);
@@ -37,11 +37,11 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         private HitPolicyConverter GetHitPolicyConverter()
         {
-            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !String.IsNullOrEmpty(d.DecisionTable.Id));
+            var decision = businessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
             //RECOGNITION OF HIT POLICY
             var hitPolicy = decision.DecisionTable.HitPolicy;
             var aggregation = decision.DecisionTable.Aggregation;
-            if (String.IsNullOrEmpty(hitPolicy))
+            if (string.IsNullOrEmpty(hitPolicy))
                return new UniqueHPConverter();
             else if (hitPolicy == "ANY")
                return new AnyHPConverter();
@@ -50,11 +50,11 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             else if (hitPolicy == "FIRST")
                return new FirstHPConverter();
             else if (hitPolicy == "OUTPUT ORDER")
-               return new OutputOrderHPConverter();
+               return new OutputOrderHPConverter(1);
             else if (hitPolicy == "RULE ORDER")
-               return new RuleOrderHPConverter();
-            else if (hitPolicy == "COLLECT" && String.IsNullOrEmpty(aggregation))
-               return new RuleOrderHPConverter();
+               return new RuleOrderHPConverter(0);
+            else if (hitPolicy == "COLLECT" && string.IsNullOrEmpty(aggregation))
+               return new RuleOrderHPConverter(0);
             else if (hitPolicy == "COLLECT" && aggregation == "SUM")
                return new CollectSumHPConverter();
             else if (hitPolicy == "COLLECT" && aggregation == "MIN")

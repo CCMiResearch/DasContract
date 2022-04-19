@@ -23,7 +23,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             {
                 //Assign minimum if this is the first met condition
                 var noMatchCheck = new SolidityIfElse();
-                string noMatchCheckBody = String.Empty;
+                string noMatchCheckBody = string.Empty;
                 foreach (var outputEntry in decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
                 {
                     noMatchCheckBody += $"output.{decision.DecisionTable.Outputs[outputEntry.i].Name} = {outputEntry.value.Text};";
@@ -33,7 +33,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 noMatchCheck.AddConditionBlock("!matchedRule", new SolidityStatement(noMatchCheckBody, false));
 
                 //Assign minimum if the values are lesser
-                string matchCheckBody = String.Empty;
+                string matchCheckBody = string.Empty;
                 foreach (var outputEntry in decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
                 {
                     var outputsCheck = new SolidityIfElse();
@@ -43,12 +43,12 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                     matchCheckBody += outputsCheck.ToString();
                 }
                 Console.WriteLine(matchCheckBody);
-                noMatchCheck.AddConditionBlock(String.Empty, new SolidityStatement(matchCheckBody, false));
+                noMatchCheck.AddConditionBlock(string.Empty, new SolidityStatement(matchCheckBody, false));
 
                 string conditionBody = noMatchCheck.ToString();
                 conditionBody += "matchedRule = true;";
                 //If the row is empty then do not put the logic into conditional statement
-                if (String.IsNullOrEmpty(rule.value))
+                if (string.IsNullOrEmpty(rule.value))
                 {
                     function.AddToBody(new SolidityStatement(conditionBody, false));
                 }

@@ -9,20 +9,16 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
     public abstract class HitPolicyConverter
     {
-        protected string outputStructName = String.Empty;
+        protected string outputStructName = string.Empty;
 
         public abstract SolidityFunction CreateDecisionFunction(Decision decision);
 
-        public SolidityFunction CreateHelperFunction(Decision decision) { return null; }
+        public virtual SolidityFunction CreateHelperFunction(Decision decision) { return null; }
 
         //Print declaration template of Solidity struct wrapping up output clauses.
         public virtual SolidityStruct CreateOutputStruct(Decision decision)
         {
-            var hitPolicy = decision.DecisionTable.HitPolicy;
-            var aggregation = decision.DecisionTable.Aggregation;
-            if (hitPolicy == "COLLECT" && aggregation == "COUNT")
-                return null;
-            outputStructName = String.Concat(Regex.Replace(decision.Id, @" ", "").ToUpperCamelCase(), "Output");
+            outputStructName = string.Concat(Regex.Replace(decision.Id, @" ", "").ToUpperCamelCase(), "Output");
             var outputStruct = new SolidityStruct(outputStructName);
             //Print struct's Solidity property based on its DMN modeller counterpart.
             foreach (var outputClause in decision.DecisionTable.Outputs)
@@ -54,18 +50,18 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             var conditions = new List<string>();
             foreach (var rule in decision.DecisionTable.Rules)
             {
-                var conditionString = String.Empty;
+                var conditionString = string.Empty;
                 //Input's values and data types are in separate lists
                 foreach (var inputEntry in rule.InputEntries.Select((value, i) => new { i, value }))
                 {
                     //Skipp if value of boxed expression is empty
-                    if (!String.IsNullOrEmpty(inputEntry.value.Text))
+                    if (!string.IsNullOrEmpty(inputEntry.value.Text))
                     {
                         var inputDataType = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.TypeRef;
-                        var inputExpression = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.Text;
-                        if (!String.IsNullOrEmpty(conditionString))
+                        var expression = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.Text;
+                        if (!string.IsNullOrEmpty(conditionString))
                             conditionString += $" && ";
-                        conditionString += ConvertExpressionToCondition(inputExpression, inputDataType, inputEntry.value.Text);
+                        conditionString += ConvertExpressionToCondition(expression, inputDataType, inputEntry.value.Text);
                     }
                 }
                 conditions.Add(conditionString);
@@ -73,47 +69,89 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             return conditions;
         }
 
+        protected string ConvertToSolidityValue(string value, string dataType)
+        {
+            if (dataType == "string" || dataType == "number" || dataType == "boolean")
+            {
+                return value;
+            }
+            else if (dataType == "dateTime")
+            {
+                var parsedDateTime = value.Split('\"');
+                Console.WriteLine(parsedDateTime[1]);
+                return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss");
+            }
+            else if (dataType == "date")
+            {
+                var parsedDateTime = value.Split('\"');
+                Console.WriteLine(parsedDateTime[1]);
+                return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd");
+            }
+            else if (dataType == "time")
+            {
+                var parsedDateTime = value.Split('\"');
+                Console.WriteLine(parsedDateTime[1]);
+                return DateTime.Parse(parsedDateTime[1]).ToString("HHmmss");
+            }
+            else
+            {
+                throw new Exception($"Invalid Data Type: {dataType} of an Output Clause.");
+            }
+        }
+
         //Return condition in string format based on the data type of the input
-        protected string ConvertExpressionToCondition(string inputExpression, string dataType, string inputCondition)
+        protected string ConvertExpressionToCondition(string expression, string dataType, string entry)
         {
             string condition;
             //String comparison
             //Strings are compared in Solidity using hash values
             if (dataType == "string")
-                condition = $"keccak256(abi.encodePacked({inputExpression})) == keccak256(abi.encodePacked({inputCondition}))";
+            {
+                condition = $"keccak256(abi.encodePacked({expression})) == keccak256(abi.encodePacked({entry}))";
+            }
             //Integer comparison
             else if (dataType == "number")
-                if (inputCondition.Contains("<") || inputCondition.Contains(">"))
+            {
+                if (entry.Contains("<") || entry.Contains(">"))
+                {
                     //Insert whitespace between equaility symbol and number value
-                    condition = $"{inputExpression} {Regex.Replace(inputCondition, @"([<>=])(\d)", "$1 $2")}";
+                    condition = $"{expression} {Regex.Replace(entry, @"([<>=])(\d)", "$1 $2")}";
+                }
                 else
-                    condition = $"{inputExpression} == {inputCondition}";
+                {
+                    condition = $"{expression} == {entry}";
+                }
+            }
             //Boolean comparison
             else if (dataType == "boolean")
-                condition = $"{inputExpression} == {inputCondition}";
+            {
+                condition = $"{expression} == {entry}";
+            }
             //DateTime comparison
             else if (dataType == "dateTime")
             {
-                var splitCondition = DateTimeSeparateEqualityCharacters(inputCondition);
+                var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
-                condition = $"{inputExpression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss")}";
+                condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss")}";
             }
             //Date comparison
             else if (dataType == "date")
             {
-                var splitCondition = DateTimeSeparateEqualityCharacters(inputCondition);
+                var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
-                condition = $"{inputExpression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd")}";
+                condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd")}";
             }
             //Time comparison
             else if (dataType == "time")
             {
-                var splitCondition = DateTimeSeparateEqualityCharacters(inputCondition);
+                var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
-                condition = $"{inputExpression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("HHmmss")}";
+                condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("HHmmss")}";
             }
             else
+            {
                 throw new Exception($"Invalid Data Type: {dataType} of an Output Clause.");
+            }
             return condition;
         }
 
