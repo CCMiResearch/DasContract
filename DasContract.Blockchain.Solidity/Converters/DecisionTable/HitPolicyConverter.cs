@@ -61,7 +61,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                         var expression = decision.DecisionTable.Inputs[inputEntry.i].InputExpression.Text;
                         if (!string.IsNullOrEmpty(conditionString))
                             conditionString += $" && ";
-                        conditionString += ConvertExpressionToCondition(expression, inputDataType, inputEntry.value.Text);
+                        conditionString += ConvertExpressionToCondition(expression, inputDataType, inputEntry.value.Text, true);
                     }
                 }
                 conditions.Add(conditionString);
@@ -78,19 +78,16 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             else if (dataType == "dateTime")
             {
                 var parsedDateTime = value.Split('\"');
-                Console.WriteLine(parsedDateTime[1]);
                 return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss");
             }
             else if (dataType == "date")
             {
                 var parsedDateTime = value.Split('\"');
-                Console.WriteLine(parsedDateTime[1]);
                 return DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd");
             }
             else if (dataType == "time")
             {
                 var parsedDateTime = value.Split('\"');
-                Console.WriteLine(parsedDateTime[1]);
                 return DateTime.Parse(parsedDateTime[1]).ToString("HHmmss");
             }
             else
@@ -100,14 +97,19 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
         }
 
         //Return condition in string format based on the data type of the input
-        protected string ConvertExpressionToCondition(string expression, string dataType, string entry)
+        protected string ConvertExpressionToCondition(string expression, string dataType, string entry, bool equalityComparison)
         {
+            string comparisonSign;
+            if (equalityComparison)
+                comparisonSign = "==";
+            else
+                comparisonSign = "!=";
             string condition;
             //String comparison
             //Strings are compared in Solidity using hash values
             if (dataType == "string")
             {
-                condition = $"keccak256(abi.encodePacked({expression})) == keccak256(abi.encodePacked({entry}))";
+                condition = $"keccak256(abi.encodePacked({expression})) {comparisonSign} keccak256(abi.encodePacked({entry}))";
             }
             //Integer comparison
             else if (dataType == "number")
@@ -119,19 +121,21 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 }
                 else
                 {
-                    condition = $"{expression} == {entry}";
+                    condition = $"{expression} {comparisonSign} {entry}";
                 }
             }
             //Boolean comparison
             else if (dataType == "boolean")
             {
-                condition = $"{expression} == {entry}";
+                condition = $"{expression} {comparisonSign} {entry}";
             }
             //DateTime comparison
             else if (dataType == "dateTime")
             {
                 var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
+                if (!equalityComparison)
+                    splitCondition[0] = comparisonSign;
                 condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMddHHmmss")}";
             }
             //Date comparison
@@ -139,6 +143,8 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             {
                 var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
+                if (!equalityComparison)
+                    splitCondition[0] = comparisonSign;
                 condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("yyyyMMdd")}";
             }
             //Time comparison
@@ -146,6 +152,8 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             {
                 var splitCondition = DateTimeSeparateEqualityCharacters(entry);
                 var parsedDateTime = splitCondition[1].Split('\"');
+                if (!equalityComparison)
+                    splitCondition[0] = comparisonSign;
                 condition = $"{expression} {splitCondition[0]} {DateTime.Parse(parsedDateTime[1]).ToString("HHmmss")}";
             }
             else

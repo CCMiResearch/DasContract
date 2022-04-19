@@ -42,7 +42,6 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                     outputsCheck.AddConditionBlock(outputsCheckCondition, new SolidityStatement(outputsCheckBody, false));
                     matchCheckBody += outputsCheck.ToString();
                 }
-                Console.WriteLine(matchCheckBody);
                 noMatchCheck.AddConditionBlock(string.Empty, new SolidityStatement(matchCheckBody, false));
 
                 string conditionBody = noMatchCheck.ToString();

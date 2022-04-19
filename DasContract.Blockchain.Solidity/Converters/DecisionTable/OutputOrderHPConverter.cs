@@ -42,7 +42,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                     var comparisonVar = $"priorities[i].{decision.DecisionTable.Outputs[outputEntry.i].Name}";
                     var comparisonType = decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                     var comparisonEntry = outputEntry.value.Text;
-                    var comparison = ConvertExpressionToCondition(comparisonVar, comparisonType, comparisonEntry);
+                    var comparison = ConvertExpressionToCondition(comparisonVar, comparisonType, comparisonEntry, true);
                     priorityListCheckCond += $" && {comparison}";
                 }
                 priorityListCheck.AddConditionBlock(priorityListCheckCond, new SolidityStatement(priorityListCheckBody, false));

@@ -46,7 +46,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             else if (hitPolicy == "ANY")
                return new AnyHPConverter();
             else if (hitPolicy == "PRIORITY")
-               return new PriorityHPConverter();
+               return new PriorityHPConverter(1);
             else if (hitPolicy == "FIRST")
                return new FirstHPConverter();
             else if (hitPolicy == "OUTPUT ORDER")
