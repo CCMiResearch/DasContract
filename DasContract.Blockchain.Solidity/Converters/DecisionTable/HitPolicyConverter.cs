@@ -44,7 +44,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
         protected string ConvertDecisionDataType(string dataType)
         {
             if (dataType == "string")
-                return "string memory";
+                return "string";
             else if (dataType == "number")
                 return "int";
             else if (dataType == "boolean")
