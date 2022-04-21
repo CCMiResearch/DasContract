@@ -14,6 +14,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             SolidityFunction function = new SolidityFunction(FunctionName, SolidityVisibility.Internal, $"{OutputStructName} memory", true);
             //Add declaration of helper varaibles
             function.AddToBody(new SolidityStatement($"{OutputStructName} memory output", true));
+            var emptyRule = false;
 
             //Add checks of conditions for matches and their bodies
             var rules = GetAllConditions();
@@ -21,11 +22,26 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             {
                 //Assign output if there is already the match
                 string conditionBody = GetConditionBody(rule.i);
-                function.AddToBody(AddBodyBasedOnRule(rule.value, conditionBody));
+                
+                //If the row is empty then do not put the logic into conditional statement
+                if (string.IsNullOrEmpty(rule.value))
+                {
+                    var condition = new SolidityStatement(conditionBody, false);
+                    function.AddToBody(condition);
+                    emptyRule = true;
+                    break;
+                }
+                else
+                {
+                    var condition = new SolidityIfElse();
+                    condition.AddConditionBlock(rule.value, new SolidityStatement(conditionBody, false));
+                    function.AddToBody(condition);
+                }
             }
 
             //Add the rest of the function
-            function.AddToBody(new SolidityStatement("revert('Undefined output')", true));
+            if (!emptyRule)
+                function.AddToBody(new SolidityStatement("revert('Undefined output')", true));
             return function;
         }
 
