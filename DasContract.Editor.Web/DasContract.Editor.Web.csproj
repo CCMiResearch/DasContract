@@ -5,12 +5,12 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Components\Converter\**" />
-    <Content Remove="Components\Converter\**" />
-    <EmbeddedResource Remove="Components\Converter\**" />
-    <None Remove="Components\Converter\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Components\Converter\**" />
+		<Content Remove="Components\Converter\**" />
+		<EmbeddedResource Remove="Components\Converter\**" />
+		<None Remove="Components\Converter\**" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
