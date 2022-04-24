@@ -27,6 +27,9 @@ namespace DasContract.Abstraction.Processes.Dmn
         [XmlElement("knowledgeRequirement")]
         public List<KnowledgeRequirement> KnowledgeRequirements { get; set; } = new List<KnowledgeRequirement>();
 
+        [XmlElement("informationRequirement")]
+        public List<InformationRequirement> InformationRequirements { get; set; } = new List<InformationRequirement>();
+
         [XmlElement("variable")]
         public Variable Variable { get; set; } = new Variable();
 

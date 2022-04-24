@@ -57,33 +57,11 @@ namespace DasContract.Abstraction.Processes.Dmn
         {
             using (TextReader reader = new StringReader(plainDefinition))
             {
-                XmlSerializer serializer = CreateThrowingSerializer();
+                XmlSerializer serializer = new XmlSerializer(typeof(Definitions));
                 XmlReader xmlReader = new XmlTextReader(reader);
 
                 return (Definitions)serializer.Deserialize(xmlReader);
             }
-        }
-
-        private static void Serializer_Throw(object sender, XmlElementEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-        private static void Serializer_Throw(object sender, XmlAttributeEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-        private static void Serializer_Throw(object sender, XmlNodeEventArgs e)
-        {
-            throw new Exception("XML format exception.");
-        }
-
-        private static XmlSerializer CreateThrowingSerializer()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Definitions));
-            serializer.UnknownAttribute += new XmlAttributeEventHandler(Serializer_Throw);
-            serializer.UnknownElement += new XmlElementEventHandler(Serializer_Throw);
-            serializer.UnknownNode += new XmlNodeEventHandler(Serializer_Throw);
-            return serializer;
         }
 
         public XElement ToXElement()

@@ -1,9 +1,13 @@
 ﻿using DasContract.Abstraction.Processes;
+using DasContract.Abstraction.Processes.Dmn;
+using DasContract.Abstraction.Processes.Dmn.Diagram;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Blockchain.Solidity.Converters.DecisionTable;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
@@ -11,17 +15,9 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
     {
         BusinessRuleTask BusinessRuleTaskElement { get; set; } = null;
 
-        SolidityStruct OutputStructure { get; set; } = null;
-
-        SolidityStatement OutputDeclaration { get; set; } = null;
-
         SolidityFunction MainFunction { get; set; } = null;
 
-        SolidityFunction DecisionFunction { get; set; } = null;
-
-        SolidityFunction HelperFunction { get; set; } = null;
-
-        HitPolicyConverter HitPolicy { get; set; } = null;
+        List<DecisionConverter> DecisionConverters { get; set; } = new List<DecisionConverter>();
 
         public BusinessRuleTaskConverter(BusinessRuleTask businessRuleTaskElement, ProcessConverter converterService)
         {
@@ -31,67 +27,80 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 
         public override void ConvertElementLogic()
         {
-            HitPolicy = GetHitPolicyConverter();
-            var decision = BusinessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
-            HitPolicy.Decision = decision;
-            OutputStructure = HitPolicy.CreateOutputStruct();
-            OutputDeclaration = HitPolicy.CreateOutputDeclaration();
-            DecisionFunction = HitPolicy.CreateDecisionFunction();
-            HelperFunction = HitPolicy.CreateHelperFunction();
+            foreach (var decision in BusinessRuleTaskElement.BusinessRule.Decisions)
+            {
+                var decisionConverter = new DecisionConverter(decision, processConverter);
+                decisionConverter.ConvertElementLogic();
+                DecisionConverters.Add(decisionConverter);
+            }
             MainFunction = CreateTaskFunction();
-        }
-
-        //Recognition of Hit Policy
-        private HitPolicyConverter GetHitPolicyConverter()
-        {
-            var decision = BusinessRuleTaskElement.BusinessRule.Decisions.Find(d => !string.IsNullOrEmpty(d.DecisionTable.Id));
-            var hitPolicy = decision.DecisionTable.HitPolicy;
-            var aggregation = decision.DecisionTable.Aggregation;
-            if (string.IsNullOrEmpty(hitPolicy))
-               return new UniqueHPConverter();
-            else if (hitPolicy == "ANY")
-               return new AnyHPConverter();
-            else if (hitPolicy == "PRIORITY")
-               return new PriorityHPConverter(1);
-            else if (hitPolicy == "FIRST")
-               return new FirstHPConverter();
-            else if (hitPolicy == "OUTPUT ORDER")
-               return new OutputOrderHPConverter(1);
-            else if (hitPolicy == "RULE ORDER")
-               return new RuleOrderHPConverter(0);
-            else if (hitPolicy == "COLLECT" && string.IsNullOrEmpty(aggregation))
-               return new RuleOrderHPConverter(0);
-            else if (hitPolicy == "COLLECT" && aggregation == "SUM")
-               return new CollectSumHPConverter();
-            else if (hitPolicy == "COLLECT" && aggregation == "MIN")
-               return new CollectMaxMinHPConverter(false);
-            else if (hitPolicy == "COLLECT" && aggregation == "MAX")
-               return new CollectMaxMinHPConverter(true);
-            else if (hitPolicy == "COLLECT" && aggregation == "COUNT")
-               return new CollectCountHPConverter();
-            else
-               throw new Exception($"Invalid Hit Policy or Aggregation of Decision Table id: {decision.DecisionTable.Id}, hitPolicy: {hitPolicy}, aggregation: {aggregation}.");
         }
 
         public override IList<SolidityComponent> GetGeneratedSolidityComponents()
         {
             var components = new List<SolidityComponent>();
-            if (OutputStructure != null)
-                components.Add(OutputStructure);
-            components.Add(OutputDeclaration);
-            if (HelperFunction != null)
-                components.Add(HelperFunction);
-            components.Add(DecisionFunction);
+            foreach (var decisionConverter in DecisionConverters)
+            {
+                components.AddRange(decisionConverter.GetGeneratedSolidityComponents());
+            }
             components.Add(MainFunction);
             return components;
+        }
+
+        private bool CheckInformationRequirements(IList<InformationRequirement> requirements, IList<string> declaredDecisions)
+        {
+            foreach (var requirement in requirements)
+            {
+                //Get the source node without the '#' char
+                var hrefID = requirement.RequiredDecision.Href.Remove(0, 1);
+                //Check if its source table was already declared
+                if (!declaredDecisions.Contains(hrefID))
+                    return false;
+            }
+            //The decision function can be declared
+            return true;
+        }
+
+        private IList<SolidityStatement> GetDecisionFunctionDeclarations()
+        {
+            var solidityStatements = new List<SolidityStatement>();
+            var decisions = new List<Decision>(BusinessRuleTaskElement.BusinessRule.Decisions);
+            var declaredDecisions = new List<Decision>();
+            var lastCount = 0;
+            Console.WriteLine(BusinessRuleTaskElement.BusinessRule.Decisions.Count);
+            //Do until all statements are declared
+            while (decisions.Count != 0)
+            {
+                //Check if there is cycle in the DRD
+                if (decisions.Count == lastCount)
+                    throw new Exception($"The DRD is incorrect!");
+                lastCount = decisions.Count;
+                //Get decisions that can be declared
+                var declared = decisions.Where(decision => CheckInformationRequirements(decision.InformationRequirements, declaredDecisions.Select(x => x.Id).ToList())).ToList();
+                //Move them to declared decisions
+                declared.ForEach(decision => decisions.Remove(decision));
+                declaredDecisions.AddRange(declared);
+            }
+
+            foreach (var decision in declaredDecisions)
+            {
+                var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
+                solidityStatements.Add(new SolidityStatement($"{functionName}_Output = {functionName}()", true));
+            }
+
+            return solidityStatements;
         }
 
         private SolidityFunction CreateTaskFunction()
         {
             SolidityFunction function = new SolidityFunction(GetElementCallName(), SolidityVisibility.Internal);
             function.AddParameters(processConverter.GetIdentifiersAsParameters());
-            //Add the call of the decision function
-            function.AddToBody(new SolidityStatement($"{HitPolicy.FunctionName}_Output = {HitPolicy.FunctionName}()", true));
+            //Add the calls of the decision function in the right order
+            var declarations = GetDecisionFunctionDeclarations();
+            foreach (var declaration in declarations)
+            {
+                function.AddToBody(declaration);
+            }
             //Get the delegation logic of the next connected element
             function.AddToBody(processConverter.GetStatementOfNextElement(BusinessRuleTaskElement));
             return function;

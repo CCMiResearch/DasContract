@@ -24,7 +24,10 @@ namespace DasContract.Abstraction.Processes.Tasks
                 {
                     BusinessRule = Definitions.DeserializePlainDefinition(BusinessRuleDefinitionXml);
                 }
-                catch (Exception) { }
+                catch (Exception e) 
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
