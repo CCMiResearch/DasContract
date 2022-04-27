@@ -26,7 +26,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 string conditionBody = string.Empty;
                 foreach (var outputEntry in Decision.DecisionTable.Rules[rule.i].OutputEntries.Select((value, i) => new { i, value }))
                 {
-                    conditionBody += $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} += {outputEntry.value.Text};\n";
+                    conditionBody += $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name.Replace(".", "__")} += {outputEntry.value.Text};\n";
                 }
                 conditionBody += "matchedRule = true;";
 

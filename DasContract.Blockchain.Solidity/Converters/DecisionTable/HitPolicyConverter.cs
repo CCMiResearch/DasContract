@@ -20,11 +20,11 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
         public virtual SolidityFunction CreateHelperFunction() { return null; }
 
         //Return statement for declaration and further assignment of the output value
-        public virtual SolidityStatement CreateOutputDeclaration()
+        public virtual string CreateOutputDeclaration()
         {
             FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
             OutputStructName = string.Concat(Regex.Replace(Decision.Id, @" ", "").ToUpperCamelCase(), "Output");
-            return new SolidityStatement($"{OutputStructName} {FunctionName}_Output", true);
+            return $"{OutputStructName} memory {FunctionName}Output";
         }
 
         //Print declaration template of Solidity struct wrapping up output clauses.
@@ -35,7 +35,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             //Print struct's Solidity property based on its DMN modeller counterpart.
             foreach (var outputClause in Decision.DecisionTable.Outputs)
             {
-                outputStruct.AddToBody(new SolidityStatement($"{ConvertDecisionDataType(outputClause.TypeRef)} {outputClause.Name.ToLowerCamelCase()}"));
+                outputStruct.AddToBody(new SolidityStatement($"{ConvertDecisionDataType(outputClause.TypeRef)} {outputClause.Name.ToLowerCamelCase().Replace(".", "__")}"));
             }
             return outputStruct;
         }

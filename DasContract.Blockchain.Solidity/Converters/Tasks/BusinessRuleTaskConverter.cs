@@ -81,10 +81,12 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
                 declaredDecisions.AddRange(declared);
             }
 
-            foreach (var decision in declaredDecisions)
+            foreach (var declaration in declaredDecisions)
             {
-                var functionName = Regex.Replace(decision.Id, @" ", "").ToLowerCamelCase();
-                solidityStatements.Add(new SolidityStatement($"{functionName}_Output = {functionName}()", true));
+                var functionName = Regex.Replace(declaration.Id, @" ", "").ToLowerCamelCase();
+                var decision = DecisionConverters.Single(d => d.Decision.Id == declaration.Id);
+                solidityStatements.Add(new SolidityStatement($"{decision.OutputDeclaration} = {functionName}()", true));
+                solidityStatements.AddRange(decision.OutputAssignments);
             }
 
             return solidityStatements;

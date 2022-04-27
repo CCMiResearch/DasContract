@@ -8,11 +8,11 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
     //Collect Hit Policy with Count Aggregation - Tthe result of the decision table is the number of outputs.
     public class CollectCountHPConverter : HitPolicyConverter
     {
-        public override SolidityStatement CreateOutputDeclaration()
+        public override string CreateOutputDeclaration()
         {
             FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
             OutputStructName = "int";
-            return new SolidityStatement($"{OutputStructName} {FunctionName}_Output", true);
+            return $"{OutputStructName} {FunctionName}Output";
         }
 
         public override SolidityFunction CreateDecisionFunction()

@@ -10,11 +10,13 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 {
     public class DecisionConverter : ElementConverter
     {
-        Decision Decision { get; set; } = null;
+        public Decision Decision { get; set; } = null;
+
+        public string OutputDeclaration { get; set; } = null;
+
+        public IList<SolidityStatement> OutputAssignments { get; set; } = new List<SolidityStatement>();
 
         SolidityStruct OutputStructure { get; set; } = null;
-
-        SolidityStatement OutputDeclaration { get; set; } = null;
 
         SolidityFunction DecisionFunction { get; set; } = null;
 
@@ -36,6 +38,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             OutputDeclaration = HitPolicy.CreateOutputDeclaration();
             DecisionFunction = HitPolicy.CreateDecisionFunction();
             HelperFunction = HitPolicy.CreateHelperFunction();
+            OutputAssignments = GetOutputAssignments();
         }
 
         //Recognition of Hit Policy
@@ -74,11 +77,20 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             var components = new List<SolidityComponent>();
             if (OutputStructure != null)
                 components.Add(OutputStructure);
-            components.Add(OutputDeclaration);
             if (HelperFunction != null)
                 components.Add(HelperFunction);
             components.Add(DecisionFunction);
             return components;
+        }
+
+        public IList<SolidityStatement> GetOutputAssignments()
+        {
+            List<SolidityStatement> outputAssignments = new List<SolidityStatement>();
+            foreach (var outputs in Decision.DecisionTable.Outputs)
+            {
+                outputAssignments.Add(new SolidityStatement($"{outputs.Name} = {HitPolicy.FunctionName}Output.{outputs.Name.ToLowerCamelCase().Replace(".", "__")}", true));
+            }
+            return outputAssignments;
         }
 
         public override string GetElementId()

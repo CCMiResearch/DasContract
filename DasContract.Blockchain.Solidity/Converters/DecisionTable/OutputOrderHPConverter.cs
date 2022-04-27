@@ -17,11 +17,11 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             PriorityOffset = offset;
         }
 
-        public override SolidityStatement CreateOutputDeclaration()
+        public override string CreateOutputDeclaration()
         {
             FunctionName = Regex.Replace(Decision.Id, @" ", "").ToLowerCamelCase();
             OutputStructName = string.Concat(Regex.Replace(Decision.Id, @" ", "").ToUpperCamelCase(), "Output");
-            return new SolidityStatement($"{OutputStructName}[] {FunctionName}_Output", true);
+            return $"{OutputStructName}[] memory {FunctionName}Output";
         }
 
         public override SolidityFunction CreateDecisionFunction()

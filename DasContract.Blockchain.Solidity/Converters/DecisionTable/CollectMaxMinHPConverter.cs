@@ -56,7 +56,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             {
                 var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                 var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
-                noMatchCheckBody += $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} = {convertedValue};";
+                noMatchCheckBody += $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name.Replace(".", "__")} = {convertedValue};";
                 if (outputEntry.i + 1 < Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Count())
                     noMatchCheckBody += "\n";
             }
@@ -70,7 +70,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                 var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
                 string outputsCheckCondition = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} {Sign} {convertedValue};";
-                string outputsCheckBody = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} = {convertedValue};";
+                string outputsCheckBody = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name.Replace(".", "__")} = {convertedValue};";
                 outputsCheck.AddConditionBlock(outputsCheckCondition, new SolidityStatement(outputsCheckBody, false));
                 matchCheckBody += outputsCheck.ToString();
             }
