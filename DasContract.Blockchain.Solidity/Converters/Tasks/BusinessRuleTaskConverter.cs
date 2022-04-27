@@ -67,7 +67,6 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
             var decisions = new List<Decision>(BusinessRuleTaskElement.BusinessRule.Decisions);
             var declaredDecisions = new List<Decision>();
             var lastCount = 0;
-            Console.WriteLine(BusinessRuleTaskElement.BusinessRule.Decisions.Count);
             //Do until all statements are declared
             while (decisions.Count != 0)
             {
