@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DasContract.Web.Editor.Tests.Unit.LocalStorage
+namespace DasContract.Editor.Web.Tests.Unit.LocalStorage
 {
     public class ContractStorageTests
     {

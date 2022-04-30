@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DasContract.Web.Editor.Tests.Unit.LocalStorage
+namespace DasContract.Editor.Web.Tests.Unit.LocalStorage
 {
     public class LocalStorageServiceMock : ILocalStorageService
     {
