@@ -527,7 +527,7 @@ else
           </Outgoing>
           <AttachedTo>Activity_0n6z5yk</AttachedTo>
           <TimerDefinitionType>Date</TimerDefinitionType>
-          <TimerDefinition>${countries[call_Activity_1Identifier].electionEndDate}</TimerDefinition>
+          <TimerDefinition>${countries[activity_081v4hcIdentifier].electionEndDate}</TimerDefinition>
         </TimerBoundaryEvent>
       </ProcessElements>
     </Process>
