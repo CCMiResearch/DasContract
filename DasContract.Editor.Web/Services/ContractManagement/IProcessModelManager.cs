@@ -23,7 +23,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         bool TryRetrieveIElementById(string elementId, string processId, out IProcessElement element);
         bool TryRetrieveIElementById(string elementId, out IProcessElement element);
         bool TryRetrieveSequenceFlowById(string sequenceFlowId, string processId, out SequenceFlow sequenceFlow);
-        bool TryRetrieveElementById(string sequenceFlowId, string processId, out ProcessElement sequenceFlow);
+        bool TryRetrieveElementById(string elementId, string processId, out ProcessElement processElement);
         bool TryRetrieveProcessOfElement(string elementId, out Process process);
         ProcessElement AddElement(string elementType, string elementId, string processId);
         void RemoveElement(string id);

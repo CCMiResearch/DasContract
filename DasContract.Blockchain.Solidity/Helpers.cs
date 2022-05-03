@@ -85,10 +85,15 @@ namespace DasContract.Blockchain.Solidity
                     break;
                 case DecimalField _:
                 case DropdownField _:
-                case EnumField _:
                 case MultiLineField _:
                 case SingleLineField _:
                     dataType = "string";
+                    break;
+                case EnumField f:
+                    if (f.Indexed)
+                        dataType = "uint";
+                    else
+                        dataType = "string";
                     break;
                 default:
                     throw new Exception();
