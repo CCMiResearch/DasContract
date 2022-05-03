@@ -13,11 +13,11 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
 {
     public class BusinessRuleTaskConverter : TaskConverter
     {
-        BusinessRuleTask BusinessRuleTaskElement { get; set; } = null;
+        public BusinessRuleTask BusinessRuleTaskElement { get; set; } = null;
 
         SolidityFunction MainFunction { get; set; } = null;
 
-        List<DecisionConverter> DecisionConverters { get; set; } = new List<DecisionConverter>();
+        public List<DecisionConverter> DecisionConverters { get; set; } = new List<DecisionConverter>();
 
         public BusinessRuleTaskConverter(BusinessRuleTask businessRuleTaskElement, ProcessConverter converterService)
         {
@@ -29,7 +29,7 @@ namespace DasContract.Blockchain.Solidity.Converters.Tasks
         {
             foreach (var decision in BusinessRuleTaskElement.BusinessRule.Decisions)
             {
-                var decisionConverter = new DecisionConverter(decision, processConverter);
+                var decisionConverter = new DecisionConverter(decision);
                 decisionConverter.ConvertElementLogic();
                 DecisionConverters.Add(decisionConverter);
             }

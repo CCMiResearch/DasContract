@@ -24,10 +24,9 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 
         HitPolicyConverter HitPolicy { get; set; } = null;
 
-        public DecisionConverter(Decision decision, ProcessConverter converterService)
+        public DecisionConverter(Decision decision)
         {
             Decision = decision;
-            processConverter = converterService;
         }
 
         public override void ConvertElementLogic()
