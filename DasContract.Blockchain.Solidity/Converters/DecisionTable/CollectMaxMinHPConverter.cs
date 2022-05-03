@@ -69,7 +69,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
                 var outputsCheck = new SolidityIfElse();
                 var dataType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                 var convertedValue = ConvertToSolidityValue(outputEntry.value.Text, dataType);
-                string outputsCheckCondition = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} {Sign} {convertedValue};";
+                string outputsCheckCondition = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name} {Sign} {convertedValue}";
                 string outputsCheckBody = $"output.{Decision.DecisionTable.Outputs[outputEntry.i].Name.Replace(".", "__")} = {convertedValue};";
                 outputsCheck.AddConditionBlock(outputsCheckCondition, new SolidityStatement(outputsCheckBody, false));
                 matchCheckBody += outputsCheck.ToString();

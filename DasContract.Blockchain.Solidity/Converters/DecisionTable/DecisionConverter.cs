@@ -85,12 +85,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
 
         public IList<SolidityStatement> GetOutputAssignments()
         {
-            List<SolidityStatement> outputAssignments = new List<SolidityStatement>();
-            foreach (var outputs in Decision.DecisionTable.Outputs)
-            {
-                outputAssignments.Add(new SolidityStatement($"{outputs.Name} = {HitPolicy.FunctionName}Output.{outputs.Name.ToLowerCamelCase().Replace(".", "__")}", true));
-            }
-            return outputAssignments;
+            return HitPolicy.GetOutputAssignments();
         }
 
         public override string GetElementId()

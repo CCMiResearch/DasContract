@@ -70,7 +70,7 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             string noMatchCondition = string.Empty;
             foreach (var outputEntry in Decision.DecisionTable.Rules[ruleIndex].OutputEntries.Select((value, i) => new { i, value }))
             {
-                var comparisonVar = $"priorities[i].{Decision.DecisionTable.Outputs[outputEntry.i].Name}";
+                var comparisonVar = $"{Decision.DecisionTable.Outputs[outputEntry.i].Name}";
                 var comparisonType = Decision.DecisionTable.Outputs[outputEntry.i].TypeRef;
                 var comparisonEntry = outputEntry.value.Text;
                 var comparison = ConvertExpressionToCondition(comparisonVar, comparisonType, comparisonEntry, false);

@@ -1,6 +1,7 @@
 ﻿using DasContract.Abstraction.Processes.Dmn;
 using DasContract.Blockchain.Solidity.SolidityComponents;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -134,6 +135,18 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             return prioritiesFormatted;
         }
 
-
+        //Gets assignemnts for the Task Function
+        public override IList<SolidityStatement> GetOutputAssignments()
+        {
+            var forLoop = new SolidityFor("i", $"{FunctionName}Output.length");
+            List<SolidityStatement> outputAssignments = new List<SolidityStatement>();
+            outputAssignments.Add(new SolidityStatement($"for(uint256 i = 0; i < {FunctionName}Output.length; i++){{", false));
+            foreach (var outputs in Decision.DecisionTable.Outputs)
+            {
+                outputAssignments.Add(new SolidityStatement($"  {outputs.Name}.push({FunctionName}Output[i].{outputs.Name.ToLowerCamelCase().Replace(".", "__")})", true));
+            }
+            outputAssignments.Add(new SolidityStatement("}", false));
+            return outputAssignments;
+        }
     }
 }

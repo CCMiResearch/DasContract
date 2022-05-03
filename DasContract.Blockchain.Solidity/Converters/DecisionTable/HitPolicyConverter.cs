@@ -211,5 +211,16 @@ namespace DasContract.Blockchain.Solidity.Converters.DecisionTable
             }
             return signWithValue;
         }
+
+        //Gets assignemnts for the Task Function
+        public virtual IList<SolidityStatement> GetOutputAssignments()
+        {
+            List<SolidityStatement> outputAssignments = new List<SolidityStatement>();
+            foreach (var outputs in Decision.DecisionTable.Outputs)
+            {
+                outputAssignments.Add(new SolidityStatement($"{outputs.Name} = {FunctionName}Output.{outputs.Name.ToLowerCamelCase().Replace(".", "__")}", true));
+            }
+            return outputAssignments;
+        }
     }
 }
