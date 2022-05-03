@@ -100,29 +100,5 @@ namespace DasContract.Editor.Web.Tests.Unit.UndoRedo
             _userModelManagerMock.Verify(x => x.AddRole(addedRole), Times.Once);
         }
 
-        [Fact]
-        public void AssignRoleAndUndo_ShouldMatch()
-        {
-            var addedRole = new ProcessRole { Id = "ROLE1" };
-            var addedUser = new ProcessUser { Id = "USER1"};
-
-            var select2Mock = new Mock<Select2<ProcessRole>>();
-            select2Mock.Setup(x => x.UnselectItem(addedRole)).Verifiable();
-
-            _userModelManagerMock.Setup(x => x.AddNewRole()).Returns(addedRole).Verifiable();
-            _userModelManagerMock.Setup(x => x.AddNewUser()).Returns(addedUser).Verifiable();
-            _userModelManagerMock.Setup(x => x.GetProcessRoles()).Returns(new List<ProcessRole>() { addedRole });
-
-
-            _usersRolesFacade.OnRoleAdd();
-            _userModelManagerMock.Verify(x => x.AddNewRole(), Times.Once);
-
-            _usersRolesFacade.OnUserAdd();
-            _userModelManagerMock.Verify(x => x.AddNewUser(), Times.Once);
-
-            _usersRolesFacade.OnUserRoleAssign(select2Mock.Object, "ROLE1");
-            _usersRolesFacade.Undo();
-            select2Mock.Verify(x => x.UnselectItem(addedRole), Times.Once);
-        }
     }
 }
