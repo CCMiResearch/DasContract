@@ -1,0 +1,421 @@
+<Contract Id="e4d4668e-7024-409b-b7ff-5dc032ffb4bb">
+  <Name>Rock paper scissors</Name>
+  <ProcessDiagram>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"&gt;&lt;bpmn:collaboration id="Collaboration_1n6cete"&gt;&lt;bpmn:participant id="Participant_1egd2v0" processRef="Process_1" /&gt;&lt;bpmn:participant id="Participant_0ia3l7a" name="Round" processRef="Process_1fo8w0s" /&gt;&lt;/bpmn:collaboration&gt;&lt;bpmn:process id="Process_1" isExecutable="false"&gt;&lt;bpmn:startEvent id="StartEvent_1"&gt;&lt;bpmn:outgoing&gt;Flow_1duakva&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:callActivity id="Activity_1aolzhs" name="Play a round"&gt;&lt;bpmn:incoming&gt;Flow_0mmpr5z&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0pne8yz&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:sequenceFlow id="Flow_1duakva" sourceRef="StartEvent_1" targetRef="Gateway_1vj60ds" /&gt;&lt;bpmn:sequenceFlow id="Flow_0pne8yz" sourceRef="Activity_1aolzhs" targetRef="Activity_0yb1wnd" /&gt;&lt;bpmn:scriptTask id="Activity_0yb1wnd" name="Evaluate results"&gt;&lt;bpmn:incoming&gt;Flow_0pne8yz&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0y52n8q&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:exclusiveGateway id="Gateway_0vti8x2" name="Is game over?"&gt;&lt;bpmn:incoming&gt;Flow_0y52n8q&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_05q1yr0&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0vr24hb&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:sequenceFlow id="Flow_0y52n8q" sourceRef="Activity_0yb1wnd" targetRef="Gateway_0vti8x2" /&gt;&lt;bpmn:endEvent id="Event_1i05j5u"&gt;&lt;bpmn:incoming&gt;Flow_05q1yr0&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_05q1yr0" name="Yes" sourceRef="Gateway_0vti8x2" targetRef="Event_1i05j5u" /&gt;&lt;bpmn:exclusiveGateway id="Gateway_1vj60ds"&gt;&lt;bpmn:incoming&gt;Flow_1duakva&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_0vr24hb&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0mmpr5z&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:sequenceFlow id="Flow_0mmpr5z" sourceRef="Gateway_1vj60ds" targetRef="Activity_1aolzhs" /&gt;&lt;bpmn:sequenceFlow id="Flow_0vr24hb" name="No" sourceRef="Gateway_0vti8x2" targetRef="Gateway_1vj60ds" /&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_1fo8w0s"&gt;&lt;bpmn:startEvent id="Event_1wuzjf1"&gt;&lt;bpmn:outgoing&gt;Flow_045f3af&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:sequenceFlow id="Flow_045f3af" sourceRef="Event_1wuzjf1" targetRef="Gateway_1621e9s" /&gt;&lt;bpmn:parallelGateway id="Gateway_1621e9s"&gt;&lt;bpmn:incoming&gt;Flow_045f3af&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0oxsuf0&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0hqzted&lt;/bpmn:outgoing&gt;&lt;/bpmn:parallelGateway&gt;&lt;bpmn:sequenceFlow id="Flow_0oxsuf0" sourceRef="Gateway_1621e9s" targetRef="Activity_09a2uxm" /&gt;&lt;bpmn:sequenceFlow id="Flow_0hqzted" sourceRef="Gateway_1621e9s" targetRef="Activity_1a1rqam" /&gt;&lt;bpmn:userTask id="Activity_1a1rqam" name="Bob plays"&gt;&lt;bpmn:incoming&gt;Flow_0hqzted&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1v4up9i&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:boundaryEvent id="Event_1hqwl0g" attachedToRef="Activity_1a1rqam"&gt;&lt;bpmn:outgoing&gt;Flow_1vgiwq6&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_17suzc7" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:sequenceFlow id="Flow_18z9aqw" sourceRef="Event_10w897u" targetRef="Activity_1mh727j" /&gt;&lt;bpmn:sequenceFlow id="Flow_1vgiwq6" sourceRef="Event_1hqwl0g" targetRef="Activity_0a0v0pk" /&gt;&lt;bpmn:scriptTask id="Activity_0a0v0pk" name="Bob expired"&gt;&lt;bpmn:incoming&gt;Flow_1vgiwq6&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1946rsu&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:userTask id="Activity_09a2uxm" name="Alice plays"&gt;&lt;bpmn:incoming&gt;Flow_0oxsuf0&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_11g6obh&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:boundaryEvent id="Event_10w897u" attachedToRef="Activity_09a2uxm"&gt;&lt;bpmn:outgoing&gt;Flow_18z9aqw&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0ztv639" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:scriptTask id="Activity_1mh727j" name="Alice expired"&gt;&lt;bpmn:incoming&gt;Flow_18z9aqw&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1ubok98&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:sequenceFlow id="Flow_1v4up9i" sourceRef="Activity_1a1rqam" targetRef="Gateway_1ekpuqs" /&gt;&lt;bpmn:exclusiveGateway id="Gateway_02og20s"&gt;&lt;bpmn:incoming&gt;Flow_1ubok98&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_11g6obh&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1ygbg9m&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:sequenceFlow id="Flow_1ubok98" sourceRef="Activity_1mh727j" targetRef="Gateway_02og20s" /&gt;&lt;bpmn:sequenceFlow id="Flow_11g6obh" sourceRef="Activity_09a2uxm" targetRef="Gateway_02og20s" /&gt;&lt;bpmn:parallelGateway id="Gateway_0bjqu6m"&gt;&lt;bpmn:incoming&gt;Flow_1ygbg9m&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_0ywh1k8&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_03ba4vp&lt;/bpmn:outgoing&gt;&lt;/bpmn:parallelGateway&gt;&lt;bpmn:sequenceFlow id="Flow_1ygbg9m" sourceRef="Gateway_02og20s" targetRef="Gateway_0bjqu6m" /&gt;&lt;bpmn:sequenceFlow id="Flow_0ywh1k8" sourceRef="Gateway_1ekpuqs" targetRef="Gateway_0bjqu6m" /&gt;&lt;bpmn:exclusiveGateway id="Gateway_1ekpuqs"&gt;&lt;bpmn:incoming&gt;Flow_1v4up9i&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1946rsu&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0ywh1k8&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:sequenceFlow id="Flow_1946rsu" sourceRef="Activity_0a0v0pk" targetRef="Gateway_1ekpuqs" /&gt;&lt;bpmn:endEvent id="Event_124duqh"&gt;&lt;bpmn:incoming&gt;Flow_03ba4vp&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_03ba4vp" sourceRef="Gateway_0bjqu6m" targetRef="Event_124duqh" /&gt;&lt;/bpmn:process&gt;&lt;bpmndi:BPMNDiagram id="BPMNDiagram_1"&gt;&lt;bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1n6cete"&gt;&lt;bpmndi:BPMNShape id="Participant_0ia3l7a_di" bpmnElement="Participant_0ia3l7a" isHorizontal="true"&gt;&lt;dc:Bounds x="123" y="270" width="767" height="440" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_045f3af_di" bpmnElement="Flow_045f3af"&gt;&lt;di:waypoint x="228" y="510" /&gt;&lt;di:waypoint x="285" y="510" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0oxsuf0_di" bpmnElement="Flow_0oxsuf0"&gt;&lt;di:waypoint x="310" y="485" /&gt;&lt;di:waypoint x="310" y="430" /&gt;&lt;di:waypoint x="380" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0hqzted_di" bpmnElement="Flow_0hqzted"&gt;&lt;di:waypoint x="310" y="535" /&gt;&lt;di:waypoint x="310" y="580" /&gt;&lt;di:waypoint x="380" y="580" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_18z9aqw_di" bpmnElement="Flow_18z9aqw"&gt;&lt;di:waypoint x="450" y="372" /&gt;&lt;di:waypoint x="450" y="342" /&gt;&lt;di:waypoint x="590" y="342" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1vgiwq6_di" bpmnElement="Flow_1vgiwq6"&gt;&lt;di:waypoint x="430" y="638" /&gt;&lt;di:waypoint x="430" y="650" /&gt;&lt;di:waypoint x="590" y="650" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1v4up9i_di" bpmnElement="Flow_1v4up9i"&gt;&lt;di:waypoint x="480" y="580" /&gt;&lt;di:waypoint x="548" y="580" /&gt;&lt;di:waypoint x="548" y="550" /&gt;&lt;di:waypoint x="615" y="550" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1ubok98_di" bpmnElement="Flow_1ubok98"&gt;&lt;di:waypoint x="640" y="382" /&gt;&lt;di:waypoint x="640" y="445" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_11g6obh_di" bpmnElement="Flow_11g6obh"&gt;&lt;di:waypoint x="480" y="430" /&gt;&lt;di:waypoint x="548" y="430" /&gt;&lt;di:waypoint x="548" y="470" /&gt;&lt;di:waypoint x="615" y="470" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1ygbg9m_di" bpmnElement="Flow_1ygbg9m"&gt;&lt;di:waypoint x="665" y="470" /&gt;&lt;di:waypoint x="740" y="470" /&gt;&lt;di:waypoint x="740" y="485" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0ywh1k8_di" bpmnElement="Flow_0ywh1k8"&gt;&lt;di:waypoint x="665" y="550" /&gt;&lt;di:waypoint x="740" y="550" /&gt;&lt;di:waypoint x="740" y="535" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1946rsu_di" bpmnElement="Flow_1946rsu"&gt;&lt;di:waypoint x="640" y="610" /&gt;&lt;di:waypoint x="640" y="575" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_03ba4vp_di" bpmnElement="Flow_03ba4vp"&gt;&lt;di:waypoint x="765" y="510" /&gt;&lt;di:waypoint x="822" y="510" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_1wuzjf1_di" bpmnElement="Event_1wuzjf1"&gt;&lt;dc:Bounds x="192" y="492" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1iymfgb_di" bpmnElement="Gateway_1621e9s"&gt;&lt;dc:Bounds x="285" y="485" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1ucmfne_di" bpmnElement="Activity_1a1rqam"&gt;&lt;dc:Bounds x="380" y="540" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1hedp1o_di" bpmnElement="Activity_0a0v0pk"&gt;&lt;dc:Bounds x="590" y="610" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1cdkv7o_di" bpmnElement="Activity_09a2uxm"&gt;&lt;dc:Bounds x="380" y="390" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1mwp06i_di" bpmnElement="Activity_1mh727j"&gt;&lt;dc:Bounds x="590" y="302" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_02og20s_di" bpmnElement="Gateway_02og20s" isMarkerVisible="true"&gt;&lt;dc:Bounds x="615" y="445" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0nop9e1_di" bpmnElement="Gateway_0bjqu6m"&gt;&lt;dc:Bounds x="715" y="485" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1ekpuqs_di" bpmnElement="Gateway_1ekpuqs" isMarkerVisible="true"&gt;&lt;dc:Bounds x="615" y="525" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_124duqh_di" bpmnElement="Event_124duqh"&gt;&lt;dc:Bounds x="822" y="492" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0520qb7_di" bpmnElement="Event_1hqwl0g"&gt;&lt;dc:Bounds x="412" y="602" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0bfhb0h_di" bpmnElement="Event_10w897u"&gt;&lt;dc:Bounds x="432" y="372" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_1egd2v0_di" bpmnElement="Participant_1egd2v0" isHorizontal="true"&gt;&lt;dc:Bounds x="123" y="0" width="875" height="250" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1duakva_di" bpmnElement="Flow_1duakva"&gt;&lt;di:waypoint x="209" y="120" /&gt;&lt;di:waypoint x="225" y="120" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0pne8yz_di" bpmnElement="Flow_0pne8yz"&gt;&lt;di:waypoint x="400" y="120" /&gt;&lt;di:waypoint x="500" y="120" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0y52n8q_di" bpmnElement="Flow_0y52n8q"&gt;&lt;di:waypoint x="600" y="120" /&gt;&lt;di:waypoint x="705" y="120" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_05q1yr0_di" bpmnElement="Flow_05q1yr0"&gt;&lt;di:waypoint x="755" y="120" /&gt;&lt;di:waypoint x="862" y="120" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="800" y="102" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0mmpr5z_di" bpmnElement="Flow_0mmpr5z"&gt;&lt;di:waypoint x="275" y="120" /&gt;&lt;di:waypoint x="300" y="120" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0vr24hb_di" bpmnElement="Flow_0vr24hb"&gt;&lt;di:waypoint x="730" y="95" /&gt;&lt;di:waypoint x="730" y="40" /&gt;&lt;di:waypoint x="250" y="40" /&gt;&lt;di:waypoint x="250" y="95" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="483" y="22" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1"&gt;&lt;dc:Bounds x="173" y="102" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_07ftds6_di" bpmnElement="Activity_1aolzhs"&gt;&lt;dc:Bounds x="300" y="80" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_035iglk_di" bpmnElement="Activity_0yb1wnd"&gt;&lt;dc:Bounds x="500" y="80" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0vti8x2_di" bpmnElement="Gateway_0vti8x2" isMarkerVisible="true"&gt;&lt;dc:Bounds x="705" y="95" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="695" y="152" width="70" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1i05j5u_di" bpmnElement="Event_1i05j5u"&gt;&lt;dc:Bounds x="862" y="102" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1vj60ds_di" bpmnElement="Gateway_1vj60ds" isMarkerVisible="true"&gt;&lt;dc:Bounds x="225" y="95" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;/bpmndi:BPMNPlane&gt;&lt;/bpmndi:BPMNDiagram&gt;&lt;/bpmn:definitions&gt;</ProcessDiagram>
+  <Processes>
+    <Process Id="Process_1">
+      <BpmnId>Process_1</BpmnId>
+      <Name />
+      <IsExecutable>true</IsExecutable>
+      <ParticipantId>Participant_1egd2v0</ParticipantId>
+      <CustomScript />
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_1duakva">
+          <Name />
+          <SourceId>StartEvent_1</SourceId>
+          <TargetId>Gateway_1vj60ds</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0pne8yz">
+          <Name />
+          <SourceId>Activity_1aolzhs</SourceId>
+          <TargetId>Activity_0yb1wnd</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0y52n8q">
+          <Name />
+          <SourceId>Activity_0yb1wnd</SourceId>
+          <TargetId>Gateway_0vti8x2</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_05q1yr0">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0vti8x2</SourceId>
+          <TargetId>Event_1i05j5u</TargetId>
+          <Condition>isGameOver == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0mmpr5z">
+          <Name />
+          <SourceId>Gateway_1vj60ds</SourceId>
+          <TargetId>Activity_1aolzhs</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0vr24hb">
+          <Name>No</Name>
+          <SourceId>Gateway_0vti8x2</SourceId>
+          <TargetId>Gateway_1vj60ds</TargetId>
+          <Condition>isGameOver == false</Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="StartEvent_1">
+          <Name />
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_1duakva</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <ExclusiveGateway Id="Gateway_0vti8x2">
+          <Name>Is game over?</Name>
+          <Incoming>
+            <IncomingId>Flow_0y52n8q</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_05q1yr0</OutgoingId>
+            <OutgoingId>Flow_0vr24hb</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ExclusiveGateway>
+        <CallActivity Id="Activity_1aolzhs">
+          <Name>Play a round</Name>
+          <Incoming>
+            <IncomingId>Flow_0mmpr5z</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0pne8yz</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <CalledElement>Round_Process</CalledElement>
+        </CallActivity>
+        <ScriptTask Id="Activity_0yb1wnd">
+          <Name>Evaluate results</Name>
+          <Incoming>
+            <IncomingId>Flow_0pne8yz</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0y52n8q</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>if (playerAChoice == playerBChoice)
+{
+    //It's a tie!!
+    //The time ran out, force end the game
+    if(playerAChoice == Weapon.None)
+        isGameOver = true;
+    else
+        isGameOver = false;
+    return;
+}
+
+if ((playerAChoice == Weapon.Rock &amp;&amp; playerBChoice != Weapon.Paper)
+ || (playerAChoice == Weapon.Paper &amp;&amp; playerBChoice != Weapon.Scissors)
+ || (playerAChoice == Weapon.Scissors &amp;&amp; playerBChoice != Weapon.Rock))
+ {
+     //PlayerA wins!
+ }
+ else{
+     //PlayerB wins!
+ }
+isGameOver = true;</Script>
+        </ScriptTask>
+        <EndEvent Id="Event_1i05j5u">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_05q1yr0</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_1vj60ds">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_1duakva</IncomingId>
+            <IncomingId>Flow_0vr24hb</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0mmpr5z</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ExclusiveGateway>
+      </ProcessElements>
+    </Process>
+    <Process Id="Round_Process">
+      <BpmnId>Process_1fo8w0s</BpmnId>
+      <Name>Round</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_0ia3l7a</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_045f3af">
+          <Name />
+          <SourceId>Event_1wuzjf1</SourceId>
+          <TargetId>Gateway_1621e9s</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0oxsuf0">
+          <Name />
+          <SourceId>Gateway_1621e9s</SourceId>
+          <TargetId>Activity_09a2uxm</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0hqzted">
+          <Name />
+          <SourceId>Gateway_1621e9s</SourceId>
+          <TargetId>Activity_1a1rqam</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_18z9aqw">
+          <Name />
+          <SourceId>Event_10w897u</SourceId>
+          <TargetId>Activity_1mh727j</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1vgiwq6">
+          <Name />
+          <SourceId>Event_1hqwl0g</SourceId>
+          <TargetId>Activity_0a0v0pk</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1v4up9i">
+          <Name />
+          <SourceId>Activity_1a1rqam</SourceId>
+          <TargetId>Gateway_1ekpuqs</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1ubok98">
+          <Name />
+          <SourceId>Activity_1mh727j</SourceId>
+          <TargetId>Gateway_02og20s</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_11g6obh">
+          <Name />
+          <SourceId>Activity_09a2uxm</SourceId>
+          <TargetId>Gateway_02og20s</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1ygbg9m">
+          <Name />
+          <SourceId>Gateway_02og20s</SourceId>
+          <TargetId>Gateway_0bjqu6m</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0ywh1k8">
+          <Name />
+          <SourceId>Gateway_1ekpuqs</SourceId>
+          <TargetId>Gateway_0bjqu6m</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1946rsu">
+          <Name />
+          <SourceId>Activity_0a0v0pk</SourceId>
+          <TargetId>Gateway_1ekpuqs</TargetId>
+          <Condition />
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_03ba4vp">
+          <Name />
+          <SourceId>Gateway_0bjqu6m</SourceId>
+          <TargetId>Event_124duqh</TargetId>
+          <Condition />
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="Event_1wuzjf1">
+          <Name />
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_045f3af</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <TimerBoundaryEvent Id="Event_1hqwl0g">
+          <Name />
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_1vgiwq6</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_1a1rqam</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>2022-06-06</TimerDefinition>
+        </TimerBoundaryEvent>
+        <ParallelGateway Id="Gateway_1621e9s">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_045f3af</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0oxsuf0</OutgoingId>
+            <OutgoingId>Flow_0hqzted</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ParallelGateway>
+        <UserTask Id="Activity_09a2uxm">
+          <Name>Alice plays</Name>
+          <Incoming>
+            <IncomingId>Flow_0oxsuf0</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_11g6obh</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <TokenOperationType>Create</TokenOperationType>
+          <Assignee>4c12ff47-33b0-4e92-b9a8-f5e8484cfe0f</Assignee>
+          <UserForm />
+          <DueDateExpression />
+          <FormDefinition>&lt;Form Label="Make a choice"&gt;
+    &lt;FieldGroup&gt;
+        &lt;EnumField Label="Choice" Indexed="true"&gt;
+            &lt;Option&gt;Rock&lt;/Option&gt;
+            &lt;Option&gt;Paper&lt;/Option&gt;
+            &lt;Option&gt;Scissors&lt;/Option&gt;
+        &lt;/EnumField&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>if (choice == 1) 
+    aliceChoice = Choice.Rock;
+else if (choice == 2)
+    aliceChoice = Choice.Paper;
+else if (choice == 3)
+    aliceChoice = Choice.Scissors;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles />
+        </UserTask>
+        <UserTask Id="Activity_1a1rqam">
+          <Name>Bob plays</Name>
+          <Incoming>
+            <IncomingId>Flow_0hqzted</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1v4up9i</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <TokenOperationType>Create</TokenOperationType>
+          <Assignee>da75e548-02f8-4d63-bbcc-1f2c37ff720b</Assignee>
+          <UserForm />
+          <DueDateExpression />
+          <FormDefinition>&lt;Form Label="Make a choice"&gt;
+    &lt;FieldGroup&gt;
+        &lt;EnumField Label="Choice" Indexed="true"&gt;
+            &lt;Option&gt;Rock&lt;/Option&gt;
+            &lt;Option&gt;Paper&lt;/Option&gt;
+            &lt;Option&gt;Scissors&lt;/Option&gt;
+        &lt;/EnumField&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>if (choice == 1) 
+    bobChoice = Choice.Rock;
+else if (choice == 2)
+    bobChoice = Choice.Paper;
+else if (choice == 3)
+    bobChoice = Choice.Scissors;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles />
+        </UserTask>
+        <ExclusiveGateway Id="Gateway_02og20s">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_1ubok98</IncomingId>
+            <IncomingId>Flow_11g6obh</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1ygbg9m</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ExclusiveGateway>
+        <TimerBoundaryEvent Id="Event_10w897u">
+          <Name />
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_18z9aqw</OutgoingId>
+          </Outgoing>
+          <AttachedTo>Activity_09a2uxm</AttachedTo>
+          <TimerDefinitionType>Date</TimerDefinitionType>
+          <TimerDefinition>2022-06-06</TimerDefinition>
+        </TimerBoundaryEvent>
+        <ScriptTask Id="Activity_0a0v0pk">
+          <Name>Bob expired</Name>
+          <Incoming>
+            <IncomingId>Flow_1vgiwq6</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1946rsu</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>bobChoice = Choice.None;</Script>
+        </ScriptTask>
+        <ExclusiveGateway Id="Gateway_1ekpuqs">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_1v4up9i</IncomingId>
+            <IncomingId>Flow_1946rsu</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0ywh1k8</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ExclusiveGateway>
+        <ScriptTask Id="Activity_1mh727j">
+          <Name>Alice expired</Name>
+          <Incoming>
+            <IncomingId>Flow_18z9aqw</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1ubok98</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality />
+          <LoopCollection />
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>aliceChoice = Choice.None;</Script>
+        </ScriptTask>
+        <EndEvent Id="Event_124duqh">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_03ba4vp</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ParallelGateway Id="Gateway_0bjqu6m">
+          <Name />
+          <Incoming>
+            <IncomingId>Flow_1ygbg9m</IncomingId>
+            <IncomingId>Flow_0ywh1k8</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_03ba4vp</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId />
+        </ParallelGateway>
+      </ProcessElements>
+    </Process>
+  </Processes>
+  <Roles />
+  <Users>
+    <ProcessUser Id="4c12ff47-33b0-4e92-b9a8-f5e8484cfe0f">
+      <Name>Alice</Name>
+      <Description />
+      <Address>0x5B38Da6a701c568545dCfcB03FcB875f56beddC4</Address>
+      <Roles />
+    </ProcessUser>
+    <ProcessUser Id="da75e548-02f8-4d63-bbcc-1f2c37ff720b">
+      <Name>Bob</Name>
+      <Description />
+      <Address>0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2</Address>
+      <Roles />
+    </ProcessUser>
+  </Users>
+  <DataModelDefinition>&lt;DataTypes&gt;
+	&lt;Enum Id="Enum_1" Name="Choice"&gt;
+		&lt;Value&gt;Rock&lt;/Value&gt;
+		&lt;Value&gt;Paper&lt;/Value&gt;
+		&lt;Value&gt;Scissors&lt;/Value&gt;
+		&lt;Value&gt;None&lt;/Value&gt;
+	&lt;/Enum&gt;
+
+	&lt;Entity Id="Entity_1" Name="RootEntity" IsRootEntity="true"&gt;
+		&lt;Property Id="Property_1" Name="aliceChoice" IsMandatory="true" DataType="Reference" PropertyType="Single" ReferencedDataType="Enum_1" /&gt;
+		&lt;Property Id="Property_2" Name="bobChoice" IsMandatory="true" DataType="Reference" PropertyType="Single" ReferencedDataType="Enum_1" /&gt;
+		&lt;Property Id="Property_3" Name="isGameOver" IsMandatory="true" DataType="bool" PropertyType="Single"/&gt;
+	&lt;/Entity&gt;
+&lt;/DataTypes&gt;</DataModelDefinition>
+</Contract>
