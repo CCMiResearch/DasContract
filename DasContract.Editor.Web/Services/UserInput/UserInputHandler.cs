@@ -26,11 +26,8 @@ namespace DasContract.Editor.Web.Services.UserInput
         [JSInvokable]
         public void HandleKeyInputEvent(KeyEvent e)
         {
-            Console.WriteLine("key event");
-            
             if(e.Type == "keydown")
             {
-                Console.WriteLine("key down");
                 KeyDown?.Invoke(this, e);
             }
         }

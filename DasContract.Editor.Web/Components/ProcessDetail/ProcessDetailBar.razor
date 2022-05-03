@@ -1,5 +1,5 @@
 ﻿@using DasContract.Abstraction.Processes.Tasks
-@using DasContract.Editor.Web.Components.Common
+@using DasContract.Editor.Web.Components.Buttons
 @using DasContract.Editor.Web.Extensions
 @using DasContract.Abstraction.Processes
 
@@ -12,7 +12,7 @@
             @if (!(EditedElement is Process))
             {
                 <h6 class="element-type-attribute">
-                Process Id: @(ProcessManager.TryGetProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "")
+                Process Id: @(ProcessManager.TryRetrieveProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "")
                 </h6>
              }
         </div>

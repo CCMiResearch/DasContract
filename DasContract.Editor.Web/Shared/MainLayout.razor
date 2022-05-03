@@ -7,6 +7,15 @@
             <div class="content">
                 @Body
             </div>
+
+        </div>
+        <div class="alert-container">
+            @foreach (var alert in Alerts)
+            {
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    <strong>@alert</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>}
         </div>
     </div>
 </CascadingValue>

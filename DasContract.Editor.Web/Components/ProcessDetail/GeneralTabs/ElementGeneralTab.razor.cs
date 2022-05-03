@@ -2,7 +2,7 @@
 using DasContract.Abstraction.Processes;
 using DasContract.Editor.Web.Services.EditElement;
 using DasContract.Editor.Web.Services.JsInterop;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
@@ -24,13 +24,13 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         private IJSRuntime JSRunTime { get; set; }
 
         [Inject]
-        private IContractManager ContractManager { get; set; }
+        private IProcessModelManager ProcessModelManager { get; set; }
 
         [Inject]
         private IBpmnJsCommunicator BpmnJsCommunicator { get; set; }
 
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         protected string _idInputClassDecorator;
         protected string _idInputErrorMessage;
@@ -44,6 +44,10 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         {
             var id = args.Value as string;
             _idInputErrorMessage = string.Empty;
+            _idInputClassDecorator = "";
+
+            if (id == ContractElement.Id)
+                return;
 
             if (string.IsNullOrEmpty(id))
             {
@@ -57,7 +61,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 _idInputErrorMessage += "The id can't be longer than 50 characters\n";
                 return;
             }
-            if (id != ContractElement.Id && !ContractManager.IsElementIdAvailable(id))
+            if (id != ContractElement.Id && !ProcessModelManager.IsElementIdAvailable(id))
             {
                 _idInputClassDecorator = "is-invalid";
                 _idInputErrorMessage += "The id must be unique\n";
@@ -69,11 +73,11 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 _idInputErrorMessage += "Id must consist of alphanumerical characters and underscores\n";
                 return;
             }
-            _idInputClassDecorator = "";
+            
 
             if (ContractElement is Process)
             {
-                ContractManager.UpdateProcessId(ContractElement as Process, id);
+                ProcessModelManager.UpdateProcessId(ContractElement as Process, id);
                 EditElementService.EditedElementModified();
             }
             else
@@ -95,7 +99,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 elementId = ContractElement.Id;
 
             if (elementId != null)
-                await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", elementId, name);
+                await BpmnJsCommunicator.UpdateElementName(elementId, name);
         }
     }
 }

@@ -5,24 +5,23 @@ self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
-const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.ttf$/, /\.eot$/, /\.woff2$/, /\.svg$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/];
-const offlineAssetsExclude = [ /^service-worker\.js$/, /^routes\.json$/];
+const offlineAssetsIncl = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/,
+    /\.json$/, /\.css$/, /\.woff$/, /\.ttf$/, /\.eot$/, /\.woff2$/, /\.svg$/,
+    /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.dascontract$/,
+    /\.xml$/];
+const offlineAssetsExcl = [ /^service-worker\.js$/, /^routes\.json$/];
 
 async function onInstall(event) {
-    console.info('Service worker: Install');
-
-    // Fetch and cache all matching items from the assets manifest
+    // Cache items from the assets manifest based on regex rules
     const assetsRequests = self.assetsManifest.assets
-        .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
-        .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
+        .filter(asset => offlineAssetsIncl.some(pattern => pattern.test(asset.url)))
+        .filter(asset => !offlineAssetsExcl.some(pattern => pattern.test(asset.url)))
         .map(asset => new Request(asset.url, { integrity: asset.hash }));
     await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
 }
 
 async function onActivate(event) {
-    console.info('Service worker: Activate');
-
-    // Delete unused caches
+    // Delete unused caches left behind by inactive service workers
     const cacheKeys = await caches.keys();
     await Promise.all(cacheKeys
         .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
@@ -33,11 +32,10 @@ async function onFetch(event) {
     let cachedResponse = null;
     if (event.request.method === 'GET') {
         // For all navigation requests, try to serve index.html from cache
-        // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
         const shouldServeIndexHtml = event.request.mode === 'navigate';
-
         let request = shouldServeIndexHtml ? 'index.html' : event.request;
         const cache = await caches.open(cacheName);
+        // Try to retrieve the request from cache, ignoring any query params
         cachedResponse = await cache.match(request, {ignoreSearch: true});
     }
 

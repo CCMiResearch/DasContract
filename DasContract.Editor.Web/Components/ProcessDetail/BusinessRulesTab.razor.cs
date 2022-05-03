@@ -1,9 +1,7 @@
-﻿using DasContract.Editor.Web.Services;
+﻿using DasContract.Editor.Web.Services.Save;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
@@ -25,14 +23,14 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
             if (firstRender)
             {
                 await JSRunTime.InvokeVoidAsync("dmnModellerLib.createModeler", BusinessRuleTask.BusinessRuleDefinitionXml ?? "");
-                SaveManager.SaveRequested += HandleSaveRequested;
+                SaveManager.StateSaveRequested += HandleSaveRequested;
             }
             
         }
 
         public async void Dispose()
         {
-            SaveManager.SaveRequested -= HandleSaveRequested;
+            SaveManager.StateSaveRequested -= HandleSaveRequested;
             await SaveModel();
         }
 

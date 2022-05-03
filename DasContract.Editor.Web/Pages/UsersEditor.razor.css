@@ -4,9 +4,13 @@
     grid-template-columns: 1fr 1fr;
 }
 
+label {
+    font-size: 0.9em;
+    margin-bottom: 0px;
+}
+
 .add-button {
-    align-self: flex-end;
-    margin-top: 1em;
+    min-width: max-content;
 }
 
 .users, .roles {

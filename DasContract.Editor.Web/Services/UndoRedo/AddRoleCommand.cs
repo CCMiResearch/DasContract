@@ -1,5 +1,5 @@
 ﻿using DasContract.Abstraction.Processes;
-using DasContract.Editor.Web.Services.Processes;
+using DasContract.Editor.Web.Services.ContractManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class AddRoleCommand : ContractCommand
+    public class AddRoleCommand : UserModelCommand
     {
         private ProcessRole AddedRole { get; set; }
 
-        public AddRoleCommand(IContractManager contractManager) : base(contractManager)
+        public AddRoleCommand(IUserModelManager userModelManager) : base(userModelManager)
         {
 
         }
@@ -19,17 +19,22 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         {
             if (AddedRole != null)
             {
-                ContractManager.AddRole(AddedRole);
+                UserModelManager.AddRole(AddedRole);
             }
             else
             {
-                AddedRole = ContractManager.AddNewRole();
+                AddedRole = UserModelManager.AddNewRole();
             }
         }
 
         public override void Undo()
         {
-            ContractManager.RemoveRole(AddedRole);
+            UserModelManager.RemoveRole(AddedRole);
+        }
+
+        public string GetRoleId()
+        {
+            return AddedRole?.Id;
         }
     }
 }

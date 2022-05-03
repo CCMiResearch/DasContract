@@ -1,0 +1,16 @@
+﻿.toolbar-item-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-button{
+    padding-top: 0.2rem;
+}
+
+.bi {
+    font-size: 1.8rem;
+}
+
+.tool-bar-item-name {
+    font-size: 0.8rem
+}

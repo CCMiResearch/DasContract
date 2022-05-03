@@ -1,0 +1,24 @@
+﻿$primary: #1b6ec2;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "_variables.scss";
+
+.btn-header {
+    @include button-variant($dark-primary, $dark-primary, $white, $dark-primary, $dark-primary, $gray-300, $dark-primary, $dark-primary, $white);
+}
+
+.btn-download {
+    @include button-variant($white, $white, $black, $gray-200, $gray-200, $black, $gray-300, $gray-300, $black);
+}
+
+.nav-buttons .btn-header {
+    border-radius: 0 !important;
+}
+
+.nav-buttons .btn-header:hover {
+    border-bottom: 4px solid $blue-400;
+}
+
+.nav-buttons .btn-header.active {
+    border-bottom: 4px solid $blue-400
+}

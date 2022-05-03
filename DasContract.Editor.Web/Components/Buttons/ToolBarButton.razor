@@ -1,0 +1,8 @@
+﻿<div class="toolbar-item-container">
+    <button class="btn toolbar-button btn-download" id="toolbar-button-@(ToolBarItem.Id)" @onclick="@((args) => ToolBarItem.OnToolBarItemClick(this, args))">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-@(ToolBarItem.IconName) me-1"></i>
+            <div class="tool-bar-item-name">@ToolBarItem.Name</div>
+        </div>
+    </button>
+</div>

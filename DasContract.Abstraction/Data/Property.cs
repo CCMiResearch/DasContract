@@ -8,7 +8,7 @@ namespace DasContract.Abstraction.Data
         public string Name { get; set; }
         public bool IsMandatory { get; set; } = true;
 
-        public PropertyType? PropertyType { get; set; }
+        public PropertyType? PropertyType { get; set; } = Data.PropertyType.Single;
 
         /// <summary>
         /// The keytype in case of PropertyType=PropertyType.Dictionary
@@ -29,11 +29,11 @@ namespace DasContract.Abstraction.Data
 
             if (bool.TryParse(xElement.Attribute("IsMandatory")?.Value, out var isMandatory))
                 IsMandatory = isMandatory;
-            if (System.Enum.TryParse<PropertyType>(xElement.Attribute("PropertyType")?.Value, out var propertyType))
+            if (System.Enum.TryParse<PropertyType>(xElement.Attribute("PropertyType")?.Value, true, out var propertyType))
                 PropertyType = propertyType;
-            if (System.Enum.TryParse<PropertyDataType>(xElement.Attribute("KeyType")?.Value, out var keyType))
+            if (System.Enum.TryParse<PropertyDataType>(xElement.Attribute("KeyType")?.Value, true, out var keyType))
                 KeyType = keyType;
-            if (System.Enum.TryParse<PropertyDataType>(xElement.Attribute("DataType")?.Value, out var dataType))
+            if (System.Enum.TryParse<PropertyDataType>(xElement.Attribute("DataType")?.Value, true, out var dataType))
                 DataType = dataType;
 
         }

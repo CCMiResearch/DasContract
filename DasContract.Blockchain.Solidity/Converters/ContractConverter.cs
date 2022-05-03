@@ -30,7 +30,8 @@ namespace DasContract.Blockchain.Solidity.Converters
         public ContractConverter(Contract contract)
         {
             Contract = contract;
-            mainSolidityContract = new SolidityContract(contract.Id);
+
+            mainSolidityContract = new SolidityContract(contract.Name);
 
             DataModelConverter = new DataModelConverter(this);
             CreateProcessConverters();

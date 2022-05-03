@@ -2,6 +2,7 @@
 using Liquid.NET.Constants;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DasContract.Blockchain.Solidity.SolidityComponents
 {
@@ -51,9 +52,19 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
 
         public override string ToString(int indent = 0)
         {
+            string safeName;
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                safeName = "MainContract";
+            }
+            else
+            {
+                safeName = Regex.Replace(name, @"\s+", "");
+            }
+
             var ctx = new TemplateContext();
             ctx.DefineLocalVariable("components", FunctionsToLiquid(indent)).
-                DefineLocalVariable("name",LiquidString.Create(name)).
+                DefineLocalVariable("name",LiquidString.Create(safeName)).
                 DefineLocalVariable("inherits", InheritanceToLiquid());
 
             return template.Render(ctx).Result;

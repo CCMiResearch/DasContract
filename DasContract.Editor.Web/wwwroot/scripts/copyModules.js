@@ -7,6 +7,7 @@ const filesToCopy = [
     "jquery/dist/jquery.slim.min.js",
     "bootstrap/dist/css/bootstrap.min.css",
     "bootstrap/dist/js/bootstrap.bundle.min.js",
+    "bootstrap-icons/font/**",
     "dmn-js/dist/assets/**",
     "dmn-js/dist/dmn-modeler.production.min.js",
     "select2/dist/css/select2.min.css",

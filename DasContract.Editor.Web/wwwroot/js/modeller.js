@@ -13,69 +13,54 @@ import ReplaceMenuProvider from 'bpmn-js/lib/features/popup-menu/ReplaceMenuProv
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
 import customRules from "./modellerCustomRules";
-import { saveAs } from 'file-saver';
+import { downloadSvg, downloadSvgAsPng } from "./fileSaver";
+
+const ELEMENT_EVENTS = [
+    'element.changed',
+    'element.click',
+    'shape.added',
+    'shape.create',
+    'shape.removed',
+    'element.updateId',
+    'connection.added',
+    'connection.removed',
+    'root.added',
+    'root.removed'
+];
 
 
 export function hookEvents() {
     var eventBus = window.modeler.get('eventBus');
 
-    var elementEvents = [
-        'element.changed',
-        'element.click',
-        'shape.added',
-        'shape.create',
-        'shape.removed',
-        'element.updateId',
-        'connection.added',
-        'connection.removed',
-        'root.added',
-        'root.removed'
-    ];
-    eventBus.on('copyPaste.elementsPasted', function (e) {
-        console.log(e);
-
+    ELEMENT_EVENTS.forEach(function (event) {
+        eventBus.on(event, eventHandler)
     });
-    eventBus.on('copyPaste.elementsCopied', function (e) {
-        console.log(e);
-    });
-
-    elementEvents.forEach(function (event) {
-
-        eventBus.on(event, function (e) {
-            // e.element = the model element
-            // e.gfx = the graphical element
-            if (modellerLib.eventHandlerInstanceRef != null) {
-                let eventObj = copyEventInformation(e);
-                modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
-            }
-            /*
-            if (e.type === "shape.added") {
-                if (e.element.businessObject.mamaMia == null) {
-                    e.element.businessObject.mamaMia = "yooo";
-                    console.log("adding mama mia");
-                }
-                else {
-                    console.log(e.element.businessObject.mamaMia);
-                }
-
-            }
-            */
-            console.log(event, 'on', e, ' element id: ', e.element.id);
-        });
-    });
-
 }
 
-export function saveAsSvg() {
-    window.modeler.saveSVG({}, function (err, svg) {
-        if (err) {
-            console.log(err);
-        }
+export function unhookEvents() {
+    var eventBus = window.modeler.get('eventBus');
 
-        var FileSaver = require('file-saver');
-        var blob = new Blob([svg], { type: "image/svg" });
-        FileSaver.saveAs(blob, "diagram.svg");
-    })
+    ELEMENT_EVENTS.forEach(function (event) {
+        eventBus.off(event, eventHandler)
+    });
+}
+
+async function eventHandler(e) {
+    if (modellerLib.eventHandlerInstanceRef != null) {
+        let eventObj = copyEventInformation(e);
+        await modellerLib.eventHandlerInstanceRef.invokeMethodAsync("HandleBpmnElementEvent", eventObj);
+    }
+}
+
+export async function saveAsSvg(diagramName) {
+    const svg = (await window.modeler.saveSVG()).svg;
+    downloadSvg(`process-diagram-${diagramName}.svg`, svg);
+}
+
+export async function saveAsPng(diagramName) {
+    const viewport = $('.viewport')[0].getBoundingClientRect();
+    const svg = (await window.modeler.saveSVG()).svg;
+    downloadSvgAsPng(`process-diagram-${diagramName}.png`, svg, viewport.width, viewport.height );
 }
 
 export function updateElementName(elementId, elementName) {
@@ -194,8 +179,8 @@ export async function createModeler(modelerXml, canvasId) {
         additionalModules: [customRules]
     });
 
-    
-    
+    unhookEvents();
+
     if (modelerXml !== '') {
         await window.modeler.importXML(modelerXml);
         hookEvents(); //Hook events after the import is done

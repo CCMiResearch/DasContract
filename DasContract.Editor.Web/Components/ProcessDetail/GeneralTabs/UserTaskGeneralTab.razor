@@ -1,10 +1,11 @@
 ﻿@using DasContract.Abstraction.Processes
+@using DasContract.Editor.Web.Components.Select2;
 
 <TabSection SectionName="Details">
     <div class="mb-3">
         <label class="form-label">Assignee</label>
         <Select2 TItem="ProcessUser"
-                 Options="ContractManager.GetProcessUsers()"
+                 Options="UserModelManager.GetProcessUsers()"
                  ContentSelector="(u) => u.Name"
                  ValueSelector="(u) => u.Id"
                  Id="@($"{UserTask.Id}-assignee")"
@@ -16,7 +17,7 @@
     <div class="mb-3">
         <label class="form-label">Candidate users</label>
         <Select2 TItem="ProcessUser"
-                 Options="ContractManager.GetProcessUsers()"
+                 Options="UserModelManager.GetProcessUsers()"
                  ContentSelector="(u) => u.Name"
                  ValueSelector="(u) => u.Id"
                  Id="@($"{UserTask.Id}-candidate-users")"
@@ -27,7 +28,7 @@
     <div class="mb-3">
         <label class="form-label">Candidate roles</label>
         <Select2 TItem="ProcessRole"
-                 Options="ContractManager.GetProcessRoles()"
+                 Options="UserModelManager.GetProcessRoles()"
                  ContentSelector="(r) => r.Name"
                  ValueSelector="(r) => r.Id"
                  Id="@($"{UserTask.Id}-candidate-roles")"

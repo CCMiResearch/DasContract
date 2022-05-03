@@ -1,15 +1,24 @@
 {
-  "name": "DasContract",
+  "name": "DasContract Editor",
   "short_name": "DasContract",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#03173d",
+  "theme_color": "#212529",
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "dist/logo/icon-512x512.png",
       "type": "image/png",
-      "sizes": "600x600"
+      "sizes": "512x512"
+    },
+    {
+      "src": "dist/logo/icon-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "dist/logo/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ]
 }

@@ -5,7 +5,7 @@
         </button>
         @if (UserFormService.IsPreviewOpen)
         {
-            <Refresh @ref=Refresh RefreshRequested="() => TryRefreshUserForm()" />
+            <RefreshButton @ref=Refresh RefreshRequested="() => TryRefreshUserForm()" />
         }
     </div>
     <ScriptTab Script="@UserTask.FormDefinition" ScriptChanged="OnScriptChanged" Language="xml"></ScriptTab>
