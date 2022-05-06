@@ -26,5 +26,9 @@
   {
     "outputFile": "Pages/LandingPage.razor.css",
     "inputFile": "Pages/LandingPage.razor.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/preloader.css",
+    "inputFile": "wwwroot/css/preloader.scss"
   }
 ]

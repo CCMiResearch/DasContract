@@ -21,7 +21,7 @@ export async function createModeler(modelerXml) {
 }
 
 export async function saveXml() {
-    let savedXml = (await window.dmnModeler.saveXML({format: false})).xml
+    let savedXml = (await window.dmnModeler.saveXML({ format: false })).xml
     return savedXml;
 }
 

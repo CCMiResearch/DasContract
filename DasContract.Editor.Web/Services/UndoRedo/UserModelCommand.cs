@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public abstract class ContractCommand
+    public abstract class UserModelCommand
     {
-        protected IContractManager ContractManager { get; set; }
+        protected IUserModelManager UserModelManager { get; set; }
 
-        public ContractCommand(IContractManager contractManager)
+        public UserModelCommand(IUserModelManager userModelManager)
         {
-            ContractManager = contractManager;
+            UserModelManager = userModelManager;
         }
 
         public abstract void Execute();

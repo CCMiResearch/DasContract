@@ -15,8 +15,12 @@ namespace DasContract.Editor.Web.Services.JsInterop
 
         public async Task UpdateElementId(string oldElementId, string newElementId)
         {
-            Console.WriteLine($"Updateing {oldElementId} to {newElementId}");
             await JSRuntime.InvokeVoidAsync("modellerLib.updateElementId", oldElementId, newElementId);
+        }
+
+        public async Task UpdateElementName(string elementId, string newElementName)
+        {
+            await JSRuntime.InvokeVoidAsync("modellerLib.updateElementName", elementId, newElementName);
         }
     }
 }

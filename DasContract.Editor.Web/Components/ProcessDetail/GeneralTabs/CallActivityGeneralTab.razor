@@ -4,13 +4,13 @@
 <TabSection SectionName="Details">
     <div class="mb-3">
         <label class="form-label">Called process</label>
-        <Select2 TItem="CallActivityOption"
-                 Options="ContractManager.GetAllProcesses().Select(p => new CallActivityOption { CalledElementId = p.Id, CalledElementName = p.Name})"
-                 ContentSelector="(p) => p.CalledElementName ?? p.CalledElementId"
-                 ValueSelector="(p) => p.CalledElementId"
+        <Select2 TItem="string"
+                 Options="ProcessModelManager.GetAllProcessIds()"
+                 ContentSelector="(p) => p"
+                 ValueSelector="(p) => p"
                  Id="@($"{CallActivity.Id}-called-process")"
                  Selected="@(CreateSelectedProcessList())"
-                 SelectedChanged="@((selected) => {CallActivity.CalledElement = selected.FirstOrDefault()?.CalledElementId; })"
+                 SelectedChanged="@((selected) => {CallActivity.CalledElement = selected.FirstOrDefault(); })"
                  Multiple="false" />
     </div>
 </TabSection>

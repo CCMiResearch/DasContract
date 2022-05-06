@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class RemoveUserCommand : ContractCommand
+    public class RemoveUserCommand : UserModelCommand
     {
         private ProcessUser RemovedUser { get; set; }
 
-        public RemoveUserCommand(IContractManager contractManager, ProcessUser removedUser) : base(contractManager)
+        public RemoveUserCommand(IUserModelManager userModelManager, ProcessUser removedUser) : base(userModelManager)
         {
             RemovedUser = removedUser;
         }
 
         public override void Execute()
         {
-            ContractManager.RemoveUser(RemovedUser);
+            UserModelManager.RemoveUser(RemovedUser);
         }
 
         public override void Undo()
         {
-            ContractManager.AddUser(RemovedUser);
+            UserModelManager.AddUser(RemovedUser);
         }
     }
 }

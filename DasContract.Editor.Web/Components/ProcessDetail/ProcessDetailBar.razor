@@ -12,7 +12,7 @@
             @if (!(EditedElement is Process))
             {
                 <h6 class="element-type-attribute">
-                Process Id: @(ProcessManager.TryGetProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "")
+                Process Id: @(ProcessManager.TryRetrieveProcessOfElement(EditedElement?.Id, out var process) ? process.Id : "")
                 </h6>
              }
         </div>

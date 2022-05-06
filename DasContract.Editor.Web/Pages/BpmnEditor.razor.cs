@@ -17,8 +17,6 @@ namespace DasContract.Editor.Web.Pages
 {
     public partial class BpmnEditor : ComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IBpmnEventHandler BpmnEventHandler { get; set; }
 
         [Inject]
         private IBpmnSynchronizer BpmnSynchronizer { get; set; }
@@ -27,7 +25,10 @@ namespace DasContract.Editor.Web.Pages
         private IContractManager ContractManager { get; set; }
 
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IProcessModelManager ProcessModelManager { get; set; }
+
+        [Inject]
+        private IEditElementService EditElementService { get; set; }
 
         [Inject]
         protected ResizeHandler ResizeHandler { get; set; }
@@ -77,7 +78,7 @@ namespace DasContract.Editor.Web.Pages
                 ShowDetailBar = true;
             }
 
-            EditElementService.EditElementChanged += HandleEditElementChanged;
+            EditElementService.EditElementAssigned += HandleEditElementChanged;
             SaveManager.StateSaveRequested += SaveDiagramXml;
             UserFormService.RefreshRequested += HandleUserFormPreviewChanged;
         }
@@ -128,7 +129,7 @@ namespace DasContract.Editor.Web.Pages
         private async Task SaveDiagramXml(object sender, EventArgs e)
         {
             var diagramXml = await JSRunTime.InvokeAsync<string>("modellerLib.getDiagramXML");
-            ContractManager.SetProcessDiagram(diagramXml);
+            ProcessModelManager.SetProcessBpmnDefinition(diagramXml);
         }
 
         private void HandleUserFormPreviewChanged()
@@ -143,6 +144,7 @@ namespace DasContract.Editor.Web.Pages
             await SaveManager.RequestStateSave();
             SaveManager.StateSaveRequested -= SaveDiagramXml;
             UserFormService.RefreshRequested -= HandleUserFormPreviewChanged;
+            EditElementService.EditElementAssigned -= HandleEditElementChanged;
             Layout.RemoveToolbarItem("bpmn-download-png");
             Layout.RemoveToolbarItem("bpmn-download-svg");
         }

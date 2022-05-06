@@ -18,15 +18,15 @@ namespace DasContract.Editor.Web.Pages
         protected Dictionary<string, Select2<ProcessRole>> _select2Components = new Dictionary<string, Select2<ProcessRole>>();
 
         [Inject]
-        protected IContractManager ContractManager { get; set; }
+        protected IUserModelManager UserModelManager { get; set; }
 
         [Inject]
-        protected UsersRolesManager UsersRolesManager { get; set; }
+        protected UsersRolesFacade UsersRolesFacade { get; set; }
 
-        protected IDictionary<ProcessUser, bool> FilteredUsers { get; set; } = new Dictionary<ProcessUser, bool>();
+        protected IEnumerable<ProcessUser> FilteredUsers { get; set; } = new List<ProcessUser>();
         protected string UsersFilter { get; set; }
 
-        protected IDictionary<ProcessRole, bool> FilteredRoles { get; set; } = new Dictionary<ProcessRole, bool>();
+        protected IEnumerable<ProcessRole> FilteredRoles { get; set; } = new List<ProcessRole>();
         protected string RolesFilter { get; set; }
 
         [Inject]
@@ -40,10 +40,10 @@ namespace DasContract.Editor.Web.Pages
             base.OnInitialized();
 
             UserInputHandler.KeyDown += HandleKeyDown;
-            ContractManager.UserRemoved += OnUserRemoved;
-            ContractManager.UserAdded += OnUserAdded;
-            ContractManager.RoleAdded += OnRoleAdded;
-            ContractManager.RoleRemoved += OnRoleRemoved;
+            UserModelManager.UserRemoved += OnUserRemoved;
+            UserModelManager.UserAdded += OnUserAdded;
+            UserModelManager.RoleAdded += OnRoleAdded;
+            UserModelManager.RoleRemoved += OnRoleRemoved;
 
             FilterUsers(UsersFilter);
             FilterRoles(RolesFilter);
@@ -52,22 +52,21 @@ namespace DasContract.Editor.Web.Pages
         public void Dispose()
         {
             UserInputHandler.KeyDown -= HandleKeyDown;
-            ContractManager.UserRemoved -= OnUserRemoved;
-            ContractManager.UserAdded -= OnUserAdded;
-            ContractManager.RoleAdded -= OnRoleAdded;
-            ContractManager.RoleRemoved -= OnRoleRemoved;
+            UserModelManager.UserRemoved -= OnUserRemoved;
+            UserModelManager.UserAdded -= OnUserAdded;
+            UserModelManager.RoleAdded -= OnRoleAdded;
+            UserModelManager.RoleRemoved -= OnRoleRemoved;
         }
 
         protected void FilterUsers(string keyword)
         {
-            Console.WriteLine(_select2Components.Count);
             UsersFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredUsers = ContractManager.GetProcessUsers().ToDictionary(u => u, u => true);
+                FilteredUsers = UserModelManager.GetProcessUsers().ToList();
             else
             {
-                FilteredUsers = ContractManager.GetProcessUsers()
-                    .ToDictionary(u => u, u => UserFilterPredicate(u, keyword));
+                FilteredUsers = UserModelManager.GetProcessUsers()
+                    .Where(u => UserFilterPredicate(u, keyword)).ToList();
             }
         }
 
@@ -75,11 +74,11 @@ namespace DasContract.Editor.Web.Pages
         {
             RolesFilter = keyword;
             if (string.IsNullOrWhiteSpace(keyword))
-                FilteredRoles = ContractManager.GetProcessRoles().ToDictionary(r => r, r => true);
+                FilteredRoles = UserModelManager.GetProcessRoles();
             else
             {
-                FilteredRoles = ContractManager.GetProcessRoles()
-                    .ToDictionary(r => r, r => RolesFilterPredicate(r, keyword));
+                FilteredRoles = UserModelManager.GetProcessRoles()
+                    .Where(r => RolesFilterPredicate(r, keyword));
             }
         }
 
@@ -106,6 +105,7 @@ namespace DasContract.Editor.Web.Pages
         protected void OnUserAdded(object sender, ProcessUser addedUser)
         {
             FilterUsers(UsersFilter);
+            StateHasChanged();
         }
 
         protected void OnRoleRemoved(object sender, ProcessRole removedRole)
@@ -120,24 +120,24 @@ namespace DasContract.Editor.Web.Pages
 
         protected void OnRoleAssigned(string roleId, string userId)
         {
-            UsersRolesManager.UserRoleAssigned(_select2Components[userId], roleId);
+            UsersRolesFacade.OnUserRoleAssign(_select2Components[userId], roleId);
         }
 
         protected void OnRoleUnassigned(string roleId, string userId)
         {
-            UsersRolesManager.UserRoleUnassigned(_select2Components[userId], roleId);
+            UsersRolesFacade.OnUserRoleUnassign(_select2Components[userId], roleId);
         }
 
         public void HandleKeyDown(object sender, KeyEvent e)
         {
             if (e.CtrlKey && e.Key == "z")
             {
-                UsersRolesManager.Undo();
+                UsersRolesFacade.Undo();
                 StateHasChanged();
             }
             else if (e.CtrlKey && e.Key == "y")
             {
-                UsersRolesManager.Redo();
+                UsersRolesFacade.Redo();
                 StateHasChanged();
             }
         }
