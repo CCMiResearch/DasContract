@@ -4,6 +4,7 @@
 &lt;bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"&gt;&lt;bpmn:collaboration id="Collaboration_0fy5itr"&gt;&lt;bpmn:participant id="Participant_1c72387" name="European Parliament Elections" processRef="Process_0teruuw" /&gt;&lt;bpmn:participant id="Participant_1fh3j74" name="Country Elections" processRef="Process_12s0dt2" /&gt;&lt;/bpmn:collaboration&gt;&lt;bpmn:process id="Process_0teruuw"&gt;&lt;bpmn:startEvent id="Event_0cs982d"&gt;&lt;bpmn:outgoing&gt;Flow_0be6kms&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0be6kms" sourceRef="Event_0cs982d" targetRef="Activity_12ynylc" /&gt;&lt;bpmn:sequenceFlow id="Flow_0dwyn97" sourceRef="Activity_12ynylc" targetRef="Activity_1565eto" /&gt;&lt;bpmn:sequenceFlow id="Flow_1vzt3ae" sourceRef="Activity_1565eto" targetRef="Activity_110qxyv" /&gt;&lt;bpmn:userTask id="Activity_1565eto" name="[Political Party] Register New Party"&gt;&lt;bpmn:incoming&gt;Flow_0dwyn97&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1vzt3ae&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_110qxyv" name="[Candidate]&amp;#10;Register Candidate"&gt;&lt;bpmn:incoming&gt;Flow_1vzt3ae&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_121ku6k&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16arfxr&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_16arfxr" sourceRef="Activity_110qxyv" targetRef="Activity_0oi4ov6" /&gt;&lt;bpmn:userTask id="Activity_0oi4ov6" name="[Political Party] Approve and Order Candidates"&gt;&lt;bpmn:incoming&gt;Flow_16arfxr&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1cjb4tb&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_090i2i9&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_090i2i9" sourceRef="Activity_0oi4ov6" targetRef="Activity_1uvy5dr" /&gt;&lt;bpmn:scriptTask id="Activity_1uvy5dr" name="Start Country Elections"&gt;&lt;bpmn:incoming&gt;Flow_090i2i9&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1jx5gpr&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1gm6gt7&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:boundaryEvent id="Event_10ke0j8" attachedToRef="Activity_1565eto"&gt;&lt;bpmn:outgoing&gt;Flow_121ku6k&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_1dcjbn6" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:boundaryEvent id="Event_0ti8212" attachedToRef="Activity_110qxyv"&gt;&lt;bpmn:outgoing&gt;Flow_1cjb4tb&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0q7mhaz" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:boundaryEvent id="Event_1x6kz51" attachedToRef="Activity_0oi4ov6"&gt;&lt;bpmn:outgoing&gt;Flow_1jx5gpr&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0bjg54n" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1gm6gt7" sourceRef="Activity_1uvy5dr" targetRef="Activity_081v4hc" /&gt;&lt;bpmn:callActivity id="Activity_081v4hc" name="Country Elections"&gt;&lt;bpmn:incoming&gt;Flow_1gm6gt7&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1vs8jz2&lt;/bpmn:outgoing&gt;&lt;bpmn:multiInstanceLoopCharacteristics /&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:endEvent id="Event_04k40lc"&gt;&lt;bpmn:incoming&gt;Flow_1vs8jz2&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1vs8jz2" sourceRef="Activity_081v4hc" targetRef="Event_04k40lc" /&gt;&lt;bpmn:sequenceFlow id="Flow_121ku6k" sourceRef="Event_10ke0j8" targetRef="Activity_110qxyv" /&gt;&lt;bpmn:sequenceFlow id="Flow_1cjb4tb" sourceRef="Event_0ti8212" targetRef="Activity_0oi4ov6" /&gt;&lt;bpmn:sequenceFlow id="Flow_1jx5gpr" sourceRef="Event_1x6kz51" targetRef="Activity_1uvy5dr" /&gt;&lt;bpmn:scriptTask id="Activity_12ynylc" name="Initiate Elections"&gt;&lt;bpmn:incoming&gt;Flow_0be6kms&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0dwyn97&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_12s0dt2"&gt;&lt;bpmn:startEvent id="Event_0y58lx4"&gt;&lt;bpmn:outgoing&gt;Flow_0vdpmbf&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0vdpmbf" sourceRef="Event_0y58lx4" targetRef="Activity_0qtefup" /&gt;&lt;bpmn:sequenceFlow id="Flow_0cpa2dd" sourceRef="Activity_0qtefup" targetRef="Activity_0n6z5yk" /&gt;&lt;bpmn:sequenceFlow id="Flow_17jj146" sourceRef="Activity_0n6z5yk" targetRef="Activity_1bdqlhh" /&gt;&lt;bpmn:sequenceFlow id="Flow_1mi4331" sourceRef="Activity_1bdqlhh" targetRef="Activity_0a673cx" /&gt;&lt;bpmn:sequenceFlow id="Flow_1p5hgui" sourceRef="Activity_0a673cx" targetRef="Activity_0warevq" /&gt;&lt;bpmn:scriptTask id="Activity_0warevq" name="Assign Privilegues to the Elected Candidates"&gt;&lt;bpmn:incoming&gt;Flow_1p5hgui&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1qutvz3&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:scriptTask id="Activity_0a673cx" name="Distribute Seats"&gt;&lt;bpmn:incoming&gt;Flow_1mi4331&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1p5hgui&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:userTask id="Activity_0n6z5yk" name="[EU Citizen]&amp;#10;Vote"&gt;&lt;bpmn:incoming&gt;Flow_0cpa2dd&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_17jj146&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_03njcma" sourceRef="Event_10czjrb" targetRef="Activity_1bdqlhh" /&gt;&lt;bpmn:boundaryEvent id="Event_10czjrb" attachedToRef="Activity_0n6z5yk"&gt;&lt;bpmn:outgoing&gt;Flow_03njcma&lt;/bpmn:outgoing&gt;&lt;bpmn:timerEventDefinition id="TimerEventDefinition_0o2skcs" /&gt;&lt;/bpmn:boundaryEvent&gt;&lt;bpmn:scriptTask id="Activity_1bdqlhh" name="Count Votes"&gt;&lt;bpmn:incoming&gt;Flow_17jj146&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_03njcma&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1mi4331&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:endEvent id="Event_1140fyj"&gt;&lt;bpmn:incoming&gt;Flow_1qutvz3&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1qutvz3" sourceRef="Activity_0warevq" targetRef="Event_1140fyj" /&gt;&lt;bpmn:scriptTask id="Activity_0qtefup" name="Send ballots to the elegible EU Citizens"&gt;&lt;bpmn:incoming&gt;Flow_0vdpmbf&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0cpa2dd&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;/bpmn:process&gt;&lt;bpmndi:BPMNDiagram id="BPMNDiagram_1"&gt;&lt;bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0fy5itr"&gt;&lt;bpmndi:BPMNShape id="Participant_1c72387_di" bpmnElement="Participant_1c72387" isHorizontal="true"&gt;&lt;dc:Bounds x="340" y="60" width="1180" height="250" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1jx5gpr_di" bpmnElement="Flow_1jx5gpr"&gt;&lt;di:waypoint x="1070" y="122" /&gt;&lt;di:waypoint x="1070" y="90" /&gt;&lt;di:waypoint x="1180" y="90" /&gt;&lt;di:waypoint x="1180" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1cjb4tb_di" bpmnElement="Flow_1cjb4tb"&gt;&lt;di:waypoint x="910" y="120" /&gt;&lt;di:waypoint x="910" y="90" /&gt;&lt;di:waypoint x="1020" y="90" /&gt;&lt;di:waypoint x="1020" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_121ku6k_di" bpmnElement="Flow_121ku6k"&gt;&lt;di:waypoint x="750" y="122" /&gt;&lt;di:waypoint x="750" y="90" /&gt;&lt;di:waypoint x="860" y="90" /&gt;&lt;di:waypoint x="860" y="140" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1vs8jz2_di" bpmnElement="Flow_1vs8jz2"&gt;&lt;di:waypoint x="1390" y="180" /&gt;&lt;di:waypoint x="1452" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1gm6gt7_di" bpmnElement="Flow_1gm6gt7"&gt;&lt;di:waypoint x="1230" y="180" /&gt;&lt;di:waypoint x="1290" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_090i2i9_di" bpmnElement="Flow_090i2i9"&gt;&lt;di:waypoint x="1070" y="180" /&gt;&lt;di:waypoint x="1130" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_16arfxr_di" bpmnElement="Flow_16arfxr"&gt;&lt;di:waypoint x="910" y="180" /&gt;&lt;di:waypoint x="970" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1vzt3ae_di" bpmnElement="Flow_1vzt3ae"&gt;&lt;di:waypoint x="750" y="180" /&gt;&lt;di:waypoint x="810" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0dwyn97_di" bpmnElement="Flow_0dwyn97"&gt;&lt;di:waypoint x="590" y="180" /&gt;&lt;di:waypoint x="650" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0be6kms_di" bpmnElement="Flow_0be6kms"&gt;&lt;di:waypoint x="438" y="180" /&gt;&lt;di:waypoint x="490" y="180" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0cs982d_di" bpmnElement="Event_0cs982d"&gt;&lt;dc:Bounds x="402" y="162" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1omwn42_di" bpmnElement="Activity_1565eto"&gt;&lt;dc:Bounds x="650" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_01mxvod_di" bpmnElement="Activity_110qxyv"&gt;&lt;dc:Bounds x="810" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0fu36ty_di" bpmnElement="Activity_0oi4ov6"&gt;&lt;dc:Bounds x="970" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1yh9zlk_di" bpmnElement="Activity_1uvy5dr"&gt;&lt;dc:Bounds x="1130" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0uzlfdk_di" bpmnElement="Activity_081v4hc"&gt;&lt;dc:Bounds x="1290" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_04k40lc_di" bpmnElement="Event_04k40lc"&gt;&lt;dc:Bounds x="1452" y="162" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_06klfr8_di" bpmnElement="Activity_12ynylc"&gt;&lt;dc:Bounds x="490" y="140" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1m6auae_di" bpmnElement="Event_1x6kz51"&gt;&lt;dc:Bounds x="1052" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_10ifko9_di" bpmnElement="Event_0ti8212"&gt;&lt;dc:Bounds x="892" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_13vh433_di" bpmnElement="Event_10ke0j8"&gt;&lt;dc:Bounds x="732" y="122" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_1fh3j74_di" bpmnElement="Participant_1fh3j74" isHorizontal="true"&gt;&lt;dc:Bounds x="340" y="330" width="1180" height="250" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1qutvz3_di" bpmnElement="Flow_1qutvz3"&gt;&lt;di:waypoint x="1230" y="450" /&gt;&lt;di:waypoint x="1292" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_03njcma_di" bpmnElement="Flow_03njcma"&gt;&lt;di:waypoint x="750" y="392" /&gt;&lt;di:waypoint x="750" y="370" /&gt;&lt;di:waypoint x="860" y="370" /&gt;&lt;di:waypoint x="860" y="410" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1p5hgui_di" bpmnElement="Flow_1p5hgui"&gt;&lt;di:waypoint x="1070" y="450" /&gt;&lt;di:waypoint x="1130" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1mi4331_di" bpmnElement="Flow_1mi4331"&gt;&lt;di:waypoint x="910" y="450" /&gt;&lt;di:waypoint x="970" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_17jj146_di" bpmnElement="Flow_17jj146"&gt;&lt;di:waypoint x="750" y="450" /&gt;&lt;di:waypoint x="810" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0cpa2dd_di" bpmnElement="Flow_0cpa2dd"&gt;&lt;di:waypoint x="590" y="450" /&gt;&lt;di:waypoint x="650" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0vdpmbf_di" bpmnElement="Flow_0vdpmbf"&gt;&lt;di:waypoint x="438" y="450" /&gt;&lt;di:waypoint x="490" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0y58lx4_di" bpmnElement="Event_0y58lx4"&gt;&lt;dc:Bounds x="402" y="432" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1xn9hda_di" bpmnElement="Activity_0warevq"&gt;&lt;dc:Bounds x="1130" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_187abpa_di" bpmnElement="Activity_0a673cx"&gt;&lt;dc:Bounds x="970" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1n6r13m_di" bpmnElement="Activity_0n6z5yk"&gt;&lt;dc:Bounds x="650" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1v1fwtj_di" bpmnElement="Activity_1bdqlhh"&gt;&lt;dc:Bounds x="810" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1140fyj_di" bpmnElement="Event_1140fyj"&gt;&lt;dc:Bounds x="1292" y="432" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0yd8fdy_di" bpmnElement="Activity_0qtefup"&gt;&lt;dc:Bounds x="490" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0sn6234_di" bpmnElement="Event_10czjrb"&gt;&lt;dc:Bounds x="732" y="392" width="36" height="36" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;/bpmndi:BPMNPlane&gt;&lt;/bpmndi:BPMNDiagram&gt;&lt;/bpmn:definitions&gt;</ProcessDiagram>
   <Processes>
     <Process Id="Process_0teruuw">
+      <BpmnId>Process_0teruuw</BpmnId>
       <Name>European Parliament Elections</Name>
       <IsExecutable>true</IsExecutable>
       <ParticipantId>Participant_1c72387</ParticipantId>
@@ -27,7 +28,7 @@
         
         //Check whether the candidates are approved AND are from the same party AND represent the correct country
         for (uint i = 0; i&lt;votingChoices.length; i++){
-            require(candidates[votingChoices[i]].approved==true, ""Candidate address is invalid"");
+            require(candidates[votingChoices[i]].approved==true, "Candidate address is invalid");
             address currCandidateParty = candidates[votingChoices[i]].partyId;
             if(first) {
                 firstCandidateParty = currCandidateParty;
@@ -35,17 +36,17 @@
                 first = false;
             }
             else {
-                require(currCandidateParty == firstCandidateParty, ""Candidates must be from the same party"");
+                require(currCandidateParty == firstCandidateParty, "Candidates must be from the same party");
             }
             
         }
     }
     
     function checkClosedListVotingChoices(address[] memory votingChoices, uint256 countryId) internal view {
-        require(votingChoices.length == 1, ""Only a party vote is allowed"");
+        require(votingChoices.length == 1, "Only a party vote is allowed");
         //Check whether the party is registered and is from the correct country
         PoliticalParty storage party = politicalParties[votingChoices[0]];
-        require(party.id != address(0), ""Party address is invalid"");
+        require(party.id != address(0), "Party address is invalid");
         require(party.countryId == countryId);
     }
     
@@ -53,7 +54,7 @@
         //Check whether the candidates are approved
         for (uint i = 0; i&lt;votingChoices.length; i++){
             Candidate storage candidate = candidates[votingChoices[i]];
-            require(candidate.approved == true, ""Candidate address is invalid"");
+            require(candidate.approved == true, "Candidate address is invalid");
             require(politicalParties[candidate.partyId].countryId == countryId);
         }
     }</CustomScript>
@@ -149,9 +150,9 @@
 candidateRegistrationEnd = 9598986017;
 partyRegistrationEnd = 9598986017;
 
-CountryElections memory czechElections = CountryElections(0,""Czech Republic"", 9598986017, 959994017, new address[](0), VotingSystem.OpenList, 10, 20, 18);
+CountryElections memory czechElections = CountryElections(0,"Czech Republic", 9598986017, 959994017, new address[](0), VotingSystem.OpenList, 10, 20, 18);
 countries.push(czechElections);
-CountryElections memory germanElections = CountryElections(1,""Germany"", 9598986017, 959994017, new address[](0), VotingSystem.ClosedList, 20, 40, 18);
+CountryElections memory germanElections = CountryElections(1,"Germany", 9598986017, 959994017, new address[](0), VotingSystem.ClosedList, 20, 40, 18);
 countries.push(germanElections);</Script>
         </ScriptTask>
         <ScriptTask Id="Activity_1uvy5dr">
@@ -197,7 +198,7 @@ Register Candidate</Name>
 &lt;/Form&gt;
 
 </FormDefinition>
-          <ValidationScript>PoliticalParty storage party = politicalParties[partyId];
+          <ValidationScript>PoliticalParty storage party = politicalParties[partyID];
 //check whether a party exists
 require(bytes(party.name).length &gt; 0);
 //check whether a candidate is not already registered to this address
@@ -205,7 +206,7 @@ require(candidates[msg.sender].id == address(0));
 
 Candidate memory candidate = Candidate({
     id: msg.sender,
-    name: name,
+    name: candidatename,
     website: website, 
     voteCount: 0, 
     hasSeat: false,
@@ -251,7 +252,7 @@ PoliticalParty memory party = PoliticalParty({
     website: website,
     voteCount: 0,
     allocatedSeats: 0,
-    countryId: countryId
+    countryId: countryID
 });
 politicalParties[msg.sender] = party;
 politicalPartiesKeys.push(msg.sender);</ValidationScript>
@@ -281,8 +282,8 @@ politicalPartiesKeys.push(msg.sender);</ValidationScript>
     &lt;/FieldGroup&gt;
 &lt;/Form&gt;
 </FormDefinition>
-          <ValidationScript>for(uint i = 0; i &lt; chosencandidates.length; i++){
-    Candidate storage c = candidates[chosencandidates[i]];
+          <ValidationScript>for(uint i = 0; i &lt; approvedcandidates.length; i++){
+    Candidate storage c = candidates[approvedcandidates[i]];
     //check if candidate exists and whether he is assigned to the political party
     if(bytes(c.name).length &gt; 0 &amp;&amp; c.partyId == msg.sender){
         c.approved = true;
@@ -340,6 +341,7 @@ politicalPartiesKeys.push(msg.sender);</ValidationScript>
       </ProcessElements>
     </Process>
     <Process Id="Process_12s0dt2">
+      <BpmnId>Process_12s0dt2</BpmnId>
       <Name>Country Elections</Name>
       <IsExecutable>false</IsExecutable>
       <ParticipantId>Participant_1fh3j74</ParticipantId>
@@ -444,7 +446,7 @@ politicalPartiesKeys.push(msg.sender);</ValidationScript>
           <LoopCardinality>0</LoopCardinality>
           <LoopCollection></LoopCollection>
           <TokenOperationType>Create</TokenOperationType>
-          <Script>CountryElections storage country = countries[call_Activity_1Identifier];
+          <Script>CountryElections storage country = countries[activity_081v4hcIdentifier];
 
 for (uint256 i = 0; i &lt; country.voters.length; i++)
 {
@@ -474,7 +476,7 @@ Vote</Name>
 </FormDefinition>
           <ValidationScript>require(votingchoices.length &gt; 0, "At least one cadidate must be chosen");
 //Check whether voting is open
-CountryElections storage country = countries[call_Activity_1Identifier];
+CountryElections storage country = countries[activity_081v4hcIdentifier];
 require(now &gt; country.electionBeginDate, "Voting is currently not allowed");
 
 //Check the voting choices according to the given voting system
@@ -525,7 +527,7 @@ else
           </Outgoing>
           <AttachedTo>Activity_0n6z5yk</AttachedTo>
           <TimerDefinitionType>Date</TimerDefinitionType>
-          <TimerDefinition>${countries[call_Activity_1Identifier].electionEndDate}</TimerDefinition>
+          <TimerDefinition>${countries[activity_081v4hcIdentifier].electionEndDate}</TimerDefinition>
         </TimerBoundaryEvent>
       </ProcessElements>
     </Process>

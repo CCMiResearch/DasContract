@@ -8,7 +8,7 @@ namespace DasContract.Editor.Web.Services.Converter
 {
     public interface IConverterService
     {
-        void SetConversionTarget(ConversionTarget conversionTarget);
+        public IConversionStrategy ConversionStrategy { get; set; }
         string GetConvertedCode();
         string GetErrorMessage();
         /// <summary>

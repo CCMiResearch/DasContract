@@ -2,11 +2,8 @@
 using DasContract.Abstraction.Processes.Events;
 using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
+using DasContract.Editor.Web.Services.BpmnEvents;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.ContractManagement
 {
@@ -16,34 +13,34 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         {
             switch (type)
             {
-                case "bpmn:StartEvent":
+                case BpmnConstants.BPMN_ELEMENT_START_EVENT:
                     return new StartEvent();
-                case "bpmn:EndEvent":
+                case BpmnConstants.BPMN_ELEMENT_END_EVENT:
                     return new EndEvent();
-                case "bpmn:Task":
+                case BpmnConstants.BPMN_ELEMENT_TASK:
                     return new Abstraction.Processes.Tasks.Task();
-                case "bpmn:UserTask":
+                case BpmnConstants.BPMN_ELEMENT_USER_TASK:
                     return new UserTask();
-                case "bpmn:ScriptTask":
+                case BpmnConstants.BPMN_ELEMENT_SCRIPT_TASK:
                     return new ScriptTask();
-                case "bpmn:ServiceTask":
+                case BpmnConstants.BPMN_ELEMENT_SERVICE_TASK:
                     return new ServiceTask();
-                case "bpmn:BusinessRuleTask":
+                case BpmnConstants.BPMN_ELEMENT_BUSINESS_RULE_TASK:
                     return new BusinessRuleTask();
-                case "bpmn:CallActivity":
+                case BpmnConstants.BPMN_ELEMENT_CALL_ACTIVITY:
                     return new CallActivity();
-                case "bpmn:ParallelGateway":
+                case BpmnConstants.BPMN_ELEMENT_PARALLEL_GATEWAY:
                     return new ParallelGateway();
-                case "bpmn:ExclusiveGateway":
+                case BpmnConstants.BPMN_ELEMENT_EXCLUSIVE_GATEWAY:
                     return new ExclusiveGateway();
-                case "bpmn:IntermediateThrowEvent":
+                case BpmnConstants.BPMN_ELEMENT_INTERMEDIATE_THROW_EVENT:
                     return new Event();
-                case "bpmn:BoundaryEvent":
+                case BpmnConstants.BPMN_ELEMENT_BOUNDARY_EVENT:
                     return new BoundaryEvent();
-                case "bpmn:TimerBoundaryEvent":
+                case BpmnConstants.BPMN_ELEMENT_TIMER_BOUNDARY_EVENT:
                     return new TimerBoundaryEvent();
                 default:
-                    throw new InvalidCamundaElementTypeException($"{type} is not a valid element type");
+                    throw new InvalidBpmnElementTypeException($"{type} is not a valid element type");
             }
         }
     }

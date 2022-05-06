@@ -16,25 +16,25 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
     public class BpmnSynchronizer : IBpmnSynchronizer, IDisposable
     {
 
-        private IBpmnEventHandler _bpmnEventHandler;
-        private IProcessManager _processManager;
-        private IContractManager _contractManager;
-        private EditElementService _editElementService;
-        private IJSRuntime _jsRuntime;
+        private readonly IBpmnEventListener _bpmnEventHandler;
+        private readonly IContractManager _contractManager;
+        private readonly IProcessModelManager _processModelManager;
+        private readonly IEditElementService _editElementService;
+        private readonly IJSRuntime _jsRuntime;
 
         protected string CurrentContractId { get; set; }
 
         protected bool IsInitialized { get; set; } = false;
 
         public BpmnSynchronizer(
-            IBpmnEventHandler bpmnEventHandler,
-            IProcessManager processManager,
+            IBpmnEventListener bpmnEventHandler,
+            IProcessModelManager processManager,
             IContractManager contractManager,
-            EditElementService editElementService,
+            IEditElementService editElementService,
             IJSRuntime jsRuntime)
         {
             _bpmnEventHandler = bpmnEventHandler;
-            _processManager = processManager;
+            _processModelManager = processManager;
             _editElementService = editElementService;
             _contractManager = contractManager;
             _jsRuntime = jsRuntime;
@@ -42,15 +42,15 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
 
         private void InitiliazeEventHandlers()
         {
-            _bpmnEventHandler.ShapeAdded += ShapeAdded;
-            _bpmnEventHandler.ShapeRemoved += ShapeRemoved;
-            _bpmnEventHandler.ElementIdUpdated += ElementIdUpdated;
-            _bpmnEventHandler.ElementClick += ElementClicked;
-            _bpmnEventHandler.ElementChanged += ElementChanged;
-            _bpmnEventHandler.ConnectionAdded += ConnectionAdded;
-            _bpmnEventHandler.ConnectionRemoved += ConnectionRemoved;
-            _bpmnEventHandler.RootAdded += RootAdded;
-            _bpmnEventHandler.RootRemoved += RootRemoved;
+            _bpmnEventHandler.ShapeAdded += OnShapeAdded;
+            _bpmnEventHandler.ShapeRemoved += OnShapeRemoved;
+            _bpmnEventHandler.ElementIdUpdated += OnElementIdUpdated;
+            _bpmnEventHandler.ElementClick += OnElementClicked;
+            _bpmnEventHandler.ElementChanged += OnElementChanged;
+            _bpmnEventHandler.ConnectionAdded += OnConnectionAdded;
+            _bpmnEventHandler.ConnectionRemoved += OnConnectionRemoved;
+            _bpmnEventHandler.RootAdded += OnRootAdded;
+            _bpmnEventHandler.RootRemoved += OnRootRemoved;
         }
 
         public async void InitializeOrRestoreBpmnEditor(string canvasElementId)
@@ -64,7 +64,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             //Initial configuration and startup of the bpmn js component and its services
             if (_contractManager.GetContractId() != CurrentContractId)
             {
-                var bpmnEditorDiagram = _contractManager.GetProcessDiagram();
+                var bpmnEditorDiagram = _processModelManager.GetProcessBpmnDefinition();
                 await _jsRuntime.InvokeVoidAsync("modellerLib.createModeler", bpmnEditorDiagram ?? "", canvasElementId);
                 CurrentContractId = _contractManager.GetContractId();
             }
@@ -78,15 +78,15 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
 
         public void Dispose()
         {
-            _bpmnEventHandler.ShapeAdded -= ShapeAdded;
-            _bpmnEventHandler.ShapeRemoved -= ShapeRemoved;
-            _bpmnEventHandler.ElementIdUpdated -= ElementIdUpdated;
-            _bpmnEventHandler.ElementClick -= ElementClicked;
-            _bpmnEventHandler.ElementChanged -= ElementChanged;
-            _bpmnEventHandler.ConnectionAdded -= ConnectionAdded;
-            _bpmnEventHandler.ConnectionRemoved -= ConnectionRemoved;
-            _bpmnEventHandler.RootAdded -= RootAdded;
-            _bpmnEventHandler.RootRemoved -= RootRemoved;
+            _bpmnEventHandler.ShapeAdded -= OnShapeAdded;
+            _bpmnEventHandler.ShapeRemoved -= OnShapeRemoved;
+            _bpmnEventHandler.ElementIdUpdated -= OnElementIdUpdated;
+            _bpmnEventHandler.ElementClick -= OnElementClicked;
+            _bpmnEventHandler.ElementChanged -= OnElementChanged;
+            _bpmnEventHandler.ConnectionAdded -= OnConnectionAdded;
+            _bpmnEventHandler.ConnectionRemoved -= OnConnectionRemoved;
+            _bpmnEventHandler.RootAdded -= OnRootAdded;
+            _bpmnEventHandler.RootRemoved -= OnRootRemoved;
         }
 
         /// <summary>
@@ -96,30 +96,30 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
         /// Only the case when the last participant is removed is handled in here, as the other case is handled 
         /// by the participant added event
         /// </summary>
-        private void RootAdded(object sender, BpmnElementEvent e)
+        private void OnRootAdded(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "bpmn:Process")
             {
-                _contractManager.AddNewProcess(e.Element.Id);
+                _processModelManager.AddNewProcess(e.Element.Id);
             }
         }
 
-        private void RootRemoved(object sender, BpmnElementEvent e)
+        private void OnRootRemoved(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "bpmn:Process")
             {
-                _contractManager.RemoveProcess(e.Element.Id);
+                _processModelManager.RemoveProcess(e.Element.Id);
             }
         }
 
-        private void ShapeAdded(object sender, BpmnElementEvent e)
+        private void OnShapeAdded(object sender, BpmnElementEvent e)
         {
             //New process is being added (along with a participant/pool)
             if (e.Element.Type == "bpmn:Participant")
             {
-                _contractManager.AddNewProcess(e.Element.ProcessId, e.Element.Id);
+                _processModelManager.AddNewProcess(e.Element.ProcessId, e.Element.Id);
 
-                if (_contractManager.TryGetProcess(e.Element.ProcessId, out var process))
+                if (_processModelManager.TryGetProcess(e.Element.ProcessId, out var process))
                 {
                     if (_editElementService.EditElement == process)
                         _editElementService.EditedElementModified();
@@ -130,20 +130,20 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             //Process element is being added
             else
             {
-                ElementAdded(e);
+                OnElementAdded(e);
             }
         }
 
-        private void ElementAdded(BpmnElementEvent e)
+        private void OnElementAdded(BpmnElementEvent e)
         {
-            var element = _processManager.AddElement(e.Element.Type, e.Element.Id, e.Element.ProcessId);
+            var element = _processModelManager.AddElement(e.Element.Type, e.Element.Id, e.Element.ProcessId);
             if (element != null)
             {
                 _editElementService.EditElement = element;
             }
         }
 
-        private void ShapeRemoved(object sender, BpmnElementEvent e)
+        private void OnShapeRemoved(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "label" || e.Element.Type == "bpmn:TextAnnotation")
                 return;
@@ -151,47 +151,45 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             //Process is being removed
             if (e.Element.Type == "bpmn:Participant")
             {
-                var processId = _contractManager.GetProcessIdFromParticipantId(e.Element.Id);
-                _contractManager.RemoveProcess(processId);
+                var processId = _processModelManager.GetProcessIdFromParticipantId(e.Element.Id);
+                _processModelManager.RemoveProcess(processId);
             }
             //Process element is being removed
             else
             {
-                _processManager.RemoveElement(e.Element?.Id);
+                _processModelManager.RemoveElement(e.Element?.Id);
             }
             //Close the sidebar if the deleted element is currently selected
             if (_editElementService.EditElement?.Id == e.Element.Id || _editElementService.EditElement?.Id == e.Element.ProcessId)
                 _editElementService.EditElement = null;
         }
 
-        private void ElementIdUpdated(object sender, BpmnElementEvent e)
+        private void OnElementIdUpdated(object sender, BpmnElementEvent e)
         {
-            Console.WriteLine($"Type:{e.Element.Type};ProcId:{e.Element.ProcessId};Id:{e.Element.Id};NewId:{e.NewId}");
-
-            _processManager.UpdateId(e.Element.Id, e.NewId, e.Element.ProcessId);
-            if (_processManager.TryRetrieveElementById(e.NewId, e.Element.ProcessId, out var element))
+            _processModelManager.UpdateId(e.Element.Id, e.NewId, e.Element.ProcessId);
+            if (_processModelManager.TryRetrieveElementById(e.NewId, e.Element.ProcessId, out var element))
             {
                 if (_editElementService.EditElement == element)
                     _editElementService.EditedElementModified();
             }
         }
 
-        private void ElementChanged(object sender, BpmnElementEvent e)
+        private void OnElementChanged(object sender, BpmnElementEvent e)
         {
             //No process id is defined, or the process does not exist -- the element is in the phase of deletion
-            if (string.IsNullOrEmpty(e.Element.ProcessId) || !_processManager.ProcessExists(e.Element.ProcessId))
+            if (string.IsNullOrEmpty(e.Element.ProcessId) || !_processModelManager.ProcessExists(e.Element.ProcessId))
                 return;
 
             IContractElement contractElement = null;
 
             if (e.Element.Type == "bpmn:Participant")
             {
-                _contractManager.TryGetProcess(e.Element.ProcessId, out var process);
+                _processModelManager.TryGetProcess(e.Element.ProcessId, out var process);
                 process.Name = e.Element.Name;
                 contractElement = process;
             }
 
-            if (_processManager.TryRetrieveIElementById(e.Element.Id, out var element))
+            if (_processModelManager.TryRetrieveIElementById(e.Element.Id, out var element))
             {
                 //Parse element name
                 element.Name = e.Element.Name;
@@ -213,7 +211,6 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
                 }
                 if (element is BoundaryEvent)
                 {
-                    Console.WriteLine($"Attached to: {e.Element.AttachedTo}");
                     var boundaryEvent = element as BoundaryEvent;
                     boundaryEvent.AttachedTo = e.Element.AttachedTo;
                 }
@@ -230,16 +227,15 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
                 if (element is SequenceFlow)
                 {
                     var sequenceFlow = element as SequenceFlow;
-                    _processManager.UpdateSequenceFlowSourceAndTarget(sequenceFlow, e.Element.Source, e.Element.Target, e.Element.ProcessId);
+                    _processModelManager.UpdateSequenceFlowSourceAndTarget(sequenceFlow, e.Element.Source, e.Element.Target, e.Element.ProcessId);
                 }
 
                 //Check if parent process of the element has changed
-                if (_processManager.TryGetProcessOfElement(element.Id, out var process))
+                if (_processModelManager.TryRetrieveProcessOfElement(element.Id, out var process))
                 {
                     if (process.Id != e.Element.ProcessId)
                     {
-                        Console.WriteLine($"Process changed in element, prev process: {process.Id}, new Process: {e.Element.ProcessId}");
-                        _processManager.ChangeProcessOfElement(element, process.Id, e.Element.ProcessId);
+                        _processModelManager.ChangeProcessOfElement(element, process.Id, e.Element.ProcessId);
                     }
                 }
                 contractElement = element;
@@ -249,7 +245,7 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
                 _editElementService.EditedElementModified();
         }
 
-        private void ElementClicked(object sender, BpmnElementEvent e)
+        private void OnElementClicked(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "bpmn:Collaboration" || e.Element.Type == "bpmn:Association" || e.Element.Type == "bpmn:TextAnnotation")
                 return;
@@ -263,15 +259,15 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
 
             if (e.Element.Type == "bpmn:Process")
             {
-                _contractManager.TryGetProcess(e.Element.Id, out var process);
+                _processModelManager.TryGetProcess(e.Element.Id, out var process);
                 _editElementService.EditElement = process;
             }
             else if (e.Element.Type == "bpmn:Participant")
             {
-                _contractManager.TryGetProcess(e.Element.ProcessId, out var process);
+                _processModelManager.TryGetProcess(e.Element.ProcessId, out var process);
                 _editElementService.EditElement = process;
             }
-            else if (_processManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
+            else if (_processModelManager.TryRetrieveIElementById(elementId, e.Element.ProcessId, out var element))
             {
                 _editElementService.EditElement = element;
             }
@@ -281,21 +277,21 @@ namespace DasContract.Editor.Web.Services.BpmnEvents
             }
         }
 
-        private void ConnectionAdded(object sender, BpmnElementEvent e)
+        private void OnConnectionAdded(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "bpmn:SequenceFlow")
             {
-                _processManager.AddSequenceFlow(e.Element.Id, e.Element.Target, e.Element.Source, e.Element.ProcessId);
+                _processModelManager.AddSequenceFlow(e.Element.Id, e.Element.Target, e.Element.Source, e.Element.ProcessId);
             }
         }
 
-        private void ConnectionRemoved(object sender, BpmnElementEvent e)
+        private void OnConnectionRemoved(object sender, BpmnElementEvent e)
         {
             if (e.Element.Type == "bpmn:SequenceFlow")
             {
                 if (_editElementService.EditElement?.Id == e.Element.Id)
                     _editElementService.EditElement = null;
-                _processManager.RemoveSequenceFlow(e.Element.Id);
+                _processModelManager.RemoveSequenceFlow(e.Element.Id);
             }
         }
     }

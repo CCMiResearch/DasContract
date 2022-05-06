@@ -8,7 +8,7 @@ namespace DasContract.Abstraction.Data
         public string Name { get; set; }
         public bool IsMandatory { get; set; } = true;
 
-        public PropertyType? PropertyType { get; set; }
+        public PropertyType? PropertyType { get; set; } = Data.PropertyType.Single;
 
         /// <summary>
         /// The keytype in case of PropertyType=PropertyType.Dictionary

@@ -14,16 +14,16 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         public CallActivity CallActivity { get; set; }
 
         [Inject]
-        protected IContractManager ContractManager { get; set; }
+        protected IProcessModelManager ProcessModelManager { get; set; }
 
-        protected IList<CallActivityOption> CreateSelectedProcessList()
+        protected IList<string> CreateSelectedProcessList()
         {
-            var selectedList = new List<CallActivityOption>();
-            if (CallActivity.CalledElement != null) {
-                var selectedProcess = ContractManager.GetAllProcesses().Where(p => p.Id == CallActivity.CalledElement).FirstOrDefault();
-                if(selectedProcess != null)
-                    selectedList.Add(new CallActivityOption { CalledElementId = selectedProcess.Id, CalledElementName = (selectedProcess.Name ?? selectedProcess.Id)});
+            var selectedList = new List<string>();
+            if (CallActivity.CalledElement != null)
+            {
+                selectedList.Add(CallActivity.CalledElement);
             }
+                
             return selectedList;
         }
     }

@@ -7,7 +7,7 @@
         <div class="mb-3">
             <label class="form-label">Loop Collection</label>
             <Select2 TItem="Property"
-                     Options="ContractManager.GetCollectionProperties()"
+                     Options="DataModelManager.GetCollectionProperties()"
                      ContentSelector="(p) => p.Name"
                      ValueSelector="(p) => p.Id"
                      Id="@($"{Task.Id}-loop-collection")"

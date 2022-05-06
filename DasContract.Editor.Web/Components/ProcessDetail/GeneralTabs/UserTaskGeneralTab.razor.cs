@@ -13,7 +13,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         public UserTask UserTask { get; set; }
 
         [Inject]
-        protected IContractManager ContractManager { get; set; }
+        protected IUserModelManager UserModelManager { get; set; }
 
         protected List<ProcessUser> CreateAssigneeSelectedList()
         {

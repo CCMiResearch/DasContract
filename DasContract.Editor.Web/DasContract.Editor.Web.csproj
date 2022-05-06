@@ -5,12 +5,12 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Components\Converter\**" />
-    <Content Remove="Components\Converter\**" />
-    <EmbeddedResource Remove="Components\Converter\**" />
-    <None Remove="Components\Converter\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Components\Converter\**" />
+		<Content Remove="Components\Converter\**" />
+		<EmbeddedResource Remove="Components\Converter\**" />
+		<None Remove="Components\Converter\**" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
@@ -20,7 +20,6 @@
     <PackageReference Include="DasContract.Blockchain.Plutus.Data" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.5" PrivateAssets="all" />
-    <PackageReference Include="Scriban" Version="4.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 

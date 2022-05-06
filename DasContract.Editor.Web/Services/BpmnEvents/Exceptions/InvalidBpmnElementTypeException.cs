@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.BpmnEvents.Exceptions
 {
-    public class InvalidCamundaElementTypeException: Exception
+    public class InvalidBpmnElementTypeException: Exception
     {
-        public InvalidCamundaElementTypeException(string msg) : base(msg) { }
+        public InvalidBpmnElementTypeException(string msg) : base(msg) { }
     }
 }

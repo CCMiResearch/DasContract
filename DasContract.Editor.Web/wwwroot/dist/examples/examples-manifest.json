@@ -3,6 +3,10 @@
     {
       "name": "EU Elections",
       "contract_filename": "elections.dascontract"
+    },
+    {
+      "name": "Rock Paper Scissors",
+      "contract_filename": "rock.dascontract"
     }
   ]
 }

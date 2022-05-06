@@ -9,7 +9,7 @@ namespace DasContract.Editor.Web.Services.DataModel
 {
     public class DataModelConverter : IDataModelConverter
     {
-        public string ConvertToMermaid(IDictionary<string, DataType> dataTypes)
+        public string ConvertToDiagramCode(IDictionary<string, DataType> dataTypes)
         {
             var mermaidDiagram = new StringBuilder();
             mermaidDiagram.Append("classDiagram\n");
@@ -38,7 +38,7 @@ namespace DasContract.Editor.Web.Services.DataModel
         }
 
 
-        private string ConvertEntity(Entity entity, IDictionary<string, string> referenceTranslations)
+        private static string ConvertEntity(Entity entity, IDictionary<string, string> referenceTranslations)
         {
             var convertedProperties = entity.Properties.Select(p => ConvertProperty(p, referenceTranslations));
 
@@ -48,7 +48,7 @@ namespace DasContract.Editor.Web.Services.DataModel
                 $"}}\n";
         }
 
-        private string ConvertEnum(Abstraction.Data.Enum enumeration)
+        private static string ConvertEnum(Abstraction.Data.Enum enumeration)
         {
 
             return $"class {enumeration.Name} {{ \n" +
@@ -56,7 +56,7 @@ namespace DasContract.Editor.Web.Services.DataModel
                 $"{string.Join("\n", enumeration.Values)} \n" +
                 $"}}\n";
         }
-        private string ConvertToken(Token token, IDictionary<string, string> referenceTranslations)
+        private static string ConvertToken(Token token, IDictionary<string, string> referenceTranslations)
         {
             var convertedProperties = token.Properties.Select(p => ConvertProperty(p, referenceTranslations));
             return $"class {token.Name} {{ \n" +
@@ -68,7 +68,7 @@ namespace DasContract.Editor.Web.Services.DataModel
                 $"}}\n";
         }
 
-        private IList<Tuple<string, string>> GetModelRelationships(IDictionary<string, DataType> dataTypes)
+        private static IList<Tuple<string, string>> GetModelRelationships(IDictionary<string, DataType> dataTypes)
         {
             var entities = dataTypes.Values.OfType<Entity>();
             var relationships = new List<Tuple<string, string>>();
@@ -86,7 +86,7 @@ namespace DasContract.Editor.Web.Services.DataModel
             return relationships;
         }
 
-        private string ConvertProperty(Property property, IDictionary<string, string> referenceTranslations)
+        private static string ConvertProperty(Property property, IDictionary<string, string> referenceTranslations)
         {
             string dataType;
             string propertyType;

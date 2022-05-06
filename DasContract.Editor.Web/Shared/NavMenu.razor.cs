@@ -38,9 +38,17 @@ namespace DasContract.Editor.Web.Shared
 
         protected void SetConversionTargetAndNavigate(ConversionTarget conversionTarget)
         {
-            ConverterService.SetConversionTarget(conversionTarget);
+            switch (conversionTarget)
+            {
+                case ConversionTarget.SOLIDITY:
+                    ConverterService.ConversionStrategy = new SolidityConversionStrategy();
+                    break;
+                case ConversionTarget.PLUTUS:
+                    ConverterService.ConversionStrategy = new PlutusConversionStrategy();
+                    break;
+            }
+
             NavigationManager.NavigateTo("generated");
-            StateHasChanged();
         }
 
         protected async Task NavigateToLandingPage()

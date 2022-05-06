@@ -13,10 +13,10 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
     public partial class ProcessDetailBar : ComponentBase, IDisposable
     {
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         [Inject]
-        protected IProcessManager ProcessManager { get; set; }
+        protected IProcessModelManager ProcessManager { get; set; }
 
         private IList<ProcessDetailTab> _tabs;
         private ProcessDetailTab _activeTab;
@@ -26,7 +26,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            EditElementService.EditElementChanged += HandleEditedElementChanged;
+            EditElementService.EditElementAssigned += HandleEditedElementAssigned;
             EditElementService.EditElementModified += HandleEditedElementModified;
             EditedElement = EditElementService.EditElement;
             CreateTabsList();
@@ -34,11 +34,11 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         public void Dispose()
         {
-            EditElementService.EditElementChanged -= HandleEditedElementChanged;
+            EditElementService.EditElementAssigned -= HandleEditedElementAssigned;
             EditElementService.EditElementModified -= HandleEditedElementModified;
         }
 
-        private void HandleEditedElementChanged(object sender, EditElementEventArgs e)
+        private void HandleEditedElementAssigned(object sender, EditElementEventArgs e)
         {
             EditedElement = e.processElement;
             CreateTabsList();
