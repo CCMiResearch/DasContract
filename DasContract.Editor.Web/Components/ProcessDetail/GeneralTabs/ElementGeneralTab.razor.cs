@@ -24,13 +24,13 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         private IJSRuntime JSRunTime { get; set; }
 
         [Inject]
-        private IContractManager ContractManager { get; set; }
+        private IProcessModelManager ProcessModelManager { get; set; }
 
         [Inject]
         private IBpmnJsCommunicator BpmnJsCommunicator { get; set; }
 
         [Inject]
-        private EditElementService EditElementService { get; set; }
+        private IEditElementService EditElementService { get; set; }
 
         protected string _idInputClassDecorator;
         protected string _idInputErrorMessage;
@@ -61,7 +61,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 _idInputErrorMessage += "The id can't be longer than 50 characters\n";
                 return;
             }
-            if (id != ContractElement.Id && !ContractManager.IsElementIdAvailable(id))
+            if (id != ContractElement.Id && !ProcessModelManager.IsElementIdAvailable(id))
             {
                 _idInputClassDecorator = "is-invalid";
                 _idInputErrorMessage += "The id must be unique\n";
@@ -77,7 +77,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
 
             if (ContractElement is Process)
             {
-                ContractManager.UpdateProcessId(ContractElement as Process, id);
+                ProcessModelManager.UpdateProcessId(ContractElement as Process, id);
                 EditElementService.EditedElementModified();
             }
             else
@@ -99,7 +99,7 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
                 elementId = ContractElement.Id;
 
             if (elementId != null)
-                await JSRunTime.InvokeVoidAsync("modellerLib.updateElementName", elementId, name);
+                await BpmnJsCommunicator.UpdateElementName(elementId, name);
         }
     }
 }

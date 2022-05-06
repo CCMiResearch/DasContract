@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.BpmnEvents
 {
-    public interface IBpmnEventHandler
+    public interface IBpmnEventListener
     {
         public event EventHandler<BpmnElementEvent> ElementClick;
         public event EventHandler<BpmnElementEvent> ElementChanged;

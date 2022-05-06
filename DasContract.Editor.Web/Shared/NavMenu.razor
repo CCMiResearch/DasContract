@@ -48,8 +48,10 @@
                 <strong>Convert</strong>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="generated/solidity">Solidity</a></li>
-                <li><a class="dropdown-item" href="generated/plutus">Plutus</a></li>
+                <li><button class="btn toolbar-button btn-download w-100" 
+                            @onclick="() => SetConversionTargetAndNavigate(Services.Converter.ConversionTarget.SOLIDITY)">Solidity</button></li>
+                <li><button class="btn toolbar-button btn-download w-100" 
+                            @onclick="() => SetConversionTargetAndNavigate(Services.Converter.ConversionTarget.PLUTUS)">Plutus</button></li>
             </ul>
         </div>
     </div>

@@ -8,7 +8,6 @@ using DasContract.Editor.Web.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using Scriban;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +25,9 @@ namespace DasContract.Editor.Web.Pages
 
         [Inject]
         private IDataModelConverter DataModelConverter { get; set; }
+
+        [Inject]
+        private IDataModelManager DataModelManager { get; set; }
 
         [Inject]
         private IContractManager ContractManager { get; set; }
@@ -63,7 +65,7 @@ namespace DasContract.Editor.Web.Pages
 
         protected async Task DataModelXmlChanged(string script)
         {
-            ContractManager.SetDataModelXml(script);
+            DataModelManager.SetDataModelXml(script);
             if (Refresh.AutoRefresh && !string.IsNullOrEmpty(script))
             {
                 await RefreshDiagram();
@@ -105,8 +107,8 @@ namespace DasContract.Editor.Web.Pages
         {
             try
             {
-                var dataTypes = ContractManager.GetDataTypes();
-                MermaidScript = DataModelConverter.ConvertToMermaid(dataTypes);
+                var dataTypes = DataModelManager.GetDataTypes();
+                MermaidScript = DataModelConverter.ConvertToDiagramCode(dataTypes);
 
                 await JSRunTime.InvokeVoidAsync("mermaidLib.renderMermaidDiagram", "mermaid-canvas", MermaidScript);
             }

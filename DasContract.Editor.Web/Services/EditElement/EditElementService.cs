@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.EditElement
 {
-    public class EditElementService: IDisposable
+    public class EditElementService: IDisposable, IEditElementService
     {
-        public event EventHandler<EditElementEventArgs> EditElementChanged;
+        /// <summary>
+        /// Gets called whenever a new element is assigned
+        /// </summary>
+        public event EventHandler<EditElementEventArgs> EditElementAssigned;
+        /// <summary>
+        /// Gets called whenever the assigned element is modified in any way
+        /// </summary>
         public event EventHandler EditElementModified;
 
         private IContractElement _editElement;
@@ -20,14 +26,14 @@ namespace DasContract.Editor.Web.Services.EditElement
             get { return _editElement; }
             set
             {
-                if(_editElement == value)
+                if (_editElement == value)
                 {
                     return;
                 }
 
                 _editElement = value;
                 var args = new EditElementEventArgs { processElement = _editElement };
-                OnEditElementChanged(args);
+                OnEditElementAssigned(args);
             }
         }
 
@@ -36,9 +42,9 @@ namespace DasContract.Editor.Web.Services.EditElement
             EditElementModified?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnEditElementChanged(EditElementEventArgs args)
+        protected virtual void OnEditElementAssigned(EditElementEventArgs args)
         {
-            EditElementChanged?.Invoke(this, args);
+            EditElementAssigned?.Invoke(this, args);
         }
 
         public void Dispose()

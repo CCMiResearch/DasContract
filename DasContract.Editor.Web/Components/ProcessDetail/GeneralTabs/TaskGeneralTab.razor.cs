@@ -14,14 +14,14 @@ namespace DasContract.Editor.Web.Components.ProcessDetail.GeneralTabs
         public Abstraction.Processes.Tasks.Task Task { get; set; }
 
         [Inject]
-        public IContractManager ContractManager { get; set; }
+        public IDataModelManager DataModelManager { get; set; }
 
         protected IList<Property> GetSelectedCollectionList()
         {
             var selected = new List<Property>();
             if(Task.LoopCollection != null)
             {
-                var selectedCollection = ContractManager.GetPropertyById(Task.LoopCollection);
+                var selectedCollection = DataModelManager.GetPropertyById(Task.LoopCollection);
                 if (selectedCollection != null)
                     selected.Add(selectedCollection);
             }

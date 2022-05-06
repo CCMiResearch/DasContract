@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.UndoRedo
 {
-    public class AddUserCommand : ContractCommand
+    public class AddUserCommand : UserModelCommand
     {
         private ProcessUser AddedUser { get; set; }
 
-        public AddUserCommand(IContractManager contractManager) : base(contractManager)
+        public AddUserCommand(IUserModelManager userModelManager) : base(userModelManager)
         {
 
         }
@@ -20,16 +20,16 @@ namespace DasContract.Editor.Web.Services.UndoRedo
         {
             if(AddedUser != null)
             {
-                ContractManager.AddUser(AddedUser);
+                UserModelManager.AddUser(AddedUser);
             }
             else {
-                AddedUser = ContractManager.AddNewUser();
+                AddedUser = UserModelManager.AddNewUser();
             }
         }
 
         public override void Undo()
         {
-            ContractManager.RemoveUser(AddedUser);
+            UserModelManager.RemoveUser(AddedUser);
         }
 
         public string GetUserId()

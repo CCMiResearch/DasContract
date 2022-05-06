@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>DasContract Modeler</title>
+    <title>DasContract Editor</title>
     <base href="/" />
 
     <!--JQuery-->
@@ -25,11 +25,12 @@
     <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-js-literal-expression.css">
     <link rel="stylesheet" href="dist/node_packages/dmn-js/dist/assets/dmn-font/css/dmn.css">
 
+    <link rel="stylesheet" href="css/preloader.css">
+
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="600x600" href="icon-512.png" />
 
     <!--DMN modeler script-->
-    <!--<script src="node_modules/dmn-js/dist/dmn-modeler.development.js"></script>-->
     <script src="dist/node_packages/dmn-js/dist/dmn-modeler.production.min.js"></script>
     <!--Custom js scripts-->
     <script src="dist/modeller_bundle.js"></script>
@@ -59,7 +60,27 @@
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app>
+        <div class="loading-component">
+            <div class="container">
+                <div class="dot-container">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dot-container">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dot-container">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.

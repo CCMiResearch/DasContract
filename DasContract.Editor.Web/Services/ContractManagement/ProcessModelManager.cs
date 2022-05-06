@@ -1,25 +1,150 @@
-﻿using DasContract.Abstraction.Processes;
+﻿using DasContract.Abstraction;
+using DasContract.Abstraction.Processes;
 using DasContract.Abstraction.Processes.Events;
-using DasContract.Abstraction.Processes.Gateways;
 using DasContract.Abstraction.Processes.Tasks;
 using DasContract.Editor.Web.Services.BpmnEvents.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DasContract.Editor.Web.Services.ContractManagement
 {
-    public class ProcessManager : IProcessManager
+    public class ProcessModelManager : IProcessModelManager
     {
-        private IContractManager _contractManager;
+        private Contract Contract { get; set; }
 
-        private Dictionary<string, Stack<ProcessElement>> _deletedElements = new Dictionary<string, Stack<ProcessElement>>();
-        private Dictionary<string, SequenceFlow> _deletedSequenceFlows = new Dictionary<string, SequenceFlow>();
+        private readonly Dictionary<string, Stack<ProcessElement>> _deletedElements = new();
+        private readonly Dictionary<string, SequenceFlow> _deletedSequenceFlows = new();
+        private readonly Dictionary<string, Process> _deletedProcesses = new();
 
-        public ProcessManager(IContractManager contractManager)
+
+        public void SetContract(Contract contract)
         {
-            _contractManager = contractManager;
+            _deletedElements.Clear();
+            _deletedSequenceFlows.Clear();
+            _deletedProcesses.Clear();
+            Contract = contract;
+        }
+
+        public bool TryGetProcess(string id, out Process process)
+        {
+            return Contract.TryGetProcess(id, out process);
+        }
+
+        public IList<string> GetAllProcessIds()
+        {
+            return Contract.Processes.Select(p => p.Id).ToList();
+        }
+
+        public bool IsElementIdAvailable(string id)
+        {
+            return Contract.Processes.All(
+                p => !p.ProcessElements.ContainsKey(id) &&
+                !p.SequenceFlows.ContainsKey(id) &&
+                p.Id != id);
+        }
+
+        public string GetProcessIdFromParticipantId(string participantId)
+        {
+            var proc = Contract.Processes.Where(p => p.ParticipantId == participantId);
+            if (proc.Count() != 1)
+                throw new InvalidIdException($"Participant id {participantId} could not be found");
+            return proc.First().Id;
+        }
+        //A participant might be associated with the process (but not always)
+        public void AddNewProcess(string processId, string participantId = null)
+        {
+            Process process;
+            if (participantId == null && Contract.Processes.Count > 0)
+            {
+                RemoveProcess(Contract.Processes.First().Id);
+            }
+            //Copy the existing process if the input participant is not defined
+            //and a process already exists (this happens when the last participant is removed),
+            //or when an input participant is defined and no other participants are yet present in the model
+            //(this happens when the first participant is added)
+            if (Contract.Processes.Count == 1 && participantId != null && Contract.Processes.First().ParticipantId == null)
+            {
+                if (_deletedProcesses.TryGetValue(processId, out process))
+                {
+                    RemoveProcess(Contract.Processes.First().Id);
+                    _deletedProcesses.Remove(processId);
+                    Contract.Processes.Add(process);
+                }
+                else
+                {
+                    process = Contract.Processes.First();
+                    process.ParticipantId = participantId;
+                }
+            }
+            else
+            {
+                if (Contract.Processes.Any(p => p.Id == processId))
+                    throw new DuplicateIdException($"Could not add new process, contract already contains process id {processId}");
+
+                if (_deletedProcesses.TryGetValue(processId, out process))
+                {
+                    _deletedProcesses.Remove(processId);
+                    process.ParticipantId = participantId;
+                }
+                else
+                {
+                    process = new Process { Id = processId, ParticipantId = participantId, BpmnId = processId };
+                }
+                Contract.Processes.Add(process);
+            }
+
+            if (Contract.Processes.Count == 1)
+            {
+                process.IsExecutable = true;
+            }
+        }
+
+        public void UpdateProcessId(Process process, string newProcessId)
+        {
+            if (Contract.Processes.Count(p => p.Id == newProcessId) > 0)
+                throw new DuplicateIdException($"Id cannot be changed, because process with id {newProcessId} already exists");
+
+            foreach (var p in Contract.Processes)
+            {
+                var callActivites = p.Tasks
+                    .Where(e => e is CallActivity)
+                    .Select(e => e as CallActivity);
+                foreach (var callActivity in callActivites)
+                {
+                    if (callActivity.CalledElement == process.Id)
+                    {
+                        callActivity.CalledElement = newProcessId;
+                    }
+                }
+            }
+            process.Id = newProcessId;
+        }
+
+        public string TranslateBpmnProcessId(string bpmnProcessId)
+        {
+            var proc = Contract.Processes.SingleOrDefault(p => p.BpmnId == bpmnProcessId);
+
+            if (proc != null)
+                return proc.Id;
+
+            proc = _deletedProcesses.Values.SingleOrDefault(p => p.BpmnId == bpmnProcessId);
+
+            return proc?.Id;
+        }
+
+        public void RemoveProcess(string processId)
+        {
+            if (!TryGetProcess(processId, out var process))
+                throw new InvalidIdException($"Could not delete process, contract does not contain process id {processId}");
+
+            _deletedProcesses.Add(processId, process);
+            Contract.Processes.Remove(process);
+        }
+
+        public IList<Process> GetAllProcesses()
+        {
+            return Contract.Processes;
         }
 
         public bool TryRetrieveIElementById(string elementId, string processId, out IProcessElement element)
@@ -42,7 +167,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
 
         public bool TryRetrieveIElementById(string elementId, out IProcessElement element)
         {
-            foreach (var process in _contractManager.GetAllProcesses())
+            foreach (var process in Contract.Processes)
             {
                 if (TryRetrieveIElementById(elementId, process.Id, out element))
                     return true;
@@ -65,7 +190,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     element.Id = elementId;
                 }
                 //Invalid element type is ignored (the element is not defined in the dascontract model, for example labels)
-                catch (InvalidCamundaElementTypeException)
+                catch (InvalidBpmnElementTypeException)
                 {
                     return null;
                 }
@@ -77,13 +202,12 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                 throw new DuplicateIdException($"Process already contains id {elementId}");
 
             process.ProcessElements.Add(elementId, element);
-            Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
             return element;
         }
 
         public void RemoveElement(string id)
         {
-            foreach (var process in _contractManager.GetAllProcesses())
+            foreach (var process in Contract.Processes)
             {
                 if (process.ProcessElements.ContainsKey(id))
                 {
@@ -92,7 +216,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     AddElementToDeletedBuffer(element);
 
                     process.ProcessElements.Remove(id);
-                    Console.WriteLine($"Number of process elements: {process.ProcessElements.Count()}");
                     return;
                 }
             }
@@ -146,13 +269,12 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             //Add sequence flow references to the source and target elements
             UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, true);
             UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, true);
-            Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
             return sequenceFlow;
         }
 
         public void RemoveSequenceFlow(string id)
         {
-            foreach (var process in _contractManager.GetAllProcesses())
+            foreach (var process in Contract.Processes)
             {
                 if (process.SequenceFlows.ContainsKey(id))
                 {
@@ -163,7 +285,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
                     UpdateIncomingOfElement(sequenceFlow.TargetId, sequenceFlow.Id, false);
                     UpdateOutgoingOfElement(sequenceFlow.SourceId, sequenceFlow.Id, false);
                     process.SequenceFlows.Remove(id);
-                    Console.WriteLine($"Number of sequence flows: {process.SequenceFlows.Count()}");
                     return;
                 }
             }
@@ -215,7 +336,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
 
         private Process GetProcess(string processId)
         {
-            if (!_contractManager.TryGetProcess(processId, out var process))
+            if (!TryGetProcess(processId, out var process))
                 throw new InvalidIdException($"Process id {processId} does not exist");
             return process;
         }
@@ -230,7 +351,6 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             var deletedStack = _deletedElements.GetValueOrDefault(e.Id);
 
             deletedStack.Push(e);
-            //Console.WriteLine($"Added id {e.Id} to deletion buffer, it contains {deletedStack.Count} elements");
         }
 
         private bool TryGetElementFromDeletedBuffer(string elementId, out ProcessElement element)
@@ -249,12 +369,12 @@ namespace DasContract.Editor.Web.Services.ContractManagement
 
         public bool ProcessExists(string processId)
         {
-            return _contractManager.GetAllProcesses().Any(p => p.Id == processId);
+            return Contract.Processes.Any(p => p.Id == processId);
         }
 
-        public bool TryGetProcessOfElement(string elementId, out Process process)
+        public bool TryRetrieveProcessOfElement(string elementId, out Process process)
         {
-            foreach (var p in _contractManager.GetAllProcesses())
+            foreach (var p in Contract.Processes)
             {
                 if (p.ProcessElements.ContainsKey(elementId) || p.SequenceFlows.ContainsKey(elementId))
                 {
@@ -268,9 +388,9 @@ namespace DasContract.Editor.Web.Services.ContractManagement
 
         public void ChangeProcessOfElement(IProcessElement element, string prevProcessId, string newProcessId)
         {
-            if (!_contractManager.TryGetProcess(prevProcessId, out var prevProcess))
+            if (!TryGetProcess(prevProcessId, out var prevProcess))
                 throw new InvalidIdException($"Process id {prevProcessId} does not exist");
-            if (!_contractManager.TryGetProcess(newProcessId, out var newProcess))
+            if (!TryGetProcess(newProcessId, out var newProcess))
                 throw new InvalidIdException($"Process id {newProcessId} does not exist");
 
             if (element is ProcessElement)
@@ -289,7 +409,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         {
             //The source element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
             //For that reason, the process of the element must be first retrieved
-            if (!TryGetProcessOfElement(elementId, out var process))
+            if (!TryRetrieveProcessOfElement(elementId, out var process))
                 throw new InvalidIdException($"Element id {elementId} is not located in any process");
             if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");
@@ -301,7 +421,7 @@ namespace DasContract.Editor.Web.Services.ContractManagement
         {
             //The target element might be in a different process than the sequence flow (the order of updates in bpmn is a bit weird)
             //For that reason, the process of the element must be first retrieved
-            if (!TryGetProcessOfElement(elementId, out var process))
+            if (!TryRetrieveProcessOfElement(elementId, out var process))
                 throw new InvalidIdException($"Element id {elementId} is not located in any process");
             if (!TryRetrieveElementById(elementId, process.Id, out var element))
                 throw new InvalidIdException($"Element id {elementId} does not exist");
@@ -370,6 +490,16 @@ namespace DasContract.Editor.Web.Services.ContractManagement
             process.SequenceFlows.Remove(sequenceFlow.Id);
             sequenceFlow.Id = newId;
             process.SequenceFlows.Add(newId, sequenceFlow);
+        }
+
+        public string GetProcessBpmnDefinition()
+        {
+            return Contract.ProcessDiagram;
+        }
+
+        public void SetProcessBpmnDefinition(string diagramXml)
+        {
+            Contract.ProcessDiagram = diagramXml;
         }
 
     }
