@@ -11,6 +11,7 @@
         AddressPayable,
         Data, //Byte array
         Byte,
-        Reference
+        Reference,
+        Enum
     }
 }

@@ -15,8 +15,21 @@ The modelling part of DasContract is mainly an extension of the [BPMN](https://c
 - timer boundary events
 
 ## Editor
-The editor provides a simple interface for the user to create DasContract diagrams, defining the structure of the desired contract.
-Currently, the editor only supports the DasContract v1.0. It is also currently located in a separate [repository](https://github.com/drozdik-m/das-contract-editor)
+The editor provides a simple, user-friendly interface to create DasContract diagrams, which can be then converted into smart contract code on for a desired platform. An experimental build of the editor can be accessed at https://black-plant-0fbebdc03.azurestaticapps.net/.
+The current editor supports DasContract v2.0, legacy version of the editor that supports v1.0 can be found in a separate [repository](https://github.com/drozdik-m/das-contract-editor)
+![Editor preview](resources/editor_preview.png)
+### Used technologies
+The editor is built using [Blazor WebAssembly](https://docs.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/webassembly). It runs entirely in the browser, so no backend server is required and
+the app can be served as static pages. It also utilizes PWA technologies on [supported browsers](https://caniuse.com/?search=PWA), meaning it is installable as a standalone application 
+and can be run fully offline.
+
+### Local deployment and development
+The source code for the web editor is located in the project DasContract.Editor.Web.
+To run the project locally:
+1. Navigate to DasContract/Dascontract.Editor.Web/wwwroot
+2. Run `npm install` to install all node dependencies
+3. Run `npm run build` to run a build script (packs all js files and copies dependencies into the dist folder)
+4. Set DasContract.Editor.Web as the startup project and run it.
 
 ## Solidity Converter
 The converter allows to automatically transform .dascontract files created using the editor into [Solidity smart contract language](https://docs.soliditylang.org/en/v0.7.4/), which can be then deployed onto the Ethereum blockchain. It supports the conversion of DasContract v2.0, an example of a conversion can be found in DasContract.CaseStudies/elections.
@@ -30,6 +43,9 @@ Another tool that can be used is [Ganache](https://www.trufflesuite.com/ganache)
 
 ## Case Studies
 This repository contains two exemplar case studies, one for each version of the DasContract language. The diagrams and the converted code can be found in the DasContract.CaseStudies folder.
+
+### Mortgage Case Study
+[Video walkthrough](https://www.youtube.com/watch?v=Z3dTFiMwZTU)
 
 ## Published research articles
 - [Exploring a Role of Blockchain Smart Contracts in Enterprise Engineering](https://link.springer.com/chapter/10.1007/978-3-030-06097-8_7) (2018)
