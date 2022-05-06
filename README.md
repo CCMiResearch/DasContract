@@ -14,6 +14,9 @@ The modelling part of DasContract is mainly an extension of the [BPMN](https://c
 - start and end events
 - timer boundary events
 
+## Support of DMN 1.3
+The editor supports the conversion of DMN logic to Solidity smart contracts. The connection of multiple Decision elements with decision tables is allowed in the decision requirements diagram.
+
 ## Editor
 The editor provides a simple, user-friendly interface to create DasContract diagrams, which can be then converted into smart contract code on for a desired platform. An experimental build of the editor can be accessed at https://black-plant-0fbebdc03.azurestaticapps.net/.
 A user manual for using the editor can be found at https://youtu.be/aNEGOOlsviI.
