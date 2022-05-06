@@ -1,8 +1,10 @@
-﻿using DasContract.Editor.Web.Services.Save;
+﻿using DasContract.Abstraction.Processes.Dmn;
+using DasContract.Editor.Web.Services.Save;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DasContract.Editor.Web.Components.ProcessDetail
 {
@@ -41,8 +43,9 @@ namespace DasContract.Editor.Web.Components.ProcessDetail
 
         private async Task SaveModel()
         {
-            var dmnXml = await JSRunTime.InvokeAsync<string>("dmnModellerLib.saveXml");
-            BusinessRuleTask.BusinessRuleDefinitionXml = dmnXml;
+            var dmnPlainXml = await JSRunTime.InvokeAsync<string>("dmnModellerLib.saveXml");
+            BusinessRuleTask.BusinessRuleDefinitionXml = dmnPlainXml;
+            BusinessRuleTask.BusinessRule = Definitions.DeserializePlainDefinition(dmnPlainXml);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace DasContract.Blockchain.Solidity.Converters
 {
     public static class ConverterConfig
     {
-        public static readonly string SOLIDITY_VERSION = "^0.6.6";
+        public static readonly string SOLIDITY_VERSION = "^0.8.7";
 
         public static readonly string IS_STATE_ACTIVE_FUNCTION_NAME = "isStateActive";
         public static readonly string ACTIVE_STATES_NAME = "ActiveStates";

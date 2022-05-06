@@ -1,0 +1,1713 @@
+<Contract Id="0a21cf77-6b17-4a63-90ec-815214dce662">
+  <Name>AsylumApplication</Name>
+  <ProcessDiagram>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"&gt;&lt;bpmn:collaboration id="Collaboration_0z78qph"&gt;&lt;bpmn:participant id="Participant_0q30ur8" name="Asylum Application" processRef="Process_1" /&gt;&lt;bpmn:participant id="Participant_055qxgc" name="Application Validation" processRef="Process_1bglz33" /&gt;&lt;bpmn:participant id="Participant_0kper18" name="Take Charge Request" processRef="Process_172rzzq" /&gt;&lt;bpmn:participant id="Participant_12zcww0" name="Take Back Request" processRef="Process_0dqe426" /&gt;&lt;bpmn:participant id="Participant_04k7yxp" name="Application Prioritization" processRef="Process_1x95f9r" /&gt;&lt;bpmn:participant id="Participant_1xb04pv" name="Final Decision Taking" processRef="Process_1vtzte3" /&gt;&lt;/bpmn:collaboration&gt;&lt;bpmn:process id="Process_1" isExecutable="false"&gt;&lt;bpmn:callActivity id="Activity_FinalDecisionTaking" name="Final decision taking"&gt;&lt;bpmn:incoming&gt;Flow_15noind&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0itq37a&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:exclusiveGateway id="Gateway_0r7ck5t" name="Is take back request valid?"&gt;&lt;bpmn:incoming&gt;Flow_1r2wzhw&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1ioq4ui&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_10ubtt0&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_05zmnx1"&gt;&lt;bpmn:incoming&gt;Flow_10ubtt0&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_0e3g6p8&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0qady0o&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_1vzjld9" name="Is take charge request valid?"&gt;&lt;bpmn:incoming&gt;Flow_0r93tdh&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16qbphs&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0959okx&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:userTask id="Activity_ReviewTakeCharge" name="Review take charge request"&gt;&lt;bpmn:incoming&gt;Flow_0qady0o&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0r93tdh&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:callActivity id="Activity_TakeBack" name="Take back request"&gt;&lt;bpmn:incoming&gt;Flow_1ioq4ui&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0ay8t4o&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:callActivity id="Activity_TakeCharge" name="Take charge request"&gt;&lt;bpmn:incoming&gt;Flow_16qbphs&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_07k59r6&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:callActivity id="Activity_ApplicationValidation" name="Application validation"&gt;&lt;bpmn:incoming&gt;Flow_163bsy5&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1hf5c0n&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:exclusiveGateway id="Gateway_05dh9vg" name="Was application rejected?"&gt;&lt;bpmn:incoming&gt;Flow_1hf5c0n&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1bzyhg4&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_00pdqg9&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_147od2l" name="Application rejected"&gt;&lt;bpmn:incoming&gt;Flow_00pdqg9&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_1pyb5n1" name="Was application overhanded?"&gt;&lt;bpmn:incoming&gt;Flow_0ay8t4o&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0e3g6p8&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_160vyk4&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_13ubgqt" name="Application overhanded to responsible Dublin country"&gt;&lt;bpmn:incoming&gt;Flow_160vyk4&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_0bkn8vj"&gt;&lt;bpmn:incoming&gt;Flow_022x72q&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_0959okx&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0alzp29&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_0j2crp4" name="Was application overhanded?"&gt;&lt;bpmn:incoming&gt;Flow_07k59r6&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_022x72q&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0n1itbn&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_0o7bbfv" name="Application overhanded to responsible Dublin country"&gt;&lt;bpmn:incoming&gt;Flow_0n1itbn&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:callActivity id="Activity_ApplicationPriorization" name="Application prioritization"&gt;&lt;bpmn:incoming&gt;Flow_0alzp29&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_15noind&lt;/bpmn:outgoing&gt;&lt;/bpmn:callActivity&gt;&lt;bpmn:exclusiveGateway id="Gateway_1qr1pwb" name="Was interview successfuly performed?"&gt;&lt;bpmn:incoming&gt;Flow_0itq37a&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_04xphnz&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_150nclc&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_10474yo" name="Final decision"&gt;&lt;bpmn:incoming&gt;Flow_04xphnz&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1600c4t&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0yjjtgb&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_1u8ulw4&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_02jnn9n&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_1b9j6bv&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_00v933a" name="Refugee status declared"&gt;&lt;bpmn:incoming&gt;Flow_1600c4t&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_008rlnh" name="Subsidiary protection declared"&gt;&lt;bpmn:incoming&gt;Flow_0yjjtgb&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_00988y7" name="Permission to remain declared"&gt;&lt;bpmn:incoming&gt;Flow_1u8ulw4&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_0f2xcdk" name="Does applicant accept volutary return?"&gt;&lt;bpmn:incoming&gt;Flow_0cdbcm3&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16zb551&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_1x1cj0v&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_0j8jklk"&gt;&lt;bpmn:incoming&gt;Flow_1x1cj0v&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1few8yr&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1kxg6d7&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_1wrf61v" name="Application rejected with voluntary return"&gt;&lt;bpmn:incoming&gt;Flow_16zb551&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_1d1vgjb" name="Application rejected with deportation order"&gt;&lt;bpmn:incoming&gt;Flow_1kxg6d7&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:userTask id="Activity_CheckVoluntaryReturn" name="Check voluntary return proposition"&gt;&lt;bpmn:incoming&gt;Flow_02jnn9n&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0cdbcm3&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:exclusiveGateway id="Gateway_1kiszla"&gt;&lt;bpmn:incoming&gt;Flow_150nclc&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1b9j6bv&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1few8yr&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:sequenceFlow id="Flow_15noind" sourceRef="Activity_ApplicationPriorization" targetRef="Activity_FinalDecisionTaking" /&gt;&lt;bpmn:sequenceFlow id="Flow_163bsy5" sourceRef="StartEvent_1" targetRef="Activity_ApplicationValidation" /&gt;&lt;bpmn:sequenceFlow id="Flow_1ioq4ui" name="Yes" sourceRef="Gateway_0r7ck5t" targetRef="Activity_TakeBack" /&gt;&lt;bpmn:sequenceFlow id="Flow_10ubtt0" name="No" sourceRef="Gateway_0r7ck5t" targetRef="Gateway_05zmnx1" /&gt;&lt;bpmn:sequenceFlow id="Flow_0e3g6p8" name="No" sourceRef="Gateway_1pyb5n1" targetRef="Gateway_05zmnx1" /&gt;&lt;bpmn:sequenceFlow id="Flow_0qady0o" sourceRef="Gateway_05zmnx1" targetRef="Activity_ReviewTakeCharge" /&gt;&lt;bpmn:sequenceFlow id="Flow_0r93tdh" sourceRef="Activity_ReviewTakeCharge" targetRef="Gateway_1vzjld9" /&gt;&lt;bpmn:sequenceFlow id="Flow_16qbphs" name="Yes" sourceRef="Gateway_1vzjld9" targetRef="Activity_TakeCharge" /&gt;&lt;bpmn:sequenceFlow id="Flow_1bzyhg4" name="No" sourceRef="Gateway_05dh9vg" targetRef="Activity_ReviewTakeBack" /&gt;&lt;bpmn:sequenceFlow id="Flow_0ay8t4o" sourceRef="Activity_TakeBack" targetRef="Gateway_1pyb5n1" /&gt;&lt;bpmn:sequenceFlow id="Flow_1hf5c0n" sourceRef="Activity_ApplicationValidation" targetRef="Gateway_05dh9vg" /&gt;&lt;bpmn:sequenceFlow id="Flow_00pdqg9" name="Yes" sourceRef="Gateway_05dh9vg" targetRef="Event_147od2l" /&gt;&lt;bpmn:sequenceFlow id="Flow_160vyk4" name="Yes" sourceRef="Gateway_1pyb5n1" targetRef="Event_13ubgqt" /&gt;&lt;bpmn:sequenceFlow id="Flow_022x72q" name="No" sourceRef="Gateway_0j2crp4" targetRef="Gateway_0bkn8vj" /&gt;&lt;bpmn:sequenceFlow id="Flow_0n1itbn" name="Yes" sourceRef="Gateway_0j2crp4" targetRef="Event_0o7bbfv" /&gt;&lt;bpmn:sequenceFlow id="Flow_07k59r6" sourceRef="Activity_TakeCharge" targetRef="Gateway_0j2crp4" /&gt;&lt;bpmn:sequenceFlow id="Flow_0alzp29" sourceRef="Gateway_0bkn8vj" targetRef="Activity_ApplicationPriorization" /&gt;&lt;bpmn:sequenceFlow id="Flow_0959okx" name="No" sourceRef="Gateway_1vzjld9" targetRef="Gateway_0bkn8vj" /&gt;&lt;bpmn:sequenceFlow id="Flow_0itq37a" sourceRef="Activity_FinalDecisionTaking" targetRef="Gateway_1qr1pwb" /&gt;&lt;bpmn:sequenceFlow id="Flow_1600c4t" name="Refugee status" sourceRef="Gateway_10474yo" targetRef="Event_00v933a" /&gt;&lt;bpmn:sequenceFlow id="Flow_0yjjtgb" name="Subsidiary protection" sourceRef="Gateway_10474yo" targetRef="Event_008rlnh" /&gt;&lt;bpmn:sequenceFlow id="Flow_1u8ulw4" name="Permission to remain" sourceRef="Gateway_10474yo" targetRef="Event_00988y7" /&gt;&lt;bpmn:sequenceFlow id="Flow_02jnn9n" name="Voluntary return proposition" sourceRef="Gateway_10474yo" targetRef="Activity_CheckVoluntaryReturn" /&gt;&lt;bpmn:sequenceFlow id="Flow_1b9j6bv" name="Deportation order" sourceRef="Gateway_10474yo" targetRef="Gateway_1kiszla" /&gt;&lt;bpmn:sequenceFlow id="Flow_0cdbcm3" sourceRef="Activity_CheckVoluntaryReturn" targetRef="Gateway_0f2xcdk" /&gt;&lt;bpmn:sequenceFlow id="Flow_16zb551" name="Yes" sourceRef="Gateway_0f2xcdk" targetRef="Event_1wrf61v" /&gt;&lt;bpmn:sequenceFlow id="Flow_1x1cj0v" name="No" sourceRef="Gateway_0f2xcdk" targetRef="Gateway_0j8jklk" /&gt;&lt;bpmn:sequenceFlow id="Flow_1kxg6d7" sourceRef="Gateway_0j8jklk" targetRef="Event_1d1vgjb" /&gt;&lt;bpmn:sequenceFlow id="Flow_04xphnz" name="Yes" sourceRef="Gateway_1qr1pwb" targetRef="Gateway_10474yo" /&gt;&lt;bpmn:sequenceFlow id="Flow_150nclc" name="No" sourceRef="Gateway_1qr1pwb" targetRef="Gateway_1kiszla" /&gt;&lt;bpmn:sequenceFlow id="Flow_1few8yr" sourceRef="Gateway_1kiszla" targetRef="Gateway_0j8jklk" /&gt;&lt;bpmn:startEvent id="StartEvent_1" name="New application opened"&gt;&lt;bpmn:outgoing&gt;Flow_163bsy5&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:userTask id="Activity_ReviewTakeBack" name="Review take back request"&gt;&lt;bpmn:incoming&gt;Flow_1bzyhg4&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1r2wzhw&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_1r2wzhw" sourceRef="Activity_ReviewTakeBack" targetRef="Gateway_0r7ck5t" /&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_1bglz33"&gt;&lt;bpmn:startEvent id="Event_0ycroqs" name="New application opened"&gt;&lt;bpmn:outgoing&gt;Flow_06s328x&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:userTask id="Activity_PreliminaryInfo" name="Fill preliminary interview Info"&gt;&lt;bpmn:incoming&gt;Flow_06s328x&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_03821tv&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:businessRuleTask id="Activity_ReviewAdmissibility" name="Review initial admissibility"&gt;&lt;bpmn:incoming&gt;Flow_03821tv&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_01se8yn&lt;/bpmn:outgoing&gt;&lt;/bpmn:businessRuleTask&gt;&lt;bpmn:sequenceFlow id="Flow_1mi6y27" name="Yes" sourceRef="Gateway_051r8ve" targetRef="Gateway_0rt4v1p" /&gt;&lt;bpmn:sequenceFlow id="Flow_1anffti" name="Yes" sourceRef="Gateway_0eyj2l8" targetRef="Gateway_0rt4v1p" /&gt;&lt;bpmn:sequenceFlow id="Flow_06s328x" sourceRef="Event_0ycroqs" targetRef="Activity_PreliminaryInfo" /&gt;&lt;bpmn:sequenceFlow id="Flow_1bi4h0x" sourceRef="Activity_TemCert" targetRef="Event_1c34gml" /&gt;&lt;bpmn:sequenceFlow id="Flow_051soyp" sourceRef="Activity_ApproveAdmissibility" targetRef="Gateway_051r8ve" /&gt;&lt;bpmn:sequenceFlow id="Flow_02z06p9" sourceRef="Activity_AdmissibilityAppeal" targetRef="Gateway_0eyj2l8" /&gt;&lt;bpmn:sequenceFlow id="Flow_03821tv" sourceRef="Activity_PreliminaryInfo" targetRef="Activity_ReviewAdmissibility" /&gt;&lt;bpmn:sequenceFlow id="Flow_01se8yn" sourceRef="Activity_ReviewAdmissibility" targetRef="Activity_ApproveAdmissibility" /&gt;&lt;bpmn:sequenceFlow id="Flow_0kozqdk" name="No" sourceRef="Gateway_051r8ve" targetRef="Activity_AdmissibilityAppeal" /&gt;&lt;bpmn:sequenceFlow id="Flow_0nlqsmz" sourceRef="Gateway_0rt4v1p" targetRef="Activity_TemCert" /&gt;&lt;bpmn:sequenceFlow id="Flow_0zmwwly" name="No" sourceRef="Gateway_0eyj2l8" targetRef="Event_02m61nd" /&gt;&lt;bpmn:userTask id="Activity_ApproveAdmissibility" name="Approve admissibility decision"&gt;&lt;bpmn:incoming&gt;Flow_01se8yn&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_051soyp&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:exclusiveGateway id="Gateway_051r8ve" name="Application accepted?"&gt;&lt;bpmn:incoming&gt;Flow_051soyp&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1mi6y27&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0kozqdk&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:userTask id="Activity_AdmissibilityAppeal" name="Review possible appeal"&gt;&lt;bpmn:incoming&gt;Flow_0kozqdk&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_02z06p9&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:exclusiveGateway id="Gateway_0rt4v1p"&gt;&lt;bpmn:incoming&gt;Flow_1mi6y27&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_1anffti&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0nlqsmz&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_0eyj2l8" name="Was appeal upheld"&gt;&lt;bpmn:incoming&gt;Flow_02z06p9&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1anffti&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0zmwwly&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:scriptTask id="Activity_TemCert" name="Generate temporary registration certificate"&gt;&lt;bpmn:incoming&gt;Flow_0nlqsmz&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1bi4h0x&lt;/bpmn:outgoing&gt;&lt;/bpmn:scriptTask&gt;&lt;bpmn:endEvent id="Event_1c34gml" name="Application validated"&gt;&lt;bpmn:incoming&gt;Flow_1bi4h0x&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_02m61nd" name="Application rejected"&gt;&lt;bpmn:incoming&gt;Flow_0zmwwly&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_172rzzq"&gt;&lt;bpmn:startEvent id="Event_18mdgi4" name="Take charge request granted"&gt;&lt;bpmn:outgoing&gt;Flow_1dqazoj&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_1bfhxg3" name="Was take charge request approved?"&gt;&lt;bpmn:incoming&gt;Flow_0i4ijnf&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0je9kox&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_07jewxx&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:userTask id="Activity_ApproveTakeCharge" name="Approve take charge request"&gt;&lt;bpmn:incoming&gt;Flow_0o6au8o&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0i4ijnf&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_TakeChargeRequest" name="Create take charge request"&gt;&lt;bpmn:incoming&gt;Flow_1dqazoj&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0o6au8o&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:endEvent id="Event_1ybnxft" name="Take charge request declined"&gt;&lt;bpmn:incoming&gt;Flow_0je9kox&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:userTask id="Activity_TakeChargeAppeal" name="Review possible appeal"&gt;&lt;bpmn:incoming&gt;Flow_07jewxx&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0ozjelh&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:exclusiveGateway id="Gateway_0m8ql29" name="Was appeal upheld"&gt;&lt;bpmn:incoming&gt;Flow_0ozjelh&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_17yavoa&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0j05pxx&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_1l0wnij" name="Requestor is responsible for the application"&gt;&lt;bpmn:incoming&gt;Flow_0j05pxx&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_1wuay5h" name="Application overhanded to responsible Dublin country"&gt;&lt;bpmn:incoming&gt;Flow_17yavoa&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0ozjelh" sourceRef="Activity_TakeChargeAppeal" targetRef="Gateway_0m8ql29" /&gt;&lt;bpmn:sequenceFlow id="Flow_1dqazoj" sourceRef="Event_18mdgi4" targetRef="Activity_TakeChargeRequest" /&gt;&lt;bpmn:sequenceFlow id="Flow_0o6au8o" sourceRef="Activity_TakeChargeRequest" targetRef="Activity_ApproveTakeCharge" /&gt;&lt;bpmn:sequenceFlow id="Flow_0i4ijnf" sourceRef="Activity_ApproveTakeCharge" targetRef="Gateway_1bfhxg3" /&gt;&lt;bpmn:sequenceFlow id="Flow_0je9kox" name="No" sourceRef="Gateway_1bfhxg3" targetRef="Event_1ybnxft" /&gt;&lt;bpmn:sequenceFlow id="Flow_17yavoa" name="No" sourceRef="Gateway_0m8ql29" targetRef="Event_1wuay5h" /&gt;&lt;bpmn:sequenceFlow id="Flow_0j05pxx" name="Yes" sourceRef="Gateway_0m8ql29" targetRef="Event_1l0wnij" /&gt;&lt;bpmn:sequenceFlow id="Flow_07jewxx" name="Yes" sourceRef="Gateway_1bfhxg3" targetRef="Activity_TakeChargeAppeal" /&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_0dqe426"&gt;&lt;bpmn:startEvent id="Event_1bvpje0" name="Take back request granted"&gt;&lt;bpmn:outgoing&gt;Flow_147tz8z&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_12tjk18" name="Was take back request approved?"&gt;&lt;bpmn:incoming&gt;Flow_1xx4mjl&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16biox0&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_1u4kg22&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:userTask id="Activity_ApproveTakeBack" name="Approve take back request"&gt;&lt;bpmn:incoming&gt;Flow_1kkmriv&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1xx4mjl&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_TakeBackRequest" name="Create take back request"&gt;&lt;bpmn:incoming&gt;Flow_147tz8z&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1kkmriv&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_TakeBackAppeal" name="Review possible appeal"&gt;&lt;bpmn:incoming&gt;Flow_1u4kg22&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1yuvhke&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:endEvent id="Event_0mbnp4x" name="Take back request declined"&gt;&lt;bpmn:incoming&gt;Flow_16biox0&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_0ec98d9" name="Was appeal upheld"&gt;&lt;bpmn:incoming&gt;Flow_1yuvhke&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_16tndth&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_04xdd14&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:endEvent id="Event_0gkn41i" name="Requestor is responsible for the application"&gt;&lt;bpmn:incoming&gt;Flow_04xdd14&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:endEvent id="Event_1sce1x7" name="Application overhanded to responsible Dublin country"&gt;&lt;bpmn:incoming&gt;Flow_16tndth&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1yuvhke" sourceRef="Activity_TakeBackAppeal" targetRef="Gateway_0ec98d9" /&gt;&lt;bpmn:sequenceFlow id="Flow_147tz8z" sourceRef="Event_1bvpje0" targetRef="Activity_TakeBackRequest" /&gt;&lt;bpmn:sequenceFlow id="Flow_1kkmriv" sourceRef="Activity_TakeBackRequest" targetRef="Activity_ApproveTakeBack" /&gt;&lt;bpmn:sequenceFlow id="Flow_1xx4mjl" sourceRef="Activity_ApproveTakeBack" targetRef="Gateway_12tjk18" /&gt;&lt;bpmn:sequenceFlow id="Flow_16biox0" name="No" sourceRef="Gateway_12tjk18" targetRef="Event_0mbnp4x" /&gt;&lt;bpmn:sequenceFlow id="Flow_16tndth" name="No" sourceRef="Gateway_0ec98d9" targetRef="Event_1sce1x7" /&gt;&lt;bpmn:sequenceFlow id="Flow_04xdd14" name="Yes" sourceRef="Gateway_0ec98d9" targetRef="Event_0gkn41i" /&gt;&lt;bpmn:sequenceFlow id="Flow_1u4kg22" name="Yes" sourceRef="Gateway_12tjk18" targetRef="Activity_TakeBackAppeal" /&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_1x95f9r"&gt;&lt;bpmn:exclusiveGateway id="Gateway_1lc9hx3" name="Was the application made after the commencement of the IPA?"&gt;&lt;bpmn:incoming&gt;Flow_0k6nkwn&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1rr0m1z&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_0yb3w8x&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:exclusiveGateway id="Gateway_0povfn5"&gt;&lt;bpmn:incoming&gt;Flow_0l2pdfq&lt;/bpmn:incoming&gt;&lt;bpmn:incoming&gt;Flow_0mkdqt5&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0w5ajul&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:startEvent id="Event_0boj5p1" name="Priority requested"&gt;&lt;bpmn:outgoing&gt;Flow_0rwepc6&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:businessRuleTask id="Activity_StreamOne" name="Prioritize stream one application"&gt;&lt;bpmn:incoming&gt;Flow_1rr0m1z&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0l2pdfq&lt;/bpmn:outgoing&gt;&lt;/bpmn:businessRuleTask&gt;&lt;bpmn:businessRuleTask id="Activity_StreamTwo" name="Prioritize stream two application"&gt;&lt;bpmn:incoming&gt;Flow_0yb3w8x&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0mkdqt5&lt;/bpmn:outgoing&gt;&lt;/bpmn:businessRuleTask&gt;&lt;bpmn:userTask id="Activity_InternationalProtectionQuestionnaire" name="Fill questionnaire info"&gt;&lt;bpmn:incoming&gt;Flow_0rwepc6&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0k6nkwn&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:endEvent id="Event_1tc6r5r" name="Priority calculated"&gt;&lt;bpmn:incoming&gt;Flow_0w5ajul&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_0k6nkwn" sourceRef="Activity_InternationalProtectionQuestionnaire" targetRef="Gateway_1lc9hx3" /&gt;&lt;bpmn:sequenceFlow id="Flow_1rr0m1z" name="Yes" sourceRef="Gateway_1lc9hx3" targetRef="Activity_StreamOne" /&gt;&lt;bpmn:sequenceFlow id="Flow_0yb3w8x" name="No" sourceRef="Gateway_1lc9hx3" targetRef="Activity_StreamTwo" /&gt;&lt;bpmn:sequenceFlow id="Flow_0l2pdfq" sourceRef="Activity_StreamOne" targetRef="Gateway_0povfn5" /&gt;&lt;bpmn:sequenceFlow id="Flow_0mkdqt5" sourceRef="Activity_StreamTwo" targetRef="Gateway_0povfn5" /&gt;&lt;bpmn:sequenceFlow id="Flow_0rwepc6" sourceRef="Event_0boj5p1" targetRef="Activity_InternationalProtectionQuestionnaire" /&gt;&lt;bpmn:sequenceFlow id="Flow_0w5ajul" sourceRef="Gateway_0povfn5" targetRef="Event_1tc6r5r" /&gt;&lt;/bpmn:process&gt;&lt;bpmn:process id="Process_1vtzte3"&gt;&lt;bpmn:startEvent id="Event_0kmtnih" name="Subsidiary phase entered"&gt;&lt;bpmn:outgoing&gt;Flow_0crlz3x&lt;/bpmn:outgoing&gt;&lt;/bpmn:startEvent&gt;&lt;bpmn:exclusiveGateway id="Gateway_1jpt3gt" name="Was interview successfuly performed?"&gt;&lt;bpmn:incoming&gt;Flow_0w8uwge&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1j6dw0t&lt;/bpmn:outgoing&gt;&lt;bpmn:outgoing&gt;Flow_1178qgz&lt;/bpmn:outgoing&gt;&lt;/bpmn:exclusiveGateway&gt;&lt;bpmn:userTask id="Activity_SubsidiaryInfo" name="Fill subsidiary interview info"&gt;&lt;bpmn:incoming&gt;Flow_0crlz3x&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0w8uwge&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:sequenceFlow id="Flow_0crlz3x" sourceRef="Event_0kmtnih" targetRef="Activity_SubsidiaryInfo" /&gt;&lt;bpmn:sequenceFlow id="Flow_0w8uwge" sourceRef="Activity_SubsidiaryInfo" targetRef="Gateway_1jpt3gt" /&gt;&lt;bpmn:sequenceFlow id="Flow_1j6dw0t" name="No" sourceRef="Gateway_1jpt3gt" targetRef="Event_0w0u5uf" /&gt;&lt;bpmn:sequenceFlow id="Flow_1178qgz" name="Yes" sourceRef="Gateway_1jpt3gt" targetRef="Activity_FirstInstanceReport" /&gt;&lt;bpmn:userTask id="Activity_FirstInstanceReport" name="Review first instance report"&gt;&lt;bpmn:incoming&gt;Flow_1178qgz&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_1l1qtur&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:userTask id="Activity_FirstInstanceAppeal" name="Review possible appeal"&gt;&lt;bpmn:incoming&gt;Flow_1l1qtur&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0l2apcw&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:businessRuleTask id="Activity_FinalDecision" name="Make final decision"&gt;&lt;bpmn:incoming&gt;Flow_0l2apcw&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_01jdith&lt;/bpmn:outgoing&gt;&lt;/bpmn:businessRuleTask&gt;&lt;bpmn:userTask id="Activity_FinalDecisionApproval" name="Approve final decision"&gt;&lt;bpmn:incoming&gt;Flow_01jdith&lt;/bpmn:incoming&gt;&lt;bpmn:outgoing&gt;Flow_0mzhxm7&lt;/bpmn:outgoing&gt;&lt;/bpmn:userTask&gt;&lt;bpmn:endEvent id="Event_02pp2mo" name="Final decision granted"&gt;&lt;bpmn:incoming&gt;Flow_0mzhxm7&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;bpmn:sequenceFlow id="Flow_1l1qtur" sourceRef="Activity_FirstInstanceReport" targetRef="Activity_FirstInstanceAppeal" /&gt;&lt;bpmn:sequenceFlow id="Flow_0l2apcw" sourceRef="Activity_FirstInstanceAppeal" targetRef="Activity_FinalDecision" /&gt;&lt;bpmn:sequenceFlow id="Flow_01jdith" sourceRef="Activity_FinalDecision" targetRef="Activity_FinalDecisionApproval" /&gt;&lt;bpmn:sequenceFlow id="Flow_0mzhxm7" sourceRef="Activity_FinalDecisionApproval" targetRef="Event_02pp2mo" /&gt;&lt;bpmn:endEvent id="Event_0w0u5uf" name="Application rejected with deportation order"&gt;&lt;bpmn:incoming&gt;Flow_1j6dw0t&lt;/bpmn:incoming&gt;&lt;/bpmn:endEvent&gt;&lt;/bpmn:process&gt;&lt;bpmndi:BPMNDiagram id="BPMNDiagram_1"&gt;&lt;bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0z78qph"&gt;&lt;bpmndi:BPMNShape id="Participant_0q30ur8_di" bpmnElement="Participant_0q30ur8" isHorizontal="true"&gt;&lt;dc:Bounds x="110" y="-470" width="2720" height="730" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1few8yr_di" bpmnElement="Flow_1few8yr"&gt;&lt;di:waypoint x="2325" y="145" /&gt;&lt;di:waypoint x="2585" y="145" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_150nclc_di" bpmnElement="Flow_150nclc"&gt;&lt;di:waypoint x="2190" y="-270" /&gt;&lt;di:waypoint x="2190" y="145" /&gt;&lt;di:waypoint x="2275" y="145" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2198" y="-237" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_04xphnz_di" bpmnElement="Flow_04xphnz"&gt;&lt;di:waypoint x="2215" y="-295" /&gt;&lt;di:waypoint x="2275" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2236" y="-313" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_08y7ttp" bpmnElement="Flow_1kxg6d7"&gt;&lt;di:waypoint x="2635" y="145" /&gt;&lt;di:waypoint x="2712" y="145" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0l3mk0d" bpmnElement="Flow_1x1cj0v"&gt;&lt;di:waypoint x="2610" y="60" /&gt;&lt;di:waypoint x="2610" y="120" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2618" y="68" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0kdu6hm" bpmnElement="Flow_16zb551"&gt;&lt;di:waypoint x="2635" y="35" /&gt;&lt;di:waypoint x="2712" y="35" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2651" y="17" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0vtim89" bpmnElement="Flow_0cdbcm3"&gt;&lt;di:waypoint x="2530" y="35" /&gt;&lt;di:waypoint x="2585" y="35" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0qh8qgx" bpmnElement="Flow_1b9j6bv"&gt;&lt;di:waypoint x="2300" y="-270" /&gt;&lt;di:waypoint x="2300" y="120" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2306" y="93" width="87" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0og9z0m" bpmnElement="Flow_02jnn9n"&gt;&lt;di:waypoint x="2300" y="-270" /&gt;&lt;di:waypoint x="2300" y="35" /&gt;&lt;di:waypoint x="2430" y="35" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2331" y="6" width="77" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_1el73ow" bpmnElement="Flow_1u8ulw4"&gt;&lt;di:waypoint x="2300" y="-270" /&gt;&lt;di:waypoint x="2300" y="-75" /&gt;&lt;di:waypoint x="2462" y="-75" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2336" y="-104" width="67" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_19zt1ot" bpmnElement="Flow_0yjjtgb"&gt;&lt;di:waypoint x="2300" y="-270" /&gt;&lt;di:waypoint x="2300" y="-185" /&gt;&lt;di:waypoint x="2462" y="-185" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2344" y="-214" width="52" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_1owsj3s" bpmnElement="Flow_1600c4t"&gt;&lt;di:waypoint x="2325" y="-295" /&gt;&lt;di:waypoint x="2462" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2332" y="-313" width="75" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0itq37a_di" bpmnElement="Flow_0itq37a"&gt;&lt;di:waypoint x="2100" y="-295" /&gt;&lt;di:waypoint x="2165" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0959okx_di" bpmnElement="Flow_0959okx"&gt;&lt;di:waypoint x="1370" y="-320" /&gt;&lt;di:waypoint x="1370" y="-390" /&gt;&lt;di:waypoint x="1760" y="-390" /&gt;&lt;di:waypoint x="1760" y="-320" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1558" y="-408" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0alzp29_di" bpmnElement="Flow_0alzp29"&gt;&lt;di:waypoint x="1785" y="-295" /&gt;&lt;di:waypoint x="1840" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_07k59r6_di" bpmnElement="Flow_07k59r6"&gt;&lt;di:waypoint x="1550" y="-295" /&gt;&lt;di:waypoint x="1605" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_05p9b2h" bpmnElement="Flow_0n1itbn"&gt;&lt;di:waypoint x="1630" y="-270" /&gt;&lt;di:waypoint x="1630" y="-180" /&gt;&lt;di:waypoint x="1742" y="-180" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1641" y="-263" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0b1i7gi" bpmnElement="Flow_022x72q"&gt;&lt;di:waypoint x="1655" y="-295" /&gt;&lt;di:waypoint x="1735" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1663" y="-313" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_160vyk4_di" bpmnElement="Flow_160vyk4"&gt;&lt;di:waypoint x="980" y="-270" /&gt;&lt;di:waypoint x="980" y="-180" /&gt;&lt;di:waypoint x="1092" y="-180" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="991" y="-263" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_00pdqg9_di" bpmnElement="Flow_00pdqg9"&gt;&lt;di:waypoint x="460" y="-270" /&gt;&lt;di:waypoint x="460" y="-180" /&gt;&lt;di:waypoint x="572" y="-180" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="466" y="-263" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1hf5c0n_di" bpmnElement="Flow_1hf5c0n"&gt;&lt;di:waypoint x="380" y="-295" /&gt;&lt;di:waypoint x="435" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0ay8t4o_di" bpmnElement="Flow_0ay8t4o"&gt;&lt;di:waypoint x="900" y="-295" /&gt;&lt;di:waypoint x="955" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1bzyhg4_di" bpmnElement="Flow_1bzyhg4"&gt;&lt;di:waypoint x="485" y="-295" /&gt;&lt;di:waypoint x="540" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="492" y="-313" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_16qbphs_di" bpmnElement="Flow_16qbphs"&gt;&lt;di:waypoint x="1395" y="-295" /&gt;&lt;di:waypoint x="1450" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1401" y="-313" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0r93tdh_di" bpmnElement="Flow_0r93tdh"&gt;&lt;di:waypoint x="1290" y="-295" /&gt;&lt;di:waypoint x="1345" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0qady0o_di" bpmnElement="Flow_0qady0o"&gt;&lt;di:waypoint x="1135" y="-295" /&gt;&lt;di:waypoint x="1190" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0e3g6p8_di" bpmnElement="Flow_0e3g6p8"&gt;&lt;di:waypoint x="1005" y="-295" /&gt;&lt;di:waypoint x="1085" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1013" y="-313" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_10ubtt0_di" bpmnElement="Flow_10ubtt0"&gt;&lt;di:waypoint x="720" y="-320" /&gt;&lt;di:waypoint x="720" y="-390" /&gt;&lt;di:waypoint x="1110" y="-390" /&gt;&lt;di:waypoint x="1110" y="-320" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="908" y="-408" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1ioq4ui_di" bpmnElement="Flow_1ioq4ui"&gt;&lt;di:waypoint x="745" y="-295" /&gt;&lt;di:waypoint x="800" y="-295" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="747" y="-313" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1r2wzhw_di" bpmnElement="Flow_1r2wzhw"&gt;&lt;di:waypoint x="640" y="-295" /&gt;&lt;di:waypoint x="695" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_163bsy5_di" bpmnElement="Flow_163bsy5"&gt;&lt;di:waypoint x="218" y="-295" /&gt;&lt;di:waypoint x="280" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_15noind_di" bpmnElement="Flow_15noind"&gt;&lt;di:waypoint x="1940" y="-295" /&gt;&lt;di:waypoint x="2000" y="-295" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Activity_0gazpfi_di" bpmnElement="Activity_FinalDecisionTaking"&gt;&lt;dc:Bounds x="2000" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0r7ck5t_di" bpmnElement="Gateway_0r7ck5t" isMarkerVisible="true"&gt;&lt;dc:Bounds x="695" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="685" y="-260.5" width="69" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_05zmnx1_di" bpmnElement="Gateway_05zmnx1" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1085" y="-320" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1vzjld9_di" bpmnElement="Gateway_1vzjld9" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1345" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1335" y="-260.5" width="70" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0u3ln4y_di" bpmnElement="Activity_ReviewTakeBack"&gt;&lt;dc:Bounds x="540" y="-335" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_17sanzm_di" bpmnElement="Activity_ReviewTakeCharge"&gt;&lt;dc:Bounds x="1190" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0dx74xt_di" bpmnElement="Activity_TakeBack"&gt;&lt;dc:Bounds x="800" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0s93hoj_di" bpmnElement="Activity_TakeCharge"&gt;&lt;dc:Bounds x="1450" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0smosec_di" bpmnElement="Activity_ApplicationValidation"&gt;&lt;dc:Bounds x="280" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_05dh9vg_di" bpmnElement="Gateway_05dh9vg" isMarkerVisible="true"&gt;&lt;dc:Bounds x="435" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="421" y="-357.5" width="77" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_147od2l_di" bpmnElement="Event_147od2l"&gt;&lt;dc:Bounds x="572" y="-198" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="564" y="-155" width="53" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1pyb5n1_di" bpmnElement="Gateway_1pyb5n1" isMarkerVisible="true"&gt;&lt;dc:Bounds x="955" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="942" y="-350" width="77" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1gfbru2" bpmnElement="Event_13ubgqt"&gt;&lt;dc:Bounds x="1092" y="-198" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1075" y="-155" width="71" height="53" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_0vfnlio" bpmnElement="Gateway_0bkn8vj" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1735" y="-320" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1ad7il8" bpmnElement="Gateway_0j2crp4" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1605" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1592" y="-350" width="77" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1jatxnd" bpmnElement="Event_0o7bbfv"&gt;&lt;dc:Bounds x="1742" y="-198" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1725" y="-155" width="71" height="53" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1q54alm_di" bpmnElement="Activity_ApplicationPriorization"&gt;&lt;dc:Bounds x="1840" y="-335" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1qr1pwb_di" bpmnElement="Gateway_1qr1pwb" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2165" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2155" y="-370" width="69" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1v9l0cp" bpmnElement="Gateway_10474yo" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2275" y="-320" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2266" y="-342" width="68" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_14x461q" bpmnElement="Event_00v933a"&gt;&lt;dc:Bounds x="2462" y="-313" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2443" y="-270" width="75" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_05nnyyx" bpmnElement="Event_008rlnh"&gt;&lt;dc:Bounds x="2462" y="-203" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2454" y="-160" width="52" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1wdyloe" bpmnElement="Event_00988y7"&gt;&lt;dc:Bounds x="2462" y="-93" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2441" y="-50" width="79" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1mwrqiz" bpmnElement="Gateway_0f2xcdk" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2585" y="10" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2573" y="-35" width="75" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_03dl14l" bpmnElement="Gateway_0j8jklk" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2585" y="120" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1l8di1c" bpmnElement="Event_1wrf61v"&gt;&lt;dc:Bounds x="2712" y="17" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2692" y="60" width="76" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_0sznfgd" bpmnElement="Event_1d1vgjb"&gt;&lt;dc:Bounds x="2712" y="127" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2687" y="170" width="86" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_10z203s" bpmnElement="Activity_CheckVoluntaryReturn"&gt;&lt;dc:Bounds x="2430" y="-5" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1kiszla_di" bpmnElement="Gateway_1kiszla" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2275" y="120" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1"&gt;&lt;dc:Bounds x="182" y="-313" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="161" y="-270" width="78" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_055qxgc_di" bpmnElement="Participant_055qxgc" isHorizontal="true"&gt;&lt;dc:Bounds x="110" y="310" width="1330" height="520" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_0zmwwly_di" bpmnElement="Flow_0zmwwly"&gt;&lt;di:waypoint x="1050" y="565" /&gt;&lt;di:waypoint x="1050" y="660" /&gt;&lt;di:waypoint x="1342" y="660" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1058" y="610" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0nlqsmz_di" bpmnElement="Flow_0nlqsmz"&gt;&lt;di:waypoint x="1075" y="430" /&gt;&lt;di:waypoint x="1150" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0kozqdk_di" bpmnElement="Flow_0kozqdk"&gt;&lt;di:waypoint x="780" y="455" /&gt;&lt;di:waypoint x="780" y="540" /&gt;&lt;di:waypoint x="860" y="540" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="788" y="495" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_01se8yn_di" bpmnElement="Flow_01se8yn"&gt;&lt;di:waypoint x="540" y="430" /&gt;&lt;di:waypoint x="600" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_03821tv_di" bpmnElement="Flow_03821tv"&gt;&lt;di:waypoint x="380" y="430" /&gt;&lt;di:waypoint x="440" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_02z06p9_di" bpmnElement="Flow_02z06p9"&gt;&lt;di:waypoint x="960" y="540" /&gt;&lt;di:waypoint x="1025" y="540" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_051soyp_di" bpmnElement="Flow_051soyp"&gt;&lt;di:waypoint x="700" y="430" /&gt;&lt;di:waypoint x="755" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1bi4h0x_di" bpmnElement="Flow_1bi4h0x"&gt;&lt;di:waypoint x="1250" y="430" /&gt;&lt;di:waypoint x="1342" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_06s328x_di" bpmnElement="Flow_06s328x"&gt;&lt;di:waypoint x="228" y="430" /&gt;&lt;di:waypoint x="280" y="430" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1anffti_di" bpmnElement="Flow_1anffti"&gt;&lt;di:waypoint x="1050" y="515" /&gt;&lt;di:waypoint x="1050" y="455" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1057" y="483" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1mi6y27_di" bpmnElement="Flow_1mi6y27"&gt;&lt;di:waypoint x="805" y="430" /&gt;&lt;di:waypoint x="1025" y="430" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="816" y="412" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0ycroqs_di" bpmnElement="Event_0ycroqs"&gt;&lt;dc:Bounds x="192" y="412" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="171" y="455" width="78" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0r5e286_di" bpmnElement="Activity_PreliminaryInfo"&gt;&lt;dc:Bounds x="280" y="390" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1w8bpnl_di" bpmnElement="Activity_ReviewAdmissibility"&gt;&lt;dc:Bounds x="440" y="390" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0ln7t2p_di" bpmnElement="Activity_ApproveAdmissibility"&gt;&lt;dc:Bounds x="600" y="390" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_051r8ve_di" bpmnElement="Gateway_051r8ve" isMarkerVisible="true"&gt;&lt;dc:Bounds x="755" y="405" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="753" y="368" width="53" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0ngx1ns_di" bpmnElement="Activity_AdmissibilityAppeal"&gt;&lt;dc:Bounds x="860" y="500" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0rt4v1p_di" bpmnElement="Gateway_0rt4v1p" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1025" y="405" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0eyj2l8_di" bpmnElement="Gateway_0eyj2l8" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1025" y="515" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1085" y="526" width="58" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_15hmz8w_di" bpmnElement="Activity_TemCert"&gt;&lt;dc:Bounds x="1150" y="390" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1c34gml_di" bpmnElement="Event_1c34gml"&gt;&lt;dc:Bounds x="1342" y="412" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1334" y="455" width="53" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_02m61nd_di" bpmnElement="Event_02m61nd"&gt;&lt;dc:Bounds x="1342" y="642" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1334" y="685" width="53" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_0kper18_di" bpmnElement="Participant_0kper18" isHorizontal="true"&gt;&lt;dc:Bounds x="1190" y="900" width="1040" height="430" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_07jewxx_di" bpmnElement="Flow_07jewxx"&gt;&lt;di:waypoint x="1755" y="1020" /&gt;&lt;di:waypoint x="1830" y="1020" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1784" y="1002" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0j05pxx_di" bpmnElement="Flow_0j05pxx"&gt;&lt;di:waypoint x="2055" y="1020" /&gt;&lt;di:waypoint x="2132" y="1020" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2085" y="1002" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_17yavoa_di" bpmnElement="Flow_17yavoa"&gt;&lt;di:waypoint x="2030" y="1045" /&gt;&lt;di:waypoint x="2030" y="1150" /&gt;&lt;di:waypoint x="2132" y="1150" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2038" y="1095" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0je9kox_di" bpmnElement="Flow_0je9kox"&gt;&lt;di:waypoint x="1730" y="1045" /&gt;&lt;di:waypoint x="1730" y="1150" /&gt;&lt;di:waypoint x="1862" y="1150" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1738" y="1063" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0i4ijnf_di" bpmnElement="Flow_0i4ijnf"&gt;&lt;di:waypoint x="1650" y="1020" /&gt;&lt;di:waypoint x="1705" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0o6au8o_di" bpmnElement="Flow_0o6au8o"&gt;&lt;di:waypoint x="1490" y="1020" /&gt;&lt;di:waypoint x="1550" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1dqazoj_di" bpmnElement="Flow_1dqazoj"&gt;&lt;di:waypoint x="1338" y="1020" /&gt;&lt;di:waypoint x="1390" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0ozjelh_di" bpmnElement="Flow_0ozjelh"&gt;&lt;di:waypoint x="1930" y="1020" /&gt;&lt;di:waypoint x="2005" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_18mdgi4_di" bpmnElement="Event_18mdgi4"&gt;&lt;dc:Bounds x="1302" y="1002" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1281" y="1045" width="78" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1bfhxg3_di" bpmnElement="Gateway_1bfhxg3" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1705" y="995" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1689" y="950" width="82" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0ngvjt5_di" bpmnElement="Activity_ApproveTakeCharge"&gt;&lt;dc:Bounds x="1550" y="980" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0nnul92_di" bpmnElement="Activity_TakeChargeRequest"&gt;&lt;dc:Bounds x="1390" y="980" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1ybnxft_di" bpmnElement="Event_1ybnxft"&gt;&lt;dc:Bounds x="1862" y="1132" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1840" y="1175" width="81" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1uizx9p_di" bpmnElement="Activity_TakeChargeAppeal"&gt;&lt;dc:Bounds x="1830" y="980" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0m8ql29_di" bpmnElement="Gateway_0m8ql29" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2005" y="995" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2001" y="965" width="58" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1l0wnij_di" bpmnElement="Event_1l0wnij"&gt;&lt;dc:Bounds x="2132" y="1002" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2113" y="1045" width="74" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1wuay5h_di" bpmnElement="Event_1wuay5h"&gt;&lt;dc:Bounds x="2132" y="1132" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2115" y="1175" width="71" height="53" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_08tj0nr" bpmnElement="Participant_12zcww0" isHorizontal="true"&gt;&lt;dc:Bounds x="110" y="900" width="1040" height="430" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_1u4kg22_di" bpmnElement="Flow_1u4kg22"&gt;&lt;di:waypoint x="675" y="1020" /&gt;&lt;di:waypoint x="750" y="1020" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="691" y="1002" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_04xdd14_di" bpmnElement="Flow_04xdd14"&gt;&lt;di:waypoint x="975" y="1020" /&gt;&lt;di:waypoint x="1052" y="1020" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1005" y="1002" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_16tndth_di" bpmnElement="Flow_16tndth"&gt;&lt;di:waypoint x="950" y="1045" /&gt;&lt;di:waypoint x="950" y="1150" /&gt;&lt;di:waypoint x="1052" y="1150" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="958" y="1095" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0j8kqub" bpmnElement="Flow_16biox0"&gt;&lt;di:waypoint x="650" y="1045" /&gt;&lt;di:waypoint x="650" y="1150" /&gt;&lt;di:waypoint x="782" y="1150" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="658" y="1063" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_1q3bp21" bpmnElement="Flow_1xx4mjl"&gt;&lt;di:waypoint x="570" y="1020" /&gt;&lt;di:waypoint x="625" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_04o2bx6" bpmnElement="Flow_1kkmriv"&gt;&lt;di:waypoint x="410" y="1020" /&gt;&lt;di:waypoint x="470" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="BPMNEdge_0gcz344" bpmnElement="Flow_147tz8z"&gt;&lt;di:waypoint x="258" y="1020" /&gt;&lt;di:waypoint x="310" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1yuvhke_di" bpmnElement="Flow_1yuvhke"&gt;&lt;di:waypoint x="850" y="1020" /&gt;&lt;di:waypoint x="925" y="1020" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="BPMNShape_05ccajn" bpmnElement="Event_1bvpje0"&gt;&lt;dc:Bounds x="222" y="1002" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="195" y="1045" width="90" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1ih64ao" bpmnElement="Gateway_12tjk18" isMarkerVisible="true"&gt;&lt;dc:Bounds x="625" y="995" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="614" y="950" width="72" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1t8j65y" bpmnElement="Activity_ApproveTakeBack"&gt;&lt;dc:Bounds x="470" y="980" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0i1265b_di" bpmnElement="Activity_TakeBackRequest"&gt;&lt;dc:Bounds x="310" y="980" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_0ver48b" bpmnElement="Activity_TakeBackAppeal"&gt;&lt;dc:Bounds x="750" y="980" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_0j92row" bpmnElement="Event_0mbnp4x"&gt;&lt;dc:Bounds x="782" y="1132" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="756" y="1175" width="90" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_09yl7vt" bpmnElement="Gateway_0ec98d9" isMarkerVisible="true"&gt;&lt;dc:Bounds x="925" y="995" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="921" y="965" width="58" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_0fo5kj7" bpmnElement="Event_0gkn41i"&gt;&lt;dc:Bounds x="1052" y="1002" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1033" y="1045" width="74" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="BPMNShape_1buevqf" bpmnElement="Event_1sce1x7"&gt;&lt;dc:Bounds x="1052" y="1132" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1035" y="1175" width="71" height="53" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_04k7yxp_di" bpmnElement="Participant_04k7yxp" isHorizontal="true"&gt;&lt;dc:Bounds x="2270" y="900" width="830" height="330" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_0w5ajul_di" bpmnElement="Flow_0w5ajul"&gt;&lt;di:waypoint x="2935" y="1030" /&gt;&lt;di:waypoint x="3002" y="1030" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0rwepc6_di" bpmnElement="Flow_0rwepc6"&gt;&lt;di:waypoint x="2398" y="1030" /&gt;&lt;di:waypoint x="2470" y="1030" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0mkdqt5_di" bpmnElement="Flow_0mkdqt5"&gt;&lt;di:waypoint x="2830" y="1140" /&gt;&lt;di:waypoint x="2910" y="1140" /&gt;&lt;di:waypoint x="2910" y="1055" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0l2pdfq_di" bpmnElement="Flow_0l2pdfq"&gt;&lt;di:waypoint x="2830" y="1030" /&gt;&lt;di:waypoint x="2885" y="1030" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0yb3w8x_di" bpmnElement="Flow_0yb3w8x"&gt;&lt;di:waypoint x="2650" y="1055" /&gt;&lt;di:waypoint x="2650" y="1140" /&gt;&lt;di:waypoint x="2730" y="1140" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2658" y="1073" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1rr0m1z_di" bpmnElement="Flow_1rr0m1z"&gt;&lt;di:waypoint x="2675" y="1030" /&gt;&lt;di:waypoint x="2730" y="1030" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2681" y="1012" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0k6nkwn_di" bpmnElement="Flow_0k6nkwn"&gt;&lt;di:waypoint x="2570" y="1030" /&gt;&lt;di:waypoint x="2625" y="1030" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Gateway_1lc9hx3_di" bpmnElement="Gateway_1lc9hx3" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2625" y="1005" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2608" y="927" width="84" height="66" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_0povfn5_di" bpmnElement="Gateway_0povfn5" isMarkerVisible="true"&gt;&lt;dc:Bounds x="2885" y="1005" width="50" height="50" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0boj5p1_di" bpmnElement="Event_0boj5p1"&gt;&lt;dc:Bounds x="2362" y="1012" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2337" y="1055" width="87" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_13564pm_di" bpmnElement="Activity_StreamOne"&gt;&lt;dc:Bounds x="2730" y="990" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_1tx6bri_di" bpmnElement="Activity_StreamTwo"&gt;&lt;dc:Bounds x="2730" y="1100" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_147zx4x_di" bpmnElement="Activity_InternationalProtectionQuestionnaire"&gt;&lt;dc:Bounds x="2470" y="990" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_1tc6r5r_di" bpmnElement="Event_1tc6r5r"&gt;&lt;dc:Bounds x="3002" y="1012" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2977" y="1055" width="87" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Participant_1xb04pv_di" bpmnElement="Participant_1xb04pv" isHorizontal="true"&gt;&lt;dc:Bounds x="1480" y="310" width="1240" height="440" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNEdge id="Flow_0mzhxm7_di" bpmnElement="Flow_0mzhxm7"&gt;&lt;di:waypoint x="2560" y="450" /&gt;&lt;di:waypoint x="2632" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_01jdith_di" bpmnElement="Flow_01jdith"&gt;&lt;di:waypoint x="2400" y="450" /&gt;&lt;di:waypoint x="2460" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0l2apcw_di" bpmnElement="Flow_0l2apcw"&gt;&lt;di:waypoint x="2230" y="450" /&gt;&lt;di:waypoint x="2300" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1l1qtur_di" bpmnElement="Flow_1l1qtur"&gt;&lt;di:waypoint x="2060" y="450" /&gt;&lt;di:waypoint x="2130" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1178qgz_di" bpmnElement="Flow_1178qgz"&gt;&lt;di:waypoint x="1885" y="450" /&gt;&lt;di:waypoint x="1960" y="450" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1914" y="432" width="18" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_1j6dw0t_di" bpmnElement="Flow_1j6dw0t"&gt;&lt;di:waypoint x="1860" y="475" /&gt;&lt;di:waypoint x="1860" y="560" /&gt;&lt;di:waypoint x="1992" y="560" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1868" y="515" width="15" height="14" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0w8uwge_di" bpmnElement="Flow_0w8uwge"&gt;&lt;di:waypoint x="1780" y="450" /&gt;&lt;di:waypoint x="1835" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNEdge id="Flow_0crlz3x_di" bpmnElement="Flow_0crlz3x"&gt;&lt;di:waypoint x="1628" y="450" /&gt;&lt;di:waypoint x="1680" y="450" /&gt;&lt;/bpmndi:BPMNEdge&gt;&lt;bpmndi:BPMNShape id="Event_0kmtnih_di" bpmnElement="Event_0kmtnih"&gt;&lt;dc:Bounds x="1592" y="432" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1568" y="475" width="85" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Gateway_1jpt3gt_di" bpmnElement="Gateway_1jpt3gt" isMarkerVisible="true"&gt;&lt;dc:Bounds x="1835" y="425" width="50" height="50" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1825" y="380" width="69" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0zmmbvz_di" bpmnElement="Activity_SubsidiaryInfo"&gt;&lt;dc:Bounds x="1680" y="410" width="100" height="80" /&gt;&lt;bpmndi:BPMNLabel /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0u1tstp_di" bpmnElement="Activity_FirstInstanceReport"&gt;&lt;dc:Bounds x="1960" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0u5k8ps_di" bpmnElement="Activity_FirstInstanceAppeal"&gt;&lt;dc:Bounds x="2130" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0brm8u0_di" bpmnElement="Activity_FinalDecision"&gt;&lt;dc:Bounds x="2300" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Activity_0uimo5i_di" bpmnElement="Activity_FinalDecisionApproval"&gt;&lt;dc:Bounds x="2460" y="410" width="100" height="80" /&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_02pp2mo_di" bpmnElement="Event_02pp2mo"&gt;&lt;dc:Bounds x="2632" y="432" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="2616" y="475" width="68" height="27" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;bpmndi:BPMNShape id="Event_0w0u5uf_di" bpmnElement="Event_0w0u5uf"&gt;&lt;dc:Bounds x="1992" y="542" width="36" height="36" /&gt;&lt;bpmndi:BPMNLabel&gt;&lt;dc:Bounds x="1967" y="585" width="86" height="40" /&gt;&lt;/bpmndi:BPMNLabel&gt;&lt;/bpmndi:BPMNShape&gt;&lt;/bpmndi:BPMNPlane&gt;&lt;/bpmndi:BPMNDiagram&gt;&lt;/bpmn:definitions&gt;</ProcessDiagram>
+  <Processes>
+    <Process Id="Process_1">
+      <BpmnId>Process_1</BpmnId>
+      <Name>Asylum Application</Name>
+      <IsExecutable>true</IsExecutable>
+      <ParticipantId>Participant_0q30ur8</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_163bsy5">
+          <Name></Name>
+          <SourceId>StartEvent_1</SourceId>
+          <TargetId>Activity_ApplicationValidation</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1hf5c0n">
+          <Name></Name>
+          <SourceId>Activity_ApplicationValidation</SourceId>
+          <TargetId>Gateway_05dh9vg</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0ay8t4o">
+          <Name></Name>
+          <SourceId>Activity_TakeBack</SourceId>
+          <TargetId>Gateway_1pyb5n1</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_022x72q">
+          <Name>No</Name>
+          <SourceId>Gateway_0j2crp4</SourceId>
+          <TargetId>Gateway_0bkn8vj</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) != keccak256(abi.encodePacked("Overhanded"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_15noind">
+          <Name></Name>
+          <SourceId>Activity_ApplicationPriorization</SourceId>
+          <TargetId>Activity_FinalDecisionTaking</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0itq37a">
+          <Name></Name>
+          <SourceId>Activity_FinalDecisionTaking</SourceId>
+          <TargetId>Gateway_1qr1pwb</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1ioq4ui">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0r7ck5t</SourceId>
+          <TargetId>Activity_TakeBack</TargetId>
+          <Condition>application.takeBackRequest.isValid == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0qady0o">
+          <Name></Name>
+          <SourceId>Gateway_05zmnx1</SourceId>
+          <TargetId>Activity_ReviewTakeCharge</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1r2wzhw">
+          <Name></Name>
+          <SourceId>Activity_1th7mjv</SourceId>
+          <TargetId>Gateway_0r7ck5t</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0r93tdh">
+          <Name></Name>
+          <SourceId>Activity_ReviewTakeCharge</SourceId>
+          <TargetId>Gateway_1vzjld9</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_16qbphs">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1vzjld9</SourceId>
+          <TargetId>Activity_TakeCharge</TargetId>
+          <Condition>application.takeChargeRequest.isValid == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_07k59r6">
+          <Name></Name>
+          <SourceId>Activity_TakeCharge</SourceId>
+          <TargetId>Gateway_0j2crp4</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_10ubtt0">
+          <Name>No</Name>
+          <SourceId>Gateway_0r7ck5t</SourceId>
+          <TargetId>Gateway_05zmnx1</TargetId>
+          <Condition>application.takeBackRequest.isValid == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1plvh0n">
+          <Name>No</Name>
+          <SourceId>Gateway_1vzjld9</SourceId>
+          <TargetId>Gateway_1rihnfb</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1bzyhg4">
+          <Name>No</Name>
+          <SourceId>Gateway_05dh9vg</SourceId>
+          <TargetId>Activity_1th7mjv</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) != keccak256(abi.encodePacked("Rejected"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_00pdqg9">
+          <Name>Yes</Name>
+          <SourceId>Gateway_05dh9vg</SourceId>
+          <TargetId>Event_147od2l</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) == keccak256(abi.encodePacked("Rejected"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0e3g6p8">
+          <Name>No</Name>
+          <SourceId>Gateway_1pyb5n1</SourceId>
+          <TargetId>Gateway_05zmnx1</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) != keccak256(abi.encodePacked("Overhanded"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_160vyk4">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1pyb5n1</SourceId>
+          <TargetId>Event_13ubgqt</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) == keccak256(abi.encodePacked("Overhanded"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0n1itbn">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0j2crp4</SourceId>
+          <TargetId>Event_0o7bbfv</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) == keccak256(abi.encodePacked("Overhanded"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0alzp29">
+          <Name></Name>
+          <SourceId>Gateway_0bkn8vj</SourceId>
+          <TargetId>Activity_ApplicationPriorization</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0959okx">
+          <Name>No</Name>
+          <SourceId>Gateway_1vzjld9</SourceId>
+          <TargetId>Gateway_0bkn8vj</TargetId>
+          <Condition>application.takeChargeRequest.isValid == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1600c4t">
+          <Name>Refugee status</Name>
+          <SourceId>Gateway_10474yo</SourceId>
+          <TargetId>Event_00v933a</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.finalDecision)) == keccak256(abi.encodePacked("RefugeeStatus"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0yjjtgb">
+          <Name>Subsidiary protection</Name>
+          <SourceId>Gateway_10474yo</SourceId>
+          <TargetId>Event_008rlnh</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.finalDecision)) == keccak256(abi.encodePacked("SubsidiaryProtection"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1u8ulw4">
+          <Name>Permission to remain</Name>
+          <SourceId>Gateway_10474yo</SourceId>
+          <TargetId>Event_00988y7</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.finalDecision)) == keccak256(abi.encodePacked("PermissionToRemain"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_02jnn9n">
+          <Name>Voluntary return proposition</Name>
+          <SourceId>Gateway_10474yo</SourceId>
+          <TargetId>Activity_CheckVoluntaryReturn</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.finalDecision)) == keccak256(abi.encodePacked("VoluntaryReturn"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1b9j6bv">
+          <Name>Deportation order</Name>
+          <SourceId>Gateway_10474yo</SourceId>
+          <TargetId>Gateway_1kiszla</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.finalDecision)) == keccak256(abi.encodePacked("DeportationOrder"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0cdbcm3">
+          <Name></Name>
+          <SourceId>Activity_CheckVoluntaryReturn</SourceId>
+          <TargetId>Gateway_0f2xcdk</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_16zb551">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0f2xcdk</SourceId>
+          <TargetId>Event_1wrf61v</TargetId>
+          <Condition>application.voluntaryReturnProposition.isAccepted == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1x1cj0v">
+          <Name>No</Name>
+          <SourceId>Gateway_0f2xcdk</SourceId>
+          <TargetId>Gateway_0j8jklk</TargetId>
+          <Condition>application.voluntaryReturnProposition.isAccepted == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1kxg6d7">
+          <Name></Name>
+          <SourceId>Gateway_0j8jklk</SourceId>
+          <TargetId>Event_1d1vgjb</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_04xphnz">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1qr1pwb</SourceId>
+          <TargetId>Gateway_10474yo</TargetId>
+          <Condition>application.subsidiaryInterview.wasPerformed == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_150nclc">
+          <Name>No</Name>
+          <SourceId>Gateway_1qr1pwb</SourceId>
+          <TargetId>Gateway_1kiszla</TargetId>
+          <Condition>application.subsidiaryInterview.wasPerformed == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1few8yr">
+          <Name></Name>
+          <SourceId>Gateway_1kiszla</SourceId>
+          <TargetId>Gateway_0j8jklk</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="StartEvent_1">
+          <Name>New application opened</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_163bsy5</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <CallActivity Id="Activity_ApplicationPriorization">
+          <Name>Application prioritization</Name>
+          <Incoming>
+            <IncomingId>Flow_0alzp29</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_15noind</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <CalledElement>Process_1x95f9r</CalledElement>
+        </CallActivity>
+        <CallActivity Id="Activity_TakeCharge">
+          <Name>Take charge request</Name>
+          <Incoming>
+            <IncomingId>Flow_16qbphs</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_07k59r6</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <CalledElement>Process_172rzzq</CalledElement>
+        </CallActivity>
+        <CallActivity Id="Activity_ApplicationValidation">
+          <Name>Application validation</Name>
+          <Incoming>
+            <IncomingId>Flow_163bsy5</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1hf5c0n</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <CalledElement>Process_1bglz33</CalledElement>
+        </CallActivity>
+        <CallActivity Id="Activity_FinalDecisionTaking">
+          <Name>Final decision taking</Name>
+          <Incoming>
+            <IncomingId>Flow_15noind</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0itq37a</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <CalledElement>Process_1vtzte3</CalledElement>
+        </CallActivity>
+        <ExclusiveGateway Id="Gateway_05dh9vg">
+          <Name>Was application rejected?</Name>
+          <Incoming>
+            <IncomingId>Flow_1hf5c0n</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1bzyhg4</OutgoingId>
+            <OutgoingId>Flow_00pdqg9</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_1qr1pwb">
+          <Name>Was interview successfuly performed?</Name>
+          <Incoming>
+            <IncomingId>Flow_0itq37a</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_04xphnz</OutgoingId>
+            <OutgoingId>Flow_150nclc</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_0r7ck5t">
+          <Name>Is take back request valid?</Name>
+          <Incoming>
+            <IncomingId>Flow_1r2wzhw</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1ioq4ui</OutgoingId>
+            <OutgoingId>Flow_10ubtt0</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_05zmnx1">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_10ubtt0</IncomingId>
+            <IncomingId>Flow_0e3g6p8</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0qady0o</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_10474yo">
+          <Name>Final decision</Name>
+          <Incoming>
+            <IncomingId>Flow_04xphnz</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1600c4t</OutgoingId>
+            <OutgoingId>Flow_0yjjtgb</OutgoingId>
+            <OutgoingId>Flow_1u8ulw4</OutgoingId>
+            <OutgoingId>Flow_02jnn9n</OutgoingId>
+            <OutgoingId>Flow_1b9j6bv</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_1vzjld9">
+          <Name>Is take charge request valid?</Name>
+          <Incoming>
+            <IncomingId>Flow_0r93tdh</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_16qbphs</OutgoingId>
+            <OutgoingId>Flow_0959okx</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <CallActivity Id="Activity_TakeBack">
+          <Name>Take back request</Name>
+          <Incoming>
+            <IncomingId>Flow_1ioq4ui</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0ay8t4o</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <CalledElement>Process_0dqe426</CalledElement>
+        </CallActivity>
+        <UserTask Id="Activity_1th7mjv">
+          <Name>Review take back request</Name>
+          <Incoming>
+            <IncomingId>Flow_1bzyhg4</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1r2wzhw</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Take Back Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="TakeBackRequestValid"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeBackRequest.isValid = takeBackRequestValid;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <UserTask Id="Activity_ReviewTakeCharge">
+          <Name>Review take charge request</Name>
+          <Incoming>
+            <IncomingId>Flow_0qady0o</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0r93tdh</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Take Charge Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="TakeChargeRequestValid"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeChargeRequest.isValid = takeChargeRequestValid;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_147od2l">
+          <Name>Application rejected</Name>
+          <Incoming>
+            <IncomingId>Flow_00pdqg9</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_1pyb5n1">
+          <Name>Was application overhanded?</Name>
+          <Incoming>
+            <IncomingId>Flow_0ay8t4o</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0e3g6p8</OutgoingId>
+            <OutgoingId>Flow_160vyk4</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_13ubgqt">
+          <Name>Application overhanded to responsible Dublin country</Name>
+          <Incoming>
+            <IncomingId>Flow_160vyk4</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_0bkn8vj">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_022x72q</IncomingId>
+            <IncomingId>Flow_0959okx</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0alzp29</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_0j2crp4">
+          <Name>Was application overhanded?</Name>
+          <Incoming>
+            <IncomingId>Flow_07k59r6</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_022x72q</OutgoingId>
+            <OutgoingId>Flow_0n1itbn</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_0o7bbfv">
+          <Name>Application overhanded to responsible Dublin country</Name>
+          <Incoming>
+            <IncomingId>Flow_0n1itbn</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_00v933a">
+          <Name>Refugee status declared</Name>
+          <Incoming>
+            <IncomingId>Flow_1600c4t</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_008rlnh">
+          <Name>Subsidiary protection declared</Name>
+          <Incoming>
+            <IncomingId>Flow_0yjjtgb</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_00988y7">
+          <Name>Permission to remain declared</Name>
+          <Incoming>
+            <IncomingId>Flow_1u8ulw4</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_0f2xcdk">
+          <Name>Does applicant accept volutary return?</Name>
+          <Incoming>
+            <IncomingId>Flow_0cdbcm3</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_16zb551</OutgoingId>
+            <OutgoingId>Flow_1x1cj0v</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_0j8jklk">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_1x1cj0v</IncomingId>
+            <IncomingId>Flow_1few8yr</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1kxg6d7</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_1wrf61v">
+          <Name>Application rejected with voluntary return</Name>
+          <Incoming>
+            <IncomingId>Flow_16zb551</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_1d1vgjb">
+          <Name>Application rejected with deportation order</Name>
+          <Incoming>
+            <IncomingId>Flow_1kxg6d7</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <UserTask Id="Activity_CheckVoluntaryReturn">
+          <Name>Check voluntary return proposition</Name>
+          <Incoming>
+            <IncomingId>Flow_02jnn9n</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0cdbcm3</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Check Voluntary Return Proposition"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="VoluntaryReturnAccepted"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.voluntaryReturnProposition.isAccepted = voluntaryReturnAccepted;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>a4fefd64-a58f-4205-8116-7fc1528dabaf</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <ExclusiveGateway Id="Gateway_1kiszla">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_150nclc</IncomingId>
+            <IncomingId>Flow_1b9j6bv</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1few8yr</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_1bglz33">
+      <BpmnId>Process_1bglz33</BpmnId>
+      <Name>Application Validation</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_055qxgc</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_01se8yn">
+          <Name></Name>
+          <SourceId>Activity_ReviewAdmissibility</SourceId>
+          <TargetId>Activity_ApproveAdmissibility</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_06s328x">
+          <Name></Name>
+          <SourceId>Event_0ycroqs</SourceId>
+          <TargetId>Activity_PreliminaryInfo</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1mi6y27">
+          <Name>Yes</Name>
+          <SourceId>Gateway_051r8ve</SourceId>
+          <TargetId>Gateway_0rt4v1p</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) == keccak256(abi.encodePacked("Admissible"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_02z06p9">
+          <Name></Name>
+          <SourceId>Activity_AdmissibilityAppeal</SourceId>
+          <TargetId>Gateway_0eyj2l8</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0kozqdk">
+          <Name>No</Name>
+          <SourceId>Gateway_051r8ve</SourceId>
+          <TargetId>Activity_AdmissibilityAppeal</TargetId>
+          <Condition>keccak256(abi.encodePacked(application.status)) == keccak256(abi.encodePacked("Inadmissible"))</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1anffti">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0eyj2l8</SourceId>
+          <TargetId>Gateway_0rt4v1p</TargetId>
+          <Condition>application.admissibilityAppeal.isUpheld == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0nlqsmz">
+          <Name></Name>
+          <SourceId>Gateway_0rt4v1p</SourceId>
+          <TargetId>Activity_TemCert</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1bi4h0x">
+          <Name></Name>
+          <SourceId>Activity_TemCert</SourceId>
+          <TargetId>Event_1c34gml</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_00xgfaq">
+          <Name></Name>
+          <SourceId>Gateway_1j27suf</SourceId>
+          <TargetId>Activity_1plvl1s</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0zmwwly">
+          <Name>No</Name>
+          <SourceId>Gateway_0eyj2l8</SourceId>
+          <TargetId>Event_02m61nd</TargetId>
+          <Condition>application.admissibilityAppeal.isUpheld == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_051soyp">
+          <Name></Name>
+          <SourceId>Activity_ApproveAdmissibility</SourceId>
+          <TargetId>Gateway_051r8ve</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_03821tv">
+          <Name></Name>
+          <SourceId>Activity_PreliminaryInfo</SourceId>
+          <TargetId>Activity_ReviewAdmissibility</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <UserTask Id="Activity_PreliminaryInfo">
+          <Name>Fill preliminary interview Info</Name>
+          <Incoming>
+            <IncomingId>Flow_06s328x</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_03821tv</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Fill Information from the Preliminary Interview"&gt;
+    &lt;FieldGroup&gt;
+        &lt;IntField Label="BelievedAge"/&gt;
+        &lt;BoolField Label="PartOfFamilyGroup"/&gt;
+        &lt;BoolField Label="IsUnaccompaniedMinor"/&gt;
+        &lt;SingleLineField Label="ApplicantsCountryOfOrigin"/&gt;
+        &lt;BoolField Label="InternationalProtectionAlreadyExists"/&gt;
+        &lt;BoolField Label="HasNonRefoulmentPrinciple"/&gt;
+        &lt;IntField Label="ApplicationOpenedAtDate"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.openedAtDate = applicationOpenedAtDate;
+
+application.applicant.believedAgeInInterview = int(believedAge);
+application.applicant.familyGroup = partOfFamilyGroup;
+application.applicant.unaccompaniedMinor = isUnaccompaniedMinor;
+application.applicant.countryOfOrigin = applicantsCountryOfOrigin;
+application.applicant.existingInternationalProtection = internationalProtectionAlreadyExists;
+application.applicant.nonRefoulmentPrinciple = hasNonRefoulmentPrinciple;
+
+application.status = "Opened";</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <ExclusiveGateway Id="Gateway_051r8ve">
+          <Name>Application accepted?</Name>
+          <Incoming>
+            <IncomingId>Flow_051soyp</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1mi6y27</OutgoingId>
+            <OutgoingId>Flow_0kozqdk</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <BusinessRuleTask Id="Activity_ReviewAdmissibility">
+          <Name>Review initial admissibility</Name>
+          <Incoming>
+            <IncomingId>Flow_03821tv</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_01se8yn</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <BusinessRuleDefinition>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="definitions_pv83y87" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="10.2.0"&gt;&lt;decision id="decision_i7tm6k0" name=""&gt;&lt;decisionTable id="decisionTable_wxbkc6t" hitPolicy="FIRST" biodi:annotationsWidth="400"&gt;&lt;input id="input1" label="Existing international protection"&gt;&lt;inputExpression id="inputExpression1" typeRef="boolean"&gt;&lt;text&gt;application.applicant.existingInternationalProtection&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_02pp0ry" label="Non-refoulement principle"&gt;&lt;inputExpression id="LiteralExpression_1ke4qd9" typeRef="boolean"&gt;&lt;text&gt;application.applicant.nonRefoulmentPrinciple&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_0hhsjtj" label="Country of origin"&gt;&lt;inputExpression id="LiteralExpression_0ikp9zb" typeRef="string"&gt;&lt;text&gt;application.applicant.countryOfOrigin&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;output id="output1" label="Initial admissibility" name="application.status" typeRef="string" /&gt;&lt;rule id="DecisionRule_10luw3f"&gt;&lt;inputEntry id="UnaryTests_11q9xzk"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0gioyp4"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1hckom8"&gt;&lt;text&gt;"Bosnia and Herzegovina"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0pcoyw5"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_14gxta3"&gt;&lt;inputEntry id="UnaryTests_0ru8333"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1e9845t"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_02ybzrf"&gt;&lt;text&gt;"North Macedonia"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0dx770h"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1kbl31f"&gt;&lt;inputEntry id="UnaryTests_1lounjp"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0twpvul"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_012eb7z"&gt;&lt;text&gt;"Georgie"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0rkifes"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1jxyprs"&gt;&lt;inputEntry id="UnaryTests_19ib4wz"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1akj1xl"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_10kqkc1"&gt;&lt;text&gt;"Kosovo"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_02z075z"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0cc2p66"&gt;&lt;inputEntry id="UnaryTests_1dqjm36"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_04sudqb"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1m7s84o"&gt;&lt;text&gt;"Montenegro"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1ydtgvm"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0c9xqdb"&gt;&lt;inputEntry id="UnaryTests_12uj6nb"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1oesfp8"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_03clpum"&gt;&lt;text&gt;"Republic of Albania"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_048xoea"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0jclpkk"&gt;&lt;inputEntry id="UnaryTests_014t0xh"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0igqt29"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0ca2s9y"&gt;&lt;text&gt;"Republic of Serbia"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1vnxiuj"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1olsyon"&gt;&lt;inputEntry id="UnaryTests_0pcnzeu"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1qwz9vs"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_018csov"&gt;&lt;text&gt;"Republic of South Africa"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_109dfna"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0nnqc7k"&gt;&lt;inputEntry id="UnaryTests_097cx7r"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1nmyn5y"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_033fig8"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1tf17e6"&gt;&lt;text&gt;"Inadmissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_024ev7n"&gt;&lt;inputEntry id="UnaryTests_0omj0mc"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0rle5ty"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0l29ch6"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1aqcoje"&gt;&lt;text&gt;"Admissible"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;/decisionTable&gt;&lt;/decision&gt;&lt;/definitions&gt;</BusinessRuleDefinition>
+        </BusinessRuleTask>
+        <UserTask Id="Activity_ApproveAdmissibility">
+          <Name>Approve admissibility decision</Name>
+          <Incoming>
+            <IncomingId>Flow_01se8yn</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_051soyp</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Approve Admissibility Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="WellFoundedApplication"/&gt;
+        &lt;BoolField Label="ApproveDecision"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.id = uint(keccak256(abi.encodePacked(block.timestamp,block.difficulty, msg.sender)));
+application.wellFounded = wellFoundedApplication;
+if (approveDecision == true) {
+	if (keccak256(abi.encodePacked(application.finalDecisionAppeal.appealDecision)) == keccak256(abi.encodePacked("Admissible"))) {
+    	application.status = "Admissible";
+	} else {
+    	application.status = "Inadmissible";
+	}
+} else {
+	if (keccak256(abi.encodePacked(application.finalDecisionAppeal.appealDecision)) == keccak256(abi.encodePacked("Admissible"))) {
+    	application.status = "Inadmissible";
+	} else {
+    	application.status = "Admissible";
+	}
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <ExclusiveGateway Id="Gateway_0rt4v1p">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_1mi6y27</IncomingId>
+            <IncomingId>Flow_1anffti</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0nlqsmz</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <ExclusiveGateway Id="Gateway_0eyj2l8">
+          <Name>Was appeal upheld</Name>
+          <Incoming>
+            <IncomingId>Flow_02z06p9</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1anffti</OutgoingId>
+            <OutgoingId>Flow_0zmwwly</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <UserTask Id="Activity_AdmissibilityAppeal">
+          <Name>Review possible appeal</Name>
+          <Incoming>
+            <IncomingId>Flow_0kozqdk</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_02z06p9</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Appealed Admissibility Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="AppealRaised"/&gt;
+        &lt;BoolField Label="AppealUpheld"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.admissibilityAppeal.appealDecision = "Inadmissible";
+application.status = "Inadmissible";
+application.admissibilityAppeal.isUpheld = false;
+if (appealRaised == true) {
+	if (appealUpheld == true) {
+    	application.status = "Admissible";
+		application.admissibilityAppeal.appealDecision = "Admissible";
+		application.admissibilityAppeal.isUpheld = true;
+	}
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>ba874e49-403d-4b8f-9009-de6160a436c0</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_1c34gml">
+          <Name>Application validated</Name>
+          <Incoming>
+            <IncomingId>Flow_1bi4h0x</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_02m61nd">
+          <Name>Application rejected</Name>
+          <Incoming>
+            <IncomingId>Flow_0zmwwly</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ScriptTask Id="Activity_TemCert">
+          <Name>Generate temporary registration certificate</Name>
+          <Incoming>
+            <IncomingId>Flow_0nlqsmz</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1bi4h0x</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <Script>application.temporaryRegistrationCertificateId = uint(keccak256(abi.encodePacked(block.timestamp,block.difficulty, msg.sender)));</Script>
+        </ScriptTask>
+        <StartEvent Id="Event_0ycroqs">
+          <Name>New application opened</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_06s328x</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_172rzzq">
+      <BpmnId>Process_172rzzq</BpmnId>
+      <Name>Take Charge Request</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_0kper18</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_1dqazoj">
+          <Name></Name>
+          <SourceId>Event_18mdgi4</SourceId>
+          <TargetId>Activity_TakeChargeRequest</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0o6au8o">
+          <Name></Name>
+          <SourceId>Activity_TakeChargeRequest</SourceId>
+          <TargetId>Activity_ApproveTakeCharge</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0i4ijnf">
+          <Name></Name>
+          <SourceId>Activity_ApproveTakeCharge</SourceId>
+          <TargetId>Gateway_1bfhxg3</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_07jewxx">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1bfhxg3</SourceId>
+          <TargetId>Activity_TakeChargeAppeal</TargetId>
+          <Condition>application.takeChargeRequest.isApproved == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0je9kox">
+          <Name>No</Name>
+          <SourceId>Gateway_1bfhxg3</SourceId>
+          <TargetId>Event_1ybnxft</TargetId>
+          <Condition>application.takeChargeRequest.isApproved == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0ozjelh">
+          <Name></Name>
+          <SourceId>Activity_TakeChargeAppeal</SourceId>
+          <TargetId>Gateway_0m8ql29</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0q1rgq0">
+          <Name></Name>
+          <SourceId>Event_0ihkdww</SourceId>
+          <TargetId>Activity_1i0biq7</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0j05pxx">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0m8ql29</SourceId>
+          <TargetId>Event_1l0wnij</TargetId>
+          <Condition>application.takeChargeRequest.appeal.isUpheld == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_17yavoa">
+          <Name>No</Name>
+          <SourceId>Gateway_0m8ql29</SourceId>
+          <TargetId>Event_1wuay5h</TargetId>
+          <Condition>application.takeChargeRequest.appeal.isUpheld == false</Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="Event_18mdgi4">
+          <Name>Take charge request granted</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_1dqazoj</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <ExclusiveGateway Id="Gateway_1bfhxg3">
+          <Name>Was take charge request approved?</Name>
+          <Incoming>
+            <IncomingId>Flow_0i4ijnf</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0je9kox</OutgoingId>
+            <OutgoingId>Flow_07jewxx</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <UserTask Id="Activity_ApproveTakeCharge">
+          <Name>Approve take charge request</Name>
+          <Incoming>
+            <IncomingId>Flow_0o6au8o</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0i4ijnf</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Approve Take Charge Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="RequestApproval"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeChargeRequest.isApproved = requestApproval;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>466d8501-4798-4a25-9287-5223d6eecbd6</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_1ybnxft">
+          <Name>Take charge request declined</Name>
+          <Incoming>
+            <IncomingId>Flow_0je9kox</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_0m8ql29">
+          <Name>Was appeal upheld</Name>
+          <Incoming>
+            <IncomingId>Flow_0ozjelh</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_17yavoa</OutgoingId>
+            <OutgoingId>Flow_0j05pxx</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <UserTask Id="Activity_TakeChargeAppeal">
+          <Name>Review possible appeal</Name>
+          <Incoming>
+            <IncomingId>Flow_07jewxx</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0ozjelh</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Appealed Take Charge Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="AppealRaised"/&gt;
+        &lt;BoolField Label="AppealUpheld"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeChargeRequest.appeal.appealDecision = "Overhanded";
+application.status = "Overhanded";
+application.takeChargeRequest.appeal.isUpheld = false;
+if (appealRaised == true) {
+	if (appealUpheld == true) {
+    	application.status = "Admissible";
+		application.takeChargeRequest.appeal.appealDecision = "Admissible";
+		application.takeChargeRequest.appeal.isUpheld = true;
+	}
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>ba874e49-403d-4b8f-9009-de6160a436c0</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_1l0wnij">
+          <Name>Requestor is responsible for the application</Name>
+          <Incoming>
+            <IncomingId>Flow_0j05pxx</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <UserTask Id="Activity_TakeChargeRequest">
+          <Name>Create take charge request</Name>
+          <Incoming>
+            <IncomingId>Flow_1dqazoj</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0o6au8o</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Create Take Charge Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Label="RequestedDublinCountry"/&gt;
+        &lt;SingleLineField Label="JustificationForTheRequest"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeChargeRequest.requestedCountry = requestedDublinCountry;
+application.takeChargeRequest.justification = justificationForTheRequest;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_1wuay5h">
+          <Name>Application overhanded to responsible Dublin country</Name>
+          <Incoming>
+            <IncomingId>Flow_17yavoa</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_0dqe426">
+      <BpmnId>Process_0dqe426</BpmnId>
+      <Name>Take Back Request</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_12zcww0</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_147tz8z">
+          <Name></Name>
+          <SourceId>Event_1bvpje0</SourceId>
+          <TargetId>Activity_TakeBackRequest</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1kkmriv">
+          <Name></Name>
+          <SourceId>Activity_TakeBackRequest</SourceId>
+          <TargetId>Activity_ApproveTakeBack</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1xx4mjl">
+          <Name></Name>
+          <SourceId>Activity_ApproveTakeBack</SourceId>
+          <TargetId>Gateway_12tjk18</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1u4kg22">
+          <Name>Yes</Name>
+          <SourceId>Gateway_12tjk18</SourceId>
+          <TargetId>Activity_TakeBackAppeal</TargetId>
+          <Condition>application.takeBackRequest.isApproved == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_16biox0">
+          <Name>No</Name>
+          <SourceId>Gateway_12tjk18</SourceId>
+          <TargetId>Event_0mbnp4x</TargetId>
+          <Condition>application.takeBackRequest.isApproved == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1yuvhke">
+          <Name></Name>
+          <SourceId>Activity_TakeBackAppeal</SourceId>
+          <TargetId>Gateway_0ec98d9</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1yilzh2">
+          <Name></Name>
+          <SourceId>Event_0ejhlux</SourceId>
+          <TargetId>Activity_1occsjh</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_03s98az">
+          <Name></Name>
+          <SourceId>Activity_1occsjh</SourceId>
+          <TargetId>Gateway_14mqo0r</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0ege6vx">
+          <Name>No</Name>
+          <SourceId>Gateway_0ec98d9</SourceId>
+          <TargetId>Gateway_1jnllg4</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_16tndth">
+          <Name>No</Name>
+          <SourceId>Gateway_0ec98d9</SourceId>
+          <TargetId>Event_1sce1x7</TargetId>
+          <Condition>application.takeBackRequest.appeal.isUpheld == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_04xdd14">
+          <Name>Yes</Name>
+          <SourceId>Gateway_0ec98d9</SourceId>
+          <TargetId>Event_0gkn41i</TargetId>
+          <Condition>application.takeBackRequest.appeal.isUpheld == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_18rkvrt">
+          <Name></Name>
+          <SourceId>Gateway_1jnllg4</SourceId>
+          <TargetId>Activity_00yaghf</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1hy8zzf">
+          <Name></Name>
+          <SourceId>Activity_00yaghf</SourceId>
+          <TargetId>Event_1sce1x7</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="Event_1bvpje0">
+          <Name>Take back request granted</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_147tz8z</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <ExclusiveGateway Id="Gateway_12tjk18">
+          <Name>Was take back request approved?</Name>
+          <Incoming>
+            <IncomingId>Flow_1xx4mjl</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_16biox0</OutgoingId>
+            <OutgoingId>Flow_1u4kg22</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_0mbnp4x">
+          <Name>Take back request declined</Name>
+          <Incoming>
+            <IncomingId>Flow_16biox0</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <ExclusiveGateway Id="Gateway_0ec98d9">
+          <Name>Was appeal upheld</Name>
+          <Incoming>
+            <IncomingId>Flow_1yuvhke</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_16tndth</OutgoingId>
+            <OutgoingId>Flow_04xdd14</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_0gkn41i">
+          <Name>Requestor is responsible for the application</Name>
+          <Incoming>
+            <IncomingId>Flow_04xdd14</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <EndEvent Id="Event_1sce1x7">
+          <Name>Application overhanded to responsible Dublin country</Name>
+          <Incoming>
+            <IncomingId>Flow_16tndth</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <UserTask Id="Activity_TakeBackAppeal">
+          <Name>Review possible appeal</Name>
+          <Incoming>
+            <IncomingId>Flow_1u4kg22</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1yuvhke</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Appealed Take Back Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="AppealRaised"/&gt;
+        &lt;BoolField Label="AppealUpheld"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeBackRequest.appeal.appealDecision = "Overhanded";
+application.status = "Overhanded";
+application.takeBackRequest.appeal.isUpheld = false;
+if (appealRaised == true) {
+	if (appealUpheld == true) {
+    	application.status = "Admissible";
+		application.takeBackRequest.appeal.appealDecision = "Admissible";
+		application.takeBackRequest.appeal.isUpheld = true;
+	}
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>ba874e49-403d-4b8f-9009-de6160a436c0</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <UserTask Id="Activity_ApproveTakeBack">
+          <Name>Approve take back request</Name>
+          <Incoming>
+            <IncomingId>Flow_1kkmriv</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1xx4mjl</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Approve Take Back Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="RequestApproval"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeBackRequest.isApproved = requestApproval;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>466d8501-4798-4a25-9287-5223d6eecbd6</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <UserTask Id="Activity_TakeBackRequest">
+          <Name>Create take back request</Name>
+          <Incoming>
+            <IncomingId>Flow_147tz8z</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1kkmriv</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Create Take Back Request"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Label="RequestedDublinCountry"/&gt;
+        &lt;SingleLineField Label="JustificationForTheRequest"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.takeBackRequest.requestedCountry = requestedDublinCountry;
+application.takeBackRequest.justification = justificationForTheRequest;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_1x95f9r">
+      <BpmnId>Process_1x95f9r</BpmnId>
+      <Name>Application Prioritization</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_04k7yxp</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_0rwepc6">
+          <Name></Name>
+          <SourceId>Event_0boj5p1</SourceId>
+          <TargetId>Activity_InternationalProtectionQuestionnaire</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0k6nkwn">
+          <Name></Name>
+          <SourceId>Activity_InternationalProtectionQuestionnaire</SourceId>
+          <TargetId>Gateway_1lc9hx3</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1rr0m1z">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1lc9hx3</SourceId>
+          <TargetId>Activity_StreamOne</TargetId>
+          <Condition>application.openedAtDate &gt;= 20160111000000</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0yb3w8x">
+          <Name>No</Name>
+          <SourceId>Gateway_1lc9hx3</SourceId>
+          <TargetId>Activity_StreamTwo</TargetId>
+          <Condition>application.openedAtDate &lt; 20160111000000</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0l2pdfq">
+          <Name></Name>
+          <SourceId>Activity_StreamOne</SourceId>
+          <TargetId>Gateway_0povfn5</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0mkdqt5">
+          <Name></Name>
+          <SourceId>Activity_StreamTwo</SourceId>
+          <TargetId>Gateway_0povfn5</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0w5ajul">
+          <Name></Name>
+          <SourceId>Gateway_0povfn5</SourceId>
+          <TargetId>Event_1tc6r5r</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="Event_0boj5p1">
+          <Name>Priority requested</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_0rwepc6</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <ExclusiveGateway Id="Gateway_1lc9hx3">
+          <Name>Was the application made after the commencement of the IPA?</Name>
+          <Incoming>
+            <IncomingId>Flow_0k6nkwn</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0yb3w8x</OutgoingId>
+            <OutgoingId>Flow_1rr0m1z</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <BusinessRuleTask Id="Activity_StreamTwo">
+          <Name>Prioritize stream two application</Name>
+          <Incoming>
+            <IncomingId>Flow_0yb3w8x</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0mkdqt5</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <BusinessRuleDefinition>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="definitions_yrmgjgk" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="10.2.0"&gt;&lt;decision id="decision_1kp1qf8" name=""&gt;&lt;decisionTable id="decisionTable_enk1o28" hitPolicy="FIRST"&gt;&lt;input id="input1" label="Threatening medical condition"&gt;&lt;inputExpression id="inputExpression1" typeRef="boolean"&gt;&lt;text&gt;application.applicant.threateningMedicalCond&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_1598zzv" label="Country of origin"&gt;&lt;inputExpression id="LiteralExpression_0klazye" typeRef="string"&gt;&lt;text&gt;application.applicant.countryOfOrigin&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_0eu6hdh" label="Well-founded application" biodi:width="192"&gt;&lt;inputExpression id="LiteralExpression_0tukh9a" typeRef="boolean"&gt;&lt;text&gt;application.wellFounded&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_0y8ja5o" label="Age"&gt;&lt;inputExpression id="LiteralExpression_133hkbh" typeRef="number"&gt;&lt;text&gt;application.applicant.believedAgeInInterview&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_03lpkh0" label="Part of a family group"&gt;&lt;inputExpression id="LiteralExpression_1i145ez" typeRef="boolean"&gt;&lt;text&gt;application.applicant.familyGroup&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_1eus1yr" label="Unaccompanied minor in time of application"&gt;&lt;inputExpression id="LiteralExpression_15bu4yp" typeRef="boolean"&gt;&lt;text&gt;application.applicant.unaccompaniedMinor&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;output id="output1" label="Stream two priority" name="application.streamTwoPriority" typeRef="number" /&gt;&lt;rule id="DecisionRule_0ivqayh"&gt;&lt;inputEntry id="UnaryTests_08e5ofo"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1eive5g"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1de8o85"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0z84171"&gt;&lt;text&gt;&amp;gt;70&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0p2ozel"&gt;&lt;text&gt;false&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0pxtm8x"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0omo0yx"&gt;&lt;text&gt;1&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1e7bkc8"&gt;&lt;inputEntry id="UnaryTests_0hpo2wz"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0sey0ye"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_12nru7r"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0qbjtuu"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1qxenfp"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1ts790b"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0uykbbg"&gt;&lt;text&gt;1&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0cxw6it"&gt;&lt;inputEntry id="UnaryTests_08a9f6l"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0ym5za0"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_02g1pap"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_14bgt4u"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1j0k2om"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1wbw081"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1rb9men"&gt;&lt;text&gt;2&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0l7aksu"&gt;&lt;inputEntry id="UnaryTests_13i6t77"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0seluul"&gt;&lt;text&gt;"Syria"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0lrw583"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1pc8ppc"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0fm9zr0"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0f7gsor"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1atf73w"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_07tqxuf"&gt;&lt;inputEntry id="UnaryTests_1awykom"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1ll3sb6"&gt;&lt;text&gt;"Eritrea"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_03hk07l"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_17p8e1t"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0zxiky6"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1fc2x0e"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1ab1le5"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1hjhlup"&gt;&lt;inputEntry id="UnaryTests_16rltwf"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_148vn82"&gt;&lt;text&gt;"Iraq"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0fiejev"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0gc8do7"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0fgcpch"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_148us6w"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0zy5044"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1t5vagt"&gt;&lt;inputEntry id="UnaryTests_1c91c15"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1g24u0h"&gt;&lt;text&gt;"Afghanistan"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_10gyu74"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_085xnx2"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0ic2fw7"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_15hrn4g"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_16p3utb"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1jtvn4y"&gt;&lt;inputEntry id="UnaryTests_06hs7cy"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1rxnsew"&gt;&lt;text&gt;"Iran"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1erneys"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0u27lw2"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1l4oq7a"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1n9yet5"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1bqdeh1"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1e6f7zo"&gt;&lt;inputEntry id="UnaryTests_1rodttr"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1xyivco"&gt;&lt;text&gt;"Libya"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0teq23f"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0x8qcbu"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0x1ukx3"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0hoyfvf"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1ccx16d"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_035zsmb"&gt;&lt;inputEntry id="UnaryTests_08wiplp"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0trwm23"&gt;&lt;text&gt;"Somalia"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0h4sg1g"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_19zomvt"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0eyxsbb"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0bj9s32"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1w37h4c"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1o0olb9"&gt;&lt;inputEntry id="UnaryTests_1ko51yg"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1vajkjf"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1afhnit"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1uu008r"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0235pmr"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0o7clyd"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_17yq9k2"&gt;&lt;text&gt;4&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;/decisionTable&gt;&lt;/decision&gt;&lt;/definitions&gt;</BusinessRuleDefinition>
+        </BusinessRuleTask>
+        <ExclusiveGateway Id="Gateway_0povfn5">
+          <Name></Name>
+          <Incoming>
+            <IncomingId>Flow_0mkdqt5</IncomingId>
+            <IncomingId>Flow_0l2pdfq</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0w5ajul</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <EndEvent Id="Event_1tc6r5r">
+          <Name>Priority calculated</Name>
+          <Incoming>
+            <IncomingId>Flow_0w5ajul</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <BusinessRuleTask Id="Activity_StreamOne">
+          <Name>Prioritize stream one application</Name>
+          <Incoming>
+            <IncomingId>Flow_1rr0m1z</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0l2pdfq</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <BusinessRuleDefinition>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions_ddsxe7v" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="10.2.0"&gt;&lt;decision id="decision_52ugzjq" name=""&gt;&lt;decisionTable id="decisionTable_dk8nsug" hitPolicy="FIRST"&gt;&lt;input id="input1" label="Pending refigee status recommendation"&gt;&lt;inputExpression id="inputExpression1" typeRef="boolean"&gt;&lt;text&gt;application.pendingRefStatusRecom&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_1aqcbrk" label="Pending appeal at the former RAT"&gt;&lt;inputExpression id="LiteralExpression_0bkis2h" typeRef="boolean"&gt;&lt;text&gt;application.pendingRATAppeal&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_0iv6z0k" label="Pending subsidiary protection recommendation"&gt;&lt;inputExpression id="LiteralExpression_0km1toa" typeRef="boolean"&gt;&lt;text&gt;application.pendingSubProtectionRecom&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;output id="output1" label="Stream one priority" name="application.streamOnePriority" typeRef="number" /&gt;&lt;rule id="DecisionRule_1yucyi5"&gt;&lt;inputEntry id="UnaryTests_140agkn"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1lqakka"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_00ggeyj"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1qb9478"&gt;&lt;text&gt;1&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0wp5hb6"&gt;&lt;inputEntry id="UnaryTests_06uvpg3"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0gt9nmb"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1at3lf5"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1o66tad"&gt;&lt;text&gt;2&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0zehs9e"&gt;&lt;inputEntry id="UnaryTests_0vs0ira"&gt;&lt;text&gt;true&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_01ipp49"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_06ss9rr"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_08jddhz"&gt;&lt;text&gt;3&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;/decisionTable&gt;&lt;/decision&gt;&lt;/definitions&gt;</BusinessRuleDefinition>
+        </BusinessRuleTask>
+        <UserTask Id="Activity_InternationalProtectionQuestionnaire">
+          <Name>Fill questionnaire info</Name>
+          <Incoming>
+            <IncomingId>Flow_0rwepc6</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0k6nkwn</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Fill International Protection Questionnaire Info"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="HasThreateningMedicalCondition"/&gt;
+        &lt;BoolField Label="SubsidiaryProtectionRecommendation"/&gt;
+        &lt;BoolField Label="PendingRefugeeAppealTribunalAppeal"/&gt;
+        &lt;BoolField Label="RefugeeStatusRecommendation"/&gt;
+        &lt;SingleLineField Label="ThreateningConditionsAtCountryOfOrigin"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.pendingSubProtectionRecom = subsidiaryProtectionRecommendation;
+application.pendingRATAppeal = pendingRefugeeAppealTribunalAppeal;
+application.pendingRefStatusRecom = refugeeStatusRecommendation;
+application.applicant.threateningMedicalCond = hasThreateningMedicalCondition;
+application.threatsAtCountryOfOrigin = threateningConditionsAtCountryOfOrigin;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+      </ProcessElements>
+    </Process>
+    <Process Id="Process_1vtzte3">
+      <BpmnId>Process_1vtzte3</BpmnId>
+      <Name>Final Decision Taking</Name>
+      <IsExecutable>false</IsExecutable>
+      <ParticipantId>Participant_1xb04pv</ParticipantId>
+      <CustomScript></CustomScript>
+      <SequenceFlows>
+        <SequenceFlow Id="Flow_0crlz3x">
+          <Name></Name>
+          <SourceId>Event_0kmtnih</SourceId>
+          <TargetId>Activity_SubsidiaryInfo</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0w8uwge">
+          <Name></Name>
+          <SourceId>Activity_SubsidiaryInfo</SourceId>
+          <TargetId>Gateway_1jpt3gt</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1j6dw0t">
+          <Name>No</Name>
+          <SourceId>Gateway_1jpt3gt</SourceId>
+          <TargetId>Event_0w0u5uf</TargetId>
+          <Condition>application.subsidiaryInterview.wasPerformed == false</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1178qgz">
+          <Name>Yes</Name>
+          <SourceId>Gateway_1jpt3gt</SourceId>
+          <TargetId>Activity_FirstInstanceReport</TargetId>
+          <Condition>application.subsidiaryInterview.wasPerformed == true</Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_1l1qtur">
+          <Name></Name>
+          <SourceId>Activity_FirstInstanceReport</SourceId>
+          <TargetId>Activity_FirstInstanceAppeal</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0l2apcw">
+          <Name></Name>
+          <SourceId>Activity_FirstInstanceAppeal</SourceId>
+          <TargetId>Activity_FinalDecision</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_0mzhxm7">
+          <Name></Name>
+          <SourceId>Activity_FinalDecisionApproval</SourceId>
+          <TargetId>Event_02pp2mo</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+        <SequenceFlow Id="Flow_01jdith">
+          <Name></Name>
+          <SourceId>Activity_FinalDecision</SourceId>
+          <TargetId>Activity_FinalDecisionApproval</TargetId>
+          <Condition></Condition>
+        </SequenceFlow>
+      </SequenceFlows>
+      <ProcessElements>
+        <StartEvent Id="Event_0kmtnih">
+          <Name>Subsidiary phase entered</Name>
+          <Incoming />
+          <Outgoing>
+            <OutgoingId>Flow_0crlz3x</OutgoingId>
+          </Outgoing>
+        </StartEvent>
+        <ExclusiveGateway Id="Gateway_1jpt3gt">
+          <Name>Was interview successfuly performed?</Name>
+          <Incoming>
+            <IncomingId>Flow_0w8uwge</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1j6dw0t</OutgoingId>
+            <OutgoingId>Flow_1178qgz</OutgoingId>
+          </Outgoing>
+          <DefaultSequenceFlowId></DefaultSequenceFlowId>
+        </ExclusiveGateway>
+        <UserTask Id="Activity_FirstInstanceReport">
+          <Name>Review first instance report</Name>
+          <Incoming>
+            <IncomingId>Flow_1178qgz</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_1l1qtur</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review First Instance Report"&gt;
+    &lt;FieldGroup&gt;
+        &lt;SingleLineField Label="FirstInstanceDecision"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.ministerialUnitDecision = firstInstanceDecision;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_0w0u5uf">
+          <Name>Application rejected with deportation order</Name>
+          <Incoming>
+            <IncomingId>Flow_1j6dw0t</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <UserTask Id="Activity_FirstInstanceAppeal">
+          <Name>Review possible appeal</Name>
+          <Incoming>
+            <IncomingId>Flow_1l1qtur</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0l2apcw</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Review Appealed First Instance Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="AppealRaised"/&gt;
+        &lt;BoolField Label="AppealUpheld"/&gt;
+        &lt;SingleLineField Label="DecisionOfTheAppeal"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.admissibilityAppeal.isUpheld = false;
+if (appealRaised == true) {
+	if (appealUpheld == true) {
+		application.admissibilityAppeal.appealDecision = decisionOfTheAppeal;
+		application.admissibilityAppeal.isUpheld = true;
+	}
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <BusinessRuleTask Id="Activity_FinalDecision">
+          <Name>Make final decision</Name>
+          <Incoming>
+            <IncomingId>Flow_0l2apcw</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_01jdith</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <BusinessRuleDefinition>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions_p1snuo2" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="10.2.0"&gt;&lt;decision id="decision_89l3lak" name=""&gt;&lt;decisionTable id="decisionTable_bs0hd22" hitPolicy="FIRST"&gt;&lt;input id="input1" label="Ministerial unit decision"&gt;&lt;inputExpression id="inputExpression1" typeRef="string"&gt;&lt;text&gt;application.ministerialUnitDecision&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;input id="InputClause_0gljdaf" label="Decision behind upheld appeal"&gt;&lt;inputExpression id="LiteralExpression_0m2ljbu" typeRef="string"&gt;&lt;text&gt;application.finalDecisionAppeal.appealDecision&lt;/text&gt;&lt;/inputExpression&gt;&lt;/input&gt;&lt;output id="output1" label="Final decision" name="application.finalDecision" typeRef="string" /&gt;&lt;rule id="DecisionRule_10tgv9n"&gt;&lt;inputEntry id="UnaryTests_0c5b44z"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1y8c26b"&gt;&lt;text&gt;"Refugee status"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0aft39w"&gt;&lt;text&gt;"Refugee status"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_01e5syi"&gt;&lt;inputEntry id="UnaryTests_1l2l9u7"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1skllyz"&gt;&lt;text&gt;"Subsidiary protection"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1l2pcc7"&gt;&lt;text&gt;"Subsidiary protection"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0nr7sf4"&gt;&lt;inputEntry id="UnaryTests_1rpc8s1"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0ml5apj"&gt;&lt;text&gt;"Permission to remain"&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_01fbnwq"&gt;&lt;text&gt;"Permission to remain"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0tdw8db"&gt;&lt;inputEntry id="UnaryTests_1dkf24t"&gt;&lt;text&gt;"Refugee status"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1h6bu2r"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0vqludg"&gt;&lt;text&gt;"Refugee status"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1u6uhf0"&gt;&lt;inputEntry id="UnaryTests_1wy7pl4"&gt;&lt;text&gt;"Subsidiary protection"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_1d6skm3"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1u3i8e2"&gt;&lt;text&gt;"Subsidiary protection"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_0qxrgw3"&gt;&lt;inputEntry id="UnaryTests_0lv3m4v"&gt;&lt;text&gt;"Permission to remain"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_00s9cpf"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_05l8qve"&gt;&lt;text&gt;"Permission to remain"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1id5uko"&gt;&lt;inputEntry id="UnaryTests_1ogakv5"&gt;&lt;text&gt;"Voluntary return proposition"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0oqdq0n"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_1onjyqq"&gt;&lt;text&gt;"Voluntary return proposition"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;rule id="DecisionRule_1hjxymq"&gt;&lt;inputEntry id="UnaryTests_0admg8n"&gt;&lt;text&gt;"Deportation order"&lt;/text&gt;&lt;/inputEntry&gt;&lt;inputEntry id="UnaryTests_0o8c2bu"&gt;&lt;text&gt;&lt;/text&gt;&lt;/inputEntry&gt;&lt;outputEntry id="LiteralExpression_0s0xis4"&gt;&lt;text&gt;"Deportation order"&lt;/text&gt;&lt;/outputEntry&gt;&lt;/rule&gt;&lt;/decisionTable&gt;&lt;/decision&gt;&lt;/definitions&gt;</BusinessRuleDefinition>
+        </BusinessRuleTask>
+        <UserTask Id="Activity_FinalDecisionApproval">
+          <Name>Approve final decision</Name>
+          <Incoming>
+            <IncomingId>Flow_01jdith</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0mzhxm7</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Approve Final Decision"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="SignFinalDecision"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>if (signFinalDecision == true || signFinalDecision == false) {
+    application.status = application.finalDecision;
+}</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>559b1934-dc2b-428d-b2e1-9c1b9574939e</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+        <EndEvent Id="Event_02pp2mo">
+          <Name>Final decision granted</Name>
+          <Incoming>
+            <IncomingId>Flow_0mzhxm7</IncomingId>
+          </Incoming>
+          <Outgoing />
+        </EndEvent>
+        <UserTask Id="Activity_SubsidiaryInfo">
+          <Name>Fill subsidiary interview info</Name>
+          <Incoming>
+            <IncomingId>Flow_0crlz3x</IncomingId>
+          </Incoming>
+          <Outgoing>
+            <OutgoingId>Flow_0w8uwge</OutgoingId>
+          </Outgoing>
+          <InstanceType>Single</InstanceType>
+          <LoopCardinality></LoopCardinality>
+          <LoopCollection></LoopCollection>
+          <TokenOperationType>Create</TokenOperationType>
+          <UserForm />
+          <DueDateExpression></DueDateExpression>
+          <FormDefinition>&lt;Form Label="Fill Subsidiary Interview Info"&gt;
+    &lt;FieldGroup&gt;
+        &lt;BoolField Label="WasInterviewPerformed"/&gt;
+        &lt;IntField Label="TranscriptOfInterviewId"/&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Form&gt;</FormDefinition>
+          <ValidationScript>application.subsidiaryInterview.wasPerformed = wasInterviewPerformed;
+application.subsidiaryInterview.transcriptId = transcriptOfInterviewId;</ValidationScript>
+          <CandidateUsers />
+          <CandidateRoles>
+            <ProcessRole>7f7c1b75-5c24-44d1-8388-ce146ec9eb14</ProcessRole>
+          </CandidateRoles>
+        </UserTask>
+      </ProcessElements>
+    </Process>
+  </Processes>
+  <Roles>
+    <ProcessRole Id="7f7c1b75-5c24-44d1-8388-ce146ec9eb14">
+      <Name>International Protection Worker</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="559b1934-dc2b-428d-b2e1-9c1b9574939e">
+      <Name>Minister for Justice</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="466d8501-4798-4a25-9287-5223d6eecbd6">
+      <Name>Dublin Regulation Worker</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="a4fefd64-a58f-4205-8116-7fc1528dabaf">
+      <Name>Ministerial Unit Worker</Name>
+      <Description></Description>
+    </ProcessRole>
+    <ProcessRole Id="ba874e49-403d-4b8f-9009-de6160a436c0">
+      <Name>International Protection Appeals Tribunal Worker</Name>
+      <Description></Description>
+    </ProcessRole>
+  </Roles>
+  <Users />
+  <DataModelDefinition>&lt;DataTypes&gt;
+    &lt;Entity Id="Entity_1" Name="RootEntity" IsRootEntity="true"&gt;
+        &lt;Property Id="Property_1_1" Name="application" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_2" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_2" Name="Application" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_2_1" Name="id" IsMandatory="true" PropertyType="Single" DataType="Uint" /&gt;
+        &lt;Property Id="Property_2_2" Name="status" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_2_3" Name="finalDecision" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_2_4" Name="subsidiaryInterview" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_4" /&gt;
+        &lt;Property Id="Property_2_5" Name="takeBackRequest" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_5" /&gt;
+        &lt;Property Id="Property_2_6" Name="takeChargeRequest" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_6" /&gt;
+        &lt;Property Id="Property_2_7" Name="voluntaryReturnProposition" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_3" /&gt;
+        &lt;Property Id="Property_2_8" Name="admissibilityAppeal" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_7" /&gt;
+        &lt;Property Id="Property_2_9" Name="openedAtDate" IsMandatory="true" PropertyType="Single" DataType="DateTime" /&gt;
+        &lt;Property Id="Property_2_10" Name="applicant" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_8" /&gt;
+        &lt;Property Id="Property_2_11" Name="pendingSubProtectionRecom" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_2_12" Name="pendingRATAppeal" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_2_13" Name="pendingRefStatusRecom" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_2_14" Name="ministerialUnitDecision" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_2_15" Name="wellFounded" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_2_16" Name="streamOnePriority" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+        &lt;Property Id="Property_2_17" Name="streamTwoPriority" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+        &lt;Property Id="Property_2_18" Name="finalDecisionAppeal" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_7" /&gt;
+        &lt;Property Id="Property_2_19" Name="temporaryRegistrationCertificateId" IsMandatory="true" PropertyType="Single" DataType="Uint" /&gt;
+        &lt;Property Id="Property_2_20" Name="threatsAtCountryOfOrigin" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_3" Name="VoluntaryReturnProposition" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_3_1" Name="isAccepted" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_4" Name="SubsidiaryInterview" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_4_1" Name="wasPerformed" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_4_2" Name="transcriptId" IsMandatory="true" PropertyType="Single" DataType="Uint" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_5" Name="TakeBackRequest" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_5_1" Name="isValid" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_5_2" Name="appeal" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_7" /&gt;
+        &lt;Property Id="Property_5_3" Name="isApproved" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_5_4" Name="justification" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_5_5" Name="requestedCountry" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_6" Name="TakeChargeRequest" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_6_1" Name="isValid" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_6_2" Name="appeal" IsMandatory="true" PropertyType="Single" DataType="Reference" ReferencedDataType="Entity_7" /&gt;
+        &lt;Property Id="Property_6_3" Name="isApproved" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_6_4" Name="justification" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_6_5" Name="requestedCountry" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_7" Name="Appeal" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_7_1" Name="isUpheld" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_7_2" Name="appealDecision" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+    &lt;/Entity&gt;
+    &lt;Entity Id="Entity_8" Name="ApplicantInfo" IsRootEntity="false"&gt;
+        &lt;Property Id="Property_8_1" Name="believedAgeInInterview" IsMandatory="true" PropertyType="Single" DataType="Int" /&gt;
+        &lt;Property Id="Property_8_2" Name="familyGroup" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_8_3" Name="unaccompaniedMinor" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_8_4" Name="countryOfOrigin" IsMandatory="true" PropertyType="Single" DataType="String" /&gt;
+        &lt;Property Id="Property_8_5" Name="threateningMedicalCond" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_8_6" Name="existingInternationalProtection" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+        &lt;Property Id="Property_8_7" Name="nonRefoulmentPrinciple" IsMandatory="true" PropertyType="Single" DataType="Bool" /&gt;
+    &lt;/Entity&gt;
+&lt;/DataTypes&gt;</DataModelDefinition>
+</Contract>

@@ -52,8 +52,15 @@ namespace DasContract.Blockchain.Solidity.SolidityComponents
             string statement = "";
             foreach (var t in Statements)
             {
-                statement += CreateIndent(indent) + t.Item1;
-                if (t.Item2 == true) statement += ";";
+                string item1 = t.Item1;
+                //For multi-line body add the same indentation
+                if (item1.Contains("\n"))
+                {
+                    item1 = item1.TrimEnd('\n').Replace("\n", $"\n{CreateIndent(indent)}");
+                }
+                statement += CreateIndent(indent) + item1;
+                if (t.Item2 == true) 
+                    statement += ";";
                 statement += "\n";
             }
             return statement;
