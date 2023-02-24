@@ -20,7 +20,7 @@
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
     "js-base64": "^3.7.2",
-    "mermaid": "^8.14.0",
+    "mermaid": "^10.0.0",
     "select2": "^4.1.0-rc.0",
     "select2-bootstrap-5-theme": "^1.2.0",
     "split-grid": "^1.0.11",
