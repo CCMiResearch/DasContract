@@ -28,7 +28,12 @@ the app can be served as static pages. It also utilizes PWA technologies on [sup
 and can be run fully offline.
 
 ### Local deployment and development
-The source code for the web editor is located in the project DasContract.Editor.Web.
+Prerequisities: 
+- [Blazor WebAssembly dev environment](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/install)
+- [Node.js](https://nodejs.org/en) 
+
+The source code for the web editor is located in the project DasContract.Editor.Web. 
+
 To run the project locally:
 1. Navigate to DasContract/Dascontract.Editor.Web/wwwroot
 2. Run `npm install` to install all node dependencies
